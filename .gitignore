@@ -102,6 +102,3 @@ dist
 
 # TernJS port file
 .tern-port
-
-# Idea Workspace
-.idea/workspace.xml
