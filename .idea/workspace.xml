@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="30203f1f-9526-4fb8-abe0-0468a04adbee" name="Default Changelist" comment="" />
+    <list default="true" id="30203f1f-9526-4fb8-abe0-0468a04adbee" name="Default Changelist" comment="changes">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -31,6 +33,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Markdown" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -39,6 +42,11 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\willi\GitHub\HdManagement\src\server\bo" />
+    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -50,15 +58,39 @@
       <updated>1606145084240</updated>
       <workItem from="1606145085840" duration="2815000" />
     </task>
+    <task id="LOCAL-00001" summary="changes">
+      <created>1606150252208</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1606150252208</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="changes" />
+  </component>
   <component name="WindowStateProjectService">
+    <state x="246" y="0" key="CommitChangelistDialog2" timestamp="1606150591124">
+      <screen x="0" y="0" width="1333" height="849" />
+    </state>
+    <state x="246" y="0" key="CommitChangelistDialog2/0.0.1333.849@0.0.1333.849" timestamp="1606150591124" />
     <state x="277" y="57" key="SettingsEditor" timestamp="1606146291421">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="277" y="57" key="SettingsEditor/0.0.1536.824/1920.34.1680.1010@0.0.1536.824" timestamp="1606146291421" />
+    <state x="261" y="158" key="Vcs.Push.Dialog.v2" timestamp="1606150581995">
+      <screen x="0" y="0" width="1333" height="849" />
+    </state>
+    <state x="261" y="158" key="Vcs.Push.Dialog.v2/0.0.1333.849@0.0.1333.849" timestamp="1606150581995" />
+    <state x="486" y="339" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1606150257643">
+      <screen x="0" y="0" width="1333" height="849" />
+    </state>
+    <state x="486" y="339" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1333.849@0.0.1333.849" timestamp="1606150257643" />
   </component>
 </project>
