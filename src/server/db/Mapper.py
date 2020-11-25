@@ -6,7 +6,7 @@ class Mapper (AbstractContextManager, ABC):
     """Abstrakte Basisklasse aller Mapper-Klassen"""
 
     def __init__(self):
-        self._cnx = None
+        self._cnx = None 
 
     def __enter__(self):
         """Verbindungsaufbau mit der Datenbank"""

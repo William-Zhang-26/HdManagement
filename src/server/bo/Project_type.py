@@ -30,3 +30,12 @@ class Project_type(NamedBusinessObject):
         """Setzen der SWS."""
         self._sws = int
 
+    @staticmethod
+    def from_dict(dict = dict()):
+        new_project_type = Project_type()
+        new_project_type.set_id(dict["id"])
+        new_project_type.set_name(dict["name"])
+        new_project_type.set_ects(dict["ects"])
+        new_project_type.set_sws(dict["sws"])
+        new_project_type.set_create_time(dict["create_time"])
+        return new_project_type
