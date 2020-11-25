@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-import datetime
+from datetime import datetime
 
 class BusinessObject(ABC):
     """Gemeinsame Basisklasse aller in diesem Projekt für die Umsetzung des Fachkonzepts relevanten Klassen.
@@ -21,8 +21,5 @@ class BusinessObject(ABC):
         self._id = value
 
     def get_creation_time(self):
-        """Auslesen des Erstellungszeitpunkts.
-
-        %c Ausgabe: Local version of date and time
-        Beispiel Ausgabe: Mon Dec 31 17:41:00 2018"""
-        return self._creation_time.strftime("%c")
+        """Auslesen des Erstellungszeitpunkts."""
+        return self._creation_time
