@@ -1,5 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
+import React from 'react';
+import SignIn from './components/pages/SignIn';
 
 function App() {
   return (
@@ -17,9 +19,12 @@ function App() {
         >
           Learn React
         </a>
+        <SignIn></SignIn>
       </header>
     </div>
   );
 }
+
+
 
 export default App;
