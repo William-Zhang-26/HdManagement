@@ -156,11 +156,11 @@ class ProjectMapper(Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "INSERT INTO project (id, name, partner, capacity, roomnumber, block_day, " \
-                  "project_categorie, supervisor, weekly) VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}')" \
-            .format(project.get_id(), project.get_name(), project.get_partner(),project.get_roomnumber(),
+        command = "UPDATE project SET name = ('{}'), partner = ('{}'), roomnumber = ('{}'), block_day = ('{}')," \
+                  "project_categorie = ('{}'), supervisor = ('{}'), weekly = ('{}')" "WHERE id = ('{}')" \
+            .format(project.get_name(), project.get_partner(), project.get_roomnumber(),
                     project.get_block_day(), project.get_project_categorie(),
-                    project.get_supervisor(), project.get_weekly())
+                    project.get_supervisor(), project.get_weekly(), project.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
