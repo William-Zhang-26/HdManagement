@@ -77,7 +77,7 @@ class Project(NamedBusinessObject):
     @staticmethod
     def from_dict(dict = dict()):
         new_project = Project()
-        new_project.set_id(dict["project_id"])
+        new_project.set_id(dict["id"])
         new_project.set_name(dict["name"])
         new_project.set_partner(dict["partner"])
         new_project.set_capacity(dict["capacity"])
