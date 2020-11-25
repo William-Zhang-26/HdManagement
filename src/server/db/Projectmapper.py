@@ -22,10 +22,10 @@ class ProjectMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (project_id, name, partner, capacity, roomnumber, block_day, project_categorie, supervisor,
+        for (id, name, partner, capacity, roomnumber, block_day, project_categorie, supervisor,
              weekly) in tuples:
             project = Project()
-            project.set_id(project_id)
+            project.set_id(id)
             project.set_name(name)
             project.set_partner(partner)
             project.set_capacity(capacity)
@@ -41,21 +41,21 @@ class ProjectMapper(Mapper):
 
         return result
 
-    def find_by_key(self, project_id):
+    def find_by_key(self, id):
         """Suchen eines Projektes mit vorgegebener user ID"""
 
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM project WHERE project_id like '{}'".format(project_id)
+        command = "SELECT * FROM project WHERE id like '{}'".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         if len(tuples) != 0:
 
-            for (project_id, name, partner, capacity, roomnumber, block_day, project_categorie, supervisor,
+            for (id, name, partner, capacity, roomnumber, block_day, project_categorie, supervisor,
                  weekly) in tuples:
                 project = Project()
-                project.set_id(project_id)
+                project.set_id(id)
                 project.set_name(name)
                 project.set_partner(partner)
                 project.set_capacity(capacity)
@@ -84,10 +84,10 @@ class ProjectMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (project_id, name, partner, capacity, roomnumber, block_day, project_categorie, supervisor,
+        for (id, name, partner, capacity, roomnumber, block_day, project_categorie, supervisor,
              weekly) in tuples:
             project = Project()
-            project.set_id(project_id)
+            project.set_id(id)
             project.set_name(name)
             project.set_partner(partner)
             project.set_capacity(capacity)
@@ -112,10 +112,10 @@ class ProjectMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (project_id, name, partner, capacity, roomnumber, block_day, project_categorie, supervisor,
+        for (id, name, partner, capacity, roomnumber, block_day, project_categorie, supervisor,
              weekly) in tuples:
             project = Project()
-            project.set_id(project_id)
+            project.set_id(id)
             project.set_name(name)
             project.set_partner(partner)
             project.set_capacity(capacity)
@@ -141,7 +141,7 @@ class ProjectMapper(Mapper):
         for (MaxID) in tuples:
             project.set_id(MaxID[0] + 1)
 
-        command = "INSERT INTO project (project_id, name, partner, capacity, roomnumber, block_day, " \
+        command = "INSERT INTO project (id, name, partner, capacity, roomnumber, block_day, " \
                   "project_categorie, supervisor, weekly) VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}')" \
             .format(project.get_id(), project.get_name(), project.get_partner(),project.get_roomnumber(),
                     project.get_block_day(), project.get_project_categorie(),
@@ -156,7 +156,7 @@ class ProjectMapper(Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "INSERT INTO project (project_id, name, partner, capacity, roomnumber, block_day, " \
+        command = "INSERT INTO project (id, name, partner, capacity, roomnumber, block_day, " \
                   "project_categorie, supervisor, weekly) VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}')" \
             .format(project.get_id(), project.get_name(), project.get_partner(),project.get_roomnumber(),
                     project.get_block_day(), project.get_project_categorie(),
@@ -171,7 +171,7 @@ class ProjectMapper(Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "DELETE FROM project WHERE project_id={}".format(project.get_id())
+        command = "DELETE FROM project WHERE id={}".format(project.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
