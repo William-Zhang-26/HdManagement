@@ -8,13 +8,13 @@ class SignIn extends Component {
     
     return (
       <div>
-        <Typography className={classes.root} align='center' variant='h6'>Welcome to the HdM React/Python Project Showcase</Typography>
-        <Typography className={classes.root} align='center'>It appears, that you are not signed in.</Typography>
-        <Typography className={classes.root} align='center'>To use the services of the HdM Bank please</Typography>
+        <Typography className={classes.root} align='center' variant='h6'>Willkommen zum HdManagement System!</Typography>
+        <Typography className={classes.root} align='center'>Es scheint, als wären Sie nicht angemeldet.</Typography>
+        <Typography className={classes.root} align='center'>Um den Service des Projektverwaltungssystems nutzen zu können, melden Sie sich über Google an.</Typography>
         <Grid container justify='center'>
           <Grid item>
             <Button variant='contained' color='primary' onClick={this.handleSignInButtonClicked}>
-              Sign in with Google
+             Anmelden
             </Button>
           </Grid>
         </Grid>
