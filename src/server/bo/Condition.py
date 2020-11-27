@@ -22,7 +22,7 @@ for counter, value in enumerate(condition):
             print("Projekt abgelehnt")
 
         if counter == 2:
-            print("Projekt genehigt")
+            print("Projekt genehmigt")
 
         if counter == 3:
             print("Projekt abgeschlossen")
