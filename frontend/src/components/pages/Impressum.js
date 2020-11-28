@@ -31,13 +31,13 @@ function Impressum() {
         <br />
         <Typography>
           Team Frontend: <Link href='https://github.com/LukasOrlando'>Lukas-Orlando Ulmer</Link>, 
-          <Link href='https://github.com/Sania-Zeidan'>Sania Jasmin Zeidan</Link>,
-          <Link href='https://github.com/RahelUen'>Rahel Ün</Link>
+          <Link href='https://github.com/Sania-Zeidan'> Sania Jasmin Zeidan</Link>,
+          <Link href='https://github.com/RahelUen'> Rahel Ün</Link>
         </Typography>
         <Typography>
-          Team Database and Backend: <Link href='https://github.com/Tolga-Haybat'>Tolga Haybat</Link>,
-          <Link href='https://github.com/mariaweinberger'>Maria Weinberger</Link>, 
-          <Link href='https://github.com/William-Zhang-26'>William Zhang</Link>
+          Team Datenbank und Backend: <Link href='https://github.com/Tolga-Haybat'>Tolga Haybat</Link>,
+          <Link href='https://github.com/mariaweinberger'> Maria Weinberger</Link>, 
+          <Link href='https://github.com/William-Zhang-26'> William Zhang</Link>
         </Typography>
         <br />
         <Typography variant='body2'>

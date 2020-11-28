@@ -3,6 +3,13 @@ import {Button, Grid, Typography, withStyles}from '@material-ui/core';
 
  
 class SignIn extends Component {
+  
+  
+  handleSignInButtonClicked = () => {
+		this.props.onSignIn();
+  }
+
+  
   render() {
     const { classes } = this.props;
     
@@ -22,6 +29,7 @@ class SignIn extends Component {
     );
   }
 }
+
 
 
 const styles = theme => ({
