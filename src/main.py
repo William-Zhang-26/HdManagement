@@ -22,7 +22,7 @@ validation = api.inherit('Validation', bo, {
 })
 
 nbo = api.model('NamedBusinessObject', bo, {
-    'name': fields.Integer(attribute='_name', description='Der Name von einem NamedBusinessObject'),
+    'name': fields.String(attribute='_name', description='Der Name von einem NamedBusinessObject'),
 })
 
 """Darauffolgend werden analog zu unseren NamedBusinessObject-Klassen wie bei den BusinessObjects transferierbare Strukturen angelegt.
