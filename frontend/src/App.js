@@ -7,7 +7,7 @@ import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
 import Impressum from './components/pages/Impressum';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-
+import Header from './components/layout/Header';
 
 
 class App extends React.Component {
@@ -100,7 +100,7 @@ class App extends React.Component {
     return (
       <Router basename={process.env.PUBLIC_URL}>
         <div className="App">
-          <header user={currentUser} className="App-header"/>
+          <Header user={currentUser}/>
           {
 
             currentUser ?
