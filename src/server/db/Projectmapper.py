@@ -14,7 +14,7 @@ class ProjectMapper(Mapper):
         super().__init__()
 
     def find_all(self):
-        """Auslesen aller Projekte."""
+        """Auslesen aller Projekte"""
 
         result = []
         cursor = self._cnx.cursor()
@@ -143,7 +143,7 @@ class ProjectMapper(Mapper):
 
         command = "INSERT INTO project (id, name, partner, capacity, roomnumber, block_day, " \
                   "project_categorie, supervisor, weekly) VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}')" \
-            .format(project.get_id(), project.get_name(), project.get_partner(),project.get_roomnumber(),
+            .format(project.get_id(), project.get_name(), project.get_partner(), project.get_capacity(), project.get_roomnumber(),
                     project.get_block_day(), project.get_project_categorie(),
                     project.get_supervisor(), project.get_weekly())
         cursor.execute(command)

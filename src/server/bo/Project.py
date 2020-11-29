@@ -7,7 +7,13 @@ class Project(NamedBusinessObject):
     def __init__(self):
         super().__init__()
         self._name = ""
-        self._einheit = ""
+        self._partner = ""
+        self._capacity = int
+        self._roomnumber = ""
+        self._blockday = ""
+        self._project_categorie = ""
+        self._supervisor = ""
+        self._weekly = bool
 
     def get_name(self):
         """Auslesen des Namens"""
@@ -67,10 +73,10 @@ class Project(NamedBusinessObject):
 
     def get_weekly(self):
         """Auslesen ob die Termine wöchentlich sind"""
-        return self._supervisor()
+        return self._weekly()
 
     def set_weekly(self, new_weekly):
-        """Setzen ob die Termine wöcehntlich sind"""
+        """Setzen ob die Termine wöchhentlich sind"""
         self._weekly = new_weekly
 
 
