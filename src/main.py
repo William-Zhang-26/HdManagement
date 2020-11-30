@@ -22,7 +22,7 @@ validation = api.inherit('Validation', bo, {
 })
 
 nbo = api.model('NamedBusinessObject', bo, {
-    'name': fields.String(attribute='_name', description='Der Name von einem NamedBusinessObject'),
+    'name': fields.String(attribute='_name', description='Der Name von einem NamedBusinessObject')
 })
 
 """Darauffolgend werden analog zu unseren NamedBusinessObject-Klassen wie bei den BusinessObjects transferierbare Strukturen angelegt.
@@ -30,15 +30,21 @@ nbo = api.model('NamedBusinessObject', bo, {
 NamedBusinessObject dient als Basisklasse, auf der die weiteren Strukturen Module, Project, Semester, Role und Project_type aufsetzen."""
 
 module = api.inherit('Module', nbo, {
-    """"""
+    'edv_number': fields.Integer(attribute='_edv_number', description='Die EDV-Nummer von dem Modul')
 })
 
 project = api.inherit('Project', nbo, {
-    """"""
+    'partner': fields.String(attribute='_partner', description='Die Partner die das Projekt mit gestalten'),
+    'capacity': fields.Integer(attribute='_capacity', description='Die Kapazitäten die für das Projekt notwendig sind'),
+    'roomnumber': fields.String(attribute='_roomnumber', description='Die Raumnnumer in der das Projekt stattfinden soll'),
+    'blockday': fields.String(attribute='_blockday', description='Die Blocktage die das Projekt benötigen'),
+    'project_categorie': fields.String(attribute='_project_categorie', description='Die Projekt Kategorie des Projektes'),
+    'supervisor': fields.String(attribute='_supervisor', description='Der Supervisor des Projektes'),
+    'weekly': fields.Boolean(attribute='_weekly', description='Angabe ob das Projekt wöchentlich stattfindet')
 })
 
 semester = api.inherit('Semester', nbo, {
-    """"""
+    'semester': fields.Integer(attribute='_name', description='Die Anzahl des Semesters')
 })
 
 role = api.inherit('Role', nbo, {
@@ -46,5 +52,6 @@ role = api.inherit('Role', nbo, {
 })
 
 project_type = api.inherit('Project_type', nbo, {
-    """"""
+    'ects': fields.Integer(attribute='_ects', description='Die ECTS Punkte von dem Projekt'),
+    'sws': fields.Integer(attribute='_sws', description='Die SWS Punkte von dem Projekt')
 })
