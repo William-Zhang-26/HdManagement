@@ -1,0 +1,1 @@
+//Das Dialog Fenster um einzelne Studenten aus der Teilnehmerliste zu entfernen

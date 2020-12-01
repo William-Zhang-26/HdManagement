@@ -1,0 +1,1 @@
+//Genehmigen oder Ablehnen eines Kurses aus Admin Sicht --> Ändern des Status
