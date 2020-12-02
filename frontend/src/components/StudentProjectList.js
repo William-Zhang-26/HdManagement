@@ -3,7 +3,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { ProjectAPI } from '../api';
+import ProjectAPI from '../api/ProjectAPI';
 import { withStyles } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
@@ -101,9 +101,9 @@ class StudentProjectList extends Component {
             { 
             // Show the list of CustomerListEntry components
             // Do not use strict comparison, since expandedCustomerID maybe a string if given from the URL parameters
-            <ProjectListEntry key={project.getID()} project={project} expandedState={expandedProjectID === project.getID()}
-            onExpandedStateChange={this.onExpandedStateChange}
-            />
+            //<ProjectListEntry key={project.getID()} project={project} expandedState={expandedProjectID === project.getID()}
+            //onExpandedStateChange={this.onExpandedStateChange}
+            ///>
             }
             <LoadingProgress show={loadingInProgress} />
             <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjects} />
