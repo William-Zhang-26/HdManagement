@@ -65,6 +65,7 @@ class ProjectMapper(Mapper):
                 project.set_supervisor(supervisor)
                 project.set_weekly(weekly)
                 result.append(project)
+                result = project
 
         else:
 
@@ -182,5 +183,6 @@ class ProjectMapper(Mapper):
 
 if __name__ == "__main__":
     with ProjectMapper() as mapper:
-        project = mapper.find_by_key(1)
         result = mapper.find_all()
+        for p in result:
+            print(p.get_id())

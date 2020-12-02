@@ -13,7 +13,7 @@ class Project(NamedBusinessObject):
         self._blockday = ""
         self._project_category = ""
         self._supervisor = ""
-        self._weekly = bool
+        self._weekly = ""
 
     def get_name(self):
         """Auslesen des Namens"""

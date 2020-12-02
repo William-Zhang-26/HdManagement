@@ -26,8 +26,8 @@ class UserMapper(Mapper):
             user.set_id(id)
             user.set_lastname(lastname)
             user.set_firstname(firstname)
-            mail.set_course(mail)
-            name.set_name(name)
+            user.set_mail(mail)
+            user.set_name(name)
             result.append(user)
 
         self._cnx.commit()
@@ -53,7 +53,7 @@ class UserMapper(Mapper):
                 user.set_firstname(firstname)
                 user.set_mail(mail)
                 user.set_name(name)
-                result.append(user)
+                result = user
 
         else:
 
@@ -87,7 +87,7 @@ class UserMapper(Mapper):
 
         return result
 
-    def find_by_name(self, firstname):
+    def find_by_firstname(self, firstname):
         """Suchen eines Users anhand des Namen."""
 
         result = []
@@ -96,7 +96,7 @@ class UserMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, lastname, firstname, course, mail, name) in tuples:
+        for (id, lastname, firstname, mail, name) in tuples:
             user = User()
             user.set_id(id)
             user.set_lastname(lastname)
@@ -112,7 +112,7 @@ class UserMapper(Mapper):
 
     """
     Platzhalter für 
-    def find_by_role(self, name):
+    def find_by_name(self, name):
     Suchen eines Users anhand seiner Rollenbezeichnung
             result = []
         cursor = self._cnx.cursor()
@@ -145,8 +145,7 @@ class UserMapper(Mapper):
         for (MaxID) in tuples:
             user.set_id(MaxID[0] + 1)
 
-        command = "INSERT INTO user (id, lastname, firstname, mail, name)" \ 
-                "VALUES ('{}','{}','{}','{}','{}')" \
+        command = "INSERT INTO user (id, lastname, firstname, mail, name) VALUES ('{}','{}','{}','{}','{}')" \
             .format(user.get_id(), user.get_lastname(), user.get_firstname(),
                     user.get_mail(), user.get_name())
         cursor.execute(command)
@@ -159,10 +158,10 @@ class UserMapper(Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "UPDATE user SET lastname = ('{}'), firstname = ('{}')," \
-                  "mail = ('{}'), name = ('{}')" \
-            .format(user.get_lastname(), user.get_firstname(),
-                    user.get_mail(), user.get_name(), user.get_id())
+        command = "UPDATE user SET lastname = ('{}'), firstname = ('{}'), mail = ('{}'),"\
+                  "name = ('{}')" "WHERE id = ('{}')"\
+            .format(user.get_lastname(), user.get_firstname(), user.get_mail(),
+                    user.get_name(), user.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -180,3 +179,9 @@ class UserMapper(Mapper):
         cursor.close()
 
     """Platzhalter für spätere Tests"""
+if __name__ == "__main__":
+    with UserMapper() as mapper:
+        user = mapper.find_by_key(2)
+        user.set_lastname("Zhang")
+        mapper.update(user)
+
