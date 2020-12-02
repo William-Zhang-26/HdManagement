@@ -29,7 +29,7 @@ class User(NamedBusinessObject):
         """Auslesen des Vornamens"""
         return self._firstname
 
-    def set_name(self, new_firstname):
+    def set_firstname(self, new_firstname):
         """Setzen des Vornamens"""
         self._firstname = new_firstname
 

@@ -193,7 +193,7 @@ class StudentMapper(Mapper):
         cursor = self._cnx.cursor()
 
         command = "UPDATE student SET lastname = ('{}'), firstname = ('{}'), course = ('{}'), matricel_number = ('{}')," \
-                  "mail = ('{}')" \
+                  "mail = ('{}')" "WHERE id = ('{}')"\
             .format(student.get_lastname(), student.get_firstname(), student.get_course(),
                     student.get_matricel_number(), student.get_mail(), student.get_id())
         cursor.execute(command)
