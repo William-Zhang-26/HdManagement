@@ -21,13 +21,13 @@ class StudentMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, lastname, firstname, course, matricel_number, mail, project_id) in tuples:
+        for (id, lastname, firstname, course, matriculation_number, mail, project_id) in tuples:
             student = Student()
             student.set_id(id)
             student.set_lastname(lastname)
             student.set_firstname(firstname)
             student.set_course(course)
-            student.set_matricel_number(matricel_number)
+            student.set_matriculation_number(matriculation_number)
             student.set_mail(mail)
             student.set_project_id(project_id)
             result.append(student)
@@ -48,13 +48,13 @@ class StudentMapper(Mapper):
 
         if len(tuples) != 0:
 
-            for (id, lastname, firstname, course, matricel_number, mail, project_id) in tuples:
+            for (id, lastname, firstname, course, matriculation_number, mail, project_id) in tuples:
                 student = Student()
                 student.set_id(id)
                 student.set_lastname(lastname)
                 student.set_firstname(firstname)
                 student.set_course(course)
-                student.set_matricel_number(matricel_number)
+                student.set_matriculation_number(matriculation_number)
                 student.set_mail(mail)
                 student.set_project_id(project_id)
                 result.append(student)
@@ -77,13 +77,13 @@ class StudentMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, lastname, firstname, course, matricel_number, mail, project_id) in tuples:
+        for (id, lastname, firstname, course, matriculation_number, mail, project_id) in tuples:
             student = Student()
             student.set_id(id)
             student.set_lastname(lastname)
             student.set_firstname(firstname)
             student.set_course(course)
-            student.set_matricel_number(matricel_number)
+            student.set_matriculation_number(matriculation_number)
             student.set_mail(mail)
             student.set_project_id(project_id)
             result.append(student)
@@ -102,13 +102,13 @@ class StudentMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, lastname, firstname, course, matricel_number, mail, project_id) in tuples:
+        for (id, lastname, firstname, course, matriculation_number, mail, project_id) in tuples:
             student = Student()
             student.set_id(id)
             student.set_lastname(lastname)
             student.set_firstname(firstname)
             student.set_course(course)
-            student.set_matricel_number(matricel_number)
+            student.set_matriculation_number(matriculation_number)
             student.set_mail(mail)
             student.set_project_id(project_id)
             result.append(student)
@@ -118,22 +118,22 @@ class StudentMapper(Mapper):
 
         return result
 
-    def find_by_matricel_number(self, matricel_number):
+    def find_by_matriculation_number(self, matriculation_number):
         """Suchen eines Studenten anhand seiner Matrikelnummer."""
 
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM student WHERE matricel_number like '{}'".format(matricel_number)
+        command = "SELECT * FROM student WHERE matriculation_number like '{}'".format(matriculation_number)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, lastname, firstname, course, matricel_number, mail, project_id) in tuples:
+        for (id, lastname, firstname, course, matriculation_number, mail, project_id) in tuples:
             student = Student()
             student.set_id(id)
             student.set_lastname(lastname)
             student.set_firstname(firstname)
             student.set_course(course)
-            student.set_matricel_number(matricel_number)
+            student.set_matriculation_number(matriculation_number)
             student.set_mail(mail)
             student.set_project_id(project_id)
             result.append(student)
@@ -152,13 +152,13 @@ class StudentMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, lastname, firstname, course, matricel_number, mail, project_id) in tuples:
+        for (id, lastname, firstname, course, matriculation_number, mail, project_id) in tuples:
             student = Student()
             student.set_id(id)
             student.set_lastname(lastname)
             student.set_firstname(firstname)
             student.set_course(course)
-            student.set_matricel_number(matricel_number)
+            student.set_matriculation_number(matriculation_number)
             student.set_mail(mail)
             student.set_project_id(project_id)
             result.append(student)
@@ -178,9 +178,9 @@ class StudentMapper(Mapper):
         for (MaxID) in tuples:
             student.set_id(MaxID[0] + 1)
 
-        command = "INSERT INTO student (id, lastname, firstname, course, matricel_number, mail, project_id)" \ 
+        command = "INSERT INTO student (id, lastname, firstname, course, matriculation_number, mail, project_id)" \ 
                 "VALUES ('{}','{}','{}','{}','{}','{}','{}')" \
-            .format(student.get_id(), student.get_lastname(), student.get_firstname(), student.get_course(), student.get_matricel_number(),
+            .format(student.get_id(), student.get_lastname(), student.get_firstname(), student.get_course(), student.get_matriculation_number(),
                     student.get_mail(), student.get_project_id())
         cursor.execute(command)
 
@@ -192,10 +192,10 @@ class StudentMapper(Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "UPDATE student SET lastname = ('{}'), firstname = ('{}'), course = ('{}'), matricel_number = ('{}')," \
+        command = "UPDATE student SET lastname = ('{}'), firstname = ('{}'), course = ('{}'), matriculation_number = ('{}')," \
                   "mail = ('{}')" "WHERE id = ('{}')"\
             .format(student.get_lastname(), student.get_firstname(), student.get_course(),
-                    student.get_matricel_number(), student.get_mail(), student.get_id())
+                    student.get_matriculation_number(), student.get_mail(), student.get_id())
         cursor.execute(command)
 
         self._cnx.commit()

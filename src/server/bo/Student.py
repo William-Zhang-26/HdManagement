@@ -70,5 +70,5 @@ class Student(NamedBusinessObject):
         new_student.set_course(dict["course"])
         new_student.set_matriculation_number(dict["matriculation_number"])
         new_student.set_mail(dict["mail"])
-        new_student.set_project(dict["project_id"])
+        new_student.set_project_id(dict["project_id"])
         return new_student

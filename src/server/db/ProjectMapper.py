@@ -22,16 +22,16 @@ class ProjectMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, partner, capacity, roomnumber, block_day, project_categorie, supervisor,
+        for (id, name, partners, capacity, preferred_room, block_day, project_category, supervisor,
              weekly) in tuples:
             project = Project()
             project.set_id(id)
             project.set_name(name)
-            project.set_partner(partner)
+            project.set_partners(partners)
             project.set_capacity(capacity)
-            project.set_roomnumber(roomnumber)
+            project.set_preferred_room(preferred_room)
             project.set_block_day(block_day)
-            project.set_project_categorie(project_categorie)
+            project.set_project_category(project_category)
             project.set_supervisor(supervisor)
             project.set_weekly(weekly)
             result.append(project)
@@ -52,16 +52,16 @@ class ProjectMapper(Mapper):
 
         if len(tuples) != 0:
 
-            for (id, name, partner, capacity, roomnumber, block_day, project_categorie, supervisor,
+            for (id, name, partners, capacity, preferred_room, block_day, project_category, supervisor,
                  weekly) in tuples:
                 project = Project()
                 project.set_id(id)
                 project.set_name(name)
-                project.set_partner(partner)
+                project.set_partners(partners)
                 project.set_capacity(capacity)
-                project.set_roomnumber(roomnumber)
+                project.set_preferred_room(preferred_room)
                 project.set_block_day(block_day)
-                project.set_project_categorie(project_categorie)
+                project.set_project_category(project_category)
                 project.set_supervisor(supervisor)
                 project.set_weekly(weekly)
                 result.append(project)
@@ -85,16 +85,16 @@ class ProjectMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, partner, capacity, roomnumber, block_day, project_categorie, supervisor,
+        for (id, name, partners, capacity, preferred_room, block_day, project_category, supervisor,
              weekly) in tuples:
             project = Project()
             project.set_id(id)
             project.set_name(name)
-            project.set_partner(partner)
+            project.set_partners(partners)
             project.set_capacity(capacity)
-            project.set_roomnumber(roomnumber)
+            project.set_preferred_room(preferred_room)
             project.set_block_day(block_day)
-            project.set_project_categorie(project_categorie)
+            project.set_project_category(project_category)
             project.set_supervisor(supervisor)
             project.set_weekly(weekly)
             result.append(project)
@@ -104,25 +104,25 @@ class ProjectMapper(Mapper):
 
         return result
 ###
-    def find_by_roomnumber(self, roomnumber):
+    def find_by_preferred_room(self, preferred_room):
         """Suchen eines User anhand der User_ID des Users."""
 
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM project WHERE roomnumber like '{}'".format(roomnumber)
+        command = "SELECT * FROM project WHERE preferred_room like '{}'".format(preferred_room)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, partner, capacity, roomnumber, block_day, project_categorie, supervisor,
+        for (id, name, partners, capacity, preferred_room, block_day, project_category, supervisor,
              weekly) in tuples:
             project = Project()
             project.set_id(id)
             project.set_name(name)
-            project.set_partner(partner)
+            project.set_partners(partners)
             project.set_capacity(capacity)
-            project.set_roomnumber(roomnumber)
+            project.set_preferred_room(preferred_room)
             project.set_block_day(block_day)
-            project.set_project_categorie(project_categorie)
+            project.set_project_category(project_category)
             project.set_supervisor(supervisor)
             project.set_weekly(weekly)
             result.append(project)
@@ -142,10 +142,10 @@ class ProjectMapper(Mapper):
         for (MaxID) in tuples:
             project.set_id(MaxID[0] + 1)
 
-        command = "INSERT INTO project (id, name, partner, capacity, roomnumber, block_day, " \
-                  "project_categorie, supervisor, weekly) VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}')" \
-            .format(project.get_id(), project.get_name(), project.get_partner(), project.get_capacity(), project.get_roomnumber(),
-                    project.get_block_day(), project.get_project_categorie(),
+        command = "INSERT INTO project (id, name, partners, capacity, preferred_room, block_day, " \
+                  "project_category, supervisor, weekly) VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}')" \
+            .format(project.get_id(), project.get_name(), project.get_partners(), project.get_capacity(), project.get_preferred_room(),
+                    project.get_block_day(), project.get_project_category(),
                     project.get_supervisor(), project.get_weekly())
         cursor.execute(command)
 
@@ -157,10 +157,10 @@ class ProjectMapper(Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "UPDATE project SET name = ('{}'), partner = ('{}'), roomnumber = ('{}'), block_day = ('{}')," \
-                  "project_categorie = ('{}'), supervisor = ('{}'), weekly = ('{}')" "WHERE id = ('{}')" \
-            .format(project.get_name(), project.get_partner(), project.get_roomnumber(),
-                    project.get_block_day(), project.get_project_categorie(),
+        command = "UPDATE project SET name = ('{}'), partners = ('{}'), preferred_room = ('{}'), block_day = ('{}')," \
+                  "project_category = ('{}'), supervisor = ('{}'), weekly = ('{}')" "WHERE id = ('{}')" \
+            .format(project.get_name(), project.get_partners(), project.get_preferred_room(),
+                    project.get_block_day(), project.get_project_category(),
                     project.get_supervisor(), project.get_weekly(), project.get_id())
         cursor.execute(command)
 
