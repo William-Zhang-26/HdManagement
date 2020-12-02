@@ -3,12 +3,12 @@
 export default class StudentBO /*extends NamedBusinessObject*/ {
 
     //Konstruktorklasse, welche ein Studenten BO erstellt mit den abgebildeten Attributen
-    constructor(aLastname, aFirstname, aCourse, aMatricel_number, aMail, aProject_id) {
+    constructor(aLastname, aFirstname, aCourse, aMatriculation_number, aMail, aProject_id) {
         //super();
         this.lastname = aLastname;
         this.firstname = aFirstname;
         this.course = aCourse;
-        this.matricel_number = aMatricel_number;
+        this.matriculation_number = aMatriculation_number;
         this.mail = aMail;
         this.project_id = aProject_id;
     }
@@ -45,12 +45,12 @@ export default class StudentBO /*extends NamedBusinessObject*/ {
 
 
     //Matrikelnummer
-    setMatricelNumber(aMatricel_number) {
-        this.matricel_number = aMatricel_number;
+    setMatriculationNumber(aMatriculation_number) {
+        this.matriculation_number = aMatriculation_number;
     }
 
-    getMatricelNumber() {
-        return this.matricel_number;
+    getMatriculationNumber() {
+        return this.matriculation_number;
     }
 
 

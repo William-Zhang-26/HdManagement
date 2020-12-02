@@ -7,11 +7,11 @@ class Project(NamedBusinessObject):
     def __init__(self):
         super().__init__()
         self._name = ""
-        self._partner = ""
+        self._partners = ""
         self._capacity = int
-        self._roomnumber = ""
+        self._preferred_room = ""
         self._blockday = ""
-        self._project_categorie = ""
+        self._project_category = ""
         self._supervisor = ""
         self._weekly = bool
 
@@ -23,13 +23,13 @@ class Project(NamedBusinessObject):
         """Setzen des Namens"""
         self._name = new_name
 
-    def get_partner(self):
+    def get_partners(self):
         """"Auslesen der Partner"""
-        return self._partner
+        return self._partners
 
-    def set_partner(self, new_partner):
+    def set_partners(self, new_partners):
         """"Setzen der Partner"""
-        self._partner = new_partner
+        self._partners = new_partners
 
     def get_capacity(self):
         """Auslesen der Kapazität"""
@@ -39,13 +39,13 @@ class Project(NamedBusinessObject):
         """Setzen der Kapazität"""
         self._capacity = new_capacity
 
-    def get_roomnumber(self):
+    def get_preferred_room(self):
         """Auslesen der Raumnummer"""
-        return self._roomnumber()
+        return self._preferred_room()
 
-    def set_roomnumber(self, new_roomnumber):
+    def set_preferred_room(self, new_preferred_room):
         """Setzen der Raumnummer"""
-        self._roomnumber = new_roomnumber
+        self._preferred_room = new_preferred_room
 
     def get_block_day(self):
         """Auslesen der Blocktage"""
@@ -55,13 +55,13 @@ class Project(NamedBusinessObject):
         """Setzen der Blocktage"""
         self._block_day = new_block_day
 
-    def get_project_categorie(self):
+    def get_project_category(self):
         """Auselsen der Projektkategorie"""
-        return self._project_categorie()
+        return self._project_category()
 
-    def set_project_categorie(self, new_categorie):
+    def set_project_category(self, new_categorie):
         """Setzen der Projekt-Ketgorie"""
-        self._project_categorie = new_categorie
+        self._project_category = new_categorie
 
     def get_supervisor(self):
         """Auslesen der Supervisor"""
@@ -85,11 +85,11 @@ class Project(NamedBusinessObject):
         new_project = Project()
         new_project.set_id(dict["id"])
         new_project.set_name(dict["name"])
-        new_project.set_partner(dict["partner"])
+        new_project.set_partners(dict["partners"])
         new_project.set_capacity(dict["capacity"])
-        new_project.set_roomnumber(dict["roomnumber"])
+        new_project.set_preferred_room(dict["preferred_room"])
         new_project.set_block_day(dict["blockday"])
-        new_project.set_project_categorie(dict["project_categorie"])
+        new_project.set_project_category(dict["project_category"])
         new_project.set_supervisor(dict["supervisor"])
         new_project.set_weekly(dict["weekly"])
         return new_project
