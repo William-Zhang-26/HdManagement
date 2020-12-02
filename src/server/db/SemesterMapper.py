@@ -2,7 +2,7 @@ from src.server.bo.Semester import Semester
 from src.server.db.Mapper import Mapper
 
 
-class Semester (Mapper):
+class SemesterMapper (Mapper):
     """Mapper-Klasse, die Semester-Objekte auf eine relationale
     Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung
     gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und

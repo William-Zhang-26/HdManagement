@@ -2,7 +2,7 @@ from src.server.bo.Project_type import Project_type
 from src.server.db.Mapper import Mapper
 
 
-class Project_type (Mapper):
+class Project_typeMapper (Mapper):
     """Mapper-Klasse, die Project_type-Objekte auf eine relationale
     Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung
     gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und
@@ -34,6 +34,7 @@ class Project_type (Mapper):
             project_type.set_sws(sws)
             project_type.set_create_time(create_time)
             result.append(project_type)
+
 
         self._cnx.commit()
         cursor.close()
@@ -146,8 +147,10 @@ class Project_type (Mapper):
 um die grundsätzliche Funktion zu überprüfen.
 
 Anmerkung: Nicht professionell aber hilfreich..."""
-if (__name__ == "__main__"):
-    with Project_type() as mapper:
+
+
+if __name__ == "__main__":
+    with Project_typeMapper() as mapper:
         result = mapper.find_all()
         for p in result:
-            print(p)
+            print(p.get_sws())

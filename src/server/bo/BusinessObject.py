@@ -20,6 +20,9 @@ class BusinessObject(ABC):
         """Setzen der ID."""
         self._id = value
 
-    def get_creation_time(self):
+    def get_create_time(self):
         """Auslesen des Erstellungszeitpunkts."""
         return self._create_time
+
+    def set_crete_time(self,date):
+        self._create_time = date

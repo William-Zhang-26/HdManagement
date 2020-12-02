@@ -1,4 +1,4 @@
-from src.server.bo import NamedBusinessObject
+from src.server.bo.NamedBusinessObject import NamedBusinessObject
 
 
 class Project_type(NamedBusinessObject):
@@ -18,17 +18,17 @@ class Project_type(NamedBusinessObject):
         """Auslesen der ECTS."""
         return self._ects
 
-    def set_ects(self, int):
+    def set_ects(self, new_ects):
         """Setzen der ECTS."""
-        self._ects = int
+        self._ects = new_ects
 
     def get_sws(self):
         """Auslesen der SWS."""
         return self._sws
 
-    def set_sws(self, int):
+    def set_sws(self, new_sws):
         """Setzen der SWS."""
-        self._sws = int
+        self._sws = new_sws
 
     @staticmethod
     def from_dict(dict = dict()):

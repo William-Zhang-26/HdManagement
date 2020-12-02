@@ -16,5 +16,5 @@ class NamedBusinessObject (bo.BusinessObject):
 
     def set_name(self,value):
         """Setzen des Namens."""
-        self._name = str
+        self._name = value
 
