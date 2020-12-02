@@ -183,6 +183,20 @@ class ProjectMapper(Mapper):
 
 if __name__ == "__main__":
     with ProjectMapper() as mapper:
-        result = mapper.find_all()
-        for project in result:
-            print(project.get_capacity())
+        p = mapper.find_by_preferred_room("s305")
+        for i in p:
+            print(i.get_name())
+
+"""
+    p = Project()
+    p.set_name("IT-Projekt")
+    p.set_partners("Capgemini")
+    p.set_capacity(20)
+    p.set_preferred_room("s204")
+    p.set_block_day("yes")
+    p.set_project_category("IT")
+    p.set_supervisor("Kunz")
+    p.set_weekly("yes")
+    with ProjectMapper() as mapper:
+        mapper.insert(p)
+"""
