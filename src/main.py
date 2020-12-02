@@ -44,7 +44,7 @@ project = api.inherit('Project', nbo, {
 })
 
 semester = api.inherit('Semester', nbo, {
-    'semester': fields.Integer(attribute='_name', description='Die Anzahl des Semesters')
+    'semester': fields.Integer(attribute='_semester', description='Die Anzahl des Semesters')
 })
 
 role = api.inherit('Role', nbo, {
@@ -55,3 +55,13 @@ project_type = api.inherit('Project_type', nbo, {
     'ects': fields.Integer(attribute='_ects', description='Die ECTS Punkte von dem Projekt'),
     'sws': fields.Integer(attribute='_sws', description='Die SWS Punkte von dem Projekt')
 })
+
+""" User&Student
+
+user= api.model('User', nbo, {
+    'user': fields
+    
+student= api.inherit('Student', user, {
+    'student':
+
+"""
