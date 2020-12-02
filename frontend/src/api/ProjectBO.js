@@ -3,13 +3,10 @@
 /** Unstimmigkeiten mit dem Backend:
  * 
  * - name wird im Backend als Attribut angegeben?
- * - partners im Backend ohne "s"
  * - im Backend existiert nicht: project description, 
  * b_days_pre_schedule, b_days_finale, b_days_saturdays, 
  * preferred_b_days, room_preference, additional_supervisor
- * - preferred room im Backend "roomnumber"
  * - blockday ist nicht im Klassendiagramm von uns
- * - project_category im Backend mit ie
  * 
  */
 
