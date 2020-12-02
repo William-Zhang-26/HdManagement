@@ -10,7 +10,7 @@ class Project(NamedBusinessObject):
         self._partners = ""
         self._capacity = 0
         self._preferred_room = ""
-        self._blockday = ""
+        self._block_day = ""
         self._project_category = ""
         self._supervisor = ""
         self._weekly = ""
@@ -49,7 +49,7 @@ class Project(NamedBusinessObject):
 
     def get_block_day(self):
         """Auslesen der Blocktage"""
-        return self._block_day()
+        return self._block_day
 
     def set_block_day(self, new_block_day):
         """Setzen der Blocktage"""
