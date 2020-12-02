@@ -1,0 +1,3 @@
+CREATE DATABASE  IF NOT EXISTS hdmanagement /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE hdmanagement;
+...
