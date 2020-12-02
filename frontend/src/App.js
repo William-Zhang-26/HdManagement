@@ -8,6 +8,7 @@ import Impressum from './components/pages/Impressum';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import Header from './components/layout/Header';
+import StudentProjectList from './components/StudentProjectList';
 
 
 class App extends React.Component {
@@ -105,6 +106,10 @@ class App extends React.Component {
 
             currentUser ?
                 <>
+                  <Redirect from='/' to='projects' />
+									<Route exact path='/projects'>
+									  <StudentProjectList />
+									</Route>
                     <Redirect from='/' to='impressum' />
                     <Route path='/impressum' component={Impressum} />
                 </>
