@@ -183,11 +183,15 @@ class ProjectMapper(Mapper):
 
 if __name__ == "__main__":
     with ProjectMapper() as mapper:
-        p = mapper.find_by_preferred_room("s305")
-        for i in p:
-            print(i.get_name())
+        project = mapper.find_by_key(2)
+        mapper.delete(project)
+
 
 """
+    p = mapper.find_by_preferred_room("s305")
+    for i in p:
+        print(i.get_name())
+
     p = Project()
     p.set_name("IT-Projekt")
     p.set_partners("Capgemini")
