@@ -35,11 +35,11 @@ module = api.inherit('Module', nbo, {
 
 project = api.inherit('Project', nbo, {
     'partner': fields.String(attribute='_partner', description='Die Partner die das Projekt mit gestalten'),
-    'capacity': fields.Integer(attribute='_capacity', description='Die Kapazitäten die für das Projekt notwendig sind'),
+    'capacity': fields.Integer(attribute='_capacity', description='Die Anzahl der Personen die in dem Projekt teilnehmen können'),
     'roomnumber': fields.String(attribute='_roomnumber', description='Die Raumnnumer in der das Projekt stattfinden soll'),
     'blockday': fields.String(attribute='_blockday', description='Die Blocktage die das Projekt benötigen'),
-    'project_categorie': fields.String(attribute='_project_categorie', description='Die Projekt Kategorie des Projektes'),
-    'supervisor': fields.String(attribute='_supervisor', description='Der Supervisor des Projektes'),
+    'project_category': fields.String(attribute='_project_category', description='Die Projekt Kategorie des Projektes'),
+    'supervisor': fields.String(attribute='_supervisor', description='Die beteiligten Professoren in dem Projekt'),
     'weekly': fields.Boolean(attribute='_weekly', description='Angabe ob das Projekt wöchentlich stattfindet')
 })
 
