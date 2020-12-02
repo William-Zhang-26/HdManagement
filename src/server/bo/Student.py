@@ -9,7 +9,7 @@ class Student(NamedBusinessObject):
         self._lastname = ""
         self._firstname = ""
         self._course = ""
-        self._matricel_number = None
+        self._matriculation_number = None
         self._mail = ""
         self._project_id = None
 
@@ -37,13 +37,13 @@ class Student(NamedBusinessObject):
         """Setzen des Studiengangs"""
         self._course = new_course
 
-    def get_matricel_number(self):
+    def get_matriculation_number(self):
         """Auslesen der Matrikelnummer"""
-        return self._matricel_number
+        return self._matriculation_number
 
-    def set_matricel_number(self, matricel_number):
+    def set_matriculation_number(self, matriculation_number):
         """Setzen der Matrikelnummer (Nicht möglich)"""
-        self._matricel_number = matricel_number
+        self._matriculation_number = matriculation_number
 
     def get_mail(self):
         """Auslesen der Mail"""
@@ -68,7 +68,7 @@ class Student(NamedBusinessObject):
         new_student.set_lastname(dict["lastname"])
         new_student.set_firstname(dict["firstname"])
         new_student.set_course(dict["course"])
-        new_student.set_matricel_number(dict["matricel_number"])
+        new_student.set_matriculation_number(dict["matriculation_number"])
         new_student.set_mail(dict["mail"])
         new_student.set_project(dict["project_id"])
         return new_student
