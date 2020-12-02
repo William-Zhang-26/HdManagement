@@ -93,7 +93,7 @@ class StudentMapper(Mapper):
 
         return result
 
-    def find_by_name(self, firstname):
+    def find_by_firstname(self, firstname):
         """Suchen eines Studenten anhand des Namen."""
 
         result = []

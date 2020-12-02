@@ -8,7 +8,7 @@ class Project(NamedBusinessObject):
         super().__init__()
         self._name = ""
         self._partners = ""
-        self._capacity = int
+        self._capacity = 0
         self._preferred_room = ""
         self._blockday = ""
         self._project_category = ""
@@ -33,7 +33,7 @@ class Project(NamedBusinessObject):
 
     def get_capacity(self):
         """Auslesen der Kapazität"""
-        return self._capacity()
+        return self._capacity
 
     def set_capacity(self, new_capacity):
         """Setzen der Kapazität"""
@@ -41,7 +41,7 @@ class Project(NamedBusinessObject):
 
     def get_preferred_room(self):
         """Auslesen der Raumnummer"""
-        return self._preferred_room()
+        return self._preferred_room
 
     def set_preferred_room(self, new_preferred_room):
         """Setzen der Raumnummer"""
@@ -57,15 +57,15 @@ class Project(NamedBusinessObject):
 
     def get_project_category(self):
         """Auselsen der Projektkategorie"""
-        return self._project_category()
+        return self._project_category
 
-    def set_project_category(self, new_categorie):
+    def set_project_category(self, new_category):
         """Setzen der Projekt-Ketgorie"""
-        self._project_category = new_categorie
+        self._project_category = new_category
 
     def get_supervisor(self):
         """Auslesen der Supervisor"""
-        return self._supervisor()
+        return self._supervisor
 
     def set_supervisor(self, new_supervisor):
         """Setzen der Supervisor"""
@@ -73,7 +73,7 @@ class Project(NamedBusinessObject):
 
     def get_weekly(self):
         """Auslesen ob die Termine wöchentlich sind"""
-        return self._weekly()
+        return self._weekly
 
     def set_weekly(self, new_weekly):
         """Setzen ob die Termine wöchhentlich sind"""

@@ -184,5 +184,5 @@ class ProjectMapper(Mapper):
 if __name__ == "__main__":
     with ProjectMapper() as mapper:
         result = mapper.find_all()
-        for p in result:
-            print(p.get_id())
+        for project in result:
+            print(project.get_capacity())
