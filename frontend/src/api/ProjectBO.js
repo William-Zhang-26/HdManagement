@@ -104,7 +104,7 @@ export default class ProjectBO /*extends NamedBusinessObject*/ {
 
     //Besonderer Raum notwendig (bool)
     getRoomPreference () {
-        return this.room_preference = aRoomPreference;
+        return this.room_preference;
     }
 
     setRoomPreference (aRoomPreference) {
