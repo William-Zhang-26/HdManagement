@@ -1,5 +1,5 @@
 from src.server.bo import BusinessObject as bo
-""" import BO"""
+
 
 class NamedBusinessObject (bo.BusinessObject):
     """Gemeinsame NamensBasisklasse aller in diesem Projekt für die Umsetzung des Fachkonzepts relevanten Klassen.
