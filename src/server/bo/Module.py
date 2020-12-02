@@ -1,4 +1,4 @@
-from src.server.bo import NamedBusinessObject
+from src.server.bo.NamedBusinessObject import NamedBusinessObject
 
 
 class Module(NamedBusinessObject):

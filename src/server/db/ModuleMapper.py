@@ -2,7 +2,7 @@ from src.server.bo.Module import Module
 from src.server.db.Mapper import Mapper
 
 
-class Module (Mapper):
+class ModuleMapper (Mapper):
     """Mapper-Klasse, die Modul-Objekte auf eine relationale
     Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung
     gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und

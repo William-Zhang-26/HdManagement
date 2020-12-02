@@ -2,7 +2,7 @@ from src.server.bo.Validation import Validation
 from src.server.db.Mapper import Mapper
 
 
-class Validation (Mapper):
+class ValidationMapper (Mapper):
     """Mapper-Klasse, die Bewertungs-Objekte auf eine relationale
     Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung
     gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und
@@ -111,8 +111,8 @@ class Validation (Mapper):
 um die grundsätzliche Funktion zu überprüfen.
 
 Anmerkung: Nicht professionell aber hilfreich..."""
-if (__name__ == "__main__"):
-    with Validation() as mapper:
+if __name__ == "__main__":
+    with ValidationMapper() as mapper:
         result = mapper.find_all()
-        for p in result:
-            print(p)
+        for project in result:
+            print(project.get_grade())

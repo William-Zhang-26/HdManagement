@@ -2,7 +2,7 @@ from src.server.bo.Participation import Participation
 from src.server.db.Mapper import Mapper
 
 
-class Participation (Mapper):
+class ParticipationMapper (Mapper):
     """Mapper-Klasse, die Teilnahme-Objekte auf eine relationale
     Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung
     gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und
