@@ -79,14 +79,14 @@ export default class StudentBO /*extends NamedBusinessObject*/ {
         let result = [];
 
         if (Array.isArray(students)) {
-            students.forEach((s) => {
-                Object.setPrototypeOf(s, StudentBO.prototype);
-                result.push(s);
+            students.forEach((st) => {
+                Object.setPrototypeOf(st, StudentBO.prototype);
+                result.push(st);
             })
         } else {
-            let s = students;
-            Object.setPrototypeOf(s, StudentBO.prototype);
-            result.push(s)
+            let st = students;
+            Object.setPrototypeOf(st, StudentBO.prototype);
+            result.push(st)
         }
         
         return result;
