@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Paper, Typography, Tabs, Tab } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
-/*import ProfileDropDown from '../dialogs/ProfileDropDown';     Zeile 30:<ProfileDropDown user={user} />*/
+import ProfileDropDown from '../dialogs/ProfileDropDown';    // Zeile 30: <ProfileDropDown user={user} />
 
 
 class Header extends Component {
@@ -27,6 +27,7 @@ class Header extends Component {
 
     return (
       <Paper variant='outlined' >
+        <ProfileDropDown user={user} />
         <Typography variant='h3' component='h1' align='center'>
           HdManagement
         </Typography>

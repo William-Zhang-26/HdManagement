@@ -33,6 +33,8 @@ Backend / Database: Tolga Haybat, Maria Weinberger, William Zhang
 ### Material-UI 
 * [Homepage](https://material-ui.com)
 * `npm install @material-ui/core`
+* `npm install @material-ui/lab`
+* `npm install @material-ui/icons`
 
 ### Google firebase authentication
 * [Homepage](https://firebase.google.com/docs/web/setup)
