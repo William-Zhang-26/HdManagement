@@ -24,5 +24,5 @@ class BusinessObject(ABC):
         """Auslesen des Erstellungszeitpunkts."""
         return self._create_time
 
-    def set_crete_time(self,date):
+    def set_create_time(self,date):
         self._create_time = date

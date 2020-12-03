@@ -114,5 +114,5 @@ Anmerkung: Nicht professionell aber hilfreich..."""
 if __name__ == "__main__":
     with ValidationMapper() as mapper:
         result = mapper.find_all()
-        for project in result:
-            print(project.get_grade())
+        for validation in result:
+            print(validation.get_grade())
