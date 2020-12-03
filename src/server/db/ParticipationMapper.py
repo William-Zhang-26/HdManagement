@@ -23,9 +23,13 @@ class ParticipationMapper (Mapper):
         tuples = cursor.fetchall()
 
 
-        for (id, participation_status, create_time) in tuples:
+        for (id, module_id, project_id, student_id, validation_id, participation_status, create_time) in tuples:
             participation = Participation()
             participation.set_id(id)
+            participation.set_module_id(module_id)
+            participation.set_project_id(project_id)
+            participation.set_student_id(student_id)
+            participation.set_validation_id(validation_id)
             participation.set_participation_status(participation_status)
             participation.set_create_time(create_time)
             result.append(participation)
@@ -47,9 +51,13 @@ class ParticipationMapper (Mapper):
 
         if len(tuples) != 0:
 
-            for (id, participation_status, create_time) in tuples:
+            for (id, module_id, project_id, student_id, validation_id, participation_status, create_time) in tuples:
                 participation = Participation()
                 participation.set_id(id)
+                participation.set_module_id(module_id)
+                participation.set_project_id(project_id)
+                participation.set_student_id(student_id)
+                participation.set_validation_id(validation_id)
                 participation.set_participation_status(participation_status)
                 participation.set_create_time(create_time)
                 result.append(participation)
@@ -64,6 +72,114 @@ class ParticipationMapper (Mapper):
 
         return result
 
+    def find_by_module(self, id):
+
+        result = []
+        cursor = self._cnx.cursor()
+        command = "SELECT * FROM participation WHERE module_id like '{}'".format(id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        if len(tuples) != 0:
+            for (id, module_id, project_id, student_id, validation_id, participation_status, create_time) in tuples:
+                participation = Participation()
+                participation.set_id(id)
+                participation.set_module_id(module_id)
+                participation.set_project_id(project_id)
+                participation.set_student_id(student_id)
+                participation.set_validation_id(validation_id)
+                participation.set_participation_status(participation_status)
+                participation.set_create_time(create_time)
+                result.append(participation)
+
+        else:
+            result = None
+
+        self._cnx.commit()
+        cursor.close()
+        return result
+
+    def find_by_project(self, id):
+
+        result = []
+        cursor = self._cnx.cursor()
+        command = "SELECT * FROM participation WHERE project_id like '{}'".format(id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        if len(tuples) != 0:
+            for (id, module_id, project_id, student_id, validation_id, participation_status, create_time) in tuples:
+                participation = Participation()
+                participation.set_id(id)
+                participation.set_module_id(module_id)
+                participation.set_project_id(project_id)
+                participation.set_student_id(student_id)
+                participation.set_validation_id(validation_id)
+                participation.set_participation_status(participation_status)
+                participation.set_create_time(create_time)
+                result.append(participation)
+
+        else:
+            result = None
+
+        self._cnx.commit()
+        cursor.close()
+        return result
+
+    def find_by_student(self, id):
+
+        result = []
+        cursor = self._cnx.cursor()
+        command = "SELECT * FROM participation WHERE student_id like '{}'".format(id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        if len(tuples) != 0:
+            for (id, module_id, project_id, student_id, validation_id, participation_status, create_time) in tuples:
+                participation = Participation()
+                participation.set_id(id)
+                participation.set_module_id(module_id)
+                participation.set_project_id(project_id)
+                participation.set_student_id(student_id)
+                participation.set_validation_id(validation_id)
+                participation.set_participation_status(participation_status)
+                participation.set_create_time(create_time)
+                result.append(participation)
+
+        else:
+            result = None
+
+        self._cnx.commit()
+        cursor.close()
+        return result
+
+    def find_by_validation(self, id):
+
+        result = []
+        cursor = self._cnx.cursor()
+        command = "SELECT * FROM participation WHERE validation_id like '{}'".format(id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        if len(tuples) != 0:
+            for (id, module_id, project_id, student_id, validation_id, participation_status, create_time) in tuples:
+                participation = Participation()
+                participation.set_id(id)
+                participation.set_module_id(module_id)
+                participation.set_project_id(project_id)
+                participation.set_student_id(student_id)
+                participation.set_validation_id(validation_id)
+                participation.set_participation_status(participation_status)
+                participation.set_create_time(create_time)
+                result.append(participation)
+
+        else:
+            result = None
+
+        self._cnx.commit()
+        cursor.close()
+        return result
+
     def insert(self, participation):
         """Einfügen einer Teilnahme in die Datenbank."""
 
@@ -74,8 +190,10 @@ class ParticipationMapper (Mapper):
         for (MaxID) in tuples:
             participation.set_id(MaxID[0] + 1)
 
-        command = "INSERT INTO participation (id, participation_status, create_time) VALUES ('{}','{}','{}')" \
-            .format(participation.get_id(), participation.get_participation_status(), participation.get_create_time())
+        command = "INSERT INTO participation (id, module_id, project_id, student_id, validation_id, participation_status, create_time) VALUES ('{}','{}','{}','{}','{}','{}','{}')" \
+            .format(participation.get_id(), participation.get_module_id(), participation.get_project_id(),
+                    participation.get_student_id(), participation.get_validation_id(),
+                    participation.get_participation_status(), participation.get_create_time())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -86,8 +204,10 @@ class ParticipationMapper (Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "UPDATE participation SET participation_status = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
-                    .format(participation.get_id(), participation.get_participation_status(), participation.get_create_time())
+        command = "INSERT INTO participation (id, module_id, project_id, student_id, validation_id, participation_status, create_time) VALUES ('{}','{}','{}','{}','{}','{}','{}')" \
+            .format(participation.get_id(), participation.get_module_id(), participation.get_project_id(),
+                    participation.get_student_id(), participation.get_validation_id(),
+                    participation.get_participation_status(), participation.get_create_time())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -98,7 +218,10 @@ class ParticipationMapper (Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "DELETE FROM participation WHERE id={}".format(participation.get_id())
+        command = "INSERT INTO participation (id, module_id, project_id, student_id, validation_id, participation_status, create_time) VALUES ('{}','{}','{}','{}','{}','{}','{}')" \
+            .format(participation.get_id(), participation.get_module_id(), participation.get_project_id(),
+                    participation.get_student_id(), participation.get_validation_id(),
+                    participation.get_participation_status(), participation.get_create_time())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -108,9 +231,70 @@ class ParticipationMapper (Mapper):
 """Zu Testzwecken können wir diese Datei bei Bedarf auch ausführen, 
 um die grundsätzliche Funktion zu überprüfen.
 
-Anmerkung: Nicht professionell aber hilfreich..."""
-if (__name__ == "__main__"):
-    with Participation() as mapper:
+Anmerkung: Nicht professionell aber hilfreich...
+
+
+#find_by_all:
+if __name__ == "__main__":
+    with ParticipationMapper() as mapper:
         result = mapper.find_all()
-        for p in result:
-            print(p)
+        for participation in result:
+            print(participation.get_id())
+
+#find_by_key
+if __name__ == "__main__":
+   with ParticipationMapper() as mapper:
+       p = mapper.find_by_key(2).get_participation_status()
+       print(p)
+
+
+#find_by_module
+if __name__ == "__main__":
+   with ParticipationMapper() as mapper:
+       m = mapper.find_by_module(1)
+       for i in m:
+           print(i.get_id())
+
+#find_by_project
+if __name__ == "__main__":
+   with ParticipationMapper() as mapper:
+       m = mapper.find_by_project(3)
+       for i in m:
+           print(i.get_id())
+
+#find_by_student
+if __name__ == "__main__":
+   with ParticipationMapper() as mapper:
+       m = mapper.find_by_student(1)
+       for i in m:
+           print(i.get_id())
+           
+#find_by_validation
+if __name__ == "__main__":
+   with ParticipationMapper() as mapper:
+       m = mapper.find_by_validation(2)
+       for i in m:
+           print(i.get_id())
+
+#insert
+if __name__ == "__main__":
+   p = Participation()
+   p.set_participation_status("teilgenommen")
+   with ParticipationMapper() as mapper:
+       mapper.insert(p)
+
+
+#update wird noch überprüft
+if __name__ == "__main__":
+   with ParticipationMapper() as mapper:
+       participation = mapper.find_by_key(1)
+       participation.set_participation_status("nicht teilgenommen")
+       mapper.update(participation)
+
+#delete wird noch überprüft
+if __name__ == "__main__":
+   with ParticipationMapper() as mapper:
+       test = mapper.find_by_key(1)
+       mapper.delete(test)
+
+"""

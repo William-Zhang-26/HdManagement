@@ -64,7 +64,25 @@ class ValidationMapper (Mapper):
 
         return result
 
-    """ vielleicht sowas wie find_by_grade?"""
+    def find_by_grade(self, grade):
+
+        result = []
+        cursor = self._cnx.cursor()
+        command = "SELECT * FROM validation WHERE grade like '{}'".format(grade)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        for (id, grade, create_time) in tuples:
+            validation = Validation()
+            validation.set_id(id)
+            validation.set_grade(grade)
+            validation.set_create_time(create_time)
+            result.append(validation)
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
 
     def insert(self, validation):
         """Einfügen einer Bewertung in die Datenbank."""
@@ -111,8 +129,47 @@ class ValidationMapper (Mapper):
 um die grundsätzliche Funktion zu überprüfen.
 
 Anmerkung: Nicht professionell aber hilfreich..."""
+
+""" 
+#find_by_all:
 if __name__ == "__main__":
     with ValidationMapper() as mapper:
         result = mapper.find_all()
         for validation in result:
             print(validation.get_grade())
+
+#find_by_key
+if __name__ == "__main__":
+   with ValidationMapper() as mapper:
+       v = mapper.find_by_key(2).get_grade()
+       print(v)
+
+
+#find_by_grade
+if __name__ == "__main__":
+   with ValidationMapper() as mapper:
+       v = mapper.find_by_grade("2")
+       for i in v:
+           print(i.get_id())
+           
+#insert
+if __name__ == "__main__":
+   v = Validation()
+   v.set_grade("4")
+   with ValidationMapper() as mapper:
+       mapper.insert(v)
+
+#update wird noch überprüft
+if __name__ == "__main__":
+   with ValidationMapper() as mapper:
+       validation = mapper.find_by_key(2)
+       validation.set_grade(2)
+       mapper.update(validation)
+
+#delete
+if __name__ == "__main__":
+   with ValidationMapper() as mapper:
+       test = mapper.find_by_key(5)
+       mapper.delete(test)
+
+"""
