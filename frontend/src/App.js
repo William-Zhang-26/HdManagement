@@ -110,7 +110,6 @@ class App extends React.Component {
 									<Route exact path='/projects'>
 									  <StudentProjectList />
 									</Route>
-                    <Redirect from='/' to='impressum' />
                     <Route path='/impressum' component={Impressum} />
                 </>
                 :
@@ -121,10 +120,8 @@ class App extends React.Component {
 
           }
 
-          
-
           <LoadingProgress show={authLoading} />
-          <ContextErrorMessage error={authError} contextErrorMsg={`Something went wrong during sighn in process.`} onReload={this.handleSignIn} />
+          <ContextErrorMessage error={authError} contextErrorMsg={`Something went wrong during sign in process.`} onReload={this.handleSignIn} />
           <ContextErrorMessage error={appError} contextErrorMsg={`Something went wrong inside the app. Please reload the page.`} />
         
         </div>
