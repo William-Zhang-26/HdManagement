@@ -26,11 +26,12 @@ class SemesterMapper (Mapper):
         tuples = cursor.fetchall()
 
 
-        for (id, name, semester) in tuples:
+        for (id, name, semester_number, create_time) in tuples:
             semester = Semester()
             semester.set_id(id)
             semester.set_name(name)
-            semester.set_semester(semester)
+            semester.set_semester_number(semester_number)
+            semester.set_create_time(create_time)
             result.append(semester)
 
         self._cnx.commit()
@@ -55,17 +56,39 @@ class SemesterMapper (Mapper):
 
         if len(tuples) != 0:
 
-            for (id, name, semester) in tuples:
+            for (id, name, semester_number, create_time) in tuples:
                 semester = Semester()
                 semester.set_id(id)
                 semester.set_name(name)
-                semester.set_semester(semester)
+                semester.set_semester_number(semester_number)
+                semester.set_create_time(create_time)
                 result.append(semester)
 
             result = semester
 
         else:
             result = None
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+
+    def find_by_name(self, name):
+
+        result = []
+        cursor = self._cnx.cursor()
+        command = "SELECT * FROM semester WHERE name like '{}'".format(name)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        for (id, name, semester_number, create_time) in tuples:
+            semester = Semester()
+            semester.set_id(id)
+            semester.set_name(name)
+            semester.set_semester_number(semester_number)
+            semester.set_create_time(create_time)
+            result.append(semester)
 
         self._cnx.commit()
         cursor.close()
@@ -83,8 +106,8 @@ class SemesterMapper (Mapper):
         for (MaxID) in tuples:
             semester.set_id(MaxID[0] + 1)
 
-        command = "INSERT INTO semester (id, name, semester) VALUES ('{}','{}','{}')" \
-            .format(semester.get_id(), semester.get_name(), semester.get_semester())
+        command = "INSERT INTO semester (id, name, semester_number, create_time) VALUES ('{}','{}','{}', '{}')" \
+            .format(semester.get_id(), semester.get_name(), semester.get_semester_number(), semester.get_create_time())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -95,8 +118,8 @@ class SemesterMapper (Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "UPDATE semester SET name = ('{}'), semester = ('{}')" "WHERE id = ('{}')"\
-                    .format(semester.get_id(), semester.get_name(), semester.get_semester())
+        command = "UPDATE semester SET name = ('{}'), semester_number = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
+                    .format(semester.get_id(), semester.get_name(), semester.get_semester_number(), semester.get_create_time())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -118,8 +141,48 @@ class SemesterMapper (Mapper):
 um die grundsätzliche Funktion zu überprüfen.
 
 Anmerkung: Nicht professionell aber hilfreich..."""
-if (__name__ == "__main__"):
-    with Semester() as mapper:
+"""
+if __name__ == "__main__":
+    with SemesterMapper() as mapper:
         result = mapper.find_all()
         for p in result:
-            print(p)
+            print(p.get_semester_number())
+"""
+"""
+if __name__ == "__main__":
+   with SemesterMapper() as mapper:
+       p = mapper.find_by_key(4).get_name()
+       print(p)
+"""
+"""
+if __name__ == "__main__":
+   with SemesterMapper() as mapper:
+       p = mapper.find_by_name("hauptstudium")
+       for i in p:
+           print(i.get_semester_number())
+"""
+"""
+if __name__ == "__main__":
+   p = Semester()
+   p.set_id(5)
+   p.set_name("Haupstudium")
+   p.set_semester_number(6)
+   p.set_create_time("2020-12-03")
+   with SemesterMapper() as mapper:
+       mapper.insert(p)
+"""
+"""
+if __name__ == "__main__":
+   with SemesterMapper() as mapper:
+       semester = mapper.find_by_key(2)
+       semester.set_name("Grundstudium")
+       mapper.update(semester)
+"""
+if __name__ == "__main__":
+   with SemesterMapper() as mapper:
+       test = mapper.find_by_key(3)
+       mapper.delete(test)
+
+
+
+

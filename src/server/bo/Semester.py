@@ -6,21 +6,22 @@ class Semester(NamedBusinessObject):
     """
     def __init__(self):
         super().__init__()
-        self._semester = None
+        self._semester_number = " "
 
 
-    def get_semester(self):
-        """Auslesen des Semesters"""
-        return self._semester
+    def get_semester_number(self):
+        """Auslesen der Semester Nummer"""
+        return self._semester_number
 
-    def set_semester(self, semester):
-        """Setzen des Semesters"""
-        self._semester = semester
+    def set_semester_number(self, new_semester_number):
+        """Setzen der Semester Nummer"""
+        self._semester_number = new_semester_number
 
     @staticmethod
     def from_dict(dict = dict()):
         new_semester = Semester()
         new_semester.set_id(dict["id"])
         new_semester.set_name(dict["name"])
-        new_semester.set_semester(dict["semester"])
+        new_semester.set_semester_number(dict["semester_number"])
+        new_semester.set_create_time(dict["create_time"])
         return new_semester

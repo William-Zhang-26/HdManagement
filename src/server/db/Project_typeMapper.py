@@ -123,7 +123,7 @@ class Project_typeMapper (Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "UPDATE project_tpye SET name = ('{}'), ects = ('{}'), sws = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
+        command = "UPDATE project_type SET name = ('{}'), ects = ('{}'), sws = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
                     .format(project_type.get_id(), project_type.get_name(), project_type.get_ects(), project_type.get_sws(),
                     project_type.get_create_time())
         cursor.execute(command)
@@ -148,9 +148,49 @@ um die grundsätzliche Funktion zu überprüfen.
 
 Anmerkung: Nicht professionell aber hilfreich..."""
 
-
+"""
 if __name__ == "__main__":
     with Project_typeMapper() as mapper:
         result = mapper.find_all()
         for p in result:
-            print(p.get_sws())
+            print(p.get_name())
+"""
+"""
+if __name__ == "__main__":
+   with Project_typeMapper() as mapper:
+       p = mapper.find_by_key(6).get_name()
+       print(p)
+"""
+"""
+if __name__ == "__main__":
+   with Project_typeMapper() as mapper:
+       p = mapper.find_by_name("Fachspezifisches")
+       for i in p:
+           print(i.get_id())
+"""
+"""
+if __name__ == "__main__":
+   p = Project_type()
+   p.set_id(7)
+   p.set_name("Fachspezifisches")
+   p.set_ects(5)
+   p.set_sws(3)
+   p.set_create_time("2020-12-03 20:54:00")
+   with Project_typeMapper() as mapper:
+       mapper.insert(p)
+"""
+
+if __name__ == "__main__":
+   with Project_typeMapper() as mapper:
+       project_type = mapper.find_by_key(2)
+       project_type.set_sws(15)
+       mapper.update(project_type)
+
+"""
+if __name__ == "__main__":
+   with Project_typeMapper() as mapper:
+       test = mapper.find_by_key(3)
+       mapper.delete(test)
+"""
+
+
