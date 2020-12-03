@@ -92,4 +92,5 @@ class Project(NamedBusinessObject):
         new_project.set_project_category(dict["project_category"])
         new_project.set_supervisor(dict["supervisor"])
         new_project.set_weekly(dict["weekly"])
+        new_project.set_weekly(dict["create_time"])
         return new_project

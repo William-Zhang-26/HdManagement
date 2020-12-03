@@ -23,7 +23,7 @@ class ProjectMapper(Mapper):
         tuples = cursor.fetchall()
 
         for (id, name, partners, capacity, preferred_room, block_day, project_category, supervisor,
-             weekly) in tuples:
+             weekly, create_time) in tuples:
             project = Project()
             project.set_id(id)
             project.set_name(name)
@@ -34,6 +34,7 @@ class ProjectMapper(Mapper):
             project.set_project_category(project_category)
             project.set_supervisor(supervisor)
             project.set_weekly(weekly)
+            project.set_create_time(create_time)
             result.append(project)
 
         self._cnx.commit()
@@ -53,7 +54,7 @@ class ProjectMapper(Mapper):
         if len(tuples) != 0:
 
             for (id, name, partners, capacity, preferred_room, block_day, project_category, supervisor,
-                 weekly) in tuples:
+                 weekly, create_time) in tuples:
                 project = Project()
                 project.set_id(id)
                 project.set_name(name)
@@ -64,6 +65,7 @@ class ProjectMapper(Mapper):
                 project.set_project_category(project_category)
                 project.set_supervisor(supervisor)
                 project.set_weekly(weekly)
+                project.set_create_time(create_time)
                 result.append(project)
                 result = project
 
@@ -86,7 +88,7 @@ class ProjectMapper(Mapper):
         tuples = cursor.fetchall()
 
         for (id, name, partners, capacity, preferred_room, block_day, project_category, supervisor,
-             weekly) in tuples:
+             weekly, create_time) in tuples:
             project = Project()
             project.set_id(id)
             project.set_name(name)
@@ -97,6 +99,7 @@ class ProjectMapper(Mapper):
             project.set_project_category(project_category)
             project.set_supervisor(supervisor)
             project.set_weekly(weekly)
+            project.set_create_time(create_time)
             result.append(project)
 
         self._cnx.commit()
@@ -114,7 +117,7 @@ class ProjectMapper(Mapper):
         tuples = cursor.fetchall()
 
         for (id, name, partners, capacity, preferred_room, block_day, project_category, supervisor,
-             weekly) in tuples:
+             weekly, create_time) in tuples:
             project = Project()
             project.set_id(id)
             project.set_name(name)
@@ -125,6 +128,7 @@ class ProjectMapper(Mapper):
             project.set_project_category(project_category)
             project.set_supervisor(supervisor)
             project.set_weekly(weekly)
+            project.set_create_time(create_time)
             result.append(project)
 
         self._cnx.commit()
@@ -143,10 +147,12 @@ class ProjectMapper(Mapper):
             project.set_id(MaxID[0] + 1)
 
         command = "INSERT INTO project (id, name, partners, capacity, preferred_room, block_day, " \
-                  "project_category, supervisor, weekly) VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}')" \
-            .format(project.get_id(), project.get_name(), project.get_partners(), project.get_capacity(), project.get_preferred_room(),
+                  "project_category, supervisor, weekly, create_time)" \
+                  "VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')" \
+            .format(project.get_id(), project.get_name(), project.get_partners(), project.get_capacity(),
+                    project.get_preferred_room(),
                     project.get_block_day(), project.get_project_category(),
-                    project.get_supervisor(), project.get_weekly())
+                    project.get_supervisor(), project.get_weekly(), project.get_create_time())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -158,10 +164,11 @@ class ProjectMapper(Mapper):
         cursor = self._cnx.cursor()
 
         command = "UPDATE project SET name = ('{}'), partners = ('{}'), preferred_room = ('{}'), block_day = ('{}')," \
-                  "project_category = ('{}'), supervisor = ('{}'), weekly = ('{}')" "WHERE id = ('{}')" \
+                  "project_category = ('{}'), supervisor = ('{}'), weekly = ('{}'), create_time = ('{}')" \
+                  "WHERE id = ('{}')" \
             .format(project.get_name(), project.get_partners(), project.get_preferred_room(),
                     project.get_block_day(), project.get_project_category(),
-                    project.get_supervisor(), project.get_weekly(), project.get_id())
+                    project.get_supervisor(), project.get_weekly(), project.get_create_time(), project.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -182,16 +189,6 @@ class ProjectMapper(Mapper):
 """Testzwecke um uns die Daten anzeigen zu lassen"""
 
 if __name__ == "__main__":
-    with ProjectMapper() as mapper:
-        project = mapper.find_by_key(2)
-        mapper.delete(project)
-
-
-"""
-    p = mapper.find_by_preferred_room("s305")
-    for i in p:
-        print(i.get_name())
-
     p = Project()
     p.set_name("IT-Projekt")
     p.set_partners("Capgemini")
@@ -201,6 +198,15 @@ if __name__ == "__main__":
     p.set_project_category("IT")
     p.set_supervisor("Kunz")
     p.set_weekly("yes")
+    p.set_create_time("2020-12-03")
+
     with ProjectMapper() as mapper:
         mapper.insert(p)
-"""
+    """
+    with ProjectMapper() as mapper:
+        project = mapper.find_by_key(2)
+        project.set_name("IT-Projekt")
+   p = mapper.find_by_preferred_room("s305")
+        for i in p:
+            print(i.get_name())
+    """
