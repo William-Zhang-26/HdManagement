@@ -21,13 +21,14 @@ class UserMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, lastname, firstname, mail, name) in tuples:
+        for (id, lastname, firstname, mail, name, create_time) in tuples:
             user = User()
             user.set_id(id)
             user.set_lastname(lastname)
             user.set_firstname(firstname)
             user.set_mail(mail)
             user.set_name(name)
+            user.set_create_time(create_time)
             result.append(user)
 
         self._cnx.commit()
@@ -46,13 +47,14 @@ class UserMapper(Mapper):
 
         if len(tuples) != 0:
 
-            for (id, lastname, firstname, mail, name) in tuples:
+            for (id, lastname, firstname, mail, name, create_time) in tuples:
                 user = User()
                 user.set_id(id)
                 user.set_lastname(lastname)
                 user.set_firstname(firstname)
                 user.set_mail(mail)
                 user.set_name(name)
+                user.set_create_time(create_time)
                 result = user
 
         else:
@@ -73,13 +75,14 @@ class UserMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, lastname, firstname, course, mail, name) in tuples:
+        for (id, lastname, firstname, course, mail, name, create_time) in tuples:
             user = User()
             user.set_id(id)
             user.set_lastname(lastname)
             user.set_firstname(firstname)
             user.set_mail(mail)
             user.set_name(name)
+            user.set_create_time(create_time)
             result.append(user)
 
         self._cnx.commit()
@@ -96,13 +99,14 @@ class UserMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, lastname, firstname, mail, name) in tuples:
+        for (id, lastname, firstname, mail, name, create_time) in tuples:
             user = User()
             user.set_id(id)
             user.set_lastname(lastname)
             user.set_firstname(firstname)
             user.set_mail(mail)
             user.set_name(name)
+            user.set_create_time(create_time)
             result.append(user)
 
         self._cnx.commit()
@@ -120,13 +124,14 @@ class UserMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, lastname, name, course, mail) in tuples:
+        for (id, lastname, name, course, mail, create_time) in tuples:
             user = User()
             user.set_id(id)
             user.set_lastname(lastname)
             user.set_firstname(name)
             user.set_mail(mail)
             user.set_name(name)
+            user.set_create_time(create_time)
             result.append(user)
 
         self._cnx.commit()
@@ -145,9 +150,9 @@ class UserMapper(Mapper):
         for (MaxID) in tuples:
             user.set_id(MaxID[0] + 1)
 
-        command = "INSERT INTO user (id, lastname, firstname, mail, name) VALUES ('{}','{}','{}','{}','{}')" \
+        command = "INSERT INTO user (id, lastname, firstname, mail, name, create_time) VALUES ('{}','{}','{}','{}','{}','{}')" \
             .format(user.get_id(), user.get_lastname(), user.get_firstname(),
-                    user.get_mail(), user.get_name())
+                    user.get_mail(), user.get_name(), user.get_create_time())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -159,9 +164,9 @@ class UserMapper(Mapper):
         cursor = self._cnx.cursor()
 
         command = "UPDATE user SET lastname = ('{}'), firstname = ('{}'), mail = ('{}'),"\
-                  "name = ('{}')" "WHERE id = ('{}')"\
+                  "name = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
             .format(user.get_lastname(), user.get_firstname(), user.get_mail(),
-                    user.get_name(), user.get_id())
+                    user.get_name(), user.get_id(), user.get_create_time())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -179,9 +184,27 @@ class UserMapper(Mapper):
         cursor.close()
 
     """Platzhalter für spätere Tests"""
+"""    
 if __name__ == "__main__":
     with UserMapper() as mapper:
-        user = mapper.find_by_key(2)
-        user.set_lastname("Zhang")
-        mapper.update(user)
+        user = mapper.find_by_key(2).get_create_time()
+        print(user)
 
+if __name__ == "__main__":
+    u = User()
+    u.set_lastname("Ulmer")
+    u.set_firstname("Lukas")
+    u.set_mail("LukasOrlando@hdm-stuttgart.de")
+    u.set_name("student")
+    u.set_create_time("2020.12.03")
+    with UserMapper() as mapper:
+        mapper.insert(u)
+"""
+if __name__ == "__main__":
+    with UserMapper() as mapper:
+        user = mapper.find_by_key(4)
+        user.set_lastname("Ün")
+        user.set_firstname("Rahel")
+        user.set_mail("RahelÜn@gmx.de")
+        user.set_create_time("2020.12.05")
+        mapper.insert(user)

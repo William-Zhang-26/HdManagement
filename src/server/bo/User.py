@@ -48,5 +48,6 @@ class User(NamedBusinessObject):
         new_user.set_lastname(dict["lastname"])
         new_user.set_firstname(dict["firstname"])
         new_user.set_mail(dict["mail"])
-        new_user.set_name("name")
+        new_user.set_name(dict["name"])
+        new_user.set_create_time(dict["create_time"])
         return new_user

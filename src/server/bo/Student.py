@@ -9,9 +9,9 @@ class Student(NamedBusinessObject):
         self._lastname = ""
         self._firstname = ""
         self._course = ""
-        self._matriculation_number = None
+        self._matriculation_number = 0
         self._mail = ""
-        self._project_id = None
+        self._project_id = 0
 
     def get_lastname(self):
         """Auslesen des Nachnamens"""
@@ -41,9 +41,9 @@ class Student(NamedBusinessObject):
         """Auslesen der Matrikelnummer"""
         return self._matriculation_number
 
-    def set_matriculation_number(self, matriculation_number):
+    def set_matriculation_number(self, new_matriculation_number):
         """Setzen der Matrikelnummer (Nicht möglich)"""
-        self._matriculation_number = matriculation_number
+        self._matriculation_number = new_matriculation_number
 
     def get_mail(self):
         """Auslesen der Mail"""
@@ -57,9 +57,9 @@ class Student(NamedBusinessObject):
         """Auslesen der Projekt_id"""
         return self._project_id
 
-    def set_project_id(self, project_id):
+    def set_project_id(self, new_project_id):
         """Setzen der Projekt_id (Nicht möglich)"""
-        self._project_id = project_id
+        self._project_id = new_project_id
 
     @staticmethod
     def from_dict(dict = dict()):
@@ -71,4 +71,5 @@ class Student(NamedBusinessObject):
         new_student.set_matriculation_number(dict["matriculation_number"])
         new_student.set_mail(dict["mail"])
         new_student.set_project_id(dict["project_id"])
+        new_student.set_create_time(dict["create_time"])
         return new_student

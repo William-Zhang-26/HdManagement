@@ -21,7 +21,7 @@ class StudentMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, lastname, firstname, course, matriculation_number, mail, project_id) in tuples:
+        for (id, lastname, firstname, course, matriculation_number, mail, project_id, create_time) in tuples:
             student = Student()
             student.set_id(id)
             student.set_lastname(lastname)
@@ -30,6 +30,7 @@ class StudentMapper(Mapper):
             student.set_matriculation_number(matriculation_number)
             student.set_mail(mail)
             student.set_project_id(project_id)
+            student.set_create_time(create_time)
             result.append(student)
 
         self._cnx.commit()
@@ -48,7 +49,7 @@ class StudentMapper(Mapper):
 
         if len(tuples) != 0:
 
-            for (id, lastname, firstname, course, matriculation_number, mail, project_id) in tuples:
+            for (id, lastname, firstname, course, matriculation_number, mail, project_id, create_time) in tuples:
                 student = Student()
                 student.set_id(id)
                 student.set_lastname(lastname)
@@ -57,6 +58,7 @@ class StudentMapper(Mapper):
                 student.set_matriculation_number(matriculation_number)
                 student.set_mail(mail)
                 student.set_project_id(project_id)
+                student.set_create_time(create_time)
                 result.append(student)
 
         else:
@@ -77,7 +79,7 @@ class StudentMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, lastname, firstname, course, matriculation_number, mail, project_id) in tuples:
+        for (id, lastname, firstname, course, matriculation_number, mail, project_id, create_time) in tuples:
             student = Student()
             student.set_id(id)
             student.set_lastname(lastname)
@@ -86,6 +88,7 @@ class StudentMapper(Mapper):
             student.set_matriculation_number(matriculation_number)
             student.set_mail(mail)
             student.set_project_id(project_id)
+            student.set_create_time(create_time)
             result.append(student)
 
         self._cnx.commit()
@@ -102,7 +105,7 @@ class StudentMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, lastname, firstname, course, matriculation_number, mail, project_id) in tuples:
+        for (id, lastname, firstname, course, matriculation_number, mail, project_id, create_time) in tuples:
             student = Student()
             student.set_id(id)
             student.set_lastname(lastname)
@@ -111,6 +114,7 @@ class StudentMapper(Mapper):
             student.set_matriculation_number(matriculation_number)
             student.set_mail(mail)
             student.set_project_id(project_id)
+            student.set_create_time(create_time)
             result.append(student)
 
         self._cnx.commit()
@@ -127,7 +131,7 @@ class StudentMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, lastname, firstname, course, matriculation_number, mail, project_id) in tuples:
+        for (id, lastname, firstname, course, matriculation_number, mail, project_id, create_time) in tuples:
             student = Student()
             student.set_id(id)
             student.set_lastname(lastname)
@@ -136,6 +140,7 @@ class StudentMapper(Mapper):
             student.set_matriculation_number(matriculation_number)
             student.set_mail(mail)
             student.set_project_id(project_id)
+            student.set_create_time(create_time)
             result.append(student)
 
         self._cnx.commit()
@@ -152,7 +157,7 @@ class StudentMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, lastname, firstname, course, matriculation_number, mail, project_id) in tuples:
+        for (id, lastname, firstname, course, matriculation_number, mail, project_id, create_time) in tuples:
             student = Student()
             student.set_id(id)
             student.set_lastname(lastname)
@@ -161,6 +166,7 @@ class StudentMapper(Mapper):
             student.set_matriculation_number(matriculation_number)
             student.set_mail(mail)
             student.set_project_id(project_id)
+            student.set_create_time(create_time)
             result.append(student)
 
         self._cnx.commit()
@@ -178,10 +184,12 @@ class StudentMapper(Mapper):
         for (MaxID) in tuples:
             student.set_id(MaxID[0] + 1)
 
-        command = "INSERT INTO student (id, lastname, firstname, course, matriculation_number, mail, project_id)" \ 
-                "VALUES ('{}','{}','{}','{}','{}','{}','{}')" \
-            .format(student.get_id(), student.get_lastname(), student.get_firstname(), student.get_course(), student.get_matriculation_number(),
-                    student.get_mail(), student.get_project_id())
+        command = "INSERT INTO student (id, lastname, firstname, course, matriculation_number, mail," \
+                "project_id, create_time)" \
+                "VALUES ('{}','{}','{}','{}','{}','{}','{}','{}')" \
+            .format(student.get_id(), student.get_lastname(), student.get_firstname(), student.get_course(),
+                    student.get_matriculation_number(),
+                    student.get_mail(), student.get_project_id(), student.get_create_time())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -192,10 +200,12 @@ class StudentMapper(Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "UPDATE student SET lastname = ('{}'), firstname = ('{}'), course = ('{}'), matriculation_number = ('{}')," \
-                  "mail = ('{}')" "WHERE id = ('{}')"\
+        command = "UPDATE student SET lastname = ('{}'), firstname = ('{}'), course = ('{}')," \
+                "matriculation_number = ('{}')," \
+                "mail = ('{}'), project_id = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
             .format(student.get_lastname(), student.get_firstname(), student.get_course(),
-                    student.get_matriculation_number(), student.get_mail(), student.get_id())
+                    student.get_matriculation_number(), student.get_mail(), student.get_project_id(),
+                    student.get_create_time(), student.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -212,4 +222,21 @@ class StudentMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-    """Platzhalter für spätere Tests"""
+    """Platzhalter für spätere Tests
+if __name__ == "__main__":
+    with StudentMapper() as mapper:
+        p = mapper.find_by_matriculation_number("37523")
+        for i in p:
+            print(i.get_id())
+    """
+if __name__ == "__main__":
+    s = Student()
+    s.set_lastname("Weinberger")
+    s.set_firstname("Maria")
+    s.set_course("Wirtschaftsinformatik")
+    s.set_matriculation_number("34567")
+    s.set_mail("mw056@hdm-stuttgart.de")
+    s.set_project_id(1)
+    s.set_create_time("2020-12-03")
+    with StudentMapper() as mapper:
+        mapper.insert(s)
