@@ -34,12 +34,16 @@ module = api.inherit('Module', nbo, {
 })
 
 project = api.inherit('Project', nbo, {
+    'project_description': fields.String(attribute='_project_description', description='Die Beschreibung des Projektes')
     'partners': fields.String(attribute='_partners', description='Die Partner die das Projekt mit gestalten'),
     'capacity': fields.Integer(attribute='_capacity', description='Die Anzahl der Personen die in dem Projekt teilnehmen können'),
     'preferred_room': fields.String(attribute='_preferred_room', description='Die Raumnnumer in der das Projekt stattfinden soll'),
-    'blockday': fields.String(attribute='_blockday', description='Die Blocktage die das Projekt benötigen'),
+    'b_days_pre_schedule': fields.String(attribute='_b_days_pre_schedule', description='Anzahl der Blocktage vor der Vorlesungszeit'),
+    'b_days_finale': fields.String(attribute='_b_days_finale', description='Anzahl der Blocktage in der Prüfungszeit'),
+    'b_days_saturdays': fields.String(attribute='_b_days_saturdays', description='Anzahl der Blocktage in der Vorlesungszeit (Samstage)'),
+    'preferred_b_days': fields.String(attribute='_preferred_b_days', description='Die präferierten Blocktage in der Vorlesungszeit'),
     'project_category': fields.String(attribute='_project_category', description='Die Projekt Kategorie des Projektes'),
-    'supervisor': fields.String(attribute='_supervisor', description='Die beteiligten Professoren in dem Projekt'),
+    'additional_supervisor': fields.String(attribute='_additional_supervisor', description='Die beteiligten Professoren in dem Projekt'),
     'weekly': fields.Boolean(attribute='_weekly', description='Angabe ob das Projekt wöchentlich stattfindet')
 })
 
@@ -47,9 +51,11 @@ semester = api.inherit('Semester', nbo, {
     'semester': fields.Integer(attribute='_semester', description='Die Anzahl des Semesters')
 })
 
+"""
 role = api.inherit('Role', nbo, {
     """"""
 })
+"""
 
 project_type = api.inherit('Project_type', nbo, {
     'ects': fields.Integer(attribute='_ects', description='Die ECTS Punkte von dem Projekt'),
@@ -65,3 +71,10 @@ student= api.inherit('Student', user, {
     'student':
 
 """
+condition = api.inherit('Condition', nbo, {
+    """"""
+})
+
+automat = api.inherit('Automat', nbo, {
+    """"""
+})
