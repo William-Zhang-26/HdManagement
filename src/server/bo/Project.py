@@ -1,11 +1,23 @@
+from src.server.bo.Automat import Automat
 from src.server.bo.NamedBusinessObject import NamedBusinessObject
 
-class Project(NamedBusinessObject):
+class Project("""Automat""", NamedBusinessObject):
     """
     Realisierung der Projekte
     """
+    """ 
+    s_new = Condition("neu")
+    s_approved = Condition("abgelehnt")
+    s_dismissed = Condition("genehmigt")
+    s_inreview = Condition("in Bewertung")
+    s_reviewed = Condition("Bewertung abgeschlossen")
+    """
     def __init__(self):
         super().__init__()
+        """
+        super().__init__(Project.s_new)
+        self.__name = condition
+        """
         self._project_description = ""
         self._partners = ""
         self._capacity = 0
