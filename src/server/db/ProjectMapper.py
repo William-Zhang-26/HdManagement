@@ -22,17 +22,22 @@ class ProjectMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, partners, capacity, preferred_room, block_day, project_category, supervisor,
+        for (id, name, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+             b_days_finale, b_days_saturdays,preferred_b_days, project_category, additional_supervisor,
              weekly, create_time) in tuples:
             project = Project()
             project.set_id(id)
             project.set_name(name)
+            project.set_project_description(project_description)
             project.set_partners(partners)
             project.set_capacity(capacity)
             project.set_preferred_room(preferred_room)
-            project.set_block_day(block_day)
+            project.set_b_days_pre_schedule(b_days_pre_schedule)
+            project.set_b_days_finale(b_days_finale)
+            project.set_b_days_saturdays(b_days_saturdays)
+            project.set_preferred_b_days(preferred_b_days)
             project.set_project_category(project_category)
-            project.set_supervisor(supervisor)
+            project.set_additional_supervisor(additional_supervisor)
             project.set_weekly(weekly)
             project.set_create_time(create_time)
             result.append(project)
@@ -53,17 +58,22 @@ class ProjectMapper(Mapper):
 
         if len(tuples) != 0:
 
-            for (id, name, partners, capacity, preferred_room, block_day, project_category, supervisor,
+            for (id, name, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+                 b_days_finale, b_days_saturdays, preferred_b_days, project_category, additional_supervisor,
                  weekly, create_time) in tuples:
                 project = Project()
                 project.set_id(id)
                 project.set_name(name)
+                project.set_project_description(project_description)
                 project.set_partners(partners)
                 project.set_capacity(capacity)
                 project.set_preferred_room(preferred_room)
-                project.set_block_day(block_day)
+                project.set_b_days_pre_schedule(b_days_pre_schedule)
+                project.set_b_days_finale(b_days_finale)
+                project.set_b_days_saturdays(b_days_saturdays)
+                project.set_preferred_b_days(preferred_b_days)
                 project.set_project_category(project_category)
-                project.set_supervisor(supervisor)
+                project.set_additional_supervisor(additional_supervisor)
                 project.set_weekly(weekly)
                 project.set_create_time(create_time)
                 result.append(project)
@@ -87,17 +97,22 @@ class ProjectMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, partners, capacity, preferred_room, block_day, project_category, supervisor,
+        for (id, name, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+             b_days_finale, b_days_saturdays,preferred_b_days, project_category, additional_supervisor,
              weekly, create_time) in tuples:
             project = Project()
             project.set_id(id)
             project.set_name(name)
+            project.set_project_description(project_description)
             project.set_partners(partners)
             project.set_capacity(capacity)
             project.set_preferred_room(preferred_room)
-            project.set_block_day(block_day)
+            project.set_b_days_pre_schedule(b_days_pre_schedule)
+            project.set_b_days_finale(b_days_finale)
+            project.set_b_days_saturdays(b_days_saturdays)
+            project.set_preferred_b_days(preferred_b_days)
             project.set_project_category(project_category)
-            project.set_supervisor(supervisor)
+            project.set_additional_supervisor(additional_supervisor)
             project.set_weekly(weekly)
             project.set_create_time(create_time)
             result.append(project)
@@ -108,7 +123,7 @@ class ProjectMapper(Mapper):
         return result
 ###
     def find_by_preferred_room(self, preferred_room):
-        """Suchen eines User anhand der User_ID des Users."""
+        """Suchen eines Projekt anhand des bevorzugten Raumes."""
 
         result = []
         cursor = self._cnx.cursor()
@@ -116,17 +131,22 @@ class ProjectMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, partners, capacity, preferred_room, block_day, project_category, supervisor,
+        for (id, name, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+             b_days_finale, b_days_saturdays, preferred_b_days, project_category, additional_supervisor,
              weekly, create_time) in tuples:
             project = Project()
             project.set_id(id)
             project.set_name(name)
+            project.set_project_description(project_description)
             project.set_partners(partners)
             project.set_capacity(capacity)
             project.set_preferred_room(preferred_room)
-            project.set_block_day(block_day)
+            project.set_b_days_pre_schedule(b_days_pre_schedule)
+            project.set_b_days_finale(b_days_finale)
+            project.set_b_days_saturdays(b_days_saturdays)
+            project.set_preferred_b_days(preferred_b_days)
             project.set_project_category(project_category)
-            project.set_supervisor(supervisor)
+            project.set_additional_supervisor(additional_supervisor)
             project.set_weekly(weekly)
             project.set_create_time(create_time)
             result.append(project)
@@ -146,13 +166,16 @@ class ProjectMapper(Mapper):
         for (MaxID) in tuples:
             project.set_id(MaxID[0] + 1)
 
-        command = "INSERT INTO project (id, name, partners, capacity, preferred_room, block_day, " \
-                  "project_category, supervisor, weekly, create_time)" \
-                  "VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')" \
-            .format(project.get_id(), project.get_name(), project.get_partners(), project.get_capacity(),
-                    project.get_preferred_room(),
-                    project.get_block_day(), project.get_project_category(),
-                    project.get_supervisor(), project.get_weekly(), project.get_create_time())
+        command = "INSERT INTO project (id, name, project_description, partners, capacity, preferred_room, " \
+                  "b_days_pre_schedule, b_days_finale, b_days_saturdays, preferred_b_days, " \
+                  "project_category, additional_supervisor, " \
+                  "weekly, create_time)" \
+                  "VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')" \
+            .format(project.get_id(), project.get_name(), project.get_project_description(), project.get_partners(),
+                    project.get_capacity(), project.get_preferred_room(), project.get_b_days_pre_schedule(),
+                    project.get_b_days_finale(), project.get_b_days_saturdays(), project.get_preferred_b_days(),
+                    project.get_project_category(), project.get_additional_supervisor(), project.get_weekly(),
+                    project.get_create_time())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -163,12 +186,16 @@ class ProjectMapper(Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "UPDATE project SET name = ('{}'), partners = ('{}'), preferred_room = ('{}'), block_day = ('{}')," \
-                  "project_category = ('{}'), supervisor = ('{}'), weekly = ('{}'), create_time = ('{}')" \
+        command = "UPDATE project SET name = ('{}'), project_description = ('{}'), partners = ('{}'), " \
+                  "capacity = ('{}'), preferred_room = ('{}'), b_days_pre_schedule = ('{}'), " \
+                  "b_days_finale = ('{}'), b_days_saturdays = ('{}'), preferred_b_days = ('{}'), " \
+                  "project_category = ('{}'), additional_supervisor = ('{}'), weekly = ('{}'), create_time = ('{}')" \
                   "WHERE id = ('{}')" \
-            .format(project.get_name(), project.get_partners(), project.get_preferred_room(),
-                    project.get_block_day(), project.get_project_category(),
-                    project.get_supervisor(), project.get_weekly(), project.get_create_time(), project.get_id())
+            .format(project.get_name(), project.get_project_description(), project.get_partners(),
+                    project.get_capacity(), project.get_preferred_room(), project.get_b_days_pre_schedule(),
+                    project.get_b_days_finale(), project.get_b_days_saturdays(), project.get_preferred_b_days(),
+                    project.get_project_category(), project.get_additional_supervisor(), project.get_weekly(),
+                    project.get_create_time(), project.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -188,21 +215,36 @@ class ProjectMapper(Mapper):
 
 """Testzwecke um uns die Daten anzeigen zu lassen"""
 
+if __name__ == "__main":
+    with ProjectMapper() as mapper:
+        test = mapper.find_by_key(4)
+        for i in test:
+            print(test.get_name())
+
+"""
+if __name__ == "__main__":
+    with ProjectMapper() as mapper:
+        p = mapper.find_all()
+        for result in p:
+            print(result.get_create_time())
+
 if __name__ == "__main__":
     p = Project()
-    p.set_name("IT-Projekt")
-    p.set_partners("Capgemini")
-    p.set_capacity(20)
-    p.set_preferred_room("s204")
-    p.set_block_day("yes")
-    p.set_project_category("IT")
-    p.set_supervisor("Kunz")
-    p.set_weekly("yes")
-    p.set_create_time("2020-12-03")
-
+    p.set_name("Design")
+    p.set_project_description("Schreibt euch ein dafür gibt es eine 1")
+    p.set_partners("Klotz")
+    p.set_capacity(30)
+    p.set_preferred_room("s205")
+    p.set_b_days_pre_schedule("yes")
+    p.set_b_days_finale("yes")
+    p.set_b_days_saturdays("yes")
+    p.set_preferred_b_days("yes")
+    p.set_project_category("Design und Usablity")
+    p.set_additional_supervisor("Kunz")
+    p.set_weekly("2020.12.05")
     with ProjectMapper() as mapper:
         mapper.insert(p)
-    """
+        
     with ProjectMapper() as mapper:
         project = mapper.find_by_key(2)
         project.set_name("IT-Projekt")
