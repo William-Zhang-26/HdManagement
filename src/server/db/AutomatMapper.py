@@ -26,11 +26,11 @@ class AutomatMapper (Mapper):
         tuples = cursor.fetchall()
 
 
-        for (id, name, current_condition, create_time ) in tuples:
+        for (id, name, condition, create_time ) in tuples:
             automat = Automat()
             automat.set_id(id)
             automat.set_name(name)
-            automat.current_condition(current_condition)
+            automat.set_condition(condition)
             automat.set_create_time(create_time)
             result.append(automat)
 
@@ -57,11 +57,11 @@ class AutomatMapper (Mapper):
 
         if len(tuples) != 0:
 
-            for (id, name, current_condition, create_time) in tuples:
+            for (id, name, condition, create_time) in tuples:
                 automat = Automat()
                 automat.set_id(id)
                 automat.set_name(name)
-                automat.current_condition(current_condition)
+                automat.set_condition(condition)
                 automat.set_create_time(create_time)
                 result.append(automat)
 
@@ -83,11 +83,11 @@ class AutomatMapper (Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, current_condition, create_time ) in tuples:
+        for (id, name, condition, create_time ) in tuples:
             automat = Automat()
             automat.set_id(id)
             automat.set_name(name)
-            automat.current_condition(current_condition)
+            automat.set_condition(condition)
             automat.set_create_time(create_time)
             result.append(automat)
 
@@ -107,8 +107,8 @@ class AutomatMapper (Mapper):
         for (MaxID) in tuples:
             automat.set_id(MaxID[0] + 1)
 
-        command = "INSERT INTO automat (id, name, current_condition, create_time) VALUES ('{}','{}','{}','{}')" \
-            .format(automat.get_id(), automat.get_name(), automat.get_current_condition (), automat.get_create_time())
+        command = "INSERT INTO automat (id, name, condition, create_time) VALUES ('{}','{}','{}','{}')" \
+            .format(automat.get_id(), automat.get_name(), automat.get_condition (), automat.get_create_time())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -119,8 +119,8 @@ class AutomatMapper (Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "UPDATE automat SET name = ('{}'), current_condition = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
-                    .format(automat.get_id(), automat.get_name(), automat.get_current_condition(), automat.get_create_time())
+        command = "UPDATE automat SET name = ('{}'), condition = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
+                    .format(automat.get_id(), automat.get_name(), automat.get_condition(), automat.get_create_time())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -136,3 +136,48 @@ class AutomatMapper (Mapper):
 
         self._cnx.commit()
         cursor.close()
+
+if __name__ == "__main__":
+    with AutomatMapper() as mapper:
+        result = mapper.find_all()
+        for p in result:
+            print(p.get_name())
+
+"""
+if __name__ == "__main__":
+   with Project_typeMapper() as mapper:
+       p = mapper.find_by_key(6).get_name()
+       print(p)
+"""
+"""
+if __name__ == "__main__":
+   with Project_typeMapper() as mapper:
+       p = mapper.find_by_name("Fachspezifisches")
+       for i in p:
+           print(i.get_id())
+"""
+"""
+if __name__ == "__main__":
+   p = Project_type()
+   p.set_id(7)
+   p.set_name("Fachspezifisches")
+   p.set_ects(5)
+   p.set_sws(3)
+   p.set_create_time("2020-12-03 20:54:00")
+   with Project_typeMapper() as mapper:
+       mapper.insert(p)
+"""
+"""
+if __name__ == "__main__":
+   with Project_typeMapper() as mapper:
+       project_type = mapper.find_by_key(2)
+       project_type.set_sws(15)
+       mapper.update(project_type)
+"""
+
+"""
+if __name__ == "__main__":
+   with Project_typeMapper() as mapper:
+       test = mapper.find_by_key(3)
+       mapper.delete(test)
+"""
