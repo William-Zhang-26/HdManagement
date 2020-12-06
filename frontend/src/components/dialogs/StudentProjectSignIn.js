@@ -56,6 +56,67 @@ class StudentProjectSignIn extends Component {
     this.props.onClose(null);
   }
 
+
+  /** Renders the component */
+  render() {
+    const { classes, project, show } = this.props;
+    const { SignInError, SignInError } = this.state;
+
+    return (
+      show ?
+        <Dialog open={show} onClose={this.handleClose}>
+          <DialogTitle id='StudentSignin-Title'>In Projekt einschreiben
+            <IconButton className={classes.closeButton} onClick={this.handleClose}>
+              <CloseIcon />
+            </IconButton>
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Möchten Sie sich in folgendes Projekt einschreiben: '{project.getName()}' (ID: {project.getID()})?
+            </DialogContentText>
+            <LoadingProgress show={SignInInProgress} />
+            <ContextErrorMessage error={SignInError} contextErrorMsg={`The student could not be added to the project '${project.getName()}' with the ID: '${project.getID()}'`}
+              onReload={this.addStudentForProject} />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color='secondary'>
+              Abbrechen
+            </Button>
+            <Button variant='contained' onClick={this.addStudentForProject} color='primary'>
+              Einschreiben
+            </Button> 
+          </DialogActions>
+        </Dialog>
+        : null
+    );
+  }
 }
 
-export default (StudentProjectSignIn); 
+/** Component specific styles */
+const styles = theme => ({
+    closeButton: {
+      position: 'absolute',
+      right: theme.spacing(1),
+      top: theme.spacing(1),
+      color: theme.palette.grey[500],
+    }
+  });
+  
+  /** PropTypes */
+StudentProjectSignIn.propTypes = {
+    /** @ignore */
+    classes: PropTypes.object.isRequired,
+    /** The CustomerBO to be deleted */
+    project: PropTypes.object.isRequired,
+    /** If true, the dialog is rendered */
+    show: PropTypes.bool.isRequired,
+    /**  
+     * Handler function which is called, when the dialog is closed.
+     * Sends the deleted CustomerBO as parameter or null, if cancel was pressed.
+     *  
+     * Signature: onClose(CustomerBO customer);
+     */
+    onClose: PropTypes.func.isRequired,
+  }
+  
+  export default withStyles(styles)(StudentProjectSignIn);
