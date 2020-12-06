@@ -31,7 +31,7 @@ class Project(Automat):
     def __str__(self):
         return self.__name
 
-""""
+"""
 """ Zum Probieren
 p = Projekt("Marketing & AI (Stingel, Thies)")
 
