@@ -1,22 +1,4 @@
-class Condition:
-
-    def __init__(self, condition="New"):
-        self.name = condition
-
-    def get_name(self):
-        """Auslesen des Zustandes"""
-        return self.name
-
-    def set_name(self, condition):
-        """Setzen des Zustandes"""
-        self.name = condition
-
-    def __eq__(self, other):
-        if isinstance(other, Condition):
-            """Hier wird überprüft ob es den Zustand in den Zuständen gibt"""
-            return self.name == other.name
-        else:
-            return False
+from src.server.bo.Condition import Condition
 
 class Automat(Condition):
 
@@ -31,16 +13,16 @@ class Automat(Condition):
         self.current_condition = condition
 
     def is_in_condition(self, condition):
-        """ Hier wird der akutelle Zustand zurückgegeben"""
+        """ Hier wird überprüft ob der Zustand in dem gewünschten Zustand ist"""
         return condition == self.current_condition
-
+""""
 class Project(Automat):
-    """ Aufzählung der Klassenvariablen/statische Attribute, diese gilt für die ganze Klasse"""
-    s_new = Condition("New")
-    s_approved = Condition("Approved")
-    s_dismissed = Condition("Dismissed")
-    s_inreview = Condition("In Review")
-    s_reviewed = Condition("Reviewed")
+    Aufzählung der Klassenvariablen/statische Attribute, diese gilt für die ganze Klasse
+    s_new = Condition("neu")
+    s_approved = Condition("abgelehnt")
+    s_dismissed = Condition("genehmigt")
+    s_inreview = Condition("in Bewertung")
+    s_reviewed = Condition("Bewertung abgeschlossen")
 
     def __init__(self, condition):
         super().__init__(Project.s_new)
@@ -49,6 +31,7 @@ class Project(Automat):
     def __str__(self):
         return self.__name
 
+""""
 """ Zum Probieren
 p = Projekt("Marketing & AI (Stingel, Thies)")
 

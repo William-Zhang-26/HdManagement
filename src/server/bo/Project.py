@@ -1,27 +1,42 @@
+from src.server.bo.Automat import Automat
 from src.server.bo.NamedBusinessObject import NamedBusinessObject
 
-class Project(NamedBusinessObject):
+class Project("""Automat""", NamedBusinessObject):
     """
     Realisierung der Projekte
     """
+    """ 
+    s_new = Condition("neu")
+    s_approved = Condition("abgelehnt")
+    s_dismissed = Condition("genehmigt")
+    s_inreview = Condition("in Bewertung")
+    s_reviewed = Condition("Bewertung abgeschlossen")
+    """
     def __init__(self):
         super().__init__()
-        self._name = ""
+        """
+        super().__init__(Project.s_new)
+        self.__name = condition
+        """
+        self._project_description = ""
         self._partners = ""
         self._capacity = 0
         self._preferred_room = ""
-        self._block_day = ""
+        self._b_days_pre_schedule = ""
+        self._b_days_finale = ""
+        self._b_days_saturdays = ""
+        self._preferred_b_days = ""
         self._project_category = ""
-        self._supervisor = ""
+        self._additional_supervisor = ""
         self._weekly = ""
 
-    def get_name(self):
-        """Auslesen des Namens"""
-        return self._name
+    def get_project_description(self):
+        """Auslesen der Projektbeschreibung"""
+        return self._project_description
 
-    def set_name(self, new_name):
-        """Setzen des Namens"""
-        self._name = new_name
+    def set_project_description(self, new_project_description):
+        """Setzen der Projektbeschreibung"""
+        self._project_description = new_project_description
 
     def get_partners(self):
         """"Auslesen der Partner"""
@@ -47,13 +62,37 @@ class Project(NamedBusinessObject):
         """Setzen der Raumnummer"""
         self._preferred_room = new_preferred_room
 
-    def get_block_day(self):
+    def get_b_days_pre_schedule(self):
         """Auslesen der Blocktage"""
-        return self._block_day
+        return self._b_days_pre_schedule
 
-    def set_block_day(self, new_block_day):
+    def set_b_days_pre_schedule(self, new_b_days_pre_schedule):
         """Setzen der Blocktage"""
-        self._block_day = new_block_day
+        self._b_days_pre_schedule = new_b_days_pre_schedule
+
+    def get_b_days_finale(self):
+        """Auslesen der letzten Blocktage"""
+        return self._b_days_finale
+
+    def set_b_days_finale(self, new_b_days_finale):
+        """Setzen der letzten Blocktage"""
+        self._b_days_finale = new_b_days_finale
+
+    def get_b_days_saturdays(self):
+        """Auslesen der Blocktage am Wochenende"""
+        return self._b_days_saturdays
+
+    def set_b_days_saturdays(self, new_b_days_saturdays):
+        """Setzen der Blocktage am Wochenende"""
+        self._b_days_saturdays = new_b_days_saturdays
+
+    def get_preferred_b_days(self):
+        """Auslesen der bevorzugten Blocktage"""
+        return self._preferred_b_days
+
+    def set_preferred_b_days(self, new_preferred_b_days):
+        """Setzen der bevorzugten Blocktage"""
+        self._preferred_b_days = new_preferred_b_days
 
     def get_project_category(self):
         """Auselsen der Projektkategorie"""
@@ -63,13 +102,13 @@ class Project(NamedBusinessObject):
         """Setzen der Projekt-Ketgorie"""
         self._project_category = new_category
 
-    def get_supervisor(self):
+    def get_additional_supervisor(self):
         """Auslesen der Supervisor"""
-        return self._supervisor
+        return self._additional_supervisor
 
-    def set_supervisor(self, new_supervisor):
+    def set_additional_supervisor(self, new_additional_supervisor):
         """Setzen der Supervisor"""
-        self._supervisor = new_supervisor
+        self._additional_supervisor = new_additional_supervisor
 
     def get_weekly(self):
         """Auslesen ob die Termine wöchentlich sind"""
@@ -85,12 +124,16 @@ class Project(NamedBusinessObject):
         new_project = Project()
         new_project.set_id(dict["id"])
         new_project.set_name(dict["name"])
+        new_project.set_project_description(dict["project_description"])
         new_project.set_partners(dict["partners"])
         new_project.set_capacity(dict["capacity"])
         new_project.set_preferred_room(dict["preferred_room"])
-        new_project.set_block_day(dict["blockday"])
+        new_project.set_b_days_pre_schedule(dict["b_days_pre_schedule"])
+        new_project.set_b_days_finale(dict["b_days_finale"])
+        new_project.set_b_days_saturdays(dict["b_days_saturdays"])
+        new_project.set_preferred_b_days(dict["preferred_b_days"])
         new_project.set_project_category(dict["project_category"])
-        new_project.set_supervisor(dict["supervisor"])
+        new_project.set_additional_supervisor(dict["additional_supervisor"])
         new_project.set_weekly(dict["weekly"])
         new_project.set_weekly(dict["create_time"])
         return new_project
