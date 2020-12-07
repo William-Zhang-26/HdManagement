@@ -1,8 +1,8 @@
-from src.server.bo.Condition import Condition
+from src.server.bo.Status import Status
 from src.server.db.Mapper import Mapper
 
 
-class ConditionMapper (Mapper):
+class StatusMapper (Mapper):
     """Mapper-Klasse, die Zustands-Objekte auf eine relationale
     Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung
     gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und
@@ -21,17 +21,17 @@ class ConditionMapper (Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM condition"
+        command = "SELECT * FROM status"
         cursor.execute(command)
         tuples = cursor.fetchall()
 
 
         for (id, name, create_time ) in tuples:
-            condition = Condition()
-            condition.set_id(id)
-            condition.set_name(name)
-            condition.set_create_time(create_time)
-            result.append(condition)
+            status = Status()
+            status.set_id(id)
+            status.set_name(name)
+            status.set_create_time(create_time)
+            result.append(status)
 
 
         self._cnx.commit()
@@ -50,20 +50,20 @@ class ConditionMapper (Mapper):
 
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM condition WHERE id like '{}'".format(id)
+        command = "SELECT * FROM status WHERE id like '{}'".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         if len(tuples) != 0:
 
             for (id, name, create_time) in tuples:
-                condition = Condition()
-                condition.set_id(id)
-                condition.set_name(name)
-                condition.set_create_time(create_time)
-                result.append(condition)
+                status = Status()
+                status.set_id(id)
+                status.set_name(name)
+                status.set_create_time(create_time)
+                result.append(status)
 
-            result = condition
+            result = status
 
         else:
             result = None
@@ -77,16 +77,17 @@ class ConditionMapper (Mapper):
 
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM condition WHERE name like '{}'".format(name)
+        command = "SELECT * FROM status WHERE name like '{}'".format(name)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, create_time) in tuples:
-            condition = Condition()
-            condition.set_id(id)
-            condition.set_name(name)
-            condition.set_create_time(create_time)
-            result.append(condition)
+        for (id, name, create_time ) in tuples:
+            status = Status()
+            status.set_id(id)
+            status.set_name(name)
+            status.set_create_time(create_time)
+            result.append(status)
+
 
         self._cnx.commit()
         cursor.close()
@@ -94,41 +95,41 @@ class ConditionMapper (Mapper):
         return result
 
 
-    def insert(self, condition):
+    def insert(self, status):
         """Einen neuen Zustand in die Datenbank hinzufügen."""
 
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT MAX(id) as MaxID from condition")
+        cursor.execute("SELECT MAX(id) as MaxID from status")
         tuples = cursor.fetchall()
 
         for (MaxID) in tuples:
-            condition.set_id(MaxID[0] + 1)
+            status.set_id(MaxID[0] + 1)
 
-        command = "INSERT INTO condition (id, name, create_time) VALUES ('{}','{}','{}')" \
-            .format(condition.get_id(), condition.get_name(), condition.get_create_time())
+        command = "INSERT INTO status (id, name, create_time) VALUES ('{}','{}','{}')" \
+            .format(status.get_id(), status.get_name(), status.get_create_time())
         cursor.execute(command)
 
         self._cnx.commit()
         cursor.close()
 
-    def update(self, condition):
+    def update(self, status):
         """Wiederholtes Schreiben eines Objekts in die Datenbank."""
 
         cursor = self._cnx.cursor()
 
-        command = "UPDATE condition SET name = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
-                    .format(condition.get_id(), condition.get_name(), condition.get_create_time())
+        command = "UPDATE status SET name = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
+                    .format(status.get_id(), status.get_name(), status.get_create_time())
         cursor.execute(command)
 
         self._cnx.commit()
         cursor.close()
 
-    def delete(self,condition):
+    def delete(self,status):
         """Löschen eines Zustand-Objekts aus der Datenbank."""
 
         cursor = self._cnx.cursor()
 
-        command = "DELETE FROM condition WHERE id={}".format(condition.get_id())
+        command = "DELETE FROM status WHERE id={}".format(status.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -139,35 +140,35 @@ um die grundsätzliche Funktion zu überprüfen.
 
 Anmerkung: Nicht professionell aber hilfreich..."""
 
-
+"""
 if __name__ == "__main__":
-    with ConditionMapper() as mapper:
+    with StatusMapper() as mapper:
         result = mapper.find_all()
         for p in result:
             print(p.get_name())
 
 """
+"""
 if __name__ == "__main__":
-   with Project_typeMapper() as mapper:
-       p = mapper.find_by_key(6).get_name()
+   with StatusMapper() as mapper:
+       p = mapper.find_by_key(2).get_name()
        print(p)
+
 """
 """
 if __name__ == "__main__":
-   with Project_typeMapper() as mapper:
-       p = mapper.find_by_name("Fachspezifisches")
+   with StatusMapper() as mapper:
+       p = mapper.find_by_name("abgelehnt")
        for i in p:
            print(i.get_id())
 """
 """
 if __name__ == "__main__":
-   p = Project_type()
-   p.set_id(7)
-   p.set_name("Fachspezifisches")
-   p.set_ects(5)
-   p.set_sws(3)
-   p.set_create_time("2020-12-03 20:54:00")
-   with Project_typeMapper() as mapper:
+   p = Status()
+   p.set_id(6)
+   p.set_name("neu")
+   p.set_create_time("2020-12-03")
+   with StatusMapper() as mapper:
        mapper.insert(p)
 """
 """
@@ -178,9 +179,9 @@ if __name__ == "__main__":
        mapper.update(project_type)
 """
 
-"""
+
 if __name__ == "__main__":
-   with Project_typeMapper() as mapper:
-       test = mapper.find_by_key(3)
+   with StatusMapper() as mapper:
+       test = mapper.find_by_key(6)
        mapper.delete(test)
-"""
+
