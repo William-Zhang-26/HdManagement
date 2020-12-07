@@ -199,7 +199,7 @@ if __name__ == "__main__":
     u.set_create_time("2020.12.03")
     with UserMapper() as mapper:
         mapper.insert(u)
-"""
+
 if __name__ == "__main__":
     with UserMapper() as mapper:
         user = mapper.find_by_key(4)
@@ -208,3 +208,9 @@ if __name__ == "__main__":
         user.set_mail("RahelÜn@gmx.de")
         user.set_create_time("2020.12.05")
         mapper.insert(user)
+        
+if __name__ == "__main__":
+    with UserMapper() as mapper:
+        i = mapper.find_by_key(3)
+        mapper.delete(i)
+"""

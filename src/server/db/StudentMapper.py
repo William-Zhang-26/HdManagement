@@ -59,10 +59,9 @@ class StudentMapper(Mapper):
                 student.set_mail(mail)
                 student.set_project_id(project_id)
                 student.set_create_time(create_time)
-                result.append(student)
+                result = student
 
         else:
-
             result = None
 
         self._cnx.commit()
@@ -184,7 +183,7 @@ class StudentMapper(Mapper):
         for (MaxID) in tuples:
             student.set_id(MaxID[0] + 1)
 
-        command = "INSERT INTO student (id, lastname, firstname, course, matriculation_number, mail," \
+        command = "INSERT INTO student (id, lastname, firstname, course, matriculation_number, mail, " \
                 "project_id, create_time)" \
                 "VALUES ('{}','{}','{}','{}','{}','{}','{}','{}')" \
             .format(student.get_id(), student.get_lastname(), student.get_firstname(), student.get_course(),
@@ -222,13 +221,15 @@ class StudentMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-    """Platzhalter für spätere Tests
+    """Platzhalter für spätere Tests"""
+    """
 if __name__ == "__main__":
     with StudentMapper() as mapper:
         p = mapper.find_by_matriculation_number("37523")
         for i in p:
-            print(i.get_id())
+            print(i.get_project_id())
     """
+"""
 if __name__ == "__main__":
     s = Student()
     s.set_lastname("Weinberger")
@@ -240,3 +241,8 @@ if __name__ == "__main__":
     s.set_create_time("2020-12-03")
     with StudentMapper() as mapper:
         mapper.insert(s)
+"""
+if __name__ == "__main__":
+    with StudentMapper() as mapper:
+        p = mapper.find_by_key(3)
+        mapper.delete(p)
