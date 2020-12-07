@@ -71,7 +71,7 @@ student= api.inherit('Student', user, {
     'student':
 
 """
-condition = api.inherit('Condition', nbo, {
+status = api.inherit('Status', nbo, {
     """"""
 })
 
