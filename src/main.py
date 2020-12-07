@@ -2,7 +2,20 @@ from flask import Flask,jsonify
 from flask_restx import Api, Resource, fields
 from flask_cors import CORS
 
-"""hier kommt noch was hin..."""
+from src.server.bo.Automat import Automat
+from src.server.bo.Status import Status
+from src.server.bo.Module import Module
+from src.server.bo.Participation import Participation
+from src.server.bo.Project import Project
+from src.server.bo.Project_type import Project_type
+from src.server.bo.Semester import Semester
+from src.server.bo.Student import Student
+from src.server.bo.User import User
+from src.server.bo.Validation import Validation
+
+from src.server.ProjectAdministration import ProjectAdministration
+
+"""App und API Konfiguration"""
 
 """Nachfolgend werden analog zu unseren BusinessObject-Klassen transferierbare Strukturen angelegt.
 
@@ -14,7 +27,11 @@ bo = api.model('BusinessObject', {
 
 """Participation, Validation und NamedBusinessObject sind BusinessObjects..."""
 participation = api.inherit('Participation', bo, {
-    'participation_status': fields.Boolean(attribute='_participation_status', description='Status der Teilnahme an einem Projekt')
+    'module_id': fields.Integer(attribute='module_id', description='Die ID des zugehörigen Moduls'),
+    'project_id': fields.Integer(attribute='project_id', description='Die ID des zugehörigen Projektes'),
+    'student_id': fields.Integer(attribute='student_id', description='Die ID des zugehörigen Studenten'),
+    'validation_id': fields.Integer(attribute='validation_id', description='Die ID der zugehörigen Bewertung'),
+    'participation_status': fields.Boolean(attribute='_participation_status', description='Status der Teilnahme an einem Projekt'),
 })
 
 validation = api.inherit('Validation', bo, {
