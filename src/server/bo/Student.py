@@ -1,6 +1,6 @@
-from src.server.bo.NamedBusinessObject import NamedBusinessObject
+from src.server.bo.User import User
 
-class Student(NamedBusinessObject):
+class Student(User):
     """
     Realisierung der Studenten
     """

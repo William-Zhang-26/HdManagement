@@ -23,7 +23,7 @@ class ProjectMapper(Mapper):
         tuples = cursor.fetchall()
 
         for (id, name, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
-             b_days_finale, b_days_saturdays,preferred_b_days, project_category, additional_supervisor,
+             b_days_finale, b_days_saturdays, preferred_b_days, project_category, additional_supervisor,
              weekly, create_time) in tuples:
             project = Project()
             project.set_id(id)
@@ -98,7 +98,7 @@ class ProjectMapper(Mapper):
         tuples = cursor.fetchall()
 
         for (id, name, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
-             b_days_finale, b_days_saturdays,preferred_b_days, project_category, additional_supervisor,
+             b_days_finale, b_days_saturdays, preferred_b_days, project_category, additional_supervisor,
              weekly, create_time) in tuples:
             project = Project()
             project.set_id(id)
