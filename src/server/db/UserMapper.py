@@ -166,7 +166,7 @@ class UserMapper(Mapper):
         command = "UPDATE user SET lastname = ('{}'), firstname = ('{}'), mail = ('{}'),"\
                   "name = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
             .format(user.get_lastname(), user.get_firstname(), user.get_mail(),
-                    user.get_name(), user.get_id(), user.get_create_time())
+                    user.get_name(), user.get_create_time(), user.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -214,3 +214,8 @@ if __name__ == "__main__":
         i = mapper.find_by_key(3)
         mapper.delete(i)
 """
+if __name__ == "__main__":
+    with UserMapper() as mapper:
+        user = mapper.find_by_key('2')
+        user.set_lastname('Ün')
+        mapper.update(user)
