@@ -1,0 +1,26 @@
+[
+    {
+      "firstname": "Herbert",
+      "lastname": "Müller",
+      "id": 1,
+      "matriculation_number": 12345
+    },
+    {
+      "firstname": "Erna",
+      "lastname": "Sparbier",
+      "id": 2,
+      "matriculation_number": 12346
+    },
+    {
+      "firstname": "Sandra",
+      "lastname": "Schweigemeier",
+      "id": 3,
+      "matriculation_number": 12347
+    },
+    {
+      "firstname": "Helmut",
+      "lastname": "Schmidt",
+      "id": 4,
+      "matriculation_number": 12348
+    }
+]
