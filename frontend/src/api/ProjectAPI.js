@@ -19,6 +19,7 @@ export default class ProjectAPI {
     //Student related
     #getStudentURL = (id) => `${this.#projectServerBaseURL}/students/${id}`;
     #deleteStudentURL = (id) => `${this.#projectServerBaseURL}/students/${id}`;
+    #addStudentForProjectURL = (id) => `${this.#projectServerBaseURL}/project/${id}/student`;
 
 
     static getAPI() {
@@ -63,6 +64,21 @@ export default class ProjectAPI {
           })
         })
       }
+
+    addStudentForProject(projectID) {
+        return this.#fetchAdvanced(this.#addStudentsForProjectURL(projectID), {
+            method: 'POST'
+        })
+            .then((responseJSON) => {
+                // We always get an array of StudentBO.fromJSON, but only need one object
+                let studentBO = StudentBO.fromJSON(responseJSON)[0];
+                // console.info(accountBO);
+                return new Promise(function (resolve) {
+                    // We expect only one new account
+                    resolve(studentBO);
+                })
+            })
+    }
 
 
 
