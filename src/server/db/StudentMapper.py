@@ -241,8 +241,14 @@ if __name__ == "__main__":
     s.set_create_time("2020-12-03")
     with StudentMapper() as mapper:
         mapper.insert(s)
-"""
+
 if __name__ == "__main__":
     with StudentMapper() as mapper:
         p = mapper.find_by_key(3)
         mapper.delete(p)
+"""
+if __name__ == "__main__":
+    with StudentMapper() as mapper:
+        student = mapper.find_by_key(1)
+        student.set_matriculation_number(37534)
+        mapper.update(student)
