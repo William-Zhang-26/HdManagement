@@ -18,6 +18,8 @@ export default class ProjectAPI {
 
     //Student related
     #getStudentURL = (id) => `${this.#projectServerBaseURL}/students/${id}`;
+    #deleteStudentURL = (id) => `${this.#projectServerBaseURL}/students/${id}`;
+
 
     static getAPI() {
         if (this.#api == null) {
@@ -62,4 +64,20 @@ export default class ProjectAPI {
         })
       }
 
+
+
+
+    deleteStudent(studentID) {
+        return this.#fetchAdvanced(this.#deleteStudentURL(studentID), {
+        method: 'DELETE'
+        }).then((responseJSON) => {
+        // We always get an array of StudentBOs.fromJSON
+        let responseStudentBO = StudentBO.fromJSON(responseJSON)[0];
+        // console.info(accountBOs);
+        return new Promise(function (resolve) {
+            resolve(responseStudentBO);
+        })
+        })
+    }
+    
 }

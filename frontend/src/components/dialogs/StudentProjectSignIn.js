@@ -32,7 +32,7 @@ class StudentProjectSignIn extends Component {
   SignInStudent = () => {
     ProjectAPI.getAPI().addStudentForProject(this.props.project.getID()).then(studentBO => {
       // console.log(accountBO)
-      this.setState({  // Set new state when AccountBOs have been fetched
+      this.setState({  // Set new state when StudentBOs have been fetched
         students: [...this.state.students, studentBO],
         SignInInProgress: false, // loading indicator 
         SignInError: null
