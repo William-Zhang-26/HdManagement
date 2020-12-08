@@ -1,4 +1,5 @@
 import ProjectBO from './ProjectBO'
+import StudentBO from './StudentBO'
 
 
 export default class ProjectAPI {
@@ -14,6 +15,9 @@ export default class ProjectAPI {
 
     //Project related
     #getProjectsURL = () => `${this.#projectServerBaseURL}/projects`;
+
+    //Student related
+    #getStudentURL = (id) => `${this.#projectServerBaseURL}/students/${id}`;
 
     static getAPI() {
         if (this.#api == null) {
@@ -33,7 +37,7 @@ export default class ProjectAPI {
         }
         )
 
-
+    //Project related
     getProjects() {
         return this.#fetchAdvanced(this.#getProjectsURL()).then((responseJSON) => {
             let projectBOs = ProjectBO.fromJSON(responseJSON);
@@ -43,5 +47,19 @@ export default class ProjectAPI {
             })
         })
     }
+
+
+
+    //Student related
+    getStudent(studentID) {
+        return this.#fetchAdvanced(this.#getStudentURL(studentID)).then((responseJSON) => {
+          // We always get an array of StudentBOs.fromJSON, but only need one object
+          let responseStudentBO = StudentBO.fromJSON(responseJSON)[0];
+          // console.info(responseCustomerBO);
+          return new Promise(function (resolve) {
+            resolve(responseStudentBO);
+          })
+        })
+      }
 
 }

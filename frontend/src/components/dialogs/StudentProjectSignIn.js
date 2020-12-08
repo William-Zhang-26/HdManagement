@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import { ProjectAPI } from '../../api';
+import ProjectAPI from '../../api/ProjectAPI';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
@@ -22,8 +22,11 @@ class StudentProjectSignIn extends Component {
     }
 
 //get Project ID
+
+//Folgendes in der API ergänzen:
 //get Student ID
 //AddStudentForProject(ProjectID)
+//project get ID
 
   /** Adds an account for the current customer */
   SignInStudent = () => {
@@ -60,7 +63,7 @@ class StudentProjectSignIn extends Component {
   /** Renders the component */
   render() {
     const { classes, project, show } = this.props;
-    const { SignInError, SignInError } = this.state;
+    const { SignInError, SignInInProgress } = this.state;
 
     return (
       show ?
