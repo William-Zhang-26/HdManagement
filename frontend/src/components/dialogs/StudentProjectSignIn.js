@@ -29,7 +29,7 @@ class StudentProjectSignIn extends Component {
 //project get ID
 
   /** Adds an account for the current customer */
-  SignInStudent = () => {
+  addStudent = () => {
     ProjectAPI.getAPI().addStudentForProject(this.props.project.getID()).then(studentBO => {
       // console.log(accountBO)
       this.setState({  // Set new state when StudentBOs have been fetched
@@ -85,7 +85,7 @@ class StudentProjectSignIn extends Component {
             <Button onClick={this.handleClose} color='secondary'>
               Abbrechen
             </Button>
-            <Button variant='contained' onClick={this.addStudentForProject} color='primary'>
+            <Button variant='contained' onClick={this.addStudent} color='primary'>
               Einschreiben
             </Button> 
           </DialogActions>
