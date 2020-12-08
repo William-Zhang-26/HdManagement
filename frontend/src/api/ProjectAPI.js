@@ -9,17 +9,21 @@ export default class ProjectAPI {
   
   
     // Local Python backend
-    #projectServerBaseURL = '/project';
+    //#projectServerBaseURL = '/project';
   
+    //Local http-fake-backend 
+    #projectServerBaseURL = '/api/project';
 
 
     //Project related
     #getProjectsURL = () => `${this.#projectServerBaseURL}/projects`;
+    #getProjectURL = (id) => `${this.#projectServerBaseURL}/projects/${id}`;
+    #getCapacityForProjectsURL = (id) => `${this.#projectServerBaseURL}/projects/${id}/capacity`;
 
     //Student related
     #getStudentURL = (id) => `${this.#projectServerBaseURL}/students/${id}`;
     #deleteStudentURL = (id) => `${this.#projectServerBaseURL}/students/${id}`;
-    #addStudentForProjectURL = (id) => `${this.#projectServerBaseURL}/project/${id}/student`;
+    #addStudentsForProjectURL = (id) => `${this.#projectServerBaseURL}/project/${id}/student`;
 
 
     static getAPI() {
@@ -50,6 +54,27 @@ export default class ProjectAPI {
             })
         })
     }
+
+    getCapacityForProjects(projectBO) {
+        return this.#fetchAdvanced(this.#getCapacityForProjectsURL(projectBO))
+          .then(responseJSON => {
+            // console.log(responseJSON)
+            return new Promise(function (resolve) {
+              resolve(responseJSON);
+            })
+          })
+      }
+
+    getProject(projectID) {
+        return this.#fetchAdvanced(this.#getProjectURL(projectID)).then((responseJSON) => {
+          // We always get an array of CustomerBOs.fromJSON, but only need one object
+          let responseProjectBO = ProjectBO.fromJSON(responseJSON)[0];
+          // console.info(responseCustomerBO);
+          return new Promise(function (resolve) {
+            resolve(responseProjectBO);
+          })
+        })
+      }
 
 
 
