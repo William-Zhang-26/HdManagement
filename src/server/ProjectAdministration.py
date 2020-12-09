@@ -85,3 +85,13 @@ class ProjectAdministration (object):
 # Student
 
 # User
+    def create_User(self, lastname, firstname, mail):
+
+        user = User()
+        user.set_lastname()
+        user.set_firstname()
+        user.set_mail()
+        user.set_id(1)
+
+        with UserMapper as mapper:
+            return mapper.insert(user)

@@ -21,13 +21,13 @@ class UserMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, lastname, firstname, mail, name, create_time) in tuples:
+        for (id, lastname, firstname, mail, role_id, create_time) in tuples:
             user = User()
             user.set_id(id)
             user.set_lastname(lastname)
             user.set_firstname(firstname)
             user.set_mail(mail)
-            user.set_name(name)
+            user.set_role_id(role_id)
             user.set_create_time(create_time)
             result.append(user)
 
@@ -47,13 +47,13 @@ class UserMapper(Mapper):
 
         if len(tuples) != 0:
 
-            for (id, lastname, firstname, mail, name, create_time) in tuples:
+            for (id, lastname, firstname, mail, role_id, create_time) in tuples:
                 user = User()
                 user.set_id(id)
                 user.set_lastname(lastname)
                 user.set_firstname(firstname)
                 user.set_mail(mail)
-                user.set_name(name)
+                user.set_role_id(role_id)
                 user.set_create_time(create_time)
                 result = user
 
@@ -75,13 +75,13 @@ class UserMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, lastname, firstname, course, mail, name, create_time) in tuples:
+        for (id, lastname, firstname, course, mail, role_id, create_time) in tuples:
             user = User()
             user.set_id(id)
             user.set_lastname(lastname)
             user.set_firstname(firstname)
             user.set_mail(mail)
-            user.set_name(name)
+            user.set_role_id(role_id)
             user.set_create_time(create_time)
             result.append(user)
 
@@ -95,17 +95,17 @@ class UserMapper(Mapper):
 
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM user WHERE name like '{}'".format(firstname)
+        command = "SELECT * FROM user WHERE firstname like '{}'".format(firstname)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, lastname, firstname, mail, name, create_time) in tuples:
+        for (id, lastname, firstname, mail, role_id, create_time) in tuples:
             user = User()
             user.set_id(id)
             user.set_lastname(lastname)
             user.set_firstname(firstname)
             user.set_mail(mail)
-            user.set_name(name)
+            user.set_role_id(role_id)
             user.set_create_time(create_time)
             result.append(user)
 
@@ -114,23 +114,22 @@ class UserMapper(Mapper):
 
         return result
 
-    """
-    Platzhalter für 
-    def find_by_name(self, name):
-    Suchen eines Users anhand seiner Rollenbezeichnung
-            result = []
+    def find_by_role_id(self, role_id):
+        """Suchen eines Users anhand seiner Rollen-ID"""
+
+        result = []
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM user WHERE name like '{}'".format(name)
+        command = "SELECT * FROM user WHERE role_id like '{}'".format(role_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, lastname, name, course, mail, create_time) in tuples:
+        for (id, lastname, firstname, course, mail, role_id, create_time) in tuples:
             user = User()
             user.set_id(id)
             user.set_lastname(lastname)
-            user.set_firstname(name)
+            user.set_firstname(firstname)
             user.set_mail(mail)
-            user.set_name(name)
+            user.set_role_id(role_id)
             user.set_create_time(create_time)
             result.append(user)
 
@@ -138,7 +137,6 @@ class UserMapper(Mapper):
         cursor.close()
 
         return result
-    """
 
     def insert(self, user):
         """Einfügen eines User-Objekts in die Datenbank."""
@@ -150,9 +148,10 @@ class UserMapper(Mapper):
         for (MaxID) in tuples:
             user.set_id(MaxID[0] + 1)
 
-        command = "INSERT INTO user (id, lastname, firstname, mail, name, create_time) VALUES ('{}','{}','{}','{}','{}','{}')" \
+        command = "INSERT INTO user (id, lastname, firstname, mail, role_id, " \
+                  "create_time) VALUES ('{}','{}','{}','{}','{}','{}')" \
             .format(user.get_id(), user.get_lastname(), user.get_firstname(),
-                    user.get_mail(), user.get_name(), user.get_create_time())
+                    user.get_mail(), user.get_role_id(), user.get_create_time())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -164,9 +163,9 @@ class UserMapper(Mapper):
         cursor = self._cnx.cursor()
 
         command = "UPDATE user SET lastname = ('{}'), firstname = ('{}'), mail = ('{}'),"\
-                  "name = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
+                  "role_id = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
             .format(user.get_lastname(), user.get_firstname(), user.get_mail(),
-                    user.get_name(), user.get_create_time(), user.get_id())
+                    user.get_role_id(), user.get_create_time(), user.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -183,8 +182,15 @@ class UserMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-    """Platzhalter für spätere Tests"""
-"""    
+"""Platzhalter für spätere Tests"""
+
+"""
+if __name__ == "__main__":
+    with UserMapper() as mapper:
+        u = mapper.find_all()
+        for i in u:
+            print(i.get_role_id())
+
 if __name__ == "__main__":
     with UserMapper() as mapper:
         user = mapper.find_by_key(2).get_create_time()
@@ -195,7 +201,7 @@ if __name__ == "__main__":
     u.set_lastname("Ulmer")
     u.set_firstname("Lukas")
     u.set_mail("LukasOrlando@hdm-stuttgart.de")
-    u.set_name("student")
+    u.set_role_id(2)
     u.set_create_time("2020.12.03")
     with UserMapper() as mapper:
         mapper.insert(u)
@@ -213,9 +219,10 @@ if __name__ == "__main__":
     with UserMapper() as mapper:
         i = mapper.find_by_key(3)
         mapper.delete(i)
-"""
+
 if __name__ == "__main__":
     with UserMapper() as mapper:
         user = mapper.find_by_key('2')
-        user.set_lastname('Ün')
+        user.set_lastname("Weinberger")
         mapper.update(user)
+"""

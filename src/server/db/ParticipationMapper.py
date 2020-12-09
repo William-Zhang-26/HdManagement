@@ -204,10 +204,10 @@ class ParticipationMapper (Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "INSERT INTO participation (id, module_id, project_id, student_id, validation_id, participation_status, create_time) VALUES ('{}','{}','{}','{}','{}','{}','{}')" \
-            .format(participation.get_id(), participation.get_module_id(), participation.get_project_id(),
+        command = "UPDATE participation SET module_id = ('{}'), project_id = ('{}'), student_id = ('{}'), validation_id = ('{}'), participation_status = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
+            .format(participation.get_module_id(), participation.get_project_id(),
                     participation.get_student_id(), participation.get_validation_id(),
-                    participation.get_participation_status(), participation.get_create_time())
+                    participation.get_participation_status(), participation.get_create_time(), participation.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -218,10 +218,10 @@ class ParticipationMapper (Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "INSERT INTO participation (id, module_id, project_id, student_id, validation_id, participation_status, create_time) VALUES ('{}','{}','{}','{}','{}','{}','{}')" \
-            .format(participation.get_id(), participation.get_module_id(), participation.get_project_id(),
+        command = "DELETE FROM participation WHERE id = {}".format(participation.get_id())\
+            .format(participation.get_module_id(), participation.get_project_id(),
                     participation.get_student_id(), participation.get_validation_id(),
-                    participation.get_participation_status(), participation.get_create_time())
+                    participation.get_participation_status(), participation.get_create_time(), participation.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -282,19 +282,19 @@ if __name__ == "__main__":
    p.set_participation_status("teilgenommen")
    with ParticipationMapper() as mapper:
        mapper.insert(p)
+"""
 
-
-#update wird noch überprüft
+#update
 if __name__ == "__main__":
    with ParticipationMapper() as mapper:
        participation = mapper.find_by_key(1)
-       participation.set_participation_status("nicht teilgenommen")
+       participation.set_validation_id(2)
        mapper.update(participation)
 
-#delete wird noch überprüft
+"""
+#delete
 if __name__ == "__main__":
    with ParticipationMapper() as mapper:
-       test = mapper.find_by_key(1)
+       test = mapper.find_by_key(5)
        mapper.delete(test)
-
 """

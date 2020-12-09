@@ -16,7 +16,7 @@ from src.server.bo.Validation import Validation
 from src.server.ProjectAdministration import ProjectAdministration
 
 """App und API Konfiguration"""
-
+api = Api
 """Nachfolgend werden analog zu unseren BusinessObject-Klassen transferierbare Strukturen angelegt.
 
 BusinessObject dient als Basisklasse, auf der die weiteren Strukturen Participation, Validation und NamedBusinessObject aufsetzen."""
@@ -51,7 +51,7 @@ module = api.inherit('Module', nbo, {
 })
 
 project = api.inherit('Project', nbo, {
-    'project_description': fields.String(attribute='_project_description', description='Die Beschreibung des Projektes')
+    'project_description': fields.String(attribute='_project_description', description='Die Beschreibung des Projektes'),
     'partners': fields.String(attribute='_partners', description='Die Partner die das Projekt mit gestalten'),
     'capacity': fields.Integer(attribute='_capacity', description='Die Anzahl der Personen die in dem Projekt teilnehmen können'),
     'preferred_room': fields.String(attribute='_preferred_room', description='Die Raumnnumer in der das Projekt stattfinden soll'),
@@ -95,3 +95,29 @@ status = api.inherit('Status', nbo, {
 automat = api.inherit('Automat', nbo, {
     """"""
 })
+
+@api.route('/hello')
+class HelloWorld(Resource):
+    def get(self):
+        return jsonify({'hello': 'world'})
+
+"""Automat"""
+
+"""Status"""
+
+"""Module"""
+
+"""Participation"""
+
+"""Project"""
+
+"""Project_type"""
+
+"""Semester"""
+
+"""Student"""
+
+"""User"""
+
+
+"""Validation"""
