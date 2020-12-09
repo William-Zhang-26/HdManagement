@@ -28,6 +28,15 @@ class Automat(NamedBusinessObject):
     def get_state_id(self):
         """Auslesen der Status ID"""
         return self._state_id
+
+    @staticmethod
+    def from_dict(dict=dict()):
+        new_automat = Automat(anfangszustand="neu")
+        new_automat.set_id(dict["id"])
+        new_automat.set_name(dict["name"])
+        new_automat.set_state_id(dict["state_id"])
+        new_automat.set_create_time(dict["create_time"])
+        return new_automat
 """"
 class Project(Automat):
     Aufzählung der Klassenvariablen/statische Attribute, diese gilt für die ganze Klasse
@@ -55,10 +64,4 @@ p.set_state(Projekt.s_approved)
 
 if p.is_in_state(Projekt.s_approved):
     print(p, "in Approved!")
-"""
-""""
-    @staticmethod
-    def from_dict(dict = dict()):
-        new_state = State()
-        return new_state
 """
