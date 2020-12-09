@@ -1,4 +1,5 @@
 import ProjectBO from './ProjectBO'
+import StudentBO from './StudentBO'
 
 
 export default class ProjectAPI {
@@ -8,12 +9,22 @@ export default class ProjectAPI {
   
   
     // Local Python backend
-    #projectServerBaseURL = '/project';
+    //#projectServerBaseURL = '/project';
   
+    //Local http-fake-backend 
+    #projectServerBaseURL = '/api/project';
 
 
     //Project related
     #getProjectsURL = () => `${this.#projectServerBaseURL}/projects`;
+    #getProjectURL = (id) => `${this.#projectServerBaseURL}/projects/${id}`;
+    #getCapacityForProjectsURL = (id) => `${this.#projectServerBaseURL}/projects/${id}/capacity`;
+
+    //Student related
+    #getStudentURL = (id) => `${this.#projectServerBaseURL}/students/${id}`;
+    #deleteStudentURL = (id) => `${this.#projectServerBaseURL}/students/${id}`;
+    #addStudentsForProjectURL = (id) => `${this.#projectServerBaseURL}/project/${id}/student`;
+
 
     static getAPI() {
         if (this.#api == null) {
@@ -33,7 +44,7 @@ export default class ProjectAPI {
         }
         )
 
-
+    //Project related
     getProjects() {
         return this.#fetchAdvanced(this.#getProjectsURL()).then((responseJSON) => {
             let projectBOs = ProjectBO.fromJSON(responseJSON);
@@ -44,4 +55,70 @@ export default class ProjectAPI {
         })
     }
 
+    getCapacityForProjects(projectBO) {
+        return this.#fetchAdvanced(this.#getCapacityForProjectsURL(projectBO))
+          .then(responseJSON => {
+            // console.log(responseJSON)
+            return new Promise(function (resolve) {
+              resolve(responseJSON);
+            })
+          })
+      }
+
+    getProject(projectID) {
+        return this.#fetchAdvanced(this.#getProjectURL(projectID)).then((responseJSON) => {
+          // We always get an array of CustomerBOs.fromJSON, but only need one object
+          let responseProjectBO = ProjectBO.fromJSON(responseJSON)[0];
+          // console.info(responseCustomerBO);
+          return new Promise(function (resolve) {
+            resolve(responseProjectBO);
+          })
+        })
+      }
+
+
+
+    //Student related
+    getStudent(studentID) {
+        return this.#fetchAdvanced(this.#getStudentURL(studentID)).then((responseJSON) => {
+          // We always get an array of StudentBOs.fromJSON, but only need one object
+          let responseStudentBO = StudentBO.fromJSON(responseJSON)[0];
+          // console.info(responseCustomerBO);
+          return new Promise(function (resolve) {
+            resolve(responseStudentBO);
+          })
+        })
+      }
+
+    addStudentForProject(projectID) {
+        return this.#fetchAdvanced(this.#addStudentsForProjectURL(projectID), {
+            method: 'POST'
+        })
+            .then((responseJSON) => {
+                // We always get an array of StudentBO.fromJSON, but only need one object
+                let studentBO = StudentBO.fromJSON(responseJSON)[0];
+                // console.info(accountBO);
+                return new Promise(function (resolve) {
+                    // We expect only one new account
+                    resolve(studentBO);
+                })
+            })
+    }
+
+
+
+
+    deleteStudent(studentID) {
+        return this.#fetchAdvanced(this.#deleteStudentURL(studentID), {
+        method: 'DELETE'
+        }).then((responseJSON) => {
+        // We always get an array of StudentBOs.fromJSON
+        let responseStudentBO = StudentBO.fromJSON(responseJSON)[0];
+        // console.info(accountBOs);
+        return new Promise(function (resolve) {
+            resolve(responseStudentBO);
+        })
+        })
+    }
+    
 }

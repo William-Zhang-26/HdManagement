@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import { ProjectAPI } from '../../api';
+import ProjectAPI from '../../api/ProjectAPI';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
@@ -22,14 +22,17 @@ class StudentProjectSignIn extends Component {
     }
 
 //get Project ID
+
+//Folgendes in der API ergänzen:
 //get Student ID
 //AddStudentForProject(ProjectID)
+//project get ID
 
   /** Adds an account for the current customer */
-  SignInStudent = () => {
+  addStudent = () => {
     ProjectAPI.getAPI().addStudentForProject(this.props.project.getID()).then(studentBO => {
       // console.log(accountBO)
-      this.setState({  // Set new state when AccountBOs have been fetched
+      this.setState({  // Set new state when StudentBOs have been fetched
         students: [...this.state.students, studentBO],
         SignInInProgress: false, // loading indicator 
         SignInError: null
@@ -60,7 +63,7 @@ class StudentProjectSignIn extends Component {
   /** Renders the component */
   render() {
     const { classes, project, show } = this.props;
-    const { SignInError, SignInError } = this.state;
+    const { SignInError, SignInInProgress } = this.state;
 
     return (
       show ?
@@ -82,7 +85,7 @@ class StudentProjectSignIn extends Component {
             <Button onClick={this.handleClose} color='secondary'>
               Abbrechen
             </Button>
-            <Button variant='contained' onClick={this.addStudentForProject} color='primary'>
+            <Button variant='contained' onClick={this.addStudent} color='primary'>
               Einschreiben
             </Button> 
           </DialogActions>
