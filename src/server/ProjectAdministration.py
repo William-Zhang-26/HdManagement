@@ -1,5 +1,5 @@
 from .bo.Automat import Automat
-from .bo.Status import Status
+from .bo.State import Status
 from .bo.Module import Module
 from .bo.Participation import Participation
 from .bo.Project import Project
@@ -10,7 +10,7 @@ from .bo.User import User
 from .bo.Validation import Validation
 
 from .db.AutomatMapper import AutomatMapper
-from .db.StatusMapper import StatusMapper
+from .db.StateMapper import StatusMapper
 from .db.ModuleMapper import ModuleMapper
 from .db.ParticipationMapper import ParticipationMapper
 from .db.ProjectMapper import ProjectMapper

@@ -3,7 +3,7 @@ from flask_restx import Api, Resource, fields
 from flask_cors import CORS
 
 from src.server.bo.Automat import Automat
-from src.server.bo.Status import Status
+from src.server.bo.State import Status
 from src.server.bo.Module import Module
 from src.server.bo.Participation import Participation
 from src.server.bo.Project import Project
