@@ -48,7 +48,7 @@ export default class ProjectAPI {
     getProjects() {
         return this.#fetchAdvanced(this.#getProjectsURL()).then((responseJSON) => {
             let projectBOs = ProjectBO.fromJSON(responseJSON);
-            // console.info(projectBOs);
+            //console.info(projectBOs);
             return new Promise(function (resolve) {
                 resolve(projectBOs);
             })
@@ -119,6 +119,6 @@ export default class ProjectAPI {
             resolve(responseStudentBO);
         })
         })
-    }
-    
+    } 
+   
 }

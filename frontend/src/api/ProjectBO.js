@@ -1,4 +1,4 @@
-//import NamedBusinessObject from './NamedBusinessObject';
+import NamedBusinessObject from './NamedBusinessObject';
 
 /** Unstimmigkeiten mit dem Backend:
  * 
@@ -10,12 +10,12 @@
  * 
  */
 
-export default class ProjectBO /*extends NamedBusinessObject*/ {
+export default class ProjectBO extends NamedBusinessObject {
 
     //Konstruktorklasse, welche ein Projekttypen BO erstellt mit den abgebildeten Attributen
     constructor(aCapacity, aPartners, aProjectDescription, aWeekly, aBDaysPreSchedule, aBDaysFinale, aBDaysSaturdays, aPreferredBDays, aRoomPreference, aPreferredRoom, aProjectCategory, aAdditionalSupervisor) {
 
-        //super();
+        super();
         this.capacity = aCapacity;
         this.partners = aPartners;
         this.project_description = aProjectDescription;

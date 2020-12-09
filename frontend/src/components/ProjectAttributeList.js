@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, ListItem } from '@material-ui/core';
-import { Button, List } from '@material-ui/core';
+import { Button, List, Typography } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import ProjectAPI from '../api/ProjectAPI';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
