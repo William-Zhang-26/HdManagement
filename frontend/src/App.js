@@ -1,6 +1,7 @@
-import './App.css';
 import React from 'react';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { Container, ThemeProvider, CssBaseline } from '@material-ui/core';
+import Theme from './Theme';
 import SignIn from './components/pages/SignIn';
 import LoadingProgress from './components/dialogs/LoadingProgress';
 import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
@@ -99,33 +100,36 @@ class App extends React.Component {
     const { currentUser, appError, authError, authLoading } = this.state;
 
     return (
-      <Router basename={process.env.PUBLIC_URL}>
-        <div className="App">
-          <Header user={currentUser}/>
-          {
+      <ThemeProvider theme={Theme}>
+        <CssBaseline />
+        <Router basename={process.env.PUBLIC_URL}>
+          <div className="App">
+            <Header user={currentUser}/>
+            {
 
-            currentUser ?
-                <>
-                  <Redirect from='/' to='projects' />
-									<Route exact path='/projects'>
-									  <StudentProjectList />
-									</Route>
-                    <Route path='/impressum' component={Impressum} />
-                </>
-                :
-                <>
+              currentUser ?
+                  <>
+                    <Redirect from='/' to='projects' />
+                    <Route exact path='/projects'>
+                      <StudentProjectList />
+                    </Route>
+                      <Route path='/impressum' component={Impressum} />
+                  </>
+                  :
+                  <>
                     <Redirect to='/index.html' />
                     <SignIn onSignIn={this.handleSignIn} />
-                </>
+                  </>
 
-          }
+            }
 
-          <LoadingProgress show={authLoading} />
-          <ContextErrorMessage error={authError} contextErrorMsg={`Something went wrong during sign in process.`} onReload={this.handleSignIn} />
-          <ContextErrorMessage error={appError} contextErrorMsg={`Something went wrong inside the app. Please reload the page.`} />
-        
-        </div>
-      </Router>
+            <LoadingProgress show={authLoading} />
+            <ContextErrorMessage error={authError} contextErrorMsg={`Something went wrong during sign in process.`} onReload={this.handleSignIn} />
+            <ContextErrorMessage error={appError} contextErrorMsg={`Something went wrong inside the app. Please reload the page.`} />
+          
+          </div>
+        </Router>
+      </ThemeProvider>
     );
   }
 }
