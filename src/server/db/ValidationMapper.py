@@ -107,7 +107,7 @@ class ValidationMapper (Mapper):
         cursor = self._cnx.cursor()
 
         command = "UPDATE validation SET grade = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
-                    .format(validation.get_id(), validation.get_grade(), validation.get_create_time())
+                    .format(validation.get_grade(), validation.get_create_time(), validation.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -159,11 +159,11 @@ if __name__ == "__main__":
    with ValidationMapper() as mapper:
        mapper.insert(v)
 
-#update wird noch überprüft
+#update
 if __name__ == "__main__":
    with ValidationMapper() as mapper:
        validation = mapper.find_by_key(2)
-       validation.set_grade(2)
+       validation.set_grade(3)
        mapper.update(validation)
 
 #delete
