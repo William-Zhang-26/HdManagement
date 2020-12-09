@@ -1,45 +1,45 @@
-from src.server.bo.Status import Status
+from src.server.bo.NamedBusinessObject import NamedBusinessObject
 
-class Automat(Status):
+class Automat(NamedBusinessObject):
 
-    def __init__(self):
+    def __init__(self, anfangszustand):
         """ Hier wird der Anfangszustand initialisiert"""
         super().__init__()
-        self._current_status = ""
-        self._status_id = 0
+        self._current_state = anfangszustand
+        self._state_id = 0
 
 
-    def set_current_status(self, new_status):
+    def set_state(self, new_state):
         """ Hier wird der Zustand gesetzt"""
-        self._current_status = new_status
+        self._current_state = new_state
 
-    def get_current_status(self):
+    def get_state(self):
         """ Hier wird der Akutelle Status ausgegeben"""
-        return self._current_status
+        return self._current_state
 
-    def is_in_status(self, status):
+    def is_in_state(self, state):
         """ Hier wird überprüft ob der Zustand in dem gewünschten Zustand ist"""
-        return status == self._current_status
+        return state == self._current_state
 
-    def set_status_id(self, new_status_id):
+    def set_state_id(self, new_state_id):
         """Hier wird der Status ID gesetzt"""
-        self._status_id = new_status_id
+        self._state_id = new_state_id
 
-    def get_status_id(self):
+    def get_state_id(self):
         """Auslesen der Status ID"""
-        return self._status_id
+        return self._state_id
 """"
 class Project(Automat):
     Aufzählung der Klassenvariablen/statische Attribute, diese gilt für die ganze Klasse
-    s_new = Status("neu")
-    s_approved = Status("abgelehnt")
-    s_dismissed = Status("genehmigt")
-    s_inreview = Status("in Bewertung")
-    s_reviewed = Status("Bewertung abgeschlossen")
+    s_new = State("neu")
+    s_approved = State("abgelehnt")
+    s_dismissed = State("genehmigt")
+    s_inreview = State("in Bewertung")
+    s_reviewed = State("Bewertung abgeschlossen")
 
-    def __init__(self, status):
+    def __init__(self, state):
         super().__init__(Project.s_new)
-        self.__name = status
+        self.__name = state
 
     def __str__(self):
         return self.__name
@@ -59,6 +59,6 @@ if p.is_in_state(Projekt.s_approved):
 """"
     @staticmethod
     def from_dict(dict = dict()):
-        new_condition = Condition()
-        return new_condition
+        new_state = State()
+        return new_state
 """

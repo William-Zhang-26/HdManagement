@@ -217,7 +217,7 @@ class ProjectMapper(Mapper):
 
 if __name__ == "__main":
     with ProjectMapper() as mapper:
-        test = mapper.find_by_key(4)
+        test = mapper.find_by_key(1)
         for i in test:
             print(test.get_name())
 

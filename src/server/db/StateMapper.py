@@ -1,8 +1,8 @@
-from src.server.bo.Status import Status
+from src.server.bo.State import State
 from src.server.db.Mapper import Mapper
 
 
-class StatusMapper (Mapper):
+class StateMapper (Mapper):
     """Mapper-Klasse, die Zustands-Objekte auf eine relationale
     Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung
     gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und
@@ -21,17 +21,17 @@ class StatusMapper (Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM status"
+        command = "SELECT * FROM state"
         cursor.execute(command)
         tuples = cursor.fetchall()
 
 
         for (id, name, create_time ) in tuples:
-            status = Status()
-            status.set_id(id)
-            status.set_name(name)
-            status.set_create_time(create_time)
-            result.append(status)
+            state = State()
+            state.set_id(id)
+            state.set_name(name)
+            state.set_create_time(create_time)
+            result.append(state)
 
 
         self._cnx.commit()
@@ -50,20 +50,20 @@ class StatusMapper (Mapper):
 
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM status WHERE id like '{}'".format(id)
+        command = "SELECT * FROM state WHERE id like '{}'".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         if len(tuples) != 0:
 
             for (id, name, create_time) in tuples:
-                status = Status()
-                status.set_id(id)
-                status.set_name(name)
-                status.set_create_time(create_time)
-                result.append(status)
+                state = State()
+                state.set_id(id)
+                state.set_name(name)
+                state.set_create_time(create_time)
+                result.append(state)
 
-            result = status
+            result = state
 
         else:
             result = None
@@ -77,16 +77,16 @@ class StatusMapper (Mapper):
 
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM status WHERE name like '{}'".format(name)
+        command = "SELECT * FROM state WHERE name like '{}'".format(name)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         for (id, name, create_time ) in tuples:
-            status = Status()
-            status.set_id(id)
-            status.set_name(name)
-            status.set_create_time(create_time)
-            result.append(status)
+            state = State()
+            state.set_id(id)
+            state.set_name(name)
+            state.set_create_time(create_time)
+            result.append(state)
 
 
         self._cnx.commit()
@@ -95,41 +95,41 @@ class StatusMapper (Mapper):
         return result
 
 
-    def insert(self, status):
+    def insert(self, state):
         """Einen neuen Zustand in die Datenbank hinzufügen."""
 
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT MAX(id) as MaxID from status")
+        cursor.execute("SELECT MAX(id) as MaxID from state")
         tuples = cursor.fetchall()
 
         for (MaxID) in tuples:
-            status.set_id(MaxID[0] + 1)
+            state.set_id(MaxID[0] + 1)
 
-        command = "INSERT INTO status (id, name, create_time) VALUES ('{}','{}','{}')" \
-            .format(status.get_id(), status.get_name(), status.get_create_time())
+        command = "INSERT INTO state (id, name, create_time) VALUES ('{}','{}','{}')" \
+            .format(state.get_id(), state.get_name(), state.get_create_time())
         cursor.execute(command)
 
         self._cnx.commit()
         cursor.close()
 
-    def update(self, status):
+    def update(self, state):
         """Wiederholtes Schreiben eines Objekts in die Datenbank."""
 
         cursor = self._cnx.cursor()
 
-        command = "UPDATE status SET name = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
-                    .format(status.get_id(), status.get_name(), status.get_create_time())
+        command = "UPDATE state SET name = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
+                    .format(state.get_name(), state.get_create_time(), state.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
         cursor.close()
 
-    def delete(self,status):
+    def delete(self,state):
         """Löschen eines Zustand-Objekts aus der Datenbank."""
 
         cursor = self._cnx.cursor()
 
-        command = "DELETE FROM status WHERE id={}".format(status.get_id())
+        command = "DELETE FROM state WHERE id={}".format(state.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -142,46 +142,46 @@ Anmerkung: Nicht professionell aber hilfreich..."""
 
 """
 if __name__ == "__main__":
-    with StatusMapper() as mapper:
+    with StateMapper() as mapper:
         result = mapper.find_all()
         for p in result:
-            print(p.get_name())
+            print(p.get_create_time())
+"""
 
 """
-"""
 if __name__ == "__main__":
-   with StatusMapper() as mapper:
+   with StateMapper() as mapper:
        p = mapper.find_by_key(2).get_name()
        print(p)
+"""
 
 """
-"""
 if __name__ == "__main__":
-   with StatusMapper() as mapper:
+   with StateMapper() as mapper:
        p = mapper.find_by_name("abgelehnt")
        for i in p:
            print(i.get_id())
 """
 """
 if __name__ == "__main__":
-   p = Status()
-   p.set_id(6)
+   p = State()
    p.set_name("neu")
    p.set_create_time("2020-12-03")
-   with StatusMapper() as mapper:
+   with StateMapper() as mapper:
        mapper.insert(p)
 """
 """
 if __name__ == "__main__":
-   with Project_typeMapper() as mapper:
-       project_type = mapper.find_by_key(2)
-       project_type.set_sws(15)
-       mapper.update(project_type)
+   with StateMapper() as mapper:
+       state = mapper.find_by_key(7)
+       state.set_name("in Bewetung")
+       mapper.update(state)
 """
 
-
+"""
 if __name__ == "__main__":
-   with StatusMapper() as mapper:
+   with StateMapper() as mapper:
        test = mapper.find_by_key(6)
        mapper.delete(test)
 
+"""
