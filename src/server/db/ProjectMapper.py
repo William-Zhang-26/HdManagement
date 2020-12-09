@@ -215,7 +215,7 @@ class ProjectMapper(Mapper):
 
 """Testzwecke um uns die Daten anzeigen zu lassen"""
 
-if __name__ == "__main":
+if __name__ == "__main__":
     with ProjectMapper() as mapper:
         test = mapper.find_by_key(1)
         for i in test:

@@ -118,15 +118,98 @@ class ProjectAdministration (object):
 # Semester
 
 # Student
+    def create_student(self, lastname, firstname, course, matriculation_number, mail, project_id):
+
+        student = Student()
+        student.set_lastname(lastname)
+        student.set_firstname(firstname)
+        student.set_course(course)
+        student.set_matriculation_number(matriculation_number)
+        student.set_mail(mail)
+        student.set_project_id(project_id)
+        student.set_id(1)
+
+        with StudentMapper as mapper:
+            return mapper.insert(student)
+
+    def get_all_student(self):
+        with StudentMapper as mapper:
+            return mapper.find_all()
+
+    def get_student_by_id(self, id):
+        with StudentMapper as mapper:
+            return mapper.find_by_key(id)
+
+    def get_student_by_lastname(self, lastname):
+        with StudentMapper as mapper:
+            return mapper.find_by_lastname(lastname)
+
+    def get_student_by_firstname(self, firstname):
+        with StudentMapper as mapper:
+            return mapper.find_by_firstname(firstname)
+
+    def get_student_by_course(self, course):
+        with StudentMapper as mapper:
+            return mapper.find_by_course(course)
+
+    def get_student_by_matriculation_number(self, matriculation_number):
+        with StudentMapper as mapper:
+            return mapper.find_by_matriculation_number(matriculation_number)
+
+    def save_student(self, student):
+        with StudentMapper as mapper:
+            mapper.update(student)
+
+    def delete_student(self, student):
+        with StudentMapper as mapper:
+            project = self._get_project_by_student(student.get_id())
+            if not (project is None):
+                for p in project:
+                    self._delete_project(p)
+
+            mapper.delete(student)
 
 # User
-    def create_User(self, lastname, firstname, mail):
+    def create_user(self, lastname, firstname, mail):
 
         user = User()
-        user.set_lastname()
-        user.set_firstname()
-        user.set_mail()
+        user.set_lastname(lastname)
+        user.set_firstname(firstname)
+        user.set_mail(mail)
         user.set_id(1)
 
         with UserMapper as mapper:
             return mapper.insert(user)
+
+    def get_all_user(self):
+        with UserMapper as mapper:
+            mapper.find_all()
+
+    def get_user_by_id(self, id):
+        with UserMapper as mapper:
+            mapper.find_by_key(id)
+
+    def get_user_by_lastname(self, lastname):
+        with UserMapper as mapper:
+            mapper.find_by_lastname(lastname)
+
+    def get_user_by_firstname(self, firstname):
+        with UserMapper as mapper:
+            mapper.find_by_firstname(firstname)
+
+    def get_user_by_role(self, role_id):
+        with UserMapper as mapper:
+            mapper.find_by_role_id(role_id)
+
+    def save_user(self, user):
+        with UserMapper as mapper:
+            mapper.update(user)
+
+    def delete_user(self, user):
+        with UserMapper as mapper:
+            role = self._get_role_by_user(user.get_id())
+            if not (role is None):
+                for r in role:
+                    self._delete_role(r)
+
+            mapper.delete(user)
