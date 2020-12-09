@@ -132,7 +132,7 @@ class ModuleMapper (Mapper):
         cursor = self._cnx.cursor()
 
         command = "UPDATE module SET name = ('{}'), edv_number = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
-                    .format(module.get_id(), module.get_name(), module.get_edv_number, module.get_create_time())
+                    .format(module.get_name(), module.get_edv_number(), module.get_create_time(), module.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -191,12 +191,13 @@ if __name__ == "__main__":
        mapper.insert(m)
 
 
-#update wird noch überprüft
+#update
 if __name__ == "__main__":
    with ModuleMapper() as mapper:
        module = mapper.find_by_key(2)
        module.set_name("Management")
        mapper.update(module)
+
 
 #delete
 if __name__ == "__main__":
