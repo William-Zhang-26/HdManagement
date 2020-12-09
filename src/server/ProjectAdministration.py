@@ -1,5 +1,5 @@
 from .bo.Automat import Automat
-from .bo.State import Status
+from .bo.State import State
 from .bo.Module import Module
 from .bo.Participation import Participation
 from .bo.Project import Project
@@ -10,7 +10,7 @@ from .bo.User import User
 from .bo.Validation import Validation
 
 from .db.AutomatMapper import AutomatMapper
-from .db.StateMapper import StatusMapper
+from .db.StateMapper import StateMapper
 from .db.ModuleMapper import ModuleMapper
 from .db.ParticipationMapper import ParticipationMapper
 from .db.ProjectMapper import ProjectMapper
@@ -69,6 +69,41 @@ class ProjectAdministration (object):
             mapper.delete(module)
 
 # Validation
+
+    def create_validation(self, grade):
+
+        validation = Validation()
+        validation.set_grade(grade)
+        validation.set_id(1)
+
+        with ValidationMapper() as mapper:
+            return mapper.insert(validation)
+
+    def get_all_validations(self):
+        with ValidationMapper() as mapper:
+            return mapper.find_all()
+
+    def get_validation_by_id(self, number):
+        with ValidationMapper() as mapper:
+            return mapper.find_by_key(number)
+
+    def get_validation_by_grade(self, grade):
+        with ValidationMapper() as mapper:
+            return mapper.find_by_grade(grade)
+
+    def save_validation(self, validation):
+        with ValidationMapper() as mapper:
+            mapper.update(validation)
+
+    def delete_validation(self, validation):
+        with ValidationMapper() as mapper:
+            validation = self.get_validation_by_id(validation.get_id())
+            if not (validation is None):
+                for i in validation:
+                    self.delete_validation(i)
+
+            mapper.delete(validation)
+
 
 # Participation
 
