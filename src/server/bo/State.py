@@ -12,3 +12,11 @@ class State (NamedBusinessObject):
             return self._name == other._name
         else:
             return False
+
+    @staticmethod
+    def from_dict(dict=dict()):
+        new_state = State()
+        new_state.set_id(dict["id"])
+        new_state.set_name(dict["name"])
+        new_state.set_create_time(dict["create_time"])
+        return new_state
