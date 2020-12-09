@@ -5,7 +5,6 @@ Platzhalter für Static Methode
 class set_User():
 """
 
-
 class User(NamedBusinessObject):
     """
     Realisierung der User
@@ -16,6 +15,7 @@ class User(NamedBusinessObject):
         self._lastname = ""
         self._firstname = ""
         self._mail = ""
+        self._role_id = 0
 
     def get_lastname(self):
         """Auslesen des Nachnamens"""
@@ -41,6 +41,14 @@ class User(NamedBusinessObject):
         """Setzen der Mail"""
         self._mail = new_mail
 
+    def get_role_id(self):
+        """Auslesen der Rollen-ID"""
+        return self._role_id
+
+    def set_role_id(self, new_role_id):
+        """Setzen der Rollen-Id (Soll nicht wirklich funktionieren"""
+        self._role_id = new_role_id
+
     @staticmethod
     def from_dict(dict = dict()):
         new_user = User()
@@ -48,6 +56,6 @@ class User(NamedBusinessObject):
         new_user.set_lastname(dict["lastname"])
         new_user.set_firstname(dict["firstname"])
         new_user.set_mail(dict["mail"])
-        new_user.set_name(dict["name"])
+        new_user.set_role_id(dict["role_id"])
         new_user.set_create_time(dict["create_time"])
         return new_user
