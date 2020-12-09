@@ -217,5 +217,5 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     with UserMapper() as mapper:
         user = mapper.find_by_key('2')
-        user.set_lastname('Ün')
+        user.set_lastname("Weinberger")
         mapper.update(user)
