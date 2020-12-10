@@ -5,7 +5,7 @@ export default class ModuleBO /*extends NamedBusinessObject*/ {
 
     //Konstruktorklasse, welche ein Modul BO erstellt mit den abgebildeten Attributen
     constructor(aEDV_number) {
-        //super();
+        super();
         this.edv_number = aEDV_number;
     }
 
@@ -18,7 +18,7 @@ export default class ModuleBO /*extends NamedBusinessObject*/ {
         this.edv_number = aEDV_number;
     }
 
-    //Array von ModuleBOs aus einem JSON herraus mittels der setPrototypeOf fkt
+    //Array von ModuleBOs aus einem JSON heraus mittels der setPrototypeOf fkt
     static fromJSON(modules) {
         let result = [];
 
