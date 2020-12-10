@@ -9,10 +9,10 @@ export default class ProjectAPI {
   
   
     // Local Python backend
-    //#projectServerBaseURL = '/project';
+    #projectServerBaseURL = '/project';
   
     //Local http-fake-backend 
-    #projectServerBaseURL = '/api/project';
+    //#projectServerBaseURL = '/api/project';
 
 
     //Project related
