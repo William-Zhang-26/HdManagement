@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withStyles, LinearProgress } from '@material-ui/core';
+import PropTypes from 'prop-types';
 
 
 class LoadingProgress extends Component {
@@ -25,6 +26,14 @@ const styles = theme => ({
     marginTop: theme.spacing(2),
   }
 });
+
+/** PropTypes */
+LoadingProgress.propTypes = {
+  /** @ignore */
+  classes: PropTypes.object.isRequired,
+  /** If true, the loading progress is rendered */
+  show: PropTypes.bool.isRequired,
+}
 
 
 export default withStyles(styles)(LoadingProgress);

@@ -30,7 +30,7 @@ class ProjectAttributeList extends Component {
 
   /** Fetches AccountBOs for the current customer */
   getAttributes = () => {
-    ProjectAPI.getAPI().getAttributesForProjects(this.props.project.getID()).then(capacity =>
+    ProjectAPI.getAPI().getCapacityForProjects(this.props.project.getID()).then(capacity =>
       this.setState({ 
         capaciy: capacity,
         loadingInProgress: false, // loading indicator 

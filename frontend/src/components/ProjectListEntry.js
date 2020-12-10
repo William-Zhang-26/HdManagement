@@ -23,7 +23,7 @@ class ProjectListEntry extends Component {
       // Init the state
       this.state = {
         project: props.project,
-        showStudentProjectSignOut: true,
+        showStudentProjectSignOut: false,
         showStudentProjectSignIn: false,
         //Admin Attribute für Funktionen
       };
@@ -48,7 +48,7 @@ class ProjectListEntry extends Component {
     // console.log(this.state);
     return (
       <div>
-        <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
+      <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             id={`project${project.getID()}projectpanel-header`} //** Wozu wird hier die Project ID benötigt*/
@@ -70,7 +70,7 @@ class ProjectListEntry extends Component {
         </Accordion>
         <StudentProjectSignIn show={showStudentProjectSignIn} project={project} onClose={this.StudentProjectSignInClosed} /> 
         <StudentProjectSignOut show={showStudentProjectSignOut} project={project} onClose={this.StudentProjectSignOutClosed} /> 
-        {/**<CustomerDeleteDialog show={showCustomerDeleteDialog} customer={customer} onClose={this.deleteCustomerDialogClosed} />   Admin Funktionen*/}
+        {/**<CustomerDeleteDialog show={showCustomerDeleteDialog} customer={customer} onClose={this.deleteCustomerDialogClosed} />   Admin Funktionen*/} 
       </div>
     );
   }

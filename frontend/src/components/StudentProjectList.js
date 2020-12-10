@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core';
+import { withStyles, List, ListItem } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import  ProjectAPI  from '../api/ProjectAPI';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
@@ -33,6 +33,22 @@ class StudentProjectList extends Component {
         loadingInProgress: false,
         expandedProjectID: expandedID,
     };
+  }
+
+  onExpandedStateChange = project => {
+    // console.log(customerID);
+    // Set expandend customer entry to null by default
+    let newID = null;
+
+    // If same customer entry is clicked, collapse it else expand a new one
+    if (project.getID() !== this.state.expandedProjectID) {
+      // Expand the customer entry with customerID
+      newID = project.getID();
+    }
+    // console.log(newID);
+    this.setState({
+      expandedProjectID: newID,
+    });
   }
 
   getProjects = () => {
@@ -94,14 +110,22 @@ class StudentProjectList extends Component {
 
     return (
       <div className={classes.root}>
+        <List className={classes.projectList}>
         { 
           // Show the list of CustomerListEntry components
           // Do not use strict comparison, since expandedCustomerID maybe a string if given from the URL parameters
-            projects.map(project => <ProjectListEntry key={project.getID()} expandedState={expandedProjectID === project.getID()}
-              onExpandedStateChange={this.onExpandedStateChange} />)
+          projects.map(project => <ProjectListEntry key={project.getID()} project={project} 
+          show={this.props.show}  onExpandedStateChange={this.onExpandedStateChange}/>)
         }
-        <LoadingProgress show={loadingInProgress} />
-        <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjects} />
+
+          <ListItem>
+            <LoadingProgress show={loadingInProgress} />
+            <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjects} />
+          </ListItem>
+
+        </List>
+        
+
       </div>
     );
   }
@@ -124,6 +148,8 @@ StudentProjectList.propTypes = {
   classes: PropTypes.object.isRequired,
   /** @ignore */
   location: PropTypes.object.isRequired,
+
+  show: PropTypes.bool.isRequired
 }
 
 export default withRouter(withStyles(styles)(StudentProjectList));
