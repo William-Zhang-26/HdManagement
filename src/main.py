@@ -65,7 +65,7 @@ project = api.inherit('Project', nbo, {
 })
 
 semester = api.inherit('Semester', nbo, {
-    'semester': fields.Integer(attribute='_semester', description='Die Anzahl des Semesters')
+    'semester_number': fields.Integer(attribute='_semester_number', description='Die Anzahl des Semesters')
 })
 
 """
@@ -88,12 +88,14 @@ student= api.inherit('Student', user, {
     'student':
 
 """
-status = api.inherit('Status', nbo, {
-    """"""
+state = api.inherit('State', nbo, {
+    'name': fields.String(attribute='_name', description='Der Name des Zustandes')
+
 })
 
 automat = api.inherit('Automat', nbo, {
-    """"""
+    'current_state': fields.String(attribute='_current_state', description='Der akutelle Zustand'),
+    'state_id': fields.Integer(attribute='_state_id', description='Die ID des zugehörigen Zustandes')
 })
 
 @api.route('/hello')
@@ -103,7 +105,7 @@ class HelloWorld(Resource):
 
 """Automat"""
 
-"""Status"""
+"""State"""
 
 """Module"""
 @project.route("/module")
@@ -160,8 +162,104 @@ class ModuleOperations(Resource):
 """Project"""
 
 """Project_type"""
+@project.route("/project_type")
+class Project_typeOperations(Resource):
+    @project.marshal_with(project_type, code=200)
+    @project.expect(project_type)
+    def post(self):
+        """Project Typen erstellen"""
+        adm = ProjectAdministration()
+        proposal = Project_type.from_dict(api.payload)
+        if proposal is not None:
+            c = adm.create_project_type(proposal.get_name(), proposal.get_ects(), proposal.get_sws())
+            return c, 200
+        else:
+            return '', 500
+
+@project.route("/project_type/<int:id>")
+@project.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@project.param('id', 'Die ID des Project_typen-Objekts')
+class Project_typeOperations(Resource):
+    @project.marshal_with(project_type)
+    def get(self, id):
+        """Auslesen eines Projekt Typen aus der DB"""
+        adm = ProjectAdministration()
+        project_type = adm.get_project_type_by_id(id)
+        return project_type
+
+    def delete(self, id):
+        """Löschen eines Projekt Typen aus der DB"""
+        adm = ProjectAdministration()
+        project_type = adm.get_project_type_by_id(id)
+        if module is None:
+            return 'Projekt Typ konnte nicht aus der DB gelöscht werden', 500
+        else:
+            adm.delete_module(module)
+            return 'Projekt Typ wurde erfolgreich aus der DB gelöscht', 200
+
+    @project.expect(project_type)
+    def put(self, id):
+        """Projekt Typ wird aktualisiert"""
+        adm = ProjectAdministration()
+        project_type = Project_type.from_dict(api.payload)
+
+        if module is None:
+            return "Projekt Typ konnte nicht geändert werden", 500
+
+        else:
+            module.set_id(id)
+            adm.save_module(module)
+            return "Projekt Typ wurde erfolgreich geändert", 200
 
 """Semester"""
+@project.route("/semester")
+class SemesterOperations(Resource):
+    @project.marshal_with(Semester, code=200)
+    @project.expect(semester)
+    def post(self):
+        """Semester erstellen"""
+        adm = ProjectAdministration()
+        proposal = Semester.from_dict(api.payload)
+        if proposal is not None:
+            c = adm.create_semester(proposal.get_name(), proposal.get_semester_number())
+            return c, 200
+        else:
+            return '', 500
+
+@project.route("/semester/<int:id>")
+@project.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@project.param('id', 'Die ID des Semester-Objekts')
+class SemesterOperations(Resource):
+    @project.marshal_with(semester)
+    def get(self, id):
+        """Auslesen eines Semester aus der DB"""
+        adm = ProjectAdministration()
+        semester = adm.get_semester_by_id(id)
+        return module
+
+    def delete(self, id):
+        """Löschen eines Semester aus der DB"""
+        adm = ProjectAdministration()
+        semester = adm.get_semester_by_id(id)
+        if semester is None:
+            return 'Semester konnte nicht aus der DB gelöscht werden', 500
+        else:
+            adm.delete_semester(semester)
+            return 'Semester wurde erfolgreich aus der DB gelöscht', 200
+
+    @project.expect(semester)
+    def put(self, id):
+        """Semester wird aktualisiert"""
+        adm = ProjectAdministration()
+        semester = Semester.from_dict(api.payload)
+
+        if Semester is None:
+            return "Semester konnte nicht geändert werden", 500
+
+        else:
+            semester.set_id(id)
+            adm.save_semester(semester)
+            return "Semester wurde erfolgreich geändert", 200
 
 """Student"""
 
