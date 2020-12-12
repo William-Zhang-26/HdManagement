@@ -11,17 +11,10 @@ class Project(Automat):
     s_dismissed = State("genehmigt")
     s_inreview = State("in Bewertung")
     s_reviewed = State("Bewertung abgeschlossen")
-<<<<<<< Updated upstream
-    """
-    def __init__(self):
-        super().__init__(self)
-        self._automat_id = id
-=======
 
     def __init__(self):
         super().__init__(self, Project.s_new)
-        self._automat_id = 0
->>>>>>> Stashed changes
+        self._automat_id = id
         self._project_description = ""
         self._partners = ""
         self._capacity = 0
