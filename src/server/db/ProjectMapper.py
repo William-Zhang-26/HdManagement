@@ -255,41 +255,39 @@ class ProjectMapper(Mapper):
 
 
 """Testzwecke um uns die Daten anzeigen zu lassen"""
-
+"""
 if __name__ == "__main__":
     with ProjectMapper() as mapper:
-        test = mapper.find_by_key(1)
-        for i in test:
-            print(test.get_name())
+        test = mapper.find_by_key(1).get_name()
+        print(test)
 
-"""
 if __name__ == "__main__":
     with ProjectMapper() as mapper:
         p = mapper.find_all()
         for result in p:
             print(result.get_create_time())
-
+"""
 if __name__ == "__main__":
     p = Project()
-    p.set_name("Design")
-    p.set_project_description("Schreibt euch ein dafür gibt es eine 1")
-    p.set_partners("Klotz")
-    p.set_capacity(30)
-    p.set_preferred_room("s205")
+    p.set_name("Marketing")
+    p.set_project_description("5 Forces")
+    p.set_partners("Stingel")
+    p.set_capacity(40)
+    p.set_preferred_room("s210")
     p.set_b_days_pre_schedule("yes")
     p.set_b_days_finale("yes")
     p.set_b_days_saturdays("yes")
     p.set_preferred_b_days("yes")
     p.set_project_category("Design und Usablity")
     p.set_additional_supervisor("Kunz")
-    p.set_weekly("2020.12.05")
+    p.set_weekly("2020-12-12")
     with ProjectMapper() as mapper:
         mapper.insert(p)
-        
+"""   
     with ProjectMapper() as mapper:
         project = mapper.find_by_key(2)
         project.set_name("IT-Projekt")
    p = mapper.find_by_preferred_room("s305")
         for i in p:
             print(i.get_name())
-    """
+"""
