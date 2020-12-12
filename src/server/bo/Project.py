@@ -11,9 +11,9 @@ class Project(Automat):
     s_inreview = State("in Bewertung")
     s_reviewed = State("Bewertung abgeschlossen")
     """
-    def __init__(self, current_state, state_id):
-        super().__init__(self, current_state, state_id)
-        self._automat_id = 0
+    def __init__(self):
+        super().__init__(self)
+        self._automat_id = id
         self._project_description = ""
         self._partners = ""
         self._capacity = 0
@@ -24,8 +24,6 @@ class Project(Automat):
         self._preferred_b_days = ""
         self._project_category = ""
         self._additional_supervisor = ""
-        self._current_state = current_state
-        self._state_id = state_id
         self._weekly = ""
 
     def get_automat_id(self):
