@@ -106,7 +106,7 @@ class AutomatMapper (Mapper):
         for (MaxID) in tuples:
             automat.set_id(MaxID[0] + 1)
 
-        command = "INSERT INTO automat (id, state_id, name, create_time) VALUES ('{}','{}','{}','{}')" \
+        command = "INSERT INTO automat (id, state_id, name, create_time) VALUES ('{}', '{}' ,'{}','{}')" \
             .format(automat.get_id(), automat.get_state_id(), automat.get_name (), automat.get_create_time())
         cursor.execute(command)
 
@@ -159,19 +159,18 @@ if __name__ == "__main__":
 """
 if __name__ == "__main__":
    p = Automat(anfangszustand="neu")
-   p.set_state_id(12)
-   p.set_name("Automat 10")
-   p.set_create_time("2020-12-03")
+   p.set_name("Automat 12")
+   p.set_create_time("2020-12-05")
    with AutomatMapper() as mapper:
        mapper.insert(p)
 """
-"""
+
 if __name__ == "__main__":
    with AutomatMapper() as mapper:
-       automat = mapper.find_by_key(4)
-       automat.set_name("Automat 35")
+       automat = mapper.find_by_key(12)
+       automat.set_state_id(2)
        mapper.update(automat)
-"""
+
 
 """
 if __name__ == "__main__":

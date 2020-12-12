@@ -6,7 +6,7 @@ class Automat(NamedBusinessObject):
         """ Hier wird der Anfangszustand initialisiert"""
         super().__init__()
         self._current_state = anfangszustand
-        self._state_id = 0
+        self._state_id = 1
 
 
     def set_state(self, new_state):
@@ -21,9 +21,9 @@ class Automat(NamedBusinessObject):
         """ Hier wird überprüft ob der Zustand in dem gewünschten Zustand ist"""
         return state == self._current_state
 
-    def set_state_id(self, new_state_id):
+    def set_state_id(self, state_id):
         """Hier wird der Status ID gesetzt"""
-        self._state_id = new_state_id
+        self._state_id = state_id
 
     def get_state_id(self):
         """Auslesen der Status ID"""

@@ -1,18 +1,19 @@
 from src.server.bo.Automat import Automat
+from src.server.bo.State import State
 
 class Project(Automat):
     """
     Realisierung der Projekte
     """
-    """
+
     s_new = State("neu")
     s_approved = State("abgelehnt")
     s_dismissed = State("genehmigt")
     s_inreview = State("in Bewertung")
     s_reviewed = State("Bewertung abgeschlossen")
-    """
+
     def __init__(self):
-        super().__init__(self)
+        super().__init__(self, Project.s_new)
         self._automat_id = id
         self._project_description = ""
         self._partners = ""
