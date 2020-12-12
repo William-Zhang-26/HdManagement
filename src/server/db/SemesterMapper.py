@@ -119,7 +119,7 @@ class SemesterMapper (Mapper):
         cursor = self._cnx.cursor()
 
         command = "UPDATE semester SET name = ('{}'), semester_number = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
-                    .format(semester.get_id(), semester.get_name(), semester.get_semester_number(), semester.get_create_time())
+                    .format(semester.get_name(), semester.get_semester_number(), semester.get_create_time(), semester.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -171,18 +171,19 @@ if __name__ == "__main__":
    with SemesterMapper() as mapper:
        mapper.insert(p)
 """
-"""
+
 if __name__ == "__main__":
    with SemesterMapper() as mapper:
        semester = mapper.find_by_key(2)
-       semester.set_name("Grundstudium")
+       semester.set_name("WS 21")
        mapper.update(semester)
+
 """
 if __name__ == "__main__":
    with SemesterMapper() as mapper:
        test = mapper.find_by_key(3)
        mapper.delete(test)
-
+"""
 
 
 

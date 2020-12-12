@@ -170,12 +170,13 @@ class ProjectAdministration (object):
             mapper.delete(student)
 
 # User
-    def create_user(self, lastname, firstname, mail):
+    def create_user(self, lastname, firstname, mail, role_id):
 
         user = User()
         user.set_lastname(lastname)
         user.set_firstname(firstname)
         user.set_mail(mail)
+        user.set_role_id(role_id)
         user.set_id(1)
 
         with UserMapper as mapper:

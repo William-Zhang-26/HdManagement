@@ -124,8 +124,8 @@ class Project_typeMapper (Mapper):
         cursor = self._cnx.cursor()
 
         command = "UPDATE project_type SET name = ('{}'), ects = ('{}'), sws = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
-                    .format(project_type.get_id(), project_type.get_name(), project_type.get_ects(), project_type.get_sws(),
-                    project_type.get_create_time())
+                    .format(project_type.get_name(), project_type.get_ects(), project_type.get_sws(),
+                    project_type.get_create_time(), project_type.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -182,8 +182,8 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
    with Project_typeMapper() as mapper:
-       project_type = mapper.find_by_key(2)
-       project_type.set_sws(15)
+       project_type = mapper.find_by_key(1)
+       project_type.set_name("Fachspezifisches")
        mapper.update(project_type)
 
 """
