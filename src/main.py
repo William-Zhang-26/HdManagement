@@ -89,7 +89,6 @@ student= api.inherit('Student', user, {
 
 """
 state = api.inherit('State', nbo, {
-    'name': fields.String(attribute='_name', description='Der Name des Zustandes')
 
 })
 
