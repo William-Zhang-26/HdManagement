@@ -22,12 +22,13 @@ class ProjectMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+        for (id, name, automat_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
              b_days_finale, b_days_saturdays, preferred_b_days, project_category, additional_supervisor,
              weekly, create_time) in tuples:
             project = Project()
             project.set_id(id)
             project.set_name(name)
+            project.set_automat_id(automat_id)
             project.set_project_description(project_description)
             project.set_partners(partners)
             project.set_capacity(capacity)
@@ -58,12 +59,13 @@ class ProjectMapper(Mapper):
 
         if len(tuples) != 0:
 
-            for (id, name, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+            for (id, name, automat_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
                  b_days_finale, b_days_saturdays, preferred_b_days, project_category, additional_supervisor,
                  weekly, create_time) in tuples:
                 project = Project()
                 project.set_id(id)
                 project.set_name(name)
+                project.set_automat_id(automat_id)
                 project.set_project_description(project_description)
                 project.set_partners(partners)
                 project.set_capacity(capacity)
@@ -97,12 +99,13 @@ class ProjectMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+        for (id, name, automat_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
              b_days_finale, b_days_saturdays, preferred_b_days, project_category, additional_supervisor,
              weekly, create_time) in tuples:
             project = Project()
             project.set_id(id)
             project.set_name(name)
+            project.set_automat_id(automat_id)
             project.set_project_description(project_description)
             project.set_partners(partners)
             project.set_capacity(capacity)
@@ -131,12 +134,48 @@ class ProjectMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+        for (id, name, automat_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
              b_days_finale, b_days_saturdays, preferred_b_days, project_category, additional_supervisor,
              weekly, create_time) in tuples:
             project = Project()
             project.set_id(id)
             project.set_name(name)
+            project.set_automat_id(automat_id)
+            project.set_project_description(project_description)
+            project.set_partners(partners)
+            project.set_capacity(capacity)
+            project.set_preferred_room(preferred_room)
+            project.set_b_days_pre_schedule(b_days_pre_schedule)
+            project.set_b_days_finale(b_days_finale)
+            project.set_b_days_saturdays(b_days_saturdays)
+            project.set_preferred_b_days(preferred_b_days)
+            project.set_project_category(project_category)
+            project.set_additional_supervisor(additional_supervisor)
+            project.set_weekly(weekly)
+            project.set_create_time(create_time)
+            result.append(project)
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+
+    def find_by_automat_id(self, automat_id):
+        """Suchen eines Projekt anhand der automaten-ID."""
+
+        result = []
+        cursor = self._cnx.cursor()
+        command = "SELECT * FROM project WHERE automat_id like '{}'".format(automat_id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        for (id, name, automat_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+             b_days_finale, b_days_saturdays, preferred_b_days, project_category, additional_supervisor,
+             weekly, create_time) in tuples:
+            project = Project()
+            project.set_id(id)
+            project.set_name(name)
+            project.set_automat_id(automat_id)
             project.set_project_description(project_description)
             project.set_partners(partners)
             project.set_capacity(capacity)
@@ -166,15 +205,16 @@ class ProjectMapper(Mapper):
         for (MaxID) in tuples:
             project.set_id(MaxID[0] + 1)
 
-        command = "INSERT INTO project (id, name, project_description, partners, capacity, preferred_room, " \
+        command = "INSERT INTO project (id, name, automat_id, project_description, partners, capacity, preferred_room, " \
                   "b_days_pre_schedule, b_days_finale, b_days_saturdays, preferred_b_days, " \
                   "project_category, additional_supervisor, " \
                   "weekly, create_time)" \
-                  "VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')" \
-            .format(project.get_id(), project.get_name(), project.get_project_description(), project.get_partners(),
-                    project.get_capacity(), project.get_preferred_room(), project.get_b_days_pre_schedule(),
-                    project.get_b_days_finale(), project.get_b_days_saturdays(), project.get_preferred_b_days(),
-                    project.get_project_category(), project.get_additional_supervisor(), project.get_weekly(),
+                  "VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')" \
+            .format(project.get_id(), project.get_name(), project.get_automat_id(), project.get_project_description(),
+                    project.get_partners(), project.get_capacity(), project.get_preferred_room(),
+                    project.get_b_days_pre_schedule(), project.get_b_days_finale(), project.get_b_days_saturdays(),
+                    project.get_preferred_b_days(), project.get_project_category(),
+                    project.get_additional_supervisor(), project.get_weekly(),
                     project.get_create_time())
         cursor.execute(command)
 
@@ -186,15 +226,16 @@ class ProjectMapper(Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "UPDATE project SET name = ('{}'), project_description = ('{}'), partners = ('{}'), " \
-                  "capacity = ('{}'), preferred_room = ('{}'), b_days_pre_schedule = ('{}'), " \
+        command = "UPDATE project SET name = ('{}'), automat_id = ('{}'), project_description = ('{}'), " \
+                  "partners = ('{}'), capacity = ('{}'), preferred_room = ('{}'), b_days_pre_schedule = ('{}'), " \
                   "b_days_finale = ('{}'), b_days_saturdays = ('{}'), preferred_b_days = ('{}'), " \
                   "project_category = ('{}'), additional_supervisor = ('{}'), weekly = ('{}'), create_time = ('{}')" \
                   "WHERE id = ('{}')" \
-            .format(project.get_name(), project.get_project_description(), project.get_partners(),
-                    project.get_capacity(), project.get_preferred_room(), project.get_b_days_pre_schedule(),
-                    project.get_b_days_finale(), project.get_b_days_saturdays(), project.get_preferred_b_days(),
-                    project.get_project_category(), project.get_additional_supervisor(), project.get_weekly(),
+            .format(project.get_name(), project.get_automat_id(), project.get_project_description(),
+                    project.get_partners(), project.get_capacity(), project.get_preferred_room(),
+                    project.get_b_days_pre_schedule(), project.get_b_days_finale(), project.get_b_days_saturdays(),
+                    project.get_preferred_b_days(), project.get_project_category(),
+                    project.get_additional_supervisor(), project.get_weekly(),
                     project.get_create_time(), project.get_id())
         cursor.execute(command)
 

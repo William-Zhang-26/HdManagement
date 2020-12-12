@@ -1,4 +1,5 @@
 from src.server.bo.NamedBusinessObject import NamedBusinessObject
+from src.server.bo.Role import Role
 
 """
 Platzhalter für Static Methode

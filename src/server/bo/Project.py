@@ -13,6 +13,7 @@ class Project(Automat):
     """
     def __init__(self, current_state, state_id):
         super().__init__(self, current_state, state_id)
+        self._automat_id = 0
         self._project_description = ""
         self._partners = ""
         self._capacity = 0
@@ -26,6 +27,14 @@ class Project(Automat):
         self._current_state = current_state
         self._state_id = state_id
         self._weekly = ""
+
+    def get_automat_id(self):
+        """Auslesen der Automaten-ID"""
+        return self._automat_id
+
+    def set_automat_id(self, new_automat_id):
+        """Setzen der Automat_ID"""
+        self._automat_id = new_automat_id
 
     def get_project_description(self):
         """Auslesen der Projektbeschreibung"""
