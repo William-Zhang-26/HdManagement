@@ -27,11 +27,11 @@ bo = api.model('BusinessObject', {
 
 """Participation, Validation und NamedBusinessObject sind BusinessObjects..."""
 participation = api.inherit('Participation', bo, {
-    'module_id': fields.Integer(attribute='module_id', description='Die ID des zugehörigen Moduls'),
-    'project_id': fields.Integer(attribute='project_id', description='Die ID des zugehörigen Projektes'),
-    'student_id': fields.Integer(attribute='student_id', description='Die ID des zugehörigen Studenten'),
-    'validation_id': fields.Integer(attribute='validation_id', description='Die ID der zugehörigen Bewertung'),
-    'participation_status': fields.Boolean(attribute='_participation_status', description='Status der Teilnahme an einem Projekt'),
+    'module_id': fields.Integer(attribute='_module_id', description='Die ID des zugehörigen Moduls'),
+    'project_id': fields.Integer(attribute='_project_id', description='Die ID des zugehörigen Projektes'),
+    'student_id': fields.Integer(attribute='_student_id', description='Die ID des zugehörigen Studenten'),
+    'validation_id': fields.Integer(attribute='_validation_id', description='Die ID der zugehörigen Bewertung'),
+    'participation_status': fields.Boolean(attribute='_participation_status', description='Status der Teilnahme an einem Projekt')
 })
 
 validation = api.inherit('Validation', bo, {
@@ -61,7 +61,8 @@ project = api.inherit('Project', nbo, {
     'preferred_b_days': fields.String(attribute='_preferred_b_days', description='Die präferierten Blocktage in der Vorlesungszeit'),
     'project_category': fields.String(attribute='_project_category', description='Die Projekt Kategorie des Projektes'),
     'additional_supervisor': fields.String(attribute='_additional_supervisor', description='Die beteiligten Professoren in dem Projekt'),
-    'weekly': fields.Boolean(attribute='_weekly', description='Angabe ob das Projekt wöchentlich stattfindet')
+    'weekly': fields.Boolean(attribute='_weekly', description='Angabe ob das Projekt wöchentlich stattfindet'),
+    'automat_id': fields.Integer(attribute='_automat_id', description='Die ID des zugehörigen Automats')
 })
 
 semester = api.inherit('Semester', nbo, {
@@ -79,15 +80,24 @@ project_type = api.inherit('Project_type', nbo, {
     'sws': fields.Integer(attribute='_sws', description='Die SWS Punkte von dem Projekt')
 })
 
-""" User&Student
+"""User&Student"""
 
 user= api.model('User', nbo, {
-    'user': fields
-    
-student= api.inherit('Student', user, {
-    'student':
+    'lastname': fields.String(attribute='_lastname', description='Der Nachname eines Users'),
+    'firstname': fields.String(attribute='_firstname', description='Der Vorname eines Users'),
+    'mail': fields.String(attribute='_mail', description='Die E-Mail eines Users'),
+    'role_id': fields.Integer(attribute='_role_id', description='Die ID der zugehörigen Rolle')
+})
 
-"""
+student= api.inherit('Student', user, {
+    'lastname': fields.String(attribute='_lastname', description='Der Nachname eines Studenten'),
+    'firstname': fields.String(attribute='_firstname', description='Der Vorname eines Studenten'),
+    'course': fields.String(attribute='_course', description='Der zugehörige Kurs'),
+    'matriculation_number': fields.Integer(attribute='_matriculation_number', description='Die Matrikelnummer des Studenten'),
+    'mail': fields.String(attribute='_mail', description='Die E-Mail eines Studenten'),
+    'project_id': fields.Integer(attribute='_project_id', description='Die ID der zugehörigen Projekte')
+})
+
 state = api.inherit('State', nbo, {
 
 })
