@@ -114,8 +114,102 @@ class ProjectAdministration (object):
 # Project
 
 # Project_type
+    def create_project_type(self, name, ects, sws):
+        """Einen Projekttyp anlegen"""
+        project_type = Project_type()
+        project_type.set_name(name)
+        project_type.set_ects(ects)
+        project_type.set_sws(sws)
+        project_type.set_id(1)
+
+        with Project_typeMapper() as mapper:
+            return mapper.insert(project_type)
+
+    def get_all_project_type(self):
+        """Alle Projektyypen auslesen."""
+        with Project_typeMapper() as mapper:
+            return mapper.find_all()
+
+    def get_project_type_by_id(self, number):
+        """Den Projekttypen mit der gegebenen ID auslesen."""
+        with Project_typeMapper() as mapper:
+            return mapper.find_by_key(number)
+
+    def get_project_type_by_name(self, name):
+        """Den Projekttypen mit dem gegebenen Namen auslesen."""
+        with Project_typeMapper() as mapper:
+            return mapper.find_by_name(name)
+
+    def get_project_type_by_ects(self, ects):
+        """Den Projekttypen mit der gegebenen ECTS auslesen."""
+        with Project_typeMapper() as mapper:
+            return mapper.find_by_ects(ects)
+
+    def get_project_type_by_sws(self, sws):
+        """Den Projekttypen mit der gegebenen SWS auslesen."""
+        with Project_typeMapper() as mapper:
+            return mapper.find_by_sws(sws)
+
+    def save_project_type(self, project_type):
+        """Den gegebenen Projekttypen speichern."""
+        with Project_typeMapper() as mapper:
+            mapper.update(project_type)
+
+    def delete_project_type(self, project_type):
+        """Den gegebenen Projekttypen aus unserem System löschen"""
+        with Project_typeMapper() as mapper:
+            project_type = self.get_project_type_by_id(project_type.get_id())
+            if not (project_type is None):
+                for i in project_type:
+                    self.delete_semester(i)
+
+            mapper.delete(project_type)
 
 # Semester
+    def create_semester(self, name, semester_number):
+        """Einen Semester anlegen"""
+        semester = Semester()
+        semester.set_name(name)
+        semester.set_semester_number(semester_number)
+        semester.set_id(1)
+
+        with SemesterMapper() as mapper:
+            return mapper.insert(semester)
+
+    def get_all_semester(self):
+        """Alle Semester auslesen."""
+        with SemesterMapper() as mapper:
+            return mapper.find_all()
+
+    def get_semester_by_id(self, number):
+        """Das Semester mit der gegebenen ID auslesen."""
+        with SemesterMapper() as mapper:
+            return mapper.find_by_key(number)
+
+    def get_semester_by_name(self, name):
+        """Das Semester mit dem gegebenen Namen auslesen."""
+        with SemesterMapper() as mapper:
+            return mapper.find_by_name(name)
+
+    def get_semester_by_semester_number(self, semester_number):
+        """Das Semester mit der gegebenen Semester Zahl auslesen."""
+        with SemesterMapper() as mapper:
+            return mapper.find_by_semester_number(semester_number)
+
+    def save_semester(self, semester):
+        """Den gegebenen Semester speichern."""
+        with SemesterMapper() as mapper:
+            mapper.update(semester)
+
+    def delete_semester(self, semester):
+        """Den gegebenen Semester aus unserem System löschen"""
+        with SemesterMapper() as mapper:
+            module = self.get_semester_by_id(semester.get_id())
+            if not (module is None):
+                for i in semester:
+                    self.delete_semester(i)
+
+            mapper.delete(semester)
 
 # Student
     def create_student(self, lastname, firstname, course, matriculation_number, mail, project_id):
