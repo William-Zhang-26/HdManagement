@@ -27,7 +27,7 @@ class AutomatMapper (Mapper):
 
 
         for (id, state_id, name, create_time ) in tuples:
-            automat = Automat(anfangszustand="neu")
+            automat = Automat()
             automat.set_id(id)
             automat.set_state_id(state_id)
             automat.set_name(name)
@@ -58,7 +58,7 @@ class AutomatMapper (Mapper):
         if len(tuples) != 0:
 
             for (id, state_id, name, create_time) in tuples:
-                automat = Automat(anfangszustand="neu")
+                automat = Automat()
                 automat.set_id(id)
                 automat.set_state_id(state_id)
                 automat.set_name(name)
@@ -83,7 +83,7 @@ class AutomatMapper (Mapper):
         tuples = cursor.fetchall()
 
         for (id, state_id, name, create_time) in tuples:
-            automat = Automat(anfangszustand="neu")
+            automat = Automat()
             automat.set_id(id)
             automat.set_state_id(state_id)
             automat.set_name(name)

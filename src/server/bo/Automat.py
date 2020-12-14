@@ -2,7 +2,7 @@ from src.server.bo.NamedBusinessObject import NamedBusinessObject
 
 class Automat(NamedBusinessObject):
 
-    def __init__(self, anfangszustand):
+    def __init__(self, anfangszustand="neu"):
         """ Hier wird der Anfangszustand initialisiert"""
         super().__init__()
         self._current_state = anfangszustand
