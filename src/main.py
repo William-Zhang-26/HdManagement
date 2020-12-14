@@ -200,10 +200,10 @@ class Project_typeOperations(Resource):
         """Löschen eines Projekt Typen aus der DB"""
         adm = ProjectAdministration()
         project_type = adm.get_project_type_by_id(id)
-        if module is None:
+        if project_type is None:
             return 'Projekt Typ konnte nicht aus der DB gelöscht werden', 500
         else:
-            adm.delete_module(module)
+            adm.delete_project_type(project_type)
             return 'Projekt Typ wurde erfolgreich aus der DB gelöscht', 200
 
     @project.expect(project_type)
@@ -212,12 +212,12 @@ class Project_typeOperations(Resource):
         adm = ProjectAdministration()
         project_type = Project_type.from_dict(api.payload)
 
-        if module is None:
+        if project_type is None:
             return "Projekt Typ konnte nicht geändert werden", 500
 
         else:
-            module.set_id(id)
-            adm.save_module(module)
+            project_type.set_id(id)
+            adm.save_project_type(project_type)
             return "Projekt Typ wurde erfolgreich geändert", 200
 
 """Semester"""
@@ -244,7 +244,7 @@ class SemesterOperations(Resource):
         """Auslesen eines Semester aus der DB"""
         adm = ProjectAdministration()
         semester = adm.get_semester_by_id(id)
-        return module
+        return semester
 
     def delete(self, id):
         """Löschen eines Semester aus der DB"""
@@ -262,7 +262,7 @@ class SemesterOperations(Resource):
         adm = ProjectAdministration()
         semester = Semester.from_dict(api.payload)
 
-        if Semester is None:
+        if semester is None:
             return "Semester konnte nicht geändert werden", 500
 
         else:
