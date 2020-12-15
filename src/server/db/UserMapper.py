@@ -21,12 +21,13 @@ class UserMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, lastname, firstname, mail, role_id, create_time) in tuples:
+        for (id, lastname, firstname, mail, google_id, role_id, create_time) in tuples:
             user = User()
             user.set_id(id)
             user.set_lastname(lastname)
             user.set_firstname(firstname)
             user.set_mail(mail)
+            user.set_google_id(google_id)
             user.set_role_id(role_id)
             user.set_create_time(create_time)
             result.append(user)
@@ -47,12 +48,13 @@ class UserMapper(Mapper):
 
         if len(tuples) != 0:
 
-            for (id, lastname, firstname, mail, role_id, create_time) in tuples:
+            for (id, lastname, firstname, mail, google_id, role_id, create_time) in tuples:
                 user = User()
                 user.set_id(id)
                 user.set_lastname(lastname)
                 user.set_firstname(firstname)
                 user.set_mail(mail)
+                user.set_google_id(google_id)
                 user.set_role_id(role_id)
                 user.set_create_time(create_time)
                 result = user
@@ -75,12 +77,13 @@ class UserMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, lastname, firstname, course, mail, role_id, create_time) in tuples:
+        for (id, lastname, firstname, course, mail, google_id, role_id, create_time) in tuples:
             user = User()
             user.set_id(id)
             user.set_lastname(lastname)
             user.set_firstname(firstname)
             user.set_mail(mail)
+            user.set_google_id(google_id)
             user.set_role_id(role_id)
             user.set_create_time(create_time)
             result.append(user)
@@ -99,12 +102,13 @@ class UserMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, lastname, firstname, mail, role_id, create_time) in tuples:
+        for (id, lastname, firstname, mail, google_id, role_id, create_time) in tuples:
             user = User()
             user.set_id(id)
             user.set_lastname(lastname)
             user.set_firstname(firstname)
             user.set_mail(mail)
+            user.set_google_id(google_id)
             user.set_role_id(role_id)
             user.set_create_time(create_time)
             result.append(user)
@@ -123,12 +127,13 @@ class UserMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, lastname, firstname, course, mail, role_id, create_time) in tuples:
+        for (id, lastname, firstname, course, mail, google_id, role_id, create_time) in tuples:
             user = User()
             user.set_id(id)
             user.set_lastname(lastname)
             user.set_firstname(firstname)
             user.set_mail(mail)
+            user.set_google_id(google_id)
             user.set_role_id(role_id)
             user.set_create_time(create_time)
             result.append(user)
@@ -148,10 +153,10 @@ class UserMapper(Mapper):
         for (MaxID) in tuples:
             user.set_id(MaxID[0] + 1)
 
-        command = "INSERT INTO user (id, lastname, firstname, mail, role_id, " \
+        command = "INSERT INTO user (id, lastname, firstname, mail, google_id, role_id, " \
                   "create_time) VALUES ('{}','{}','{}','{}','{}','{}')" \
             .format(user.get_id(), user.get_lastname(), user.get_firstname(),
-                    user.get_mail(), user.get_role_id(), user.get_create_time())
+                    user.get_mail(), user.get_google_id(), user.get_role_id(), user.get_create_time())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -162,9 +167,9 @@ class UserMapper(Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "UPDATE user SET lastname = ('{}'), firstname = ('{}'), mail = ('{}'),"\
+        command = "UPDATE user SET lastname = ('{}'), firstname = ('{}'), mail = ('{}'), user = ('{}'),"\
                   "role_id = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
-            .format(user.get_lastname(), user.get_firstname(), user.get_mail(),
+            .format(user.get_lastname(), user.get_firstname(), user.get_mail(), user.get_google_id(),
                     user.get_role_id(), user.get_create_time(), user.get_id())
         cursor.execute(command)
 
