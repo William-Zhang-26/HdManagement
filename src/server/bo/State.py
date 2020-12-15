@@ -13,6 +13,24 @@ class State (NamedBusinessObject):
         else:
             return False
 
+    def first_event(self, first_event):
+        pass
+
+    def sec_event(self, sec_event):
+        pass
+
+    def third_event(self, third_event):
+        pass
+
+    def fourth_event(self, fourth_event):
+        pass
+
+    def fifth_event(self, fifth_event):
+        pass
+
+    def __str__(self):
+        return self.__class__.__name__
+
     @staticmethod
     def from_dict(dict=dict()):
         new_state = State()

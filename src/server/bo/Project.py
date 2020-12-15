@@ -7,14 +7,14 @@ class Project(Automat):
     """
 
     s_new = State("neu")
-    s_approved = State("abgelehnt")
-    s_dismissed = State("genehmigt")
+    s_approved = State("genehmigt")
+    s_dismissed = State("abgelehnt")
     s_inreview = State("in Bewertung")
     s_reviewed = State("Bewertung abgeschlossen")
 
     def __init__(self):
-        super().__init__(self, Project.s_new)
-        self._automat_id = id
+        super().__init__(Project.s_new)
+        self._automat_id = Automat()
         self._project_description = ""
         self._partners = ""
         self._capacity = 0
@@ -26,6 +26,53 @@ class Project(Automat):
         self._project_category = ""
         self._additional_supervisor = ""
         self._weekly = ""
+
+#Platzhalter für spätere änderung ist nicht final
+
+    def first_event(self, first_event):
+        self._current_state = self._current_state.first_event(first_event)
+
+    def sec_event(self, sec_event):
+        self._current_state = self._current_state.sec_event(sec_event)
+
+    def third_event(self, third_event):
+        self._current_state = self._current_state.third_event(third_event)
+
+    def fourth_event(self, fourth_event):
+        self._current_state = self._current_state.fourth_event(fourth_event)
+
+    def fifth_event(self, fifth_event):
+        self._current_state = self._current_state.fifth_event(fifth_event)
+
+    def first_event (self, first_event):
+        if first_event == 'neu':
+            return Project.s_new
+
+        return self
+
+    def sec_event(self, sec_event):
+        if sec_event == 'abgelehnt':
+            return Project.s_dismissed
+
+        return self
+
+    def third_event(self, third_event):
+        if third_event == 'genehmigt':
+            return Project.s_approved
+
+        return self
+
+    def fourth_event(self, fourth_event):
+        if fourth_event == 'in Bewertung':
+            return Project.s_inreview
+
+        return self
+
+    def fifth_event(self, fifth_event):
+        if fifth_event == 'Bewertung abgeschlossen':
+            return Project.s_reviewed
+
+        return self
 
     def get_automat_id(self):
         """Auslesen der Automaten-ID"""
@@ -123,6 +170,8 @@ class Project(Automat):
         """Setzen ob die Termine wöchhentlich sind"""
         self._weekly = new_weekly
 
+    def __str__(self):
+        return self.__class__.__name__
 
     @staticmethod
     def from_dict(dict = dict()):
@@ -142,3 +191,8 @@ class Project(Automat):
         new_project.set_weekly(dict["weekly"])
         new_project.set_weekly(dict["create_time"])
         return new_project
+
+if __name__ == "__main__":
+    p = Project("It-Projekt von Thies und Kunz")
+    if p.is_in_state(Project.s_new):
+        print(p, "ist neu")
