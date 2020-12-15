@@ -1,6 +1,7 @@
 [
     {
       "name": "Fake Projekt",
-      "id": 99
+      "id": 99,
+      "capacity": 20
     }
 ]

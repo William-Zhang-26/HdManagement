@@ -18,7 +18,7 @@ export default class ProjectAPI {
     //Project related
     #getProjectsURL = () => `${this.#projectServerBaseURL}/projects`;
     #getProjectURL = (id) => `${this.#projectServerBaseURL}/projects/${id}`;
-    #getCapacityForProjectsURL = (id) => `${this.#projectServerBaseURL}/projects/${id}/capacity`;
+    #getAttributesForProjectURL = (id) => `${this.#projectServerBaseURL}/projects/${id}/attributes`;
 
     //Student related
     #getStudentURL = (id) => `${this.#projectServerBaseURL}/students/${id}`;
@@ -54,9 +54,9 @@ export default class ProjectAPI {
             })
         })
     }
-
-    getCapacityForProjects(projectBO) {
-        return this.#fetchAdvanced(this.#getCapacityForProjectsURL(projectBO))
+    /**
+    getAttributesForProject(attributeBOs) {
+        return this.#fetchAdvanced(this.#getAttributesForProjectURL(attributeBOs))
           .then(responseJSON => {
             // console.log(responseJSON)
             return new Promise(function (resolve) {
@@ -64,6 +64,18 @@ export default class ProjectAPI {
             })
           })
       }
+      */
+
+     getAttributesForProject(projectID) {
+      return this.#fetchAdvanced(this.#getAttributesForProjectURL(projectID))
+        .then((responseJSON) => {
+          let attributeBOs = ProjectBO.fromJSON(responseJSON)[0];
+          // console.info(accountBOs);
+          return new Promise(function (resolve) {
+            resolve(attributeBOs);
+          })
+        })
+    }
 
     getProject(projectID) {
         return this.#fetchAdvanced(this.#getProjectURL(projectID)).then((responseJSON) => {
