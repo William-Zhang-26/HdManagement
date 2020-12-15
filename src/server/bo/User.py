@@ -16,6 +16,7 @@ class User(NamedBusinessObject):
         self._lastname = ""
         self._firstname = ""
         self._mail = ""
+        self._google_id = ""
         self._role_id = 0
 
     def get_lastname(self):
@@ -42,6 +43,14 @@ class User(NamedBusinessObject):
         """Setzen der Mail"""
         self._mail = new_mail
 
+    def get_google_id(self):
+        """Auslesen der Google Mail"""
+        return self._google_id
+
+    def set_google_id(self, new_google_id):
+        """Setzen der google Mail"""
+        self._google_id = new_google_id
+
     def get_role_id(self):
         """Auslesen der Rollen-ID"""
         return self._role_id
@@ -57,6 +66,7 @@ class User(NamedBusinessObject):
         new_user.set_lastname(dict["lastname"])
         new_user.set_firstname(dict["firstname"])
         new_user.set_mail(dict["mail"])
+        new_user.set_google_id(dict["google_id"])
         new_user.set_role_id(dict["role_id"])
         new_user.set_create_time(dict["create_time"])
         return new_user
