@@ -4,12 +4,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, ListItem } from '@material-ui/core';
-import { Button, List, Typography } from '@material-ui/core';
+import { Button, List } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import ProjectAPI from '../api/ProjectAPI';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
-//import AttributeListEntry from './AttributeListEntry';       Lösung ohne Entries
+import ProjectAttributeListEntry from './ProjectAttributeListEntry';       //Lösung ohne Entries
 import StudentProjectSignIn from './dialogs/StudentProjectSignIn'
 import StudentProjectSignOut from './dialogs/StudentProjectSignOut'
 
@@ -21,31 +21,54 @@ class ProjectAttributeList extends Component {
 
     // Init the state
     this.state = {
-      capacity: '',
+      attributes: [],
       loadingInProgress: false,
       loadingAttributeError: null,
-      addingAttributeError: null,
     };
   }
-
-  /** Fetches AccountBOs for the current customer */
+/**
+ 
   getAttributes = () => {
-    ProjectAPI.getAPI().getCapacityForProjects(this.props.project.getID()).then(capacity =>
+    ProjectAPI.getAPI().getAttributesForProject()
+      .then(attributeBOs =>
+        this.setState({               // Set new state when CustomerBOs have been fetched
+          attributes: attributeBOs,
+          loadingInProgress: false,   // disable loading indicator 
+          error: null
+        })).catch(e =>
+          this.setState({             // Reset state with error from catch 
+            attributes: [],
+            loadingInProgress: false, // disable loading indicator 
+            error: e
+          })
+        );
+
+    // set loading to true
+    this.setState({
+      loadingInProgress: true,
+      error: null
+    });
+  }
+*/
+  //*Fetches AccountBOs for the current customer*/
+  getAttributes = () => {
+    ProjectAPI.getAPI().getAttributesForProject(this.props.project.getID()).then(attributeBOs =>
       this.setState({ 
-        capaciy: capacity,
+        attributes: attributeBOs,
         loadingInProgress: false, // loading indicator 
         loadingAttributeError: null
       })).catch(e =>
         this.setState({ // Reset state with error from catch 
-          capacity: null,
+          attributes: [],
           loadingInProgress: false,
           loadingAttributeError: e
         })
       );
 
+    
+
     // set loading to true
     this.setState({
-        capacity: 'lädt',
         loadingInProgress: true,
         loadingAttributeError: null
     });
@@ -69,29 +92,27 @@ class ProjectAttributeList extends Component {
   render() {
     const { classes, project } = this.props;
     // Use the states customer
-    const { loadingInProgress, loadingAttributeError, capacity } = this.state;
+    const { loadingInProgress, loadingAttributeError, attributes } = this.state;
 
     // console.log(this.props);
+    console.log(attributes)
     return (
       <div className={classes.root}>
         <List className={classes.attributeList}>
-            <ListItem>
-                <Typography color='textSecondary'>
-                    Kapazität: {capacity}
-                </Typography>
-                <Typography color='textSecondary'>
-                    Weitere Attribute
-                </Typography>   
-            </ListItem>
-            <ListItem>
-                <LoadingProgress show={loadingInProgress} />
-                <ContextErrorMessage error={loadingAttributeError} contextErrorMsg={`List of attributes for project ${project.getID()} could not be loaded.`} onReload={this.getAttributes} />
-            </ListItem>
+          {
+            attributes.map(attribute => <ProjectAttributeListEntry key={attribute.getID()} attribute={attribute} 
+              show={this.props.show} />)
+          }
+
+          <ListItem>
+            <LoadingProgress show={loadingInProgress} />
+            <ContextErrorMessage error={loadingAttributeError} contextErrorMsg={`List of attributes for project miau ${project.getID()} could not be loaded.`} onReload={this.getAttributes} />
+          </ListItem>
         </List>
-        <Button  color='primary' startIcon={<AddIcon />} onClick={<StudentProjectSignIn/>}>
+        <Button  color='secondary' startIcon={<AddIcon />} onClick={<StudentProjectSignIn/>}>
             Anmelden
         </Button>
-        <Button  color='secondary' startIcon={<AddIcon />} onClick={<StudentProjectSignOut/>}>
+        <Button  color='primary' startIcon={<AddIcon />} onClick={<StudentProjectSignOut/>}>
             Abmelden
         </Button>
       </div>
@@ -119,7 +140,7 @@ ProjectAttributeList.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** The CustomerBO of this AccountList */
-  project: PropTypes.object.isRequired,
+  attribute: PropTypes.object.isRequired,
   /** If true, accounts are (re)loaded */
   show: PropTypes.bool.isRequired
 }
