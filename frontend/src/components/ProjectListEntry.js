@@ -39,8 +39,6 @@ class ProjectListEntry extends Component {
   }
 
 
-//StudentProjectSignIn/Out handler und Button
-//Show/ Closed SignIn/Out Dialog
 
   /** Handles the onClick event of the delete customer button */
   StudentProjectSignInClicked = (event) => {
@@ -63,6 +61,8 @@ class ProjectListEntry extends Component {
     });
   }
 
+
+  
   /** Handles the onClick event of the delete customer button */
   StudentProjectSignOutClicked = (event) => {
     event.stopPropagation();
@@ -83,6 +83,7 @@ class ProjectListEntry extends Component {
       showStudentProjectSignOut: false
     });
   }
+
 
 
   /** Renders the component */
@@ -122,10 +123,10 @@ class ProjectListEntry extends Component {
             <ListItem>Anzahl der Blocktage in der Vorlesungszeit (Samstage): {project.getBDaysSaturdays()} </ListItem>
             <ListItem>Raum: {project.getPreferredRoom()} </ListItem> 
             <ListItem>
-              <Button  color='secondary' startIcon={<AddIcon />} onClick={<StudentProjectSignIn/>}>
+              <Button  color='secondary' startIcon={<AddIcon />} onClick={this.StudentProjectSignInClicked}>
                 Anmelden
               </Button>
-              <Button  color='primary' startIcon={<AddIcon />} onClick={<StudentProjectSignOut/>}>
+              <Button  color='primary' startIcon={<AddIcon />} onClick={this.StudentProjectSignOutClicked}>
                 Abmelden
               </Button>
             </ListItem>  

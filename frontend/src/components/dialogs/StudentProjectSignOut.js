@@ -25,7 +25,6 @@ class StudentProjectSignOut extends Component {
 
 //Folgendes in der API ergänzen:
 //get Student ID
-//DeleteStudentFromProject(ProjectID)
 //project get ID
 
   /** Adds an account for the current customer */
