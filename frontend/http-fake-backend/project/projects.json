@@ -1,7 +1,36 @@
 [
-    {
-      "name": "Fake Projekt",
-      "id": 99,
-      "capacity": 20
-    }
+  {
+    "name": "Fake Projekt",
+    "id": 99,
+    "capacity": 20,
+    "partners": "Herr Partner",
+    "project_description": "Ein wahnsinnig tolles Projekt",
+    "weekly": "yes?...Bruh müsste ein bool sein",
+    "b_days_pre_schedule": "Bruh könnte ne Zahl sein",
+    "b_days_finale": "0",
+    "b_days_saturdays": "200",
+    "preferred_b_days": "Könnte hier auch ein Date sein .. aber dann halt nicht",
+    "room_preference": "Bool sagt ja",
+    "preferred_room": "i00π",
+    "project_category": "Tanz Projekt",
+    "additional_supervisor": "Frau Partner"
+    
+
+  },
+  {
+    "name": "Fake Projekt 2",
+    "id": 98,
+    "capacity": 21,
+    "partners": "Herr Partner",
+    "project_description": "Ein wahnsinnig tolles Projekt",
+    "weekly": "yes?...Bruh müsste ein bool sein",
+    "b_days_pre_schedule": "Bruh könnte ne Zahl sein",
+    "b_days_finale": "0",
+    "b_days_saturdays": "200",
+    "preferred_b_days": "Könnte hier auch ein Date sein .. aber dann halt nicht",
+    "room_preference": "Bool sagt ja",
+    "preferred_room": "i00π",
+    "project_category": "Tanz Projekt",
+    "additional_supervisor": "Frau Partner"
+  }
 ]
