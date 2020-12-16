@@ -16,7 +16,12 @@ from src.server.bo.Validation import Validation
 from src.server.ProjectAdministration import ProjectAdministration
 
 """App und API Konfiguration"""
-api = Api
+app = Flask(__name__)
+CORS(app, resources=r'/hdmanagement/*')
+api = Api(app, version='0.1 pre-alpha', title='Hdmanagement API',
+description='Demo-API für Hdmanagement')
+projectmanager = api.namespace('projectmanager', description='Funktionen des SSLS')
+
 """Nachfolgend werden analog zu unseren BusinessObject-Klassen transferierbare Strukturen angelegt.
 
 BusinessObject dient als Basisklasse, auf der die weiteren Strukturen Participation, Validation und NamedBusinessObject aufsetzen."""
@@ -82,7 +87,7 @@ project_type = api.inherit('Project_type', nbo, {
 
 """User&Student"""
 
-user= api.model('User', nbo, {
+user= api.inherit('User', nbo, {
     'lastname': fields.String(attribute='_lastname', description='Der Nachname eines Users'),
     'firstname': fields.String(attribute='_firstname', description='Der Vorname eines Users'),
     'mail': fields.String(attribute='_mail', description='Die E-Mail eines Users'),
@@ -115,10 +120,10 @@ class HelloWorld(Resource):
 """State"""
 
 """Module"""
-@project.route("/module")
+@projectmanager.route("/module")
 class ModuleOperations(Resource):
-    @project.marshal_with(module, code=200)
-    @project.expect(module)
+    @projectmanager.marshal_with(module, code=200)
+    @projectmanager.expect(module)
     def post(self):
         """Modul erstellen"""
         adm = ProjectAdministration()
@@ -129,11 +134,11 @@ class ModuleOperations(Resource):
         else:
             return '', 500
 
-@project.route("/module/<int:id>")
-@project.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@project.param('id', 'Die ID des Modul-Objekts')
+@projectmanager.route("/module/<int:id>")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@projectmanager.param('id', 'Die ID des Modul-Objekts')
 class ModuleOperations(Resource):
-    @project.marshal_with(module)
+    @projectmanager.marshal_with(module)
     def get(self, id):
         """Auslesen eines Moduls aus der DB"""
         adm = ProjectAdministration()
@@ -150,7 +155,7 @@ class ModuleOperations(Resource):
             adm.delete_module(module)
             return 'Modul wurde erfolgreich aus der DB gelöscht', 200
 
-    @project.expect(module)
+    @projectmanager.expect(module)
     def put(self, id):
         """Modul wird aktualisiert"""
         adm = ProjectAdministration()
@@ -166,11 +171,11 @@ class ModuleOperations(Resource):
 
 """Participation"""
 
-@project.route("/participation")
-@project.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@projectmanager.route("/participation")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class ParticipationOperationen(Resource):
-    @project.marshal_with(participation, code=200)
-    @project.expect(participation)
+    @projectmanager.marshal_with(participation, code=200)
+    @projectmanager.expect(participation)
     def post(self):
         """Teilnahme erstellen"""
         adm = ProjectAdministration()
@@ -182,11 +187,11 @@ class ParticipationOperationen(Resource):
         else:
             return '', 500
 
-@project.route("/participation/<int:id>")
-@project.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@project.param('id', 'Die ID des Account-Objekts')
+@projectmanager.route("/participation/<int:id>")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@projectmanager.param('id', 'Die ID des Account-Objekts')
 class ParticipationOperationen(Resource):
-    @project.marshal_with(participation)
+    @projectmanager.marshal_with(participation)
 
     def get(self,id):
         """Auslesen einer Teilnahme aus der DB """
@@ -207,10 +212,10 @@ class ParticipationOperationen(Resource):
 """Project"""
 
 """Project_type"""
-@project.route("/project_type")
+@projectmanager.route("/project_type")
 class Project_typeOperations(Resource):
-    @project.marshal_with(project_type, code=200)
-    @project.expect(project_type)
+    @projectmanager.marshal_with(project_type, code=200)
+    @projectmanager.expect(project_type)
     def post(self):
         """Project Typen erstellen"""
         adm = ProjectAdministration()
@@ -221,11 +226,11 @@ class Project_typeOperations(Resource):
         else:
             return '', 500
 
-@project.route("/project_type/<int:id>")
-@project.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@project.param('id', 'Die ID des Project_typen-Objekts')
+@projectmanager.route("/project_type/<int:id>")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@projectmanager.param('id', 'Die ID des Project_typen-Objekts')
 class Project_typeOperations(Resource):
-    @project.marshal_with(project_type)
+    @projectmanager.marshal_with(project_type)
     def get(self, id):
         """Auslesen eines Projekt Typen aus der DB"""
         adm = ProjectAdministration()
@@ -242,7 +247,7 @@ class Project_typeOperations(Resource):
             adm.delete_project_type(project_type)
             return 'Projekt Typ wurde erfolgreich aus der DB gelöscht', 200
 
-    @project.expect(project_type)
+    @projectmanager.expect(project_type)
     def put(self, id):
         """Projekt Typ wird aktualisiert"""
         adm = ProjectAdministration()
@@ -257,10 +262,10 @@ class Project_typeOperations(Resource):
             return "Projekt Typ wurde erfolgreich geändert", 200
 
 """Semester"""
-@project.route("/semester")
+@projectmanager.route("/semester")
 class SemesterOperations(Resource):
-    @project.marshal_with(Semester, code=200)
-    @project.expect(semester)
+    @projectmanager.marshal_with(Semester, code=200)
+    @projectmanager.expect(semester)
     def post(self):
         """Semester erstellen"""
         adm = ProjectAdministration()
@@ -271,11 +276,11 @@ class SemesterOperations(Resource):
         else:
             return '', 500
 
-@project.route("/semester/<int:id>")
-@project.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@project.param('id', 'Die ID des Semester-Objekts')
+@projectmanager.route("/semester/<int:id>")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@projectmanager.param('id', 'Die ID des Semester-Objekts')
 class SemesterOperations(Resource):
-    @project.marshal_with(semester)
+    @projectmanager.marshal_with(semester)
     def get(self, id):
         """Auslesen eines Semester aus der DB"""
         adm = ProjectAdministration()
@@ -292,7 +297,7 @@ class SemesterOperations(Resource):
             adm.delete_semester(semester)
             return 'Semester wurde erfolgreich aus der DB gelöscht', 200
 
-    @project.expect(semester)
+    @projectmanager.expect(semester)
     def put(self, id):
         """Semester wird aktualisiert"""
         adm = ProjectAdministration()
@@ -311,10 +316,10 @@ class SemesterOperations(Resource):
 """User"""
 
 """Validation"""
-@project.route("/validation")
+@projectmanager.route("/validation")
 class ValidationOperations(Resource):
-    @project.marshal_with(validation, code=200)
-    @project.expect(validation)
+    @projectmanager.marshal_with(validation, code=200)
+    @projectmanager.expect(validation)
     def post(self):
         """Bewertung erstellen"""
         adm = ProjectAdministration()
@@ -325,11 +330,11 @@ class ValidationOperations(Resource):
         else:
             return '', 500
 
-@project.route("/validation/<int:id>")
-@project.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@project.param('id', 'Die ID des Bewertungs-Objekts')
+@projectmanager.route("/validation/<int:id>")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@projectmanager.param('id', 'Die ID des Bewertungs-Objekts')
 class ValidationOperations(Resource):
-    @project.marshal_with(validation)
+    @projectmanager.marshal_with(validation)
     def get(self, id):
         """Auslesen einer Bewertung aus der DB"""
         adm = ProjectAdministration()
@@ -346,7 +351,7 @@ class ValidationOperations(Resource):
             adm.delete_validation(validation)
             return 'Bewertung wurde erfolgreich aus der DB gelöscht', 200
 
-    @project.expect(validation)
+    @projectmanager.expect(validation)
     def put(self, id):
         """Bewertung wird aktualisiert"""
         adm = ProjectAdministration()

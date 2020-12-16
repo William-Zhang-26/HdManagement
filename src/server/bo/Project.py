@@ -14,7 +14,7 @@ class Project(Automat):
 
     def __init__(self):
         super().__init__(Project.s_new)
-        self._automat_id = Automat()
+        self._automat_id = ""
         self._project_description = ""
         self._partners = ""
         self._capacity = 0
@@ -170,8 +170,9 @@ class Project(Automat):
         """Setzen ob die Termine wöchhentlich sind"""
         self._weekly = new_weekly
 
-    def __str__(self):
-        return self.__class__.__name__
+    #def __str__(self):
+        #return self._name
+
 
     @staticmethod
     def from_dict(dict = dict()):
@@ -192,7 +193,9 @@ class Project(Automat):
         new_project.set_weekly(dict["create_time"])
         return new_project
 
+"""
 if __name__ == "__main__":
     p = Project("It-Projekt von Thies und Kunz")
     if p.is_in_state(Project.s_new):
         print(p, "ist neu")
+"""

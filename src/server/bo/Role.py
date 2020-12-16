@@ -2,8 +2,15 @@ from src.server.bo.NamedBusinessObject import NamedBusinessObject
 
 class Role(NamedBusinessObject):
 
-    def __init__(self):
+    def __init__(self, role):
         super().__init__()
+        self._name = role
+
+    def __eq__(self, another):
+        if isinstance(another, Role):
+            return self._name == another._name
+        else:
+            return False
 
     @staticmethod
     def from_dict(dict = dict()):

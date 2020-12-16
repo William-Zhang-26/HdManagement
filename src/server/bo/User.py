@@ -1,15 +1,14 @@
 from src.server.bo.NamedBusinessObject import NamedBusinessObject
 from src.server.bo.Role import Role
 
-"""
-Platzhalter für Static Methode
-class set_User():
-"""
-
 class User(NamedBusinessObject):
     """
     Realisierung der User
     """
+
+    r_student = Role("Student")
+    r_dozent = Role("Dozent")
+    r_admin = Role("Admin")
 
     def __init__(self):
         super().__init__()
@@ -18,6 +17,7 @@ class User(NamedBusinessObject):
         self._mail = ""
         self._google_id = ""
         self._role_id = 0
+        self._current_role = ""
 
     def get_lastname(self):
         """Auslesen des Nachnamens"""
@@ -59,6 +59,18 @@ class User(NamedBusinessObject):
         """Setzen der Rollen-Id (Soll nicht wirklich funktionieren"""
         self._role_id = new_role_id
 
+    def get_role(self):
+        """ Hier wird der Akutelle Status ausgegeben"""
+        return self._current_role
+
+    def set_role(self, new_role):
+        """ Hier wird der Zustand gesetzt"""
+        self._current_role = new_role
+
+    def is_in_state(self, role):
+        """ Hier wird überprüft ob der Zustand in dem gewünschten Zustand ist"""
+        return role == self._current_role
+
     @staticmethod
     def from_dict(dict = dict()):
         new_user = User()
@@ -68,5 +80,6 @@ class User(NamedBusinessObject):
         new_user.set_mail(dict["mail"])
         new_user.set_google_id(dict["google_id"])
         new_user.set_role_id(dict["role_id"])
+        new_user.set_role(dict["role"])
         new_user.set_create_time(dict["create_time"])
         return new_user
