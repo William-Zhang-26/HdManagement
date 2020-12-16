@@ -86,15 +86,13 @@ user= api.model('User', nbo, {
     'lastname': fields.String(attribute='_lastname', description='Der Nachname eines Users'),
     'firstname': fields.String(attribute='_firstname', description='Der Vorname eines Users'),
     'mail': fields.String(attribute='_mail', description='Die E-Mail eines Users'),
+    'google_id': fields.String(attribute= '_google_id', description='Die Google-ID eines Users'),
     'role_id': fields.Integer(attribute='_role_id', description='Die ID der zugehörigen Rolle')
 })
 
 student= api.inherit('Student', user, {
-    'lastname': fields.String(attribute='_lastname', description='Der Nachname eines Studenten'),
-    'firstname': fields.String(attribute='_firstname', description='Der Vorname eines Studenten'),
     'course': fields.String(attribute='_course', description='Der zugehörige Kurs'),
     'matriculation_number': fields.Integer(attribute='_matriculation_number', description='Die Matrikelnummer des Studenten'),
-    'mail': fields.String(attribute='_mail', description='Die E-Mail eines Studenten'),
     'project_id': fields.Integer(attribute='_project_id', description='Die ID der zugehörigen Projekte')
 })
 
