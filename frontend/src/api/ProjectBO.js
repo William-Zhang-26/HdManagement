@@ -2,11 +2,8 @@ import NamedBusinessObject from './NamedBusinessObject';
 
 /** Unstimmigkeiten mit dem Backend:
  * 
- * - name wird im Backend als Attribut angegeben?
- * - im Backend existiert nicht: project description, 
- * b_days_pre_schedule, b_days_finale, b_days_saturdays, 
- * preferred_b_days, room_preference, additional_supervisor
- * - blockday ist nicht im Klassendiagramm von uns
+ * - weekly muss ein bool sein
+ * - preferred room muss ein bool sein
  * 
  */
 

@@ -8,6 +8,13 @@ import StudentProjectSignIn from './dialogs/StudentProjectSignIn';
 import StudentProjectSignOut from './dialogs/StudentProjectSignOut';
 import AddIcon from '@material-ui/icons/Add';
 
+/** Fehlende Inhalte:
+ *  
+ * - Aus ProjectTypeBO: Name (Fachspezifisch, Inter-, Transdisziplinär), ECTS und SWS
+ * - Aus ModuleBO: EDV-Nummer
+ * 
+ */
+
 //Condition für alle ergänzen
 //Admin Funktionen ergänzen
 
@@ -64,13 +71,14 @@ class ProjectListEntry extends Component {
           <AccordionDetails>
             <List>
             <ListItem>Kapazität: {project.getCapacity()} </ListItem>
-            <ListItem>Externe Partner: {project.getPartners()} </ListItem>
             <ListItem>Projektbeschreibung: {project.getProjectDescription()} </ListItem>
+            <ListItem>Betreuuende Dozenten: {project.getAdditionalSupervisor()} </ListItem>  
+            <ListItem>Externe Partner: {project.getPartners()} </ListItem>
             <ListItem>Wöchentlicher Kurs: {project.getWeekly()} </ListItem>
             <ListItem>Anzahl der Blocktage vor der Vorlesungszeit: {project.getBDaysPreSchedule()} </ListItem>
             <ListItem>Anzahl der Blocktage in der Prüfungszeit: {project.getBDaysFinale()} </ListItem>            
             <ListItem>Anzahl der Blocktage in der Vorlesungszeit (Samstage): {project.getBDaysSaturdays()} </ListItem>
-            <ListItem>Raum: {project.getPreferredRoom()} </ListItem>            
+            <ListItem>Raum: {project.getPreferredRoom()} </ListItem> 
             <ListItem>
               <Button  color='secondary' startIcon={<AddIcon />} onClick={<StudentProjectSignIn/>}>
                 Anmelden
