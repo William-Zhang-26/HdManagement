@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid, List, ListItem } from '@material-ui/core';
-//import { Button, ButtonGroup } from '@material-ui/core';
+import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
+import { Button, List, ListItem } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 //import CustomerForm from './dialogs/CustomerForm';
-//import CustomerDeleteDialog from './dialogs/CustomerDeleteDialog';
-//import AccountList from './AccountList';
 import StudentProjectSignIn from './dialogs/StudentProjectSignIn';
 import StudentProjectSignOut from './dialogs/StudentProjectSignOut';
-//import ProjectAttributeList from './ProjectAttributeList';
 import AddIcon from '@material-ui/icons/Add';
 
 //Condition für alle ergänzen
 //Admin Funktionen ergänzen
-
 
 
 class ProjectListEntry extends Component {
@@ -79,7 +75,6 @@ class ProjectListEntry extends Component {
             </ListItem>  
           </List>
           </AccordionDetails>
-          
         </Accordion>
         <StudentProjectSignIn show={showStudentProjectSignIn} project={project} onClose={this.StudentProjectSignInClosed} /> 
         <StudentProjectSignOut show={showStudentProjectSignOut} project={project} onClose={this.StudentProjectSignOutClosed} /> 
