@@ -266,7 +266,7 @@ if __name__ == "__main__":
         p = mapper.find_all()
         for result in p:
             print(result.get_create_time())
-"""
+
 if __name__ == "__main__":
     p = Project()
     p.set_name("Marketing")
@@ -283,7 +283,7 @@ if __name__ == "__main__":
     p.set_weekly("2020-12-12")
     with ProjectMapper() as mapper:
         mapper.insert(p)
-"""   
+  
     with ProjectMapper() as mapper:
         project = mapper.find_by_key(2)
         project.set_name("IT-Projekt")

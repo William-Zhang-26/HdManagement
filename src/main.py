@@ -16,7 +16,12 @@ from src.server.bo.Validation import Validation
 from src.server.ProjectAdministration import ProjectAdministration
 
 """App und API Konfiguration"""
-api = Api
+app = Flask(__name__)
+CORS(app, resources=r'/hdmanagement/*')
+api = Api(app, version='0.1 pre-alpha', title='Hdmanagement API',
+description='Demo-API für Hdmanagement')
+projectmanager = api.namespace('projectmanager', description='Funktionen des SSLS')
+
 """Nachfolgend werden analog zu unseren BusinessObject-Klassen transferierbare Strukturen angelegt.
 
 BusinessObject dient als Basisklasse, auf der die weiteren Strukturen Participation, Validation und NamedBusinessObject aufsetzen."""
@@ -82,7 +87,7 @@ project_type = api.inherit('Project_type', nbo, {
 
 """User&Student"""
 
-user= api.model('User', nbo, {
+user= api.inherit('User', nbo, {
     'lastname': fields.String(attribute='_lastname', description='Der Nachname eines Users'),
     'firstname': fields.String(attribute='_firstname', description='Der Vorname eines Users'),
     'mail': fields.String(attribute='_mail', description='Die E-Mail eines Users'),

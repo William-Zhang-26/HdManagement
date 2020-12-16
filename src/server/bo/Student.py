@@ -43,6 +43,7 @@ class Student(User):
         new_student.set_course(dict["course"])
         new_student.set_matriculation_number(dict["matriculation_number"])
         new_student.set_mail(dict["mail"])
+        new_student.set_google_id(dict["google_id"])
         new_student.set_project_id(dict["project_id"])
         new_student.set_create_time(dict["create_time"])
         return new_student

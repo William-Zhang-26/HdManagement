@@ -30,38 +30,10 @@ class Automat(NamedBusinessObject):
         return self._state_id
 
     @staticmethod
-    def from_dict(dict=dict()):
+    def from_dict(dict = dict()):
         new_automat = Automat()
         new_automat.set_id(dict["id"])
         new_automat.set_name(dict["name"])
         new_automat.set_state_id(dict["state_id"])
         new_automat.set_create_time(dict["create_time"])
         return new_automat
-""""
-class Project(Automat):
-    Aufzählung der Klassenvariablen/statische Attribute, diese gilt für die ganze Klasse
-    s_new = State("neu")
-    s_approved = State("abgelehnt")
-    s_dismissed = State("genehmigt")
-    s_inreview = State("in Bewertung")
-    s_reviewed = State("Bewertung abgeschlossen")
-
-    def __init__(self, state):
-        super().__init__(Project.s_new)
-        self.__name = state
-
-    def __str__(self):
-        return self.__name
-
-"""
-""" Zum Probieren
-p = Projekt("Marketing & AI (Stingel, Thies)")
-
-if p.is_in_state(Projekt.s_new):
-    print(p, "in New!")
-
-p.set_state(Projekt.s_approved)
-
-if p.is_in_state(Projekt.s_approved):
-    print(p, "in Approved!")
-"""
