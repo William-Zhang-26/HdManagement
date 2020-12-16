@@ -107,6 +107,56 @@ class ProjectAdministration (object):
 
 # Participation
 
+    def create_participation(self, module_id, project_id, student_id, validation_id, participation_status):
+
+        participation = Participation()
+        participation.set_module_id(module_id)
+        participation.set_project_id(project_id)
+        participation.set_student_id(student_id)
+        participation.set_validation_id(validation_id)
+        participation.set_participation_status(participation_status)
+        participation.set_id(1)
+
+        with ParticipationMapper() as mapper:
+            return mapper.insert(participation)
+
+    def get_all_participation(self):
+        with ParticipationMapper() as mapper:
+            return mapper.find_all()
+
+    def get_participation_by_id(self, number):
+        with ParticipationMapper() as mapper:
+            return mapper.find_by_key(number)
+
+    def get_participation_by_module_id(self, module_id):
+        with ParticipationMapper() as mapper:
+            return mapper.find_by_module(module_id)
+
+    def get_participation_by_project_id(self, project_id):
+        with ParticipationMapper() as mapper:
+            return mapper.find_by_project(project_id)
+
+    def get_participation_by_student_id(self, student_id):
+        with ParticipationMapper() as mapper:
+            return mapper.find_by_student(student_id)
+
+    def get_participation_by_validation_id(self, validation_id):
+        with ParticipationMapper() as mapper:
+            return mapper.find_by_validation(validation_id)
+
+    def save_participation(self, participation):
+        with ParticipationMapper() as mapper:
+            mapper.update(participation)
+
+    def delete_participation(self, participation):
+        with ParticipationMapper() as mapper:
+            participation = self.get_participation_by_id(participation.get_id())
+            if not (participation is None):
+                for i in participation:
+                    self.delete_participation(i)
+
+            mapper.delete(participation)
+
 # Automat
 
 # Status

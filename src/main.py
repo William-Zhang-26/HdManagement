@@ -166,6 +166,44 @@ class ModuleOperations(Resource):
 
 """Participation"""
 
+@project.route("/participation")
+@project.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class ParticipationOperationen(Resource):
+    @project.marshal_with(participation, code=200)
+    @project.expect(participation)
+    def post(self):
+        """Teilnahme erstellen"""
+        adm = ProjectAdministration()
+        proposal = Participation.from_dict(api.payload)
+        if proposal is not None:
+            c = adm.create_participation(proposal.get_module_id(), proposal.get_project_id(), proposal.get_student_id(),
+                                        proposal.get_validation_id(), proposal.get_participation_status())
+            return c, 200
+        else:
+            return '', 500
+
+@project.route("/participation/<int:id>")
+@project.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@project.param('id', 'Die ID des Account-Objekts')
+class ParticipationOperationen(Resource):
+    @project.marshal_with(participation)
+
+    def get(self,id):
+        """Auslesen einer Teilnahme aus der DB """
+        adm = ProjectAdministration()
+        participation = adm.get_participation_by_id(id)
+        return participation
+
+    def delete(self,id):
+        """Löschen einer Teilnahme aus der DB"""
+        adm = ProjectAdministration()
+        participation = adm.get_participation_by_id(id)
+        if participation is None:
+            return 'Teilnahme konnte nicht aus der DB gelöscht werden', 500
+        else:
+            adm.delete_particpation(participation)
+            return 'Teilnahme wurde erfolgreich aus der DB gelöscht', 200
+
 """Project"""
 
 """Project_type"""
