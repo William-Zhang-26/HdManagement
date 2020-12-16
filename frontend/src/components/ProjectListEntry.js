@@ -42,6 +42,48 @@ class ProjectListEntry extends Component {
 //StudentProjectSignIn/Out handler und Button
 //Show/ Closed SignIn/Out Dialog
 
+  /** Handles the onClick event of the delete customer button */
+  StudentProjectSignInClicked = (event) => {
+    event.stopPropagation();
+    this.setState({
+      showStudentProjectSignIn : true
+    });
+  }
+
+  /** Handles the onClose event of the CustomerDeleteDialog */
+  StudentProjectSignInClosed = (project) => {
+    // if customer is not null, delete it
+    if (project) {
+      this.props.onStudentProjectSignIn(project);
+    };
+
+    // Don´t show the dialog
+    this.setState({
+      showStudentProjectSignIn: false
+    });
+  }
+
+  /** Handles the onClick event of the delete customer button */
+  StudentProjectSignOutClicked = (event) => {
+    event.stopPropagation();
+    this.setState({
+      showStudentProjectSignOut : true
+    });
+  }
+
+  /** Handles the onClose event of the CustomerDeleteDialog */
+  StudentProjectSignOutClosed = (project) => {
+    // if customer is not null, delete it
+    if (project) {
+      this.props.onStudentProjectSignOut(project);
+    };
+
+    // Don´t show the dialog
+    this.setState({
+      showStudentProjectSignOut: false
+    });
+  }
+
 
   /** Renders the component */
   render() {
