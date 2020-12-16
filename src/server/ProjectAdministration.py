@@ -45,9 +45,9 @@ class ProjectAdministration (object):
         with ModuleMapper() as mapper:
             return mapper.find_all()
 
-    def get_module_by_id(self, number):
+    def get_module_by_id(self, id):
         with ModuleMapper() as mapper:
-            return mapper.find_by_key(number)
+            return mapper.find_by_key(id)
 
     def get_module_by_name(self, name):
         with ModuleMapper() as mapper:
@@ -85,9 +85,9 @@ class ProjectAdministration (object):
         with ValidationMapper() as mapper:
             return mapper.find_all()
 
-    def get_validation_by_id(self, number):
+    def get_validation_by_id(self, id):
         with ValidationMapper() as mapper:
-            return mapper.find_by_key(number)
+            return mapper.find_by_key(id)
 
     def get_validation_by_grade(self, grade):
         with ValidationMapper() as mapper:
@@ -126,9 +126,9 @@ class ProjectAdministration (object):
         with ParticipationMapper() as mapper:
             return mapper.find_all()
 
-    def get_participation_by_id(self, number):
+    def get_participation_by_id(self, id):
         with ParticipationMapper() as mapper:
-            return mapper.find_by_key(number)
+            return mapper.find_by_key(id)
 
     def get_participation_by_module_id(self, module_id):
         with ParticipationMapper() as mapper:
@@ -182,10 +182,10 @@ class ProjectAdministration (object):
         with Project_typeMapper() as mapper:
             return mapper.find_all()
 
-    def get_project_type_by_id(self, number):
+    def get_project_type_by_id(self, id):
         """Den Projekttypen mit der gegebenen ID auslesen."""
         with Project_typeMapper() as mapper:
-            return mapper.find_by_key(number)
+            return mapper.find_by_key(id)
 
     def get_project_type_by_name(self, name):
         """Den Projekttypen mit dem gegebenen Namen auslesen."""
@@ -272,10 +272,10 @@ class ProjectAdministration (object):
         with SemesterMapper() as mapper:
             return mapper.find_all()
 
-    def get_semester_by_id(self, number):
+    def get_semester_by_id(self, id):
         """Das Semester mit der gegebenen ID auslesen."""
         with SemesterMapper() as mapper:
-            return mapper.find_by_key(number)
+            return mapper.find_by_key(id)
 
     def get_semester_by_name(self, name):
         """Das Semester mit dem gegebenen Namen auslesen."""

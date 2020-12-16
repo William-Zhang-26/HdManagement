@@ -117,6 +117,51 @@ class HelloWorld(Resource):
 
 """Automat"""
 
+@projectmanager.route('/project/<int:id>/automat')
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@projectmanager.param('id', 'Die ID des Project-Objekts')
+class ProjectRelatedAutomatOperations(Resource):
+    @projectmanager.marshal_with(automat)
+    #@secured
+    def get(self, id):
+        """Auslesen aller Automat-Objekte bzgl. eines bestimmten Projekt-Objekts.
+
+        Das Projekt-Objekt dessen Automat wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        # Zunächst benötigen wir den durch id gegebenen Projektes.
+        proj = adm.get_project_by_id(id)
+
+        # Haben wir eine brauchbare Referenz auf ein Projekt-Objekt bekommen?
+        if proj is not None:
+            # Jetzt erst lesen wir den Automaten des Projektes aus.
+            automat_list = adm.get_automat_of_project(proj)
+            return automat_list
+        else:
+            return "Project not found", 500
+
+    @projectmanager.marshal_with(automat, code=201)
+    #@secured
+    def post(self, id):
+        """Anlegen eines Automaten für ein gegebenes Projekt.
+
+        Der neu angelegte Automat wird als Ergebnis zurückgegeben.
+
+        **Hinweis:** Unter der id muss ein Projekt existieren, andernfalls wird Status Code 500 ausgegeben."""
+        adm = ProjectAdministration()
+        """Stelle fest, ob es unter der id eine Projekt gibt. 
+        Dies ist aus Gründen der referentiellen Integrität sinnvoll!
+        """
+        proj = adm.get_project_by_id(id)
+
+        if proj is not None:
+            # Jetzt erst macht es Sinn, für das Projekt ein neuen Automaten anzulegen und diesen zurückzugeben.
+            result = adm.create_automat_for_project(proj)
+            return result
+        else:
+            return "Project unknown", 500
+
+
 """State"""
 
 """Module"""
