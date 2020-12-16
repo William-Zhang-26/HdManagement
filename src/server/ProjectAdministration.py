@@ -4,6 +4,7 @@ from .bo.Module import Module
 from .bo.Participation import Participation
 from .bo.Project import Project
 from .bo.Project_type import Project_type
+from .bo.Role import Role
 from .bo.Semester import Semester
 from .bo.Student import Student
 from .bo.User import User
@@ -15,6 +16,7 @@ from .db.ModuleMapper import ModuleMapper
 from .db.ParticipationMapper import ParticipationMapper
 from .db.ProjectMapper import ProjectMapper
 from .db.Project_typeMapper import Project_typeMapper
+from .db.RoleMapper import RoleMapper
 from .db.SemesterMapper import SemesterMapper
 from .db.StudentMapper import StudentMapper
 from .db.UserMapper import UserMapper
@@ -215,6 +217,45 @@ class ProjectAdministration (object):
 
             mapper.delete(project_type)
 
+# Role
+    def create_role(self, name):
+        """Eine Rolle anlegen"""
+        role = Role()
+        role.set_name(name)
+
+        with RoleMapper() as mapper:
+            return mapper.insert(role)
+
+    def get_all_role(self):
+        """Alle Rollen auslesen"""
+        with RoleMapper() as mapper:
+            return mapper.find_all()
+
+    def get_role_by_id(self, id):
+        """Die Rolle mit der angegeben ID auslesen"""
+        with RoleMapper as mapper:
+            return mapper.find_by_key(id)
+
+    def get_role_by_name(self, name):
+        """Die Rollen anhand des Namens ausgeben"""
+        with RoleMapper as mapper:
+            return mapper.find_by_name(name)
+
+    def save_role(self, role):
+        """Die Rolle speichern."""
+        with RoleMapper() as mapper:
+            mapper.update(role)
+
+    def delete_role(self, role):
+        """Die Rolle aus unserem System löschen"""
+        with RoleMapper() as mapper:
+            new_role = self.get_role_by_id(role.get_id())
+            if not (new_role is None):
+                for i in role:
+                    self.delete_role(i)
+
+            mapper.delete(role)
+
 # Semester
     def create_semester(self, name, semester_number):
         """Einen Semester anlegen"""
@@ -356,6 +397,6 @@ class ProjectAdministration (object):
             role = self._get_role_by_user(user.get_id())
             if not (role is None):
                 for r in role:
-                    self._delete_role(r)
+                    self._delete_user(r)
 
             mapper.delete(user)
