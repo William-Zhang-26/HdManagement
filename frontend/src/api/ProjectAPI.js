@@ -19,6 +19,7 @@ export default class ProjectAPI {
     #getProjectsURL = () => `${this.#projectServerBaseURL}/projects`;
     #getProjectURL = (id) => `${this.#projectServerBaseURL}/projects/${id}`;
     #getAttributesForProjectURL = (id) => `${this.#projectServerBaseURL}/projects/${id}/attributes`;
+    #addProjectURL = () => `${this.#projectServerBaseURL}/projects`;
 
     //Student related
     #getStudentURL = (id) => `${this.#projectServerBaseURL}/students/${id}`;
@@ -87,6 +88,25 @@ export default class ProjectAPI {
           })
         })
       }
+
+      addProject(projectBO) {
+        return this.#fetchAdvanced(this.#addProjectURL(), {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json, text/plain',
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify(projectBO)
+        }).then((responseJSON) => {
+          // We always get an array of CustomerBOs.fromJSON, but only need one object
+          let responseProjectBO = ProjectBO.fromJSON(responseJSON)[0];
+          // console.info(accountBOs);
+          return new Promise(function (resolve) {
+            resolve(responseProjectBO);
+          })
+        })
+      }
+
 
 
 
