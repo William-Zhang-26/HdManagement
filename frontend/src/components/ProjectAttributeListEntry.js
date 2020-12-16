@@ -31,11 +31,20 @@ class ProjectAttributeListEntry extends Component {
         <div className={classes.root}>
             <List className={classes.attributeList}>
                 <ListItem>
-                    <Typography variant='body1' className={classes.heading}>{project.getCapacity()}
+                    <Typography>
+                      Kapazität: {project.getCapacity()}
                     </Typography>
                 </ListItem>
                 <ListItem>
-                    <Box color='textSecondary'> Weitere Attribute </Box>   
+                <Typography>
+                      Externe Partner: {project.getPartners()}
+                    </Typography>
+                </ListItem>
+                <ListItem>
+                    <Box color='textSecondary'> Weitere Attribute </Box>
+                    <Typography>
+                      Weitere Attribute: lul
+                    </Typography>
                 </ListItem>
                 <ListItem>
                     <LoadingProgress show={loadingInProgress} />

@@ -54,7 +54,7 @@ export default class ProjectAPI {
             })
         })
     }
-    /**
+    
     getAttributesForProject(attributeBOs) {
         return this.#fetchAdvanced(this.#getAttributesForProjectURL(attributeBOs))
           .then(responseJSON => {
@@ -64,8 +64,8 @@ export default class ProjectAPI {
             })
           })
       }
-      */
-
+      
+/**
      getAttributesForProject(projectID) {
       return this.#fetchAdvanced(this.#getAttributesForProjectURL(projectID))
         .then((responseJSON) => {
@@ -76,7 +76,7 @@ export default class ProjectAPI {
           })
         })
     }
-
+*/
     getProject(projectID) {
         return this.#fetchAdvanced(this.#getProjectURL(projectID)).then((responseJSON) => {
           // We always get an array of CustomerBOs.fromJSON, but only need one object

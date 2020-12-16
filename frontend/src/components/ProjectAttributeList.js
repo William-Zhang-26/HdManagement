@@ -95,7 +95,8 @@ class ProjectAttributeList extends Component {
     const { loadingInProgress, loadingAttributeError, attributes } = this.state;
 
     // console.log(this.props);
-    console.log(attributes)
+    // console.log(attributes);
+    
     return (
       <div className={classes.root}>
         <List className={classes.attributeList}>
@@ -125,13 +126,8 @@ const styles = theme => ({
   root: {
     width: '100%',
   },
-  accountList: {
+  attributeList: {
     marginBottom: theme.spacing(2),
-  },
-  addAccountButton: {
-    position: 'absolute',
-    right: theme.spacing(3),
-    bottom: theme.spacing(1),
   }
 });
 
