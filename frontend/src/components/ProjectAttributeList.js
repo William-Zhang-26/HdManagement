@@ -21,7 +21,7 @@ class ProjectAttributeList extends Component {
 
     // Init the state
     this.state = {
-      attributes: [],
+      attribute: [],
       loadingInProgress: false,
       loadingAttributeError: null,
     };
@@ -54,12 +54,12 @@ class ProjectAttributeList extends Component {
   getAttributes = () => {
     ProjectAPI.getAPI().getAttributesForProject(this.props.project.getID()).then(attributeBOs =>
       this.setState({ 
-        attributes: attributeBOs,
+        StudentProjectSignOut: attributeBOs,
         loadingInProgress: false, // loading indicator 
         loadingAttributeError: null
       })).catch(e =>
         this.setState({ // Reset state with error from catch 
-          attributes: [],
+          projects: [],
           loadingInProgress: false,
           loadingAttributeError: e
         })
@@ -92,7 +92,7 @@ class ProjectAttributeList extends Component {
   render() {
     const { classes, project } = this.props;
     // Use the states customer
-    const { loadingInProgress, loadingAttributeError, attributes } = this.state;
+    const { loadingInProgress, loadingAttributeError, projects } = this.state;
 
     // console.log(this.props);
     // console.log(attributes);
@@ -101,7 +101,7 @@ class ProjectAttributeList extends Component {
       <div className={classes.root}>
         <List className={classes.attributeList}>
           {
-            attributes.map(attribute => <ProjectAttributeListEntry key={attribute.getID()} attribute={attribute} 
+            projects.map(attributes => <ProjectAttributeListEntry key={attributes.getID()} attributes={attributes} 
               show={this.props.show} />)
           }
 
