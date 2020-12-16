@@ -25,7 +25,6 @@ class StudentProjectSignIn extends Component {
 
 //Folgendes in der API ergänzen:
 //get Student ID
-//AddStudentForProject(ProjectID)
 //project get ID
 
   /** Adds an account for the current customer */
