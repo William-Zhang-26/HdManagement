@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, List, ListItem } from '@material-ui/core';
+import { withStyles, List, ListItem, Button } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
 import { withRouter } from 'react-router-dom';
 import  ProjectAPI  from '../api/ProjectAPI';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import ProjectListEntry from './ProjectListEntry';
+import ProjectForm from './dialogs/ProjectForm';
 
 /**
  * Controlls a list of CustomerListEntrys to create a accordion for each customer.  
@@ -99,18 +101,45 @@ class StudentProjectList extends Component {
     });
   }
 
+  /** Handles the onClick event of the add customer button */
+  addProjectButtonClicked = event => {
+    // Do not toggle the expanded state
+    event.stopPropagation();
+    //Show the CustmerForm
+    this.setState({
+      showProjectForm: true
+    });
+  }
 
+  /** Handles the onClose event of the CustomerForm */
+  projectFormClosed = project => {
+    // customer is not null and therefore created
+    if (project) {
+      const newProjectList = [...this.state.projects, project];
+      this.setState({
+        projects: newProjectList,
+        showProjectForm: false
+      });
+    } else {
+      this.setState({
+        showProjectForm: false
+      });
+    }
+  }
 
 
 
   /** Renders the component */
   render() {
     const { classes } = this.props;
-    const { projects, expandedProjectID, loadingInProgress, error } = this.state;
+    const { projects, expandedProjectID, loadingInProgress, error, showProjectForm } = this.state;
 
     return (
       <div className={classes.root}>
         <List className={classes.projectList}>
+        <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addProjectButtonClicked}>
+              Projekt erstellen
+          </Button>
         { 
           // Show the list of CustomerListEntry components
           // Do not use strict comparison, since expandedCustomerID maybe a string if given from the URL parameters
@@ -121,6 +150,7 @@ class StudentProjectList extends Component {
           <ListItem>
             <LoadingProgress show={loadingInProgress} />
             <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjects} />
+            <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} />
           </ListItem>
 
         </List>
