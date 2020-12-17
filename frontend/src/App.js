@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
-import { Container, ThemeProvider, CssBaseline } from '@material-ui/core';
+import { ThemeProvider, CssBaseline } from '@material-ui/core';
+//import { Container } from '@material-ui/core';
 import Theme from './Theme';
 import SignIn from './components/pages/SignIn';
 import LoadingProgress from './components/dialogs/LoadingProgress';
@@ -8,8 +9,11 @@ import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
 import Impressum from './components/pages/Impressum';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import Header from './components/layout/Header';
+import StudentHeader from './components/layout/StudentHeader';
+//import LecturerAdminHeader from './components/layout/LecturerAdminHeader';
 import StudentProjectList from './components/StudentProjectList';
+//import LecturerProjectList from './components/LecturerProjectList';
+import AdminProjectList from './components/AdminProjectList';
 
 
 class App extends React.Component {
@@ -104,14 +108,24 @@ class App extends React.Component {
         <CssBaseline />
         <Router basename={process.env.PUBLIC_URL}>
           <div className="App">
-            <Header user={currentUser}/>
+            <StudentHeader user={currentUser}/>
+            {
+            //<LecturerAdminHeader user={currentUser}/>
+            //<StudentHeader user={currentUser}/>
+            }
             {
 
               currentUser ?
                   <>
                     <Redirect from='/' to='projects' />
                     <Route exact path='/projects'>
-                      <StudentProjectList />
+                      
+                    <AdminProjectList />
+                      {
+                        //<LecturerProjectList />
+                        //<AdminProjectList />
+                        //<StudentProjectList />
+                      }
                     </Route>
                       <Route path='/impressum' component={Impressum} />
                   </>

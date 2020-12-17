@@ -4,8 +4,7 @@ import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, 
 import { Button, List, ListItem } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 //import CustomerForm from './dialogs/CustomerForm';
-import StudentProjectSignIn from './dialogs/StudentProjectSignIn';
-import StudentProjectSignOut from './dialogs/StudentProjectSignOut';
+import ValidationForm from './dialogs/ValidationForm';
 import AddIcon from '@material-ui/icons/Add';
 
 /** Fehlende Inhalte:
@@ -19,7 +18,7 @@ import AddIcon from '@material-ui/icons/Add';
 //Admin Funktionen ergänzen
 
 
-class ProjectListEntry extends Component {
+class AdminProjectListEntry extends Component {
 
     constructor(props) {
       super(props);
@@ -27,8 +26,7 @@ class ProjectListEntry extends Component {
       // Init the state
       this.state = {
         project: props.project,
-        showStudentProjectSignOut: false,
-        showStudentProjectSignIn: false,
+        showValidationForm: false,
         //Admin Attribute für Funktionen
       };
     }
@@ -39,48 +37,48 @@ class ProjectListEntry extends Component {
   }
 
 
-
+// Projekt genehmigen
   /** Handles the onClick event of the delete customer button */
-  StudentProjectSignInClicked = (event) => {
+  ApproveProjectClicked = (event) => {
     event.stopPropagation();
     this.setState({
-      showStudentProjectSignIn : true
+      showValidationForm : true
     });
   }
 
   /** Handles the onClose event of the CustomerDeleteDialog */
-  StudentProjectSignInClosed = (project) => {
+  ValidationFormClosed = (project) => {
     // if customer is not null, delete it
     if (project) {
-      this.props.onStudentProjectSignIn(project);
+      this.props.onApproveProject(project);
     };
 
     // Don´t show the dialog
     this.setState({
-      showStudentProjectSignIn: false
+      showValidationForm: false
     });
   }
 
 
-  
+// Projekt ablehnen  
   /** Handles the onClick event of the delete customer button */
-  StudentProjectSignOutClicked = (event) => {
+  RejectProjectClicked = (event) => {
     event.stopPropagation();
     this.setState({
-      showStudentProjectSignOut : true
+      showValidationForm : true
     });
   }
 
   /** Handles the onClose event of the CustomerDeleteDialog */
-  StudentProjectSignOutClosed = (project) => {
+  ValidationFormClosed = (project) => {
     // if customer is not null, delete it
     if (project) {
-      this.props.onStudentProjectSignOut(project);
+      this.props.onRejectProject(project);
     };
 
     // Don´t show the dialog
     this.setState({
-      showStudentProjectSignOut: false
+      showValidationForm: false
     });
   }
 
@@ -90,7 +88,7 @@ class ProjectListEntry extends Component {
   render() {
     const { classes, expandedState } = this.props;
     // Use the states customer
-    const { project, showStudentProjectSignIn, showStudentProjectSignOut } = this.state;
+    const { project, showValidationForm } = this.state;
 
     // console.log(this.state);
     return (
@@ -123,19 +121,19 @@ class ProjectListEntry extends Component {
             <ListItem>Anzahl der Blocktage in der Vorlesungszeit (Samstage): {project.getBDaysSaturdays()} </ListItem>
             <ListItem>Raum: {project.getPreferredRoom()} </ListItem> 
             <ListItem>
-              <Button  color='secondary' startIcon={<AddIcon />} onClick={this.StudentProjectSignInClicked}>
-                Anmelden
-              </Button>
-              <Button  color='primary' startIcon={<AddIcon />} onClick={this.StudentProjectSignOutClicked}>
-                Abmelden
-              </Button>
+                <Button  color='success' startIcon={<AddIcon />} onClick={this.ApproveProjectClicked}>
+                  Genehmigen
+                </Button>
+                <Button  color='error' startIcon={<AddIcon />} onClick={this.RejectProjectClicked}>
+                  Ablehnen
+                </Button>
             </ListItem>  
           </List>
           </AccordionDetails>
         </Accordion>
-        <StudentProjectSignIn show={showStudentProjectSignIn} project={project} onClose={this.StudentProjectSignInClosed} /> 
-        <StudentProjectSignOut show={showStudentProjectSignOut} project={project} onClose={this.StudentProjectSignOutClosed} /> 
-        {/**<CustomerDeleteDialog show={showCustomerDeleteDialog} customer={customer} onClose={this.deleteCustomerDialogClosed} />   Admin Funktionen*/} 
+        <ValidationForm show={showValidationForm} project={project} onClose={this.ValidationFormClosed} /> 
+        {/**<StudentProjectSignOut show={showRejectProject} project={project} onClose={this.StudentProjectSignOutClosed} /> 
+        <CustomerDeleteDialog show={showCustomerDeleteDialog} customer={customer} onClose={this.deleteCustomerDialogClosed} />   Admin Funktionen*/} 
       </div>
     );
   }
@@ -151,7 +149,7 @@ const styles = theme => ({
   });
   
   /** PropTypes */
-ProjectListEntry.propTypes = {
+AdminProjectListEntry.propTypes = {
     /** @ignore */
     classes: PropTypes.object.isRequired,
     /** The CustomerBO to be rendered */
@@ -165,6 +163,6 @@ ProjectListEntry.propTypes = {
     onExpandedStateChange: PropTypes.func.isRequired
     }
   
-export default withStyles(styles)(ProjectListEntry);
+export default withStyles(styles)(AdminProjectListEntry);
 
 
