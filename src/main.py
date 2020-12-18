@@ -116,6 +116,55 @@ class HelloWorld(Resource):
         return jsonify({'hello': 'world'})
 
 """Automat"""
+@projectmanager.route("/automat")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class AutomatOperations(Resource):
+    @projectmanager.marshal_with(automat, code=200)
+    @projectmanager.expect(automat)
+    def post(self):
+        """Automat erstellen"""
+        adm = ProjectAdministration()
+        proposal = Automat.from_dict(api.payload)
+        if proposal is not None:
+            c = adm.create_project_type(proposal.get_name(), proposal.get_state(), proposal.get_state_id())
+            return c, 200
+        else:
+            return '', 500
+
+@projectmanager.route("/automat/<int:id>")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@projectmanager.param('id', 'Die ID des Automat-Objekts')
+class AutomatOperations(Resource):
+    @projectmanager.marshal_with(automat)
+    def get(self, id):
+        """Auslesen eines Automaten aus der DB"""
+        adm = ProjectAdministration()
+        automat = adm.get_automat_by_id(id)
+        return automat
+
+    def delete(self, id):
+        """Löschen eines Automaten aus der DB"""
+        adm = ProjectAdministration()
+        automat = adm.get_automat_by_id(id)
+        if automat is None:
+            return 'Automat konnte nicht aus der DB gelöscht werden', 500
+        else:
+            adm.delete_automat(automat)
+            return 'Automat wurde erfolgreich aus der DB gelöscht', 200
+
+    @projectmanager.expect(automat)
+    def put(self, id):
+        """Automat wird aktualisiert"""
+        adm = ProjectAdministration()
+        automat = Automat.from_dict(api.payload)
+
+        if automat is None:
+            return "Automat konnte nicht geändert werden", 500
+
+        else:
+            automat.set_id(id)
+            adm.save_automat(automat)
+            return "Automat wurde erfolgreich geändert", 200
 
 @projectmanager.route('/project/<int:id>/automat')
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -163,9 +212,59 @@ class ProjectRelatedAutomatOperations(Resource):
 
 
 """State"""
+@projectmanager.route("/state")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class StateOperations(Resource):
+    @projectmanager.marshal_with(state, code=200)
+    @projectmanager.expect(state)
+    def post(self):
+        """Zustand erstellen"""
+        adm = ProjectAdministration()
+        proposal = State.from_dict(api.payload)
+        if proposal is not None:
+            c = adm.create_project_type(proposal.get_name())
+            return c, 200
+        else:
+            return '', 500
+
+@projectmanager.route("/state/<int:id>")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@projectmanager.param('id', 'Die ID des Zustand-Objekts')
+class StateOperations(Resource):
+    @projectmanager.marshal_with(state)
+    def get(self, id):
+        """Auslesen eines Zustandes aus der DB"""
+        adm = ProjectAdministration()
+        state = adm.get_state_by_id(id)
+        return state
+
+    def delete(self, id):
+        """Löschen eines Zustandes aus der DB"""
+        adm = ProjectAdministration()
+        state = adm.get_state_by_id(id)
+        if state is None:
+            return 'Zustand konnte nicht aus der DB gelöscht werden', 500
+        else:
+            adm.delete_state(state)
+            return 'Zustand wurde erfolgreich aus der DB gelöscht', 200
+
+    @projectmanager.expect(state)
+    def put(self, id):
+        """Zustand wird aktualisiert"""
+        adm = ProjectAdministration()
+        state = State.from_dict(api.payload)
+
+        if state is None:
+            return "Zustand konnte nicht geändert werden", 500
+
+        else:
+            state.set_id(id)
+            adm.save_state(state)
+            return "Zustand wurde erfolgreich geändert", 200
 
 """Module"""
 @projectmanager.route("/module")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class ModuleOperations(Resource):
     @projectmanager.marshal_with(module, code=200)
     @projectmanager.expect(module)
@@ -258,6 +357,7 @@ class ParticipationOperationen(Resource):
 
 """Project_type"""
 @projectmanager.route("/project_type")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class Project_typeOperations(Resource):
     @projectmanager.marshal_with(project_type, code=200)
     @projectmanager.expect(project_type)
@@ -308,6 +408,7 @@ class Project_typeOperations(Resource):
 
 """Semester"""
 @projectmanager.route("/semester")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class SemesterOperations(Resource):
     @projectmanager.marshal_with(Semester, code=200)
     @projectmanager.expect(semester)
@@ -362,6 +463,7 @@ class SemesterOperations(Resource):
 
 """Validation"""
 @projectmanager.route("/validation")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class ValidationOperations(Resource):
     @projectmanager.marshal_with(validation, code=200)
     @projectmanager.expect(validation)
@@ -409,3 +511,6 @@ class ValidationOperations(Resource):
             validation.set_id(id)
             adm.save_validation(validation)
             return "Bewertung wurde erfolgreich geändert", 200
+
+if __name__ == '__main__':
+    app.run(debug=True)
