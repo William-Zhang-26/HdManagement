@@ -8,6 +8,7 @@ from src.server.bo.Module import Module
 from src.server.bo.Participation import Participation
 from src.server.bo.Project import Project
 from src.server.bo.Project_type import Project_type
+from src.server.bo.Role import Role
 from src.server.bo.Semester import Semester
 from src.server.bo.Student import Student
 from src.server.bo.User import User
@@ -43,7 +44,7 @@ validation = api.inherit('Validation', bo, {
     'grade': fields.Float(attribute='_grade', description='Bewertung eines Projektes')
 })
 
-nbo = api.model('NamedBusinessObject', bo, {
+nbo = api.inherit('NamedBusinessObject', bo, {
     'name': fields.String(attribute='_name', description='Der Name von einem NamedBusinessObject')
 })
 
@@ -74,9 +75,10 @@ semester = api.inherit('Semester', nbo, {
     'semester_number': fields.Integer(attribute='_semester_number', description='Die Anzahl des Semesters')
 })
 
+"""Rolle"""
 """
 role = api.inherit('Role', nbo, {
-    """"""
+    
 })
 """
 
