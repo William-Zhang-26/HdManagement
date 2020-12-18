@@ -412,7 +412,7 @@ class Project_typeOperations(Resource):
 @projectmanager.route("/semester")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class SemesterOperations(Resource):
-    @projectmanager.marshal_with(Semester, code=200)
+    @projectmanager.marshal_with(semester, code=200)
     @projectmanager.expect(semester)
     def post(self):
         """Semester erstellen"""
