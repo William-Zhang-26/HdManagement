@@ -63,11 +63,6 @@ class ProjectAdministration (object):
 
     def delete_module(self, module):
         with ModuleMapper() as mapper:
-            module = self.get_module_by_id(module.get_id())
-            if not (module is None):
-                for i in module:
-                    self.delete_module(i)
-
             mapper.delete(module)
 
 # Validation
