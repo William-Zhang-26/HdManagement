@@ -352,7 +352,7 @@ class ParticipationOperationen(Resource):
         if participation is None:
             return 'Teilnahme konnte nicht aus der DB gelöscht werden', 500
         else:
-            adm.delete_particpation(participation)
+            adm.delete_participation(participation)
             return 'Teilnahme wurde erfolgreich aus der DB gelöscht', 200
 
 """Project"""
