@@ -28,7 +28,7 @@ projectmanager = api.namespace('projectmanager', description='Funktionen des SSL
 BusinessObject dient als Basisklasse, auf der die weiteren Strukturen Participation, Validation und NamedBusinessObject aufsetzen."""
 bo = api.model('BusinessObject', {
     'id': fields.Integer(attribute='_id', description='Der Unique Identifier eines Business Object'),
-    'creation_time': fields.DateTime(attribute='_create_time', description='Erstellungszeitpunkt eines Business Objects')
+    'create_time': fields.DateTime(attribute='_create_time', description='Erstellungszeitpunkt eines Business Objects')
 })
 
 """Participation, Validation und NamedBusinessObject sind BusinessObjects..."""
