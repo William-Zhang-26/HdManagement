@@ -28,7 +28,7 @@ projectmanager = api.namespace('projectmanager', description='Funktionen des SSL
 BusinessObject dient als Basisklasse, auf der die weiteren Strukturen Participation, Validation und NamedBusinessObject aufsetzen."""
 bo = api.model('BusinessObject', {
     'id': fields.Integer(attribute='_id', description='Der Unique Identifier eines Business Object'),
-    'create_time': fields.DateTime(attribute='_create_time', description='Erstellungszeitpunkt eines Business Objects')
+    'create_time': fields.Date(attribute='_create_time', description='Erstellungszeitpunkt eines Business Objects')
 })
 
 """Participation, Validation und NamedBusinessObject sind BusinessObjects..."""
@@ -460,6 +460,55 @@ class SemesterOperations(Resource):
             return "Semester wurde erfolgreich geändert", 200
 
 """Student"""
+@projectmanager.route("/student")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class StudentOperations(Resource):
+    @projectmanager.marshal_with(student, code=200)
+    @projectmanager.expect(student)
+    def post(self):
+        """Student erstellen"""
+        adm = ProjectAdministration()
+        study = Student.from_dict(api.payload)
+        if study is not None:
+            c = adm.create_user(study.get_lastname(), study.get_firstname(), study.get_mail(),
+                                study.get_google_id(), study.get_role_id())
+            return c, 200
+        else:
+            return '', 500
+
+@projectmanager.route("/student/<int:id>")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@projectmanager.param('id', 'Die ID des Bewertungs-Objekts')
+class StudentOperations(Resource):
+    def get(self, id):
+        """Auslesen eines Studenten aus der Datenbank"""
+        adm = ProjectAdministration()
+        study = adm.get_student_by_id(id)
+        return study
+
+    def delete(self,id):
+        """Löschen eines Studenten aus der DB"""
+        adm = ProjectAdministration()
+        study = adm.get_student_by_id(id)
+        if study is None:
+            return 'Student konnte nicht aus der DB gelöscht werden', 500
+        else:
+            adm.delete_student(study)
+            return 'Student wurde erfolgreich aus der DB gelöscht', 200
+
+    @projectmanager.expect(student)
+    def put(self, id):
+        """Student werden aktualisiert"""
+        adm = ProjectAdministration()
+        study = Student.from_dict(api.payload)
+
+        if study is None:
+            return "Student konnte nicht geändert werden", 500
+
+        else:
+            study.set_id(id)
+            adm.save_student(study)
+            return "Student wurde erfolgreich geändert", 200
 
 """User"""
 
