@@ -6,10 +6,10 @@ class Participation(BusinessObject):
 
     def __init__(self):
         super().__init__()
-        self._module_id = 0
-        self._project_id = 0
-        self._student_id = 0
-        self._validation_id = 0
+        self._module_id = None # Fremdschlüsselbeziehung zum Modul.
+        self._project_id = None # Fremdschlüsselbeziehung zum Projekt.
+        self._student_id = None # Fremdschlüsselbeziehung zum Studenten.
+        self._validation_id = None # Fremdschlüsselbeziehung zur Bewertung.
         self._participation_status = bool
 
     def get_module_id(self):
