@@ -10,10 +10,11 @@ import Impressum from './components/pages/Impressum';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import StudentHeader from './components/layout/StudentHeader';
-//import LecturerAdminHeader from './components/layout/LecturerAdminHeader';
+import LecturerAdminHeader from './components/layout/LecturerAdminHeader';
 import StudentProjectList from './components/StudentProjectList';
-//import LecturerProjectList from './components/LecturerProjectList';
+import LecturerProjectList from './components/LecturerProjectList';
 import AdminProjectList from './components/AdminProjectList';
+import ProjectListParticipants from './components/ProjectListParticipants';
 
 
 class App extends React.Component {
@@ -108,9 +109,9 @@ class App extends React.Component {
         <CssBaseline />
         <Router basename={process.env.PUBLIC_URL}>
           <div className="App">
-            <StudentHeader user={currentUser}/>
+          <LecturerAdminHeader user={currentUser}/>
             {
-            //<LecturerAdminHeader user={currentUser}/>
+            //<LecturerAdminHeader user={currentUser}/><StudentHeader user={currentUser}/>
             //<StudentHeader user={currentUser}/>
             }
             {
@@ -120,14 +121,19 @@ class App extends React.Component {
                     <Redirect from='/' to='projects' />
                     <Route exact path='/projects'>
                       
-                    <AdminProjectList />
+                    <LecturerProjectList />
                       {
-                        //<LecturerProjectList />
+                        //<LecturerProjectList /><AdminProjectList />
                         //<AdminProjectList />
                         //<StudentProjectList />
                       }
                     </Route>
                       <Route path='/impressum' component={Impressum} />
+
+                    <Route path='/grades'>
+										  <ProjectListParticipants />
+								  	</Route>
+
                   </>
                   :
                   <>
