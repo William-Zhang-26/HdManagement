@@ -239,7 +239,7 @@ if __name__ == "__main__":
     with ParticipationMapper() as mapper:
         result = mapper.find_all()
         for participation in result:
-            print(participation.get_id())
+            print(participation.get_validation_id())
 
 #find_by_key
 if __name__ == "__main__":
@@ -282,7 +282,7 @@ if __name__ == "__main__":
    p.set_participation_status("teilgenommen")
    with ParticipationMapper() as mapper:
        mapper.insert(p)
-"""
+
 
 #update
 if __name__ == "__main__":
@@ -291,7 +291,7 @@ if __name__ == "__main__":
        participation.set_validation_id(2)
        mapper.update(participation)
 
-"""
+
 #delete
 if __name__ == "__main__":
    with ParticipationMapper() as mapper:

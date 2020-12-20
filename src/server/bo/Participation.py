@@ -38,11 +38,11 @@ class Participation(BusinessObject):
 
     def get_validation_id(self):
         """Auslesen des Foreign Keys validation_id"""
-        return self._module_id
+        return self._validation_id
 
     def set_validation_id(self, validation_id):
         """Setzen des Foreign Keys validation_id"""
-        self._module_id = validation_id
+        self._validation_id = validation_id
 
     def get_participation_status(self):
         """Auslesen des Teilnahmestatuses."""
