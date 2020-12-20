@@ -108,7 +108,6 @@ state = api.inherit('State', nbo, {
 })
 
 automat = api.inherit('Automat', nbo, {
-    'current_state': fields.String(attribute='_current_state', description='Der akutelle Zustand'),
     'state_id': fields.Integer(attribute='_state_id', description='Die ID des zugehörigen Zustandes')
 })
 
@@ -128,14 +127,14 @@ class AutomatOperations(Resource):
         adm = ProjectAdministration()
         proposal = Automat.from_dict(api.payload)
         if proposal is not None:
-            c = adm.create_project_type(proposal.get_name(), proposal.get_state(), proposal.get_state_id())
+            c = adm.create_automat(proposal.get_name(), proposal.get_state_id())
             return c, 200
         else:
             return '', 500
 
 @projectmanager.route("/automat/<int:id>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@projectmanager.param('id', 'Die ID des Automat-Objekts')
+@projectmanager.param('id', 'Die ID des Zustand-Objekts')
 class AutomatOperations(Resource):
     @projectmanager.marshal_with(automat)
     def get(self, id):
@@ -167,6 +166,8 @@ class AutomatOperations(Resource):
             automat.set_id(id)
             adm.save_automat(automat)
             return "Automat wurde erfolgreich geändert", 200
+
+
 
 @projectmanager.route('/project/<int:id>/automat')
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -224,7 +225,7 @@ class StateOperations(Resource):
         adm = ProjectAdministration()
         proposal = State.from_dict(api.payload)
         if proposal is not None:
-            c = adm.create_project_type(proposal.get_name())
+            c = adm.create_state(proposal.get_name())
             return c, 200
         else:
             return '', 500
