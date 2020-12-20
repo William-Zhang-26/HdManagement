@@ -4,7 +4,8 @@ import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, 
 import { Button, List, ListItem } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 //import CustomerForm from './dialogs/CustomerForm';
-import ValidationForm from './dialogs/ValidationForm';
+import ApproveValidationForm from './dialogs/ApproveValidationForm';
+import RejectValidationForm from './dialogs/RejectValidationForm';
 import AddIcon from '@material-ui/icons/Add';
 
 /** Fehlende Inhalte:
@@ -26,7 +27,8 @@ class AdminProjectListEntry extends Component {
       // Init the state
       this.state = {
         project: props.project,
-        showValidationForm: false,
+        showApproveValidationForm: false,
+        showRejectValidationForm: false,
         //Admin Attribute für Funktionen
       };
     }
@@ -42,12 +44,12 @@ class AdminProjectListEntry extends Component {
   ApproveProjectClicked = (event) => {
     event.stopPropagation();
     this.setState({
-      showValidationForm : true
+      showApproveValidationForm : true
     });
   }
 
   /** Handles the onClose event of the CustomerDeleteDialog */
-  ValidationFormClosed = (project) => {
+  ApproveValidationFormClosed = (project) => {
     // if customer is not null, delete it
     if (project) {
       this.props.onApproveProject(project);
@@ -55,7 +57,7 @@ class AdminProjectListEntry extends Component {
 
     // Don´t show the dialog
     this.setState({
-      showValidationForm: false
+      showApproveValidationForm: false
     });
   }
 
@@ -65,12 +67,12 @@ class AdminProjectListEntry extends Component {
   RejectProjectClicked = (event) => {
     event.stopPropagation();
     this.setState({
-      showValidationForm : true
+      showRejectValidationForm : true
     });
   }
 
   /** Handles the onClose event of the CustomerDeleteDialog */
-  ValidationFormClosed = (project) => {
+  RejectValidationFormClosed = (project) => {
     // if customer is not null, delete it
     if (project) {
       this.props.onRejectProject(project);
@@ -78,7 +80,7 @@ class AdminProjectListEntry extends Component {
 
     // Don´t show the dialog
     this.setState({
-      showValidationForm: false
+      showRejectValidationForm: false
     });
   }
 
@@ -88,7 +90,7 @@ class AdminProjectListEntry extends Component {
   render() {
     const { classes, expandedState } = this.props;
     // Use the states customer
-    const { project, showValidationForm } = this.state;
+    const { project, showApproveValidationForm, showRejectValidationForm } = this.state;
 
     // console.log(this.state);
     return (
@@ -131,7 +133,8 @@ class AdminProjectListEntry extends Component {
           </List>
           </AccordionDetails>
         </Accordion>
-        <ValidationForm show={showValidationForm} project={project} onClose={this.ValidationFormClosed} /> 
+        <ApproveValidationForm show={showApproveValidationForm} project={project} onClose={this.ApproveValidationFormClosed} />
+        <RejectValidationForm show={showRejectValidationForm} project={project} onClose={this.RejectValidationFormClosed} /> 
         {/**<StudentProjectSignOut show={showRejectProject} project={project} onClose={this.StudentProjectSignOutClosed} /> 
         <CustomerDeleteDialog show={showCustomerDeleteDialog} customer={customer} onClose={this.deleteCustomerDialogClosed} />   Admin Funktionen*/} 
       </div>
