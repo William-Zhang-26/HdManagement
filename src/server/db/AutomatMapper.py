@@ -57,11 +57,11 @@ class AutomatMapper (Mapper):
 
         if len(tuples) != 0:
 
-            for (id, state_id, name, create_time) in tuples:
+            for (id, name, state_id, create_time) in tuples:
                 automat = Automat()
                 automat.set_id(id)
-                automat.set_state_id(state_id)
                 automat.set_name(name)
+                automat.set_state_id(state_id)
                 automat.set_create_time(create_time)
                 result.append(automat)
             result = automat
@@ -82,13 +82,14 @@ class AutomatMapper (Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, state_id, name, create_time) in tuples:
+        for (id, name, state_id, create_time) in tuples:
             automat = Automat()
             automat.set_id(id)
-            automat.set_state_id(state_id)
             automat.set_name(name)
+            automat.set_state_id(state_id)
             automat.set_create_time(create_time)
             result.append(automat)
+        result = automat
 
         self._cnx.commit()
         cursor.close()
@@ -106,8 +107,8 @@ class AutomatMapper (Mapper):
         for (MaxID) in tuples:
             automat.set_id(MaxID[0] + 1)
 
-        command = "INSERT INTO automat (id, state_id, name, create_time) VALUES ('{}', '{}' ,'{}','{}')" \
-            .format(automat.get_id(), automat.get_state_id(), automat.get_name (), automat.get_create_time())
+        command = "INSERT INTO automat (id, name, state_id, create_time) VALUES ('{}', '{}' ,'{}','{}')" \
+            .format(automat.get_id(), automat.get_name(), automat.get_state_id(), automat.get_create_time())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -118,8 +119,8 @@ class AutomatMapper (Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "UPDATE automat SET state_id =('{}'), name = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
-                    .format(automat.get_state_id(), automat.get_name(), automat.get_create_time(), automat.get_id())
+        command = "UPDATE automat SET name = ('{}'), state_id =('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
+                    .format(automat.get_name(), automat.get_state_id(), automat.get_create_time(), automat.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -143,12 +144,12 @@ if __name__ == "__main__":
         for p in result:
             print(p.get_name())
 """
-"""
+
 if __name__ == "__main__":
    with AutomatMapper() as mapper:
        p = mapper.find_by_key(1).get_name()
        print(p)
-"""
+
 """
 if __name__ == "__main__":
    with AutomatMapper() as mapper:
@@ -164,13 +165,13 @@ if __name__ == "__main__":
    with AutomatMapper() as mapper:
        mapper.insert(p)
 """
-
+"""
 if __name__ == "__main__":
    with AutomatMapper() as mapper:
        automat = mapper.find_by_key(12)
        automat.set_state_id(2)
        mapper.update(automat)
-
+"""
 
 """
 if __name__ == "__main__":
