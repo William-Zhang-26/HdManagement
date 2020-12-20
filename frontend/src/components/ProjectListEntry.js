@@ -107,7 +107,7 @@ class ProjectListEntry extends Component {
               </Grid>
               <Grid item xs />
               <Grid item>
-                <Typography variant='body2' color={'textSecondary'}>Condition</Typography> {/**Ergänzend steht hier die aktuelle Condition des Projektes */}
+                <Typography variant='body2' color={'textSecondary'}>State</Typography> {/**Ergänzend steht hier die aktuelle Condition des Projektes */}
               </Grid>
             </Grid>
           </AccordionSummary>

@@ -63,11 +63,6 @@ class ProjectAdministration (object):
 
     def delete_module(self, module):
         with ModuleMapper() as mapper:
-            module = self.get_module_by_id(module.get_id())
-            if not (module is None):
-                for i in module:
-                    self.delete_module(i)
-
             mapper.delete(module)
 
 # Validation
@@ -99,11 +94,6 @@ class ProjectAdministration (object):
 
     def delete_validation(self, validation):
         with ValidationMapper() as mapper:
-            validation = self.get_validation_by_id(validation.get_id())
-            if not (validation is None):
-                for i in validation:
-                    self.delete_validation(i)
-
             mapper.delete(validation)
 
 
@@ -152,10 +142,25 @@ class ProjectAdministration (object):
 
     def delete_participation(self, participation):
         with ParticipationMapper() as mapper:
-            participation = self.get_participation_by_id(participation.get_id())
-            if not (participation is None):
-                for i in participation:
-                    self.delete_participation(i)
+            module = self.get_participation_by_module_id(participation)
+            if not (module is None):
+                for i in module:
+                    self.delete_module(i)
+
+            project = self.get_participation_by_project_id(participation)
+            if not (project is None):
+                for i in project:
+                    self.delete_project(i)
+
+            student = self.get_participation_by_student_id(participation)
+            if not (student is None):
+                for i in student:
+                    self.delete_student(i)
+
+            validation = self.get_participation_by_validation_id(participation)
+            if not (validation is None):
+                for i in validation:
+                    self.delete_validation(i)
 
             mapper.delete(participation)
 
@@ -210,11 +215,6 @@ class ProjectAdministration (object):
     def delete_project_type(self, project_type):
         """Den gegebenen Projekttypen aus unserem System löschen"""
         with Project_typeMapper() as mapper:
-            project_type = self.get_project_type_by_id(project_type.get_id())
-            if not (project_type is None):
-                for i in project_type:
-                    self.delete_semester(i)
-
             mapper.delete(project_type)
 
 # Role
@@ -295,11 +295,6 @@ class ProjectAdministration (object):
     def delete_semester(self, semester):
         """Den gegebenen Semester aus unserem System löschen"""
         with SemesterMapper() as mapper:
-            module = self.get_semester_by_id(semester.get_id())
-            if not (module is None):
-                for i in semester:
-                    self.delete_semester(i)
-
             mapper.delete(semester)
 
 # Student
