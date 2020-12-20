@@ -166,7 +166,81 @@ class ProjectAdministration (object):
 
 # Automat
 
+    def create_automat(self, name, state_id):
+        """Einen Automat anlegen"""
+        automat = Automat()
+        automat.set_name(name)
+        automat.set_state_id(state_id)
+        automat.set_id(1)
+
+        with AutomatMapper() as mapper:
+            return mapper.insert(automat)
+
+    def get_all_automat(self):
+        """Alle Automate auslesen."""
+        with AutomatMapper() as mapper:
+            return mapper.find_all()
+
+    def get_automat_by_id(self, id):
+        """Den Automat mit der gegebenen ID auslesen."""
+        with AutomatMapper() as mapper:
+            return mapper.find_by_key(id)
+
+    def get_automat_by_name(self, name):
+        """Den Automat mit dem gegebenen Namen auslesen."""
+        with AutomatMapper() as mapper:
+            return mapper.find_by_name(name)
+
+    def get_automat_by_state_id(self, state_id):
+        """Den Automat mit der gegebenen Status ID auslesen."""
+        with AutomatMapper() as mapper:
+            return mapper.find_by_key(state_id)
+
+    def save_automat(self, automat):
+        """Den gegebenen Automaten speichern."""
+        with AutomatMapper() as mapper:
+            mapper.update(automat)
+
+    def delete_automat(self, automat):
+        """Den gegebenen Automaten aus unserem System löschen."""
+        with AutomatMapper() as mapper:
+            mapper.delete(automat)
+
 # Status
+
+    def create_state(self, name):
+        """Einen Status anlegen"""
+        state = State()
+        state.set_name(name)
+        state.set_id(1)
+
+        with StateMapper() as mapper:
+            return mapper.insert(state)
+
+    def get_all_state(self):
+        """Alle Statuse auslesen."""
+        with StateMapper() as mapper:
+            return mapper.find_all()
+
+    def get_state_by_id(self, id):
+        """Den Status mit der gegebenen ID auslesen."""
+        with StateMapper() as mapper:
+            return mapper.find_by_key(id)
+
+    def get_state_by_name(self, name):
+        """Den Status mit dem gegebenen Namen auslesen."""
+        with StateMapper() as mapper:
+            return mapper.find_by_name(name)
+
+    def save_state(self, state):
+        """Den gegebenen Status speichern."""
+        with StateMapper() as mapper:
+            mapper.update(state)
+
+    def delete_state(self, state):
+        """Den gegebenen Status aus unserem System löschen"""
+        with StateMapper() as mapper:
+            mapper.delete(state)
 
 # Project
 

@@ -2,7 +2,7 @@ from src.server.bo.NamedBusinessObject import NamedBusinessObject
 
 class Role(NamedBusinessObject):
 
-    def __init__(self, role):
+    def __init__(self, role=" "):
         super().__init__()
         self._name = role
 
