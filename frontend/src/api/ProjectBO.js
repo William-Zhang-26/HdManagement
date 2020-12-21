@@ -1,4 +1,6 @@
 import NamedBusinessObject from './NamedBusinessObject';
+import AutomatBO from './AutomatBO';
+import StateBO from './StateBO';
 
 /** Unstimmigkeiten mit dem Backend:
  * 
@@ -8,6 +10,12 @@ import NamedBusinessObject from './NamedBusinessObject';
  */
 
 export default class ProjectBO extends NamedBusinessObject {
+
+    /*static s_new = "neu"
+    static s_approved = "genehmigt"
+    static s_dismissed = "abgelehnt"
+    static s_inreview = "in Bewertung"
+    static s_reviewed = "Bewertung abgeschlossen"*/
 
     //Konstruktorklasse, welche ein Projekttypen BO erstellt mit den abgebildeten Attributen
     constructor(aCapacity, aPartners, aProjectDescription, aWeekly, aBDaysPreSchedule, aBDaysFinale, aBDaysSaturdays, aPreferredBDays, aRoomPreference, aPreferredRoom, aProjectCategory, aAdditionalSupervisor) {
@@ -26,6 +34,78 @@ export default class ProjectBO extends NamedBusinessObject {
         this.project_category = aProjectCategory;
         this.additional_supervisor = aAdditionalSupervisor;
     }
+
+    /**setFirstEvent(first_event) {
+        this.current_state = this.current_state.first_event(first_event)
+    }
+
+    setSecEvent(sec_event) {
+        this.current_state = this.current_state.sec_event(sec_event)
+    }
+
+    setThirdEvent(third_event) {
+        this.current_state = this.current_state.third_event(third_event)
+    }
+
+    setFourthEvent(fourth_event) {
+        this.current_state = this.current_state.fourth_event(fourth_event)
+    }
+
+    setFifthEvent(fifth_event) {
+        this.current_state = this.current_state.fifth_event(fifth_event)
+    }
+
+
+    getFirstEvent(first_event) {
+        let result
+        if (first_event === "neu") {
+            result = "neu";
+        } else {
+            //pass
+        }
+        return result;
+    }
+
+    getSecEvent(sec_event) {
+        let result
+        if (sec_event === "genehmigt") {
+            result = "genehmigt";
+        } else {
+            //pass
+        }
+        return result;
+    }
+
+    getThirdEvent(third_event) {
+        let result
+        if (third_event === "abgelehnt") {
+            result = "abgelehnt";
+        } else {
+            //pass
+        }
+        return result;
+    }
+
+    getFourthEvent(fourth_event) {
+        let result
+        if (fourth_event === "in Bewertung") {
+            result = "in Bewertung";
+        } else {
+            //pass
+        }
+        return result;    
+    }
+
+    getFifthEvent(fifth_event) {
+        let result
+        if (fifth_event === "Bewertung abgeschlossen") {
+            result = "Bewertung abgeschlossen";
+        } else {
+            //pass
+        }
+        return result;
+    }*/
+
 
     //Kapazität
     getCapacity() {
