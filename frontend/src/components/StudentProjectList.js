@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import  ProjectAPI  from '../api/ProjectAPI';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
-import ProjectListEntry from './ProjectListEntry';
+import StudentProjectListEntry from './StudentProjectListEntry';
 
 /**  
  * Hier wird die Liste aus Studentensicht angezeigt. Studenten sehen alle genehmigten Projekte
@@ -90,7 +90,7 @@ class StudentProjectList extends Component {
         { 
           // Show the list of CustomerListEntry components
           // Do not use strict comparison, since expandedCustomerID maybe a string if given from the URL parameters
-          projects.map(project => <ProjectListEntry key={project.getID()} project={project} 
+          projects.map(project => <StudentProjectListEntry key={project.getID()} project={project} 
           show={this.props.show}  onExpandedStateChange={this.onExpandedStateChange}/>)
         }
 

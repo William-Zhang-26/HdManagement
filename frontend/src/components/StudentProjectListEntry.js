@@ -19,7 +19,7 @@ import AddIcon from '@material-ui/icons/Add';
 //Admin Funktionen ergänzen
 
 
-class ProjectListEntry extends Component {
+class StudentProjectListEntry extends Component {
 
     constructor(props) {
       super(props);
@@ -151,7 +151,7 @@ const styles = theme => ({
   });
   
   /** PropTypes */
-ProjectListEntry.propTypes = {
+StudentProjectListEntry.propTypes = {
     /** @ignore */
     classes: PropTypes.object.isRequired,
     /** The CustomerBO to be rendered */
@@ -165,6 +165,6 @@ ProjectListEntry.propTypes = {
     onExpandedStateChange: PropTypes.func.isRequired
     }
   
-export default withStyles(styles)(ProjectListEntry);
+export default withStyles(styles)(StudentProjectListEntry);
 
 
