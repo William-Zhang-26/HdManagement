@@ -77,27 +77,6 @@ class StudentProjectList extends Component {
     this.getProjects();
   }
 
-  /** 
-   * Handles onExpandedStateChange events from the CustomerListEntry component. Toggels the expanded state of 
-   * the CustomerListEntry of the given CustomerBO.
-   * 
-   */
-  onExpandedStateChange = project => {
-    // console.log(customerID);
-    // Set expandend customer entry to null by default
-    let newID = null;
-
-    // If same customer entry is clicked, collapse it else expand a new one
-    if (project.getID() !== this.state.expandedProjectID) {
-      // Expand the customer entry with customerID
-      newID = project.getID();
-    }
-    // console.log(newID);
-    this.setState({
-      expandedProjectID: newID,
-    });
-  }
-
 
 
   /** Renders the component */
