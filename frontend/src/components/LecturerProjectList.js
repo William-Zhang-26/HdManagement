@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import  ProjectAPI  from '../api/ProjectAPI';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
-import ProjectListEntry from './ProjectListEntry';
+import LecturerProjectListEntry from './LecturerProjectListEntry';
 import ProjectForm from './dialogs/ProjectForm';
 
 /**  
@@ -78,26 +78,6 @@ class LecturerProjectList extends Component {
     this.getProjects();
   }
 
-  /** 
-   * Handles onExpandedStateChange events from the CustomerListEntry component. Toggels the expanded state of 
-   * the CustomerListEntry of the given CustomerBO.
-   * 
-   */
-  onExpandedStateChange = project => {
-    // console.log(customerID);
-    // Set expandend customer entry to null by default
-    let newID = null;
-
-    // If same customer entry is clicked, collapse it else expand a new one
-    if (project.getID() !== this.state.expandedProjectID) {
-      // Expand the customer entry with customerID
-      newID = project.getID();
-    }
-    // console.log(newID);
-    this.setState({
-      expandedProjectID: newID,
-    });
-  }
 
   /** Handles the onClick event of the add customer button */
   addProjectButtonClicked = event => {
@@ -141,7 +121,7 @@ class LecturerProjectList extends Component {
         { 
           // Show the list of CustomerListEntry components
           // Do not use strict comparison, since expandedCustomerID maybe a string if given from the URL parameters
-          projects.map(project => <ProjectListEntry key={project.getID()} project={project} 
+          projects.map(project => <LecturerProjectListEntry key={project.getID()} project={project} 
           show={this.props.show}  onExpandedStateChange={this.onExpandedStateChange}/>)
         }
 

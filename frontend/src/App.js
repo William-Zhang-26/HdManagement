@@ -121,7 +121,7 @@ class App extends React.Component {
                     <Redirect from='/' to='projects' />
                     <Route exact path='/projects'>
                       
-                    <AdminProjectList />
+                    <LecturerProjectList />
                       {
                         //<LecturerProjectList /><AdminProjectList />
                         //<AdminProjectList />
