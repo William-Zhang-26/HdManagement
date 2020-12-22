@@ -142,12 +142,12 @@ class LecturerProjectList extends Component {
 /** Component specific styles */
 const styles = theme => ({
   root: {
-    width: '100%',
+    width: '90%',
+    marginTop: theme.spacing(3),
+    //marginRight: theme.spacing(10),
+    marginLeft: theme.spacing(10),
   },
-  customerFilter: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(1),
-  }
+
 });
 
 /** PropTypes */
