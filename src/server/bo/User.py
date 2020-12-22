@@ -12,20 +12,10 @@ class User(NamedBusinessObject):
 
     def __init__(self):
         super().__init__()
-        self._lastname = ""
         self._firstname = ""
         self._mail = ""
         self._google_id = ""
         self._role_id = 0
-        self._current_role = ""
-
-    def get_lastname(self):
-        """Auslesen des Nachnamens"""
-        return self._lastname
-
-    def set_lastname(self, new_lastname):
-        """Setzen des Nachnamens"""
-        self._lastname = new_lastname
 
     def get_firstname(self):
         """Auslesen des Vornamens"""
@@ -59,27 +49,14 @@ class User(NamedBusinessObject):
         """Setzen der Rollen-Id (Soll nicht wirklich funktionieren"""
         self._role_id = new_role_id
 
-    def get_role(self):
-        """ Hier wird der Akutelle Status ausgegeben"""
-        return self._current_role
-
-    def set_role(self, new_role):
-        """ Hier wird der Zustand gesetzt"""
-        self._current_role = new_role
-
-    def is_in_state(self, role):
-        """ Hier wird überprüft ob der Zustand in dem gewünschten Zustand ist"""
-        return role == self._current_role
-
     @staticmethod
     def from_dict(dict = dict()):
         new_user = User()
         new_user.set_id(dict["id"])
-        new_user.set_lastname(dict["lastname"])
+        new_user.set_name(dict["name"])
         new_user.set_firstname(dict["firstname"])
         new_user.set_mail(dict["mail"])
         new_user.set_google_id(dict["google_id"])
         new_user.set_role_id(dict["role_id"])
-        new_user.set_role(dict["role"])
         new_user.set_create_time(dict["create_time"])
         return new_user
