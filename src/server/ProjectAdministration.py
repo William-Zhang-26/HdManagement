@@ -308,12 +308,12 @@ class ProjectAdministration (object):
 
     def get_role_by_id(self, id):
         """Die Rolle mit der angegeben ID auslesen"""
-        with RoleMapper as mapper:
+        with RoleMapper() as mapper:
             return mapper.find_by_key(id)
 
     def get_role_by_name(self, name):
         """Die Rollen anhand des Namens ausgeben"""
-        with RoleMapper as mapper:
+        with RoleMapper() as mapper:
             return mapper.find_by_name(name)
 
     def save_role(self, role):
@@ -379,39 +379,39 @@ class ProjectAdministration (object):
         student.set_participation_id(participation_id)
         student.set_id(1)
 
-        with StudentMapper as mapper:
+        with StudentMapper() as mapper:
             return mapper.insert(student)
 
     def get_all_student(self):
-        with StudentMapper as mapper:
+        with StudentMapper() as mapper:
             return mapper.find_all()
 
     def get_student_by_id(self, id):
-        with StudentMapper as mapper:
+        with StudentMapper() as mapper:
             return mapper.find_by_key(id)
 
     def get_student_by_name(self, name):
-        with StudentMapper as mapper:
+        with StudentMapper() as mapper:
             return mapper.find_by_name(name)
 
     def get_student_by_firstname(self, firstname):
-        with StudentMapper as mapper:
+        with StudentMapper() as mapper:
             return mapper.find_by_firstname(firstname)
 
     def get_student_by_course(self, course):
-        with StudentMapper as mapper:
+        with StudentMapper() as mapper:
             return mapper.find_by_course(course)
 
     def get_student_by_matriculation_number(self, matriculation_number):
-        with StudentMapper as mapper:
+        with StudentMapper() as mapper:
             return mapper.find_by_matriculation_number(matriculation_number)
 
     def save_student(self, student):
-        with StudentMapper as mapper:
+        with StudentMapper() as mapper:
             mapper.update(student)
 
     def delete_student(self, student):
-        with StudentMapper as mapper:
+        with StudentMapper() as mapper:
             part = self._get_participation_by_student(student.get_id())
             if not (part is None):
                 for p in part:
@@ -430,35 +430,35 @@ class ProjectAdministration (object):
         user.set_role_id(role_id)
         user.set_id(1)
 
-        with UserMapper as mapper:
+        with UserMapper() as mapper:
             return mapper.insert(user)
 
     def get_all_user(self):
-        with UserMapper as mapper:
+        with UserMapper() as mapper:
             mapper.find_all()
 
     def get_user_by_id(self, id):
-        with UserMapper as mapper:
+        with UserMapper() as mapper:
             mapper.find_by_key(id)
 
     def get_user_by_name(self, name):
-        with UserMapper as mapper:
+        with UserMapper() as mapper:
             mapper.find_by_name(name)
 
     def get_user_by_firstname(self, firstname):
-        with UserMapper as mapper:
+        with UserMapper() as mapper:
             mapper.find_by_firstname(firstname)
 
     def get_user_by_role(self, role_id):
-        with UserMapper as mapper:
+        with UserMapper() as mapper:
             mapper.find_by_role_id(role_id)
 
     def save_user(self, user):
-        with UserMapper as mapper:
+        with UserMapper() as mapper:
             mapper.update(user)
 
     def delete_user(self, user):
-        with UserMapper as mapper:
+        with UserMapper() as mapper:
             role = self._get_role_by_user(user.get_id())
             if not (role is None):
                 for r in role:
