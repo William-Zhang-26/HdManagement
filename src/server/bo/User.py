@@ -9,6 +9,7 @@ class User(NamedBusinessObject):
     r_student = Role("Student")
     r_dozent = Role("Dozent")
     r_admin = Role("Admin")
+    r_platzhalter_rolle = Role("Platzhalter_Rolle")
 
     def __init__(self):
         super().__init__()
