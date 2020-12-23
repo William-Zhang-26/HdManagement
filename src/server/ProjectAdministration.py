@@ -244,6 +244,62 @@ class ProjectAdministration (object):
 
 # Project
 
+    def create_project(self, name, automat_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+             b_days_finale, b_days_saturdays, preferred_b_days, project_category, additional_supervisor,
+             weekly):
+
+        project = Project()
+        project.set_name(name)
+        project.set_automat_id(automat_id)
+        project.set_project_description(project_description)
+        project.set_partners(partners)
+        project.set_capacity(capacity)
+        project.set_preferred_room(preferred_room)
+        project.set_b_days_pre_schedule(b_days_pre_schedule)
+        project.set_b_days_finale(b_days_finale)
+        project.set_b_days_saturdays(b_days_saturdays)
+        project.set_preferred_b_days(preferred_b_days)
+        project.set_project_category(project_category)
+        project.set_additional_supervisor(additional_supervisor)
+        project.set_weekly(weekly)
+        project.set_id(1)
+
+        with ProjectMapper() as mapper:
+            return mapper.insert(project)
+
+    def get_all_projects(self):
+        with ProjectMapper() as mapper:
+            return mapper.find_all()
+
+    def get_project_by_id(self, id):
+        with ProjectMapper() as mapper:
+            return mapper.find_by_key(id)
+
+    def get_project_by_name(self, name):
+        with ProjectMapper() as mapper:
+            return mapper.find_by_name(name)
+
+    def get_project_by_preferred_room(self, preferred_room):
+        with ProjectMapper() as mapper:
+            return mapper.find_by_preferred_room(preferred_room)
+
+    def get_project_by_automat(self, automat_id):
+        with ProjectMapper() as mapper:
+            return mapper.find_by_automat(automat_id)
+
+    def save_project(self, project):
+        with ProjectMapper() as mapper:
+            mapper.update(project)
+
+    def delete_project(self, project):
+        with ProjectMapper() as mapper:
+            auto = self._get_automat_by_project(project.get_id())
+            if not (auto is None):
+                for a in auto:
+                    self._delete_automat(a)
+
+            mapper.delete(project)
+
 # Project_type
     def create_project_type(self, name, ects, sws):
         """Einen Projekttyp anlegen"""
