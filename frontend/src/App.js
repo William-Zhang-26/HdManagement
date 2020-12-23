@@ -15,6 +15,7 @@ import StudentProjectList from './components/StudentProjectList';
 import LecturerProjectList from './components/LecturerProjectList';
 import AdminProjectList from './components/AdminProjectList';
 import ProjectListParticipants from './components/ProjectListParticipants';
+import Header from './components/layout/Header';
 
 
 class App extends React.Component {
@@ -109,7 +110,7 @@ class App extends React.Component {
         <CssBaseline />
         <Router basename={process.env.PUBLIC_URL}>
           <div className="App">
-          <LecturerAdminHeader user={currentUser}/>
+          <Header user={currentUser}/>
             {
             //<LecturerAdminHeader user={currentUser}/><StudentHeader user={currentUser}/>
             //<StudentHeader user={currentUser}/>
@@ -118,21 +119,29 @@ class App extends React.Component {
 
               currentUser ?
                   <>
-                    <Redirect from='/' to='projects' />
-                    <Route exact path='/projects'>
-                      
-                    <LecturerProjectList />
-                      {
-                        //<LecturerProjectList /><AdminProjectList />
-                        //<AdminProjectList />
-                        //<StudentProjectList />
-                      }
+                    <Redirect from='/' to='projects1' />
+                    <Route exact path='/projects1'>
+                      <StudentProjectList />
                     </Route>
-                      <Route path='/impressum' component={Impressum} />
+
+                    <Route exact path='/projects2'>
+                      <LecturerProjectList />
+                    </Route>
+
+                    <Route exact path='/projects3'>
+                      <AdminProjectList />
+                    </Route>
+                   
+                    <Route path='/report'>
+								  	</Route>
 
                     <Route path='/grades'>
 										  <ProjectListParticipants />
 								  	</Route>
+                   
+                    <Route path='/impressum' component={Impressum} />
+
+
 
                   </>
                   :
