@@ -76,11 +76,11 @@ semester = api.inherit('Semester', nbo, {
 })
 
 """Rolle"""
-"""
+
 role = api.inherit('Role', nbo, {
     
 })
-"""
+
 
 project_type = api.inherit('Project_type', nbo, {
     'ects': fields.Integer(attribute='_ects', description='Die ECTS Punkte von dem Projekt'),
@@ -90,7 +90,7 @@ project_type = api.inherit('Project_type', nbo, {
 """User&Student"""
 
 user= api.inherit('User', nbo, {
-    'lastname': fields.String(attribute='_lastname', description='Der Nachname eines Users'),
+    'name': fields.String(attribute='_name', description='Der Nachname eines Users'),
     'firstname': fields.String(attribute='_firstname', description='Der Vorname eines Users'),
     'mail': fields.String(attribute='_mail', description='Die E-Mail eines Users'),
     'google_id': fields.String(attribute= '_google_id', description='Die Google-ID eines Users'),
@@ -409,6 +409,56 @@ class Project_typeOperations(Resource):
             adm.save_project_type(project_type)
             return "Projekt Typ wurde erfolgreich geändert", 200
 
+"""Role"""
+@projectmanager.route("/role")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class RoleOperations(Resource):
+    @projectmanager.marshal_with(role, code=200)
+    @projectmanager.expect(role)
+    def post(self):
+        """Rolle erstellen"""
+        adm = ProjectAdministration()
+        r = Role.from_dict(api.payload)
+        if r is not None:
+            c = adm.create_role(r.get_name())
+            return c, 200
+        else:
+            return '', 500
+
+@projectmanager.route("/role/<int:id>")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@projectmanager.param('id', 'Die ID des Rollen-Objekts')
+class RoleOperations(Resource):
+    @projectmanager.marshal_with(role)
+    def get(self, id):
+        """Auslesen einer Rolle aus der DB"""
+        adm = ProjectAdministration()
+        role = adm.get_role_by_id(id)
+        return role
+
+    def delete(self, id):
+        """Löschen einer Rolle aus der DB"""
+        adm = ProjectAdministration()
+        role = adm.get_semester_by_id(id)
+        if role is None:
+            return 'Rolle konnte nicht aus der DB gelöscht werden', 500
+        else:
+            adm.delete_role(role)
+            return 'Rolle wurde erfolgreich aus der DB gelöscht', 200
+
+    @projectmanager.expect(role)
+    def put(self, id):
+        """Rolle wird aktualisiert"""
+        adm = ProjectAdministration()
+        role = Role.from_dict(api.payload)
+
+        if role is None:
+            return "Rolle konnte nicht geändert werden", 500
+
+        else:
+            role.set_id(id)
+            adm.save_role(role)
+            return "Rolle wurde erfolgreich geändert", 200
 """Semester"""
 @projectmanager.route("/semester")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
