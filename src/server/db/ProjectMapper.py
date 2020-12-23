@@ -124,7 +124,7 @@ class ProjectMapper(Mapper):
         cursor.close()
 
         return result
-###
+
     def find_by_preferred_room(self, preferred_room):
         """Suchen eines Projekt anhand des bevorzugten Raumes."""
 
@@ -253,12 +253,10 @@ class ProjectMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-
-"""Testzwecke um uns die Daten anzeigen zu lassen"""
 """
 if __name__ == "__main__":
     with ProjectMapper() as mapper:
-        test = mapper.find_by_key(1).get_name()
+        test = mapper.find_by_key(1).get_project_description()
         print(test)
 
 if __name__ == "__main__":
@@ -270,6 +268,7 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     p = Project()
     p.set_name("Marketing")
+    p.set_automat_id(5)
     p.set_project_description("5 Forces")
     p.set_partners("Stingel")
     p.set_capacity(40)
@@ -280,14 +279,37 @@ if __name__ == "__main__":
     p.set_preferred_b_days("yes")
     p.set_project_category("Design und Usablity")
     p.set_additional_supervisor("Kunz")
-    p.set_weekly("2020-12-12")
+    p.set_weekly("yes")
+    p.set_create_time("2020-12-23")
     with ProjectMapper() as mapper:
         mapper.insert(p)
-  
+
+if __name__ == "__main__":
     with ProjectMapper() as mapper:
-        project = mapper.find_by_key(2)
-        project.set_name("IT-Projekt")
-   p = mapper.find_by_preferred_room("s305")
+        p = mapper.find_by_key(6)
+        mapper.delete(p)
+
+if __name__ == "__main__":
+    with ProjectMapper() as mapper:
+        p = mapper.find_by_key(1)
+        p.set_name("IT-Projekt")
+        mapper.update(p)
+
+if __name__ == "__main__":
+    with ProjectMapper() as mapper:
+        p = mapper.find_by_name("IT-Projekt")
+        for i in p:
+            print(i.get_id())
+
+if __name__ == "__main__":
+    with ProjectMapper() as mapper:
+        p = mapper.find_by_preferred_room("s305")
+        for i in p:
+            print(i.get_id())
+
+if __name__ == "__main__":
+    with ProjectMapper() as mapper:
+        p = mapper.find_by_automat_id(1)
         for i in p:
             print(i.get_name())
 """

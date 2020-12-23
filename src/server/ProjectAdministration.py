@@ -296,6 +296,7 @@ class ProjectAdministration (object):
         """Eine Rolle anlegen"""
         role = Role()
         role.set_name(name)
+        role.set_id(1)
 
         with RoleMapper() as mapper:
             return mapper.insert(role)
@@ -323,11 +324,6 @@ class ProjectAdministration (object):
     def delete_role(self, role):
         """Die Rolle aus unserem System löschen"""
         with RoleMapper() as mapper:
-            new_role = self.get_role_by_id(role.get_id())
-            if not (new_role is None):
-                for i in role:
-                    self.delete_role(i)
-
             mapper.delete(role)
 
 # Semester
@@ -372,15 +368,15 @@ class ProjectAdministration (object):
             mapper.delete(semester)
 
 # Student
-    def create_student(self, lastname, firstname, course, matriculation_number, mail, project_id):
+    def create_student(self, name, firstname, course, matriculation_number, mail, participation_id):
 
         student = Student()
-        student.set_lastname(lastname)
+        student.set_name(name)
         student.set_firstname(firstname)
         student.set_course(course)
         student.set_matriculation_number(matriculation_number)
         student.set_mail(mail)
-        student.set_project_id(project_id)
+        student.set_participation_id(participation_id)
         student.set_id(1)
 
         with StudentMapper as mapper:
@@ -394,9 +390,9 @@ class ProjectAdministration (object):
         with StudentMapper as mapper:
             return mapper.find_by_key(id)
 
-    def get_student_by_lastname(self, lastname):
+    def get_student_by_name(self, name):
         with StudentMapper as mapper:
-            return mapper.find_by_lastname(lastname)
+            return mapper.find_by_name(name)
 
     def get_student_by_firstname(self, firstname):
         with StudentMapper as mapper:
@@ -416,18 +412,18 @@ class ProjectAdministration (object):
 
     def delete_student(self, student):
         with StudentMapper as mapper:
-            project = self._get_project_by_student(student.get_id())
-            if not (project is None):
-                for p in project:
-                    self._delete_project(p)
+            part = self._get_participation_by_student(student.get_id())
+            if not (part is None):
+                for p in part:
+                    self._delete_participation(p)
 
             mapper.delete(student)
 
 # User
-    def create_user(self, lastname, firstname, mail, google_id, role_id):
+    def create_user(self, name, firstname, mail, google_id, role_id):
 
         user = User()
-        user.set_lastname(lastname)
+        user.set_name(name)
         user.set_firstname(firstname)
         user.set_mail(mail)
         user.set_google_id(google_id)
@@ -445,9 +441,9 @@ class ProjectAdministration (object):
         with UserMapper as mapper:
             mapper.find_by_key(id)
 
-    def get_user_by_lastname(self, lastname):
+    def get_user_by_name(self, name):
         with UserMapper as mapper:
-            mapper.find_by_lastname(lastname)
+            mapper.find_by_name(name)
 
     def get_user_by_firstname(self, firstname):
         with UserMapper as mapper:
