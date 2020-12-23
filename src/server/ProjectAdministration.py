@@ -264,35 +264,35 @@ class ProjectAdministration (object):
         project.set_weekly(weekly)
         project.set_id(1)
 
-        with ProjectMapper as mapper:
+        with ProjectMapper() as mapper:
             return mapper.insert(project)
 
     def get_all_projects(self):
-        with ProjectMapper as mapper:
+        with ProjectMapper() as mapper:
             return mapper.find_all()
 
     def get_project_by_id(self, id):
-        with ProjectMapper as mapper:
+        with ProjectMapper() as mapper:
             return mapper.find_by_key(id)
 
     def get_project_by_name(self, name):
-        with ProjectMapper as mapper:
+        with ProjectMapper() as mapper:
             return mapper.find_by_name(name)
 
     def get_project_by_preferred_room(self, preferred_room):
-        with ProjectMapper as mapper:
+        with ProjectMapper() as mapper:
             return mapper.find_by_preferred_room(preferred_room)
 
     def get_project_by_automat(self, automat_id):
-        with ProjectMapper as mapper:
+        with ProjectMapper() as mapper:
             return mapper.find_by_automat(automat_id)
 
     def save_project(self, project):
-        with ProjectMapper as mapper:
+        with ProjectMapper() as mapper:
             mapper.update(project)
 
     def delete_project(self, project):
-        with ProjectMapper as mapper:
+        with ProjectMapper() as mapper:
             auto = self._get_automat_by_project(project.get_id())
             if not (auto is None):
                 for a in auto:
