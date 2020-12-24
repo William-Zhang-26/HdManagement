@@ -14,7 +14,7 @@ class Project(Automat):
 
     def __init__(self):
         super().__init__(Project.s_new)
-        self._automat_id = ""
+        self._automat_id = 0
         self._project_description = ""
         self._partners = ""
         self._capacity = 0
