@@ -57,6 +57,7 @@ module = api.inherit('Module', nbo, {
 })
 
 project = api.inherit('Project', nbo, {
+    'automat_id': fields.Integer(attribute='_automat_id', description='Die ID des zugehörigen Automats'),
     'project_description': fields.String(attribute='_project_description', description='Die Beschreibung des Projektes'),
     'partners': fields.String(attribute='_partners', description='Die Partner die das Projekt mit gestalten'),
     'capacity': fields.Integer(attribute='_capacity', description='Die Anzahl der Personen die in dem Projekt teilnehmen können'),
@@ -67,8 +68,7 @@ project = api.inherit('Project', nbo, {
     'preferred_b_days': fields.String(attribute='_preferred_b_days', description='Die präferierten Blocktage in der Vorlesungszeit'),
     'project_category': fields.String(attribute='_project_category', description='Die Projekt Kategorie des Projektes'),
     'additional_supervisor': fields.String(attribute='_additional_supervisor', description='Die beteiligten Professoren in dem Projekt'),
-    'weekly': fields.Boolean(attribute='_weekly', description='Angabe ob das Projekt wöchentlich stattfindet'),
-    'automat_id': fields.Integer(attribute='_automat_id', description='Die ID des zugehörigen Automats')
+    'weekly': fields.String(attribute='_weekly', description='Angabe ob das Projekt wöchentlich stattfindet'),
 })
 
 semester = api.inherit('Semester', nbo, {
@@ -117,6 +117,7 @@ class HelloWorld(Resource):
         return jsonify({'hello': 'world'})
 
 """Automat"""
+
 @projectmanager.route("/automat")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class AutomatOperations(Resource):
@@ -357,6 +358,58 @@ class ParticipationOperationen(Resource):
             return 'Teilnahme wurde erfolgreich aus der DB gelöscht', 200
 
 """Project"""
+@projectmanager.route("/project")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class ProjectOperations(Resource):
+    @projectmanager.marshal_with(project, code=200)
+    @projectmanager.expect(project)
+    def post(self):
+        """Projekt erstellen"""
+        adm = ProjectAdministration()
+        proposal = Project.from_dict(api.payload)
+        if proposal is not None:
+            c = adm.create_project(proposal.get_name(), proposal.get_automat_id(), proposal.get_project_description(), proposal.get_partners(),
+                                    proposal.get_capacity(), proposal.get_preferred_room(), proposal.get_b_days_pre_schedule(),
+                                    proposal.get_b_days_finale(), proposal.get_b_days_saturdays(), proposal.get_preferred_b_days(),
+                                    proposal.get_project_category(), proposal.get_additional_supervisor(), proposal.get_weekly())
+            return c, 200
+        else:
+            return '', 500
+
+@projectmanager.route("/project/<int:id>")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@projectmanager.param('id', 'Die ID des Semester-Objekts')
+class ProjectOperations(Resource):
+    @projectmanager.marshal_with(project)
+    def get(self, id):
+        """Auslesen eines Projektes aus der DB"""
+        adm = ProjectAdministration()
+        project = adm.get_project_by_id(id)
+        return project
+
+    def delete(self, id):
+        """Löschen eines Projektes aus der DB"""
+        adm = ProjectAdministration()
+        project = adm.get_project_by_id(id)
+        if project is None:
+            return 'Projekt konnte nicht aus der DB gelöscht werden', 500
+        else:
+            adm.delete_project(project)
+            return 'Projekt wurde erfolgreich aus der DB gelöscht', 200
+
+    @projectmanager.expect(project)
+    def put(self, id):
+        """Projekt wird aktualisiert"""
+        adm = ProjectAdministration()
+        project = Project.from_dict(api.payload)
+
+        if project is None:
+            return "Projekt konnte nicht geändert werden", 500
+
+        else:
+            project.set_id(id)
+            adm.save_project(project)
+            return "Projekt wurde erfolgreich geändert", 200
 
 """Project_type"""
 @projectmanager.route("/project_type")

@@ -2,7 +2,7 @@ from src.server.bo.NamedBusinessObject import NamedBusinessObject
 
 class State (NamedBusinessObject):
 
-    def __init__(self, state="New"):
+    def __init__(self, state="neu"):
         super().__init__()
         self._name = state
 
@@ -29,7 +29,7 @@ class State (NamedBusinessObject):
         pass
 
     def __str__(self):
-        return self.__class__.__name__
+        return self._name
 
     @staticmethod
     def from_dict(dict=dict()):
