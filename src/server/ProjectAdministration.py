@@ -273,10 +273,6 @@ class ProjectAdministration (object):
         with ProjectMapper() as mapper:
             return mapper.find_by_preferred_room(preferred_room)
 
-    def get_project_by_automat(self, automat_id):
-        with ProjectMapper() as mapper:
-            return mapper.find_by_automat(automat_id)
-
     def save_project(self, project):
         with ProjectMapper() as mapper:
             mapper.update(project)
@@ -292,10 +288,10 @@ class ProjectAdministration (object):
 
 # Automat-spezifische Methoden
 
-    def get_automat_of_project(self, project):
+    def get_automat_of_project(self, automat_id):
         """Alle Automaten des gegebenen Projekts auslesen."""
         with ProjectMapper() as mapper:
-            return mapper.find_by_automat_id(project.get_id())
+            return mapper.find_by_automat_id(automat_id)
 
     def create_automat_for_project(self, project):
         """Für einen gegebenes Projekt einen neuen Automaten anlegen."""
