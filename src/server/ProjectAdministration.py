@@ -166,16 +166,6 @@ class ProjectAdministration (object):
 
 # Automat
 
-    def create_automat(self, name, state_id):
-        """Einen Automat anlegen"""
-        automat = Automat()
-        automat.set_name(name)
-        automat.set_state_id(state_id)
-        automat.set_id(1)
-
-        with AutomatMapper() as mapper:
-            return mapper.insert(automat)
-
     def get_all_automat(self):
         """Alle Automate auslesen."""
         with AutomatMapper() as mapper:
@@ -293,12 +283,31 @@ class ProjectAdministration (object):
 
     def delete_project(self, project):
         with ProjectMapper() as mapper:
-            auto = self._get_automat_by_project(project.get_id())
-            if not (auto is None):
-                for a in auto:
-                    self._delete_automat(a)
+            automat = self.get_automat_of_project(project)
+            if not (automat is None):
+                for a in automat:
+                    self.delete_automat(a)
 
             mapper.delete(project)
+
+# Automat-spezifische Methoden
+
+    def get_automat_of_project(self, project):
+        """Alle Automaten des gegebenen Projekts auslesen."""
+        with ProjectMapper() as mapper:
+            return mapper.find_by_automat_id(project.get_id())
+
+    def create_automat_for_project(self, project):
+        """Für einen gegebenes Projekt einen neuen Automaten anlegen."""
+        with ProjectMapper() as mapper:
+            if project is not None:
+                project = Project()
+                project.set_automat_id(project.get_id())
+                project.set_id(1)
+
+                return mapper.insert(project)
+            else:
+                return None
 
 # Project_type
     def create_project_type(self, name, ects, sws):
@@ -424,7 +433,7 @@ class ProjectAdministration (object):
             mapper.delete(semester)
 
 # Student
-    def create_student(self, name, firstname, course, matriculation_number, mail, participation_id):
+    def create_student(self, name, firstname, course, matriculation_number, mail, google_id, participation_id):
 
         student = Student()
         student.set_name(name)
@@ -432,6 +441,7 @@ class ProjectAdministration (object):
         student.set_course(course)
         student.set_matriculation_number(matriculation_number)
         student.set_mail(mail)
+        student.set_google_id(google_id)
         student.set_participation_id(participation_id)
         student.set_id(1)
 
@@ -462,16 +472,20 @@ class ProjectAdministration (object):
         with StudentMapper() as mapper:
             return mapper.find_by_matriculation_number(matriculation_number)
 
+    def get_student_by_participation_id(self, participation_id):
+        with StudentMapper() as mapper:
+            return mapper.find_by_participation_id(participation_id)
+
     def save_student(self, student):
         with StudentMapper() as mapper:
             mapper.update(student)
 
     def delete_student(self, student):
         with StudentMapper() as mapper:
-            part = self._get_participation_by_student(student.get_id())
-            if not (part is None):
-                for p in part:
-                    self._delete_participation(p)
+            participation = self.get_participation_by_student_id(student)
+            if not (participation is None):
+                for i in participation:
+                    self.delete_participation(i)
 
             mapper.delete(student)
 
@@ -505,7 +519,7 @@ class ProjectAdministration (object):
         with UserMapper() as mapper:
             mapper.find_by_firstname(firstname)
 
-    def get_user_by_role(self, role_id):
+    def get_user_by_role_id(self, role_id):
         with UserMapper() as mapper:
             mapper.find_by_role_id(role_id)
 
@@ -515,9 +529,23 @@ class ProjectAdministration (object):
 
     def delete_user(self, user):
         with UserMapper() as mapper:
-            role = self._get_role_by_user(user.get_id())
-            if not (role is None):
-                for r in role:
-                    self._delete_user(r)
-
             mapper.delete(user)
+
+#Add
+    def add_member_to_project(self, module_id, project_id, student_id, validation_id, participation_status):
+
+        d = False
+        p = self.get_all_participation()
+        for i in p:
+            if i == [module_id, student_id, project_id, validation_id, participation_status]:
+                d = True
+
+            if d is False:
+                self.create_participation(module_id, project_id, student_id, validation_id, participation_status)
+
+    def remove_member_from_project(self, module_id, project_id, student_id, validation_id, participation_status):
+
+        l = self.get_all_participation()
+        for i in l:
+            if i == [module_id, project_id, student_id, validation_id, participation_status]:
+                self.delete_participation(l)
