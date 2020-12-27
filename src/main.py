@@ -448,7 +448,6 @@ class Project_typeOperations(Resource):
 
 """Role"""
 @projectmanager.route("/role")
-@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class RoleOperations(Resource):
     @projectmanager.marshal_with(role, code=200)
     @projectmanager.expect(role)
@@ -550,7 +549,6 @@ class SemesterOperations(Resource):
 
 """Student"""
 @projectmanager.route("/student")
-@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class StudentOperations(Resource):
     @projectmanager.marshal_with(student, code=200)
     @projectmanager.expect(student)
@@ -570,6 +568,7 @@ class StudentOperations(Resource):
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @projectmanager.param('id', 'Die ID des Bewertungs-Objekts')
 class StudentOperations(Resource):
+    @projectmanager.marshal_with(student)
     def get(self, id):
         """Auslesen eines Studenten aus der Datenbank"""
         adm = ProjectAdministration()
@@ -602,7 +601,6 @@ class StudentOperations(Resource):
 
 """User"""
 @projectmanager.route("/user")
-@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class UserOperations(Resource):
     @projectmanager.marshal_with(user, code=200)
     @projectmanager.expect(user)
@@ -621,6 +619,7 @@ class UserOperations(Resource):
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @projectmanager.param('id', 'Die ID des Bewertungs-Objekts')
 class UserOperations(Resource):
+    @projectmanager.marshal_with(user)
     def get(self, id):
         """Auslesen eines Users aus der Datenbank"""
         adm = ProjectAdministration()
