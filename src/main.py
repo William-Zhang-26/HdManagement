@@ -90,7 +90,6 @@ project_type = api.inherit('Project_type', nbo, {
 """User&Student"""
 
 user= api.inherit('User', nbo, {
-    'name': fields.String(attribute='_name', description='Der Nachname eines Users'),
     'firstname': fields.String(attribute='_firstname', description='Der Vorname eines Users'),
     'mail': fields.String(attribute='_mail', description='Die E-Mail eines Users'),
     'google_id': fields.String(attribute= '_google_id', description='Die Google-ID eines Users'),
@@ -610,8 +609,8 @@ class UserOperations(Resource):
     def post(self):
         """User erstellen"""
         adm = ProjectAdministration()
-        use = User.from_dict(api.payload)
-        if use is not None:
+        user = User.from_dict(api.payload)
+        if user is not None:
             c = adm.create_user(user.get_name(), user.get_firstname(), user.get_mail(),
                                 user.get_google_id(), user.get_role_id())
             return c, 200
@@ -625,31 +624,31 @@ class UserOperations(Resource):
     def get(self, id):
         """Auslesen eines Users aus der Datenbank"""
         adm = ProjectAdministration()
-        use = adm.get_user_by_id(id)
-        return use
+        user = adm.get_user_by_id(id)
+        return user
 
     def delete(self,id):
         """Löschen eines Users aus der DB"""
         adm = ProjectAdministration()
-        use = adm.get_user_by_id(id)
-        if use is None:
+        user = adm.get_user_by_id(id)
+        if user is None:
             return 'User konnte nicht aus der DB gelöscht werden', 500
         else:
-            adm.delete_user(use)
+            adm.delete_user(user)
             return 'User wurde erfolgreich aus der DB gelöscht', 200
 
     @projectmanager.expect(user)
     def put(self, id):
         """User wird aktualisiert"""
         adm = ProjectAdministration()
-        use = User.from_dict(api.payload)
+        user = User.from_dict(api.payload)
 
-        if use is None:
+        if user is None:
             return "User konnte nicht geändert werden", 500
 
         else:
-            use.set_id(id)
-            adm.save_user(use)
+            user.set_id(id)
+            adm.save_user(user)
             return "User wurde erfolgreich geändert", 200
 
 """Validation"""
