@@ -574,8 +574,9 @@ class StudentOperations(Resource):
         adm = ProjectAdministration()
         study = Student.from_dict(api.payload)
         if study is not None:
-            c = adm.create_user(study.get_lastname(), study.get_firstname(), study.get_mail(),
-                                study.get_google_id(), study.get_role_id())
+            c = adm.create_student(study.get_name(), study.get_firstname(), study.get_course(),
+                                   study.get_matriculation_number(),
+                                   study.get_mail(), study.get_google_id(), study.get_participation_id())
             return c, 200
         else:
             return '', 500
@@ -615,6 +616,55 @@ class StudentOperations(Resource):
             return "Student wurde erfolgreich geändert", 200
 
 """User"""
+@projectmanager.route("/user")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class UserOperations(Resource):
+    @projectmanager.marshal_with(user, code=200)
+    @projectmanager.expect(user)
+    def post(self):
+        """User erstellen"""
+        adm = ProjectAdministration()
+        use = User.from_dict(api.payload)
+        if use is not None:
+            c = adm.create_user(user.get_name(), user.get_firstname(), user.get_mail(),
+                                user.get_google_id(), user.get_role_id())
+            return c, 200
+        else:
+            return '', 500
+
+@projectmanager.route("/user/<int:id>")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@projectmanager.param('id', 'Die ID des Bewertungs-Objekts')
+class StudentOperations(Resource):
+    def get(self, id):
+        """Auslesen eines Users aus der Datenbank"""
+        adm = ProjectAdministration()
+        use = adm.get_user_by_id(id)
+        return use
+
+    def delete(self,id):
+        """Löschen eines Users aus der DB"""
+        adm = ProjectAdministration()
+        use = adm.get_user_by_id(id)
+        if use is None:
+            return 'User konnte nicht aus der DB gelöscht werden', 500
+        else:
+            adm.delete_user(use)
+            return 'User wurde erfolgreich aus der DB gelöscht', 200
+
+    @projectmanager.expect(user)
+    def put(self, id):
+        """User wird aktualisiert"""
+        adm = ProjectAdministration()
+        use = User.from_dict(api.payload)
+
+        if use is None:
+            return "User konnte nicht geändert werden", 500
+
+        else:
+            use.set_id(id)
+            adm.save_user(use)
+            return "User wurde erfolgreich geändert", 200
 
 """Validation"""
 @projectmanager.route("/validation")

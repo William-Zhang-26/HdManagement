@@ -424,7 +424,7 @@ class ProjectAdministration (object):
             mapper.delete(semester)
 
 # Student
-    def create_student(self, name, firstname, course, matriculation_number, mail, participation_id):
+    def create_student(self, name, firstname, course, matriculation_number, mail, google_id, participation_id):
 
         student = Student()
         student.set_name(name)
@@ -432,6 +432,7 @@ class ProjectAdministration (object):
         student.set_course(course)
         student.set_matriculation_number(matriculation_number)
         student.set_mail(mail)
+        student.set_google_id(google_id)
         student.set_participation_id(participation_id)
         student.set_id(1)
 
@@ -521,3 +522,22 @@ class ProjectAdministration (object):
                     self._delete_user(r)
 
             mapper.delete(user)
+
+#Add
+    def add_member_to_project(self, module_id, project_id, student_id, validation_id, participation_status):
+
+        d = False
+        p = self.get_all_participation()
+        for i in p:
+            if i == [module_id, student_id, project_id, validation_id, participation_status]:
+                d = True
+
+            if d is False:
+                self.create_participation(module_id, project_id, student_id, validation_id, participation_status)
+
+    def remove_member_from_project(self, module_id, project_id, student_id, validation_id, participation_status):
+
+        l = self.get_all_participation()
+        for i in l:
+            if i == [module_id, project_id, student_id, validation_id, participation_status]:
+                self.delete_participation(l)
