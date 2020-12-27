@@ -472,16 +472,20 @@ class ProjectAdministration (object):
         with StudentMapper() as mapper:
             return mapper.find_by_matriculation_number(matriculation_number)
 
+    def get_student_by_participation_id(self, participation_id):
+        with StudentMapper() as mapper:
+            return mapper.find_by_participation_id(participation_id)
+
     def save_student(self, student):
         with StudentMapper() as mapper:
             mapper.update(student)
 
     def delete_student(self, student):
         with StudentMapper() as mapper:
-            part = self._get_participation_by_student(student.get_id())
-            if not (part is None):
-                for p in part:
-                    self._delete_participation(p)
+            participation = self.get_participation_by_student_id(student)
+            if not (participation is None):
+                for i in participation:
+                    self.delete_participation(i)
 
             mapper.delete(student)
 
@@ -515,7 +519,7 @@ class ProjectAdministration (object):
         with UserMapper() as mapper:
             mapper.find_by_firstname(firstname)
 
-    def get_user_by_role(self, role_id):
+    def get_user_by_role_id(self, role_id):
         with UserMapper() as mapper:
             mapper.find_by_role_id(role_id)
 
@@ -525,11 +529,6 @@ class ProjectAdministration (object):
 
     def delete_user(self, user):
         with UserMapper() as mapper:
-            role = self._get_role_by_user(user.get_id())
-            if not (role is None):
-                for r in role:
-                    self._delete_user(r)
-
             mapper.delete(user)
 
 #Add
