@@ -118,21 +118,6 @@ class HelloWorld(Resource):
 
 """Automat"""
 
-@projectmanager.route("/automat")
-@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-class AutomatOperations(Resource):
-    @projectmanager.marshal_with(automat, code=200)
-    @projectmanager.expect(automat)
-    def post(self):
-        """Automat erstellen"""
-        adm = ProjectAdministration()
-        proposal = Automat.from_dict(api.payload)
-        if proposal is not None:
-            c = adm.create_automat(proposal.get_name(), proposal.get_state_id())
-            return c, 200
-        else:
-            return '', 500
-
 @projectmanager.route("/automat/<int:id>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @projectmanager.param('id', 'Die ID des Zustand-Objekts')

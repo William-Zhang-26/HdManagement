@@ -166,16 +166,6 @@ class ProjectAdministration (object):
 
 # Automat
 
-    def create_automat(self, name, state_id):
-        """Einen Automat anlegen"""
-        automat = Automat()
-        automat.set_name(name)
-        automat.set_state_id(state_id)
-        automat.set_id(1)
-
-        with AutomatMapper() as mapper:
-            return mapper.insert(automat)
-
     def get_all_automat(self):
         """Alle Automate auslesen."""
         with AutomatMapper() as mapper:
@@ -293,12 +283,31 @@ class ProjectAdministration (object):
 
     def delete_project(self, project):
         with ProjectMapper() as mapper:
-            auto = self._get_automat_by_project(project.get_id())
-            if not (auto is None):
-                for a in auto:
-                    self._delete_automat(a)
+            automat = self.get_automat_of_project(project)
+            if not (automat is None):
+                for a in automat:
+                    self.delete_automat(a)
 
             mapper.delete(project)
+
+# Automat-spezifische Methoden
+
+    def get_automat_of_project(self, project):
+        """Alle Automaten des gegebenen Projekts auslesen."""
+        with ProjectMapper() as mapper:
+            return mapper.find_by_automat_id(project.get_id())
+
+    def create_automat_for_project(self, project):
+        """Für einen gegebenes Projekt einen neuen Automaten anlegen."""
+        with ProjectMapper() as mapper:
+            if project is not None:
+                project = Project()
+                project.set_automat_id(project.get_id())
+                project.set_id(1)
+
+                return mapper.insert(project)
+            else:
+                return None
 
 # Project_type
     def create_project_type(self, name, ects, sws):
