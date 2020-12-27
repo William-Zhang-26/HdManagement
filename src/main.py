@@ -512,6 +512,7 @@ class RoleOperations(Resource):
             role.set_id(id)
             adm.save_role(role)
             return "Rolle wurde erfolgreich geändert", 200
+
 """Semester"""
 @projectmanager.route("/semester")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -635,7 +636,7 @@ class UserOperations(Resource):
 @projectmanager.route("/user/<int:id>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @projectmanager.param('id', 'Die ID des Bewertungs-Objekts')
-class StudentOperations(Resource):
+class UserOperations(Resource):
     def get(self, id):
         """Auslesen eines Users aus der Datenbank"""
         adm = ProjectAdministration()
