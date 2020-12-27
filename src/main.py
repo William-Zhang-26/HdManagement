@@ -90,7 +90,6 @@ project_type = api.inherit('Project_type', nbo, {
 """User&Student"""
 
 user= api.inherit('User', nbo, {
-    'name': fields.String(attribute='_name', description='Der Nachname eines Users'),
     'firstname': fields.String(attribute='_firstname', description='Der Vorname eines Users'),
     'mail': fields.String(attribute='_mail', description='Die E-Mail eines Users'),
     'google_id': fields.String(attribute= '_google_id', description='Die Google-ID eines Users'),
@@ -449,7 +448,6 @@ class Project_typeOperations(Resource):
 
 """Role"""
 @projectmanager.route("/role")
-@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class RoleOperations(Resource):
     @projectmanager.marshal_with(role, code=200)
     @projectmanager.expect(role)
@@ -551,18 +549,17 @@ class SemesterOperations(Resource):
 
 """Student"""
 @projectmanager.route("/student")
-@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class StudentOperations(Resource):
     @projectmanager.marshal_with(student, code=200)
     @projectmanager.expect(student)
     def post(self):
         """Student erstellen"""
         adm = ProjectAdministration()
-        study = Student.from_dict(api.payload)
-        if study is not None:
-            c = adm.create_student(study.get_name(), study.get_firstname(), study.get_course(),
-                                   study.get_matriculation_number(),
-                                   study.get_mail(), study.get_google_id(), study.get_participation_id())
+        student = Student.from_dict(api.payload)
+        if student is not None:
+            c = adm.create_student(student.get_name(), student.get_firstname(), student.get_course(),
+                                   student.get_matriculation_number(),
+                                   student.get_mail(), student.get_google_id(), student.get_participation_id())
             return c, 200
         else:
             return '', 500
@@ -571,47 +568,47 @@ class StudentOperations(Resource):
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @projectmanager.param('id', 'Die ID des Bewertungs-Objekts')
 class StudentOperations(Resource):
+    @projectmanager.marshal_with(student)
     def get(self, id):
         """Auslesen eines Studenten aus der Datenbank"""
         adm = ProjectAdministration()
-        study = adm.get_student_by_id(id)
-        return study
+        student = adm.get_student_by_id(id)
+        return student
 
     def delete(self,id):
         """Löschen eines Studenten aus der DB"""
         adm = ProjectAdministration()
-        study = adm.get_student_by_id(id)
-        if study is None:
+        student = adm.get_student_by_id(id)
+        if student is None:
             return 'Student konnte nicht aus der DB gelöscht werden', 500
         else:
-            adm.delete_student(study)
+            adm.delete_student(student)
             return 'Student wurde erfolgreich aus der DB gelöscht', 200
 
     @projectmanager.expect(student)
     def put(self, id):
         """Student werden aktualisiert"""
         adm = ProjectAdministration()
-        study = Student.from_dict(api.payload)
+        student = Student.from_dict(api.payload)
 
-        if study is None:
+        if student is None:
             return "Student konnte nicht geändert werden", 500
 
         else:
-            study.set_id(id)
-            adm.save_student(study)
+            student.set_id(id)
+            adm.save_student(student)
             return "Student wurde erfolgreich geändert", 200
 
 """User"""
 @projectmanager.route("/user")
-@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class UserOperations(Resource):
     @projectmanager.marshal_with(user, code=200)
     @projectmanager.expect(user)
     def post(self):
         """User erstellen"""
         adm = ProjectAdministration()
-        use = User.from_dict(api.payload)
-        if use is not None:
+        user = User.from_dict(api.payload)
+        if user is not None:
             c = adm.create_user(user.get_name(), user.get_firstname(), user.get_mail(),
                                 user.get_google_id(), user.get_role_id())
             return c, 200
@@ -622,34 +619,35 @@ class UserOperations(Resource):
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @projectmanager.param('id', 'Die ID des Bewertungs-Objekts')
 class UserOperations(Resource):
+    @projectmanager.marshal_with(user)
     def get(self, id):
         """Auslesen eines Users aus der Datenbank"""
         adm = ProjectAdministration()
-        use = adm.get_user_by_id(id)
-        return use
+        user = adm.get_user_by_id(id)
+        return user
 
     def delete(self,id):
         """Löschen eines Users aus der DB"""
         adm = ProjectAdministration()
-        use = adm.get_user_by_id(id)
-        if use is None:
+        user = adm.get_user_by_id(id)
+        if user is None:
             return 'User konnte nicht aus der DB gelöscht werden', 500
         else:
-            adm.delete_user(use)
+            adm.delete_user(user)
             return 'User wurde erfolgreich aus der DB gelöscht', 200
 
     @projectmanager.expect(user)
     def put(self, id):
         """User wird aktualisiert"""
         adm = ProjectAdministration()
-        use = User.from_dict(api.payload)
+        user = User.from_dict(api.payload)
 
-        if use is None:
+        if user is None:
             return "User konnte nicht geändert werden", 500
 
         else:
-            use.set_id(id)
-            adm.save_user(use)
+            user.set_id(id)
+            adm.save_user(user)
             return "User wurde erfolgreich geändert", 200
 
 """Validation"""
