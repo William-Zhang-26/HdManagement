@@ -555,11 +555,11 @@ class StudentOperations(Resource):
     def post(self):
         """Student erstellen"""
         adm = ProjectAdministration()
-        study = Student.from_dict(api.payload)
-        if study is not None:
-            c = adm.create_student(study.get_name(), study.get_firstname(), study.get_course(),
-                                   study.get_matriculation_number(),
-                                   study.get_mail(), study.get_google_id(), study.get_participation_id())
+        student = Student.from_dict(api.payload)
+        if student is not None:
+            c = adm.create_student(student.get_name(), student.get_firstname(), student.get_course(),
+                                   student.get_matriculation_number(),
+                                   student.get_mail(), student.get_google_id(), student.get_participation_id())
             return c, 200
         else:
             return '', 500
@@ -572,31 +572,31 @@ class StudentOperations(Resource):
     def get(self, id):
         """Auslesen eines Studenten aus der Datenbank"""
         adm = ProjectAdministration()
-        study = adm.get_student_by_id(id)
-        return study
+        student = adm.get_student_by_id(id)
+        return student
 
     def delete(self,id):
         """Löschen eines Studenten aus der DB"""
         adm = ProjectAdministration()
-        study = adm.get_student_by_id(id)
-        if study is None:
+        student = adm.get_student_by_id(id)
+        if student is None:
             return 'Student konnte nicht aus der DB gelöscht werden', 500
         else:
-            adm.delete_student(study)
+            adm.delete_student(student)
             return 'Student wurde erfolgreich aus der DB gelöscht', 200
 
     @projectmanager.expect(student)
     def put(self, id):
         """Student werden aktualisiert"""
         adm = ProjectAdministration()
-        study = Student.from_dict(api.payload)
+        student = Student.from_dict(api.payload)
 
-        if study is None:
+        if student is None:
             return "Student konnte nicht geändert werden", 500
 
         else:
-            study.set_id(id)
-            adm.save_student(study)
+            student.set_id(id)
+            adm.save_student(student)
             return "Student wurde erfolgreich geändert", 200
 
 """User"""
