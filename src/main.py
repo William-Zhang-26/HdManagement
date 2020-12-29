@@ -321,7 +321,7 @@ class ParticipationOperationen(Resource):
 
 @projectmanager.route("/participation/<int:id>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@projectmanager.param('id', 'Die ID des Account-Objekts')
+@projectmanager.param('id', 'Die ID des Teilnahme-Objekts')
 class ParticipationOperationen(Resource):
     @projectmanager.marshal_with(participation)
 
@@ -566,7 +566,7 @@ class StudentOperations(Resource):
 
 @projectmanager.route("/student/<int:id>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@projectmanager.param('id', 'Die ID des Bewertungs-Objekts')
+@projectmanager.param('id', 'Die ID des Studenten-Objekts')
 class StudentOperations(Resource):
     @projectmanager.marshal_with(student)
     def get(self, id):
@@ -599,6 +599,50 @@ class StudentOperations(Resource):
             adm.save_student(student)
             return "Student wurde erfolgreich geändert", 200
 
+"Student&Participation"
+
+@projectmanager.route('/student/<int:id>/participation')
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@projectmanager.param('id', 'Die ID des Student-Objekts')
+class StudentRelatedParticipationOperations(Resource):
+    @projectmanager.marshal_with(participation)
+    #@secured
+    def get(self, id):
+        """Auslesen aller Teilnahme-Objekte bzgl. eines bestimmten Student-Objekts.
+        """
+        adm = ProjectAdministration()
+        # Zunächst benötigen wir den durch id gegebenen Studenten.
+        stud = adm.get_student_by_id(id)
+
+        # Haben wir eine brauchbare Referenz auf ein Student-Objekt bekommen?
+        if stud is not None:
+            # Jetzt erst lesen wir die Teilnahme des Studenten aus.
+            student_list = adm.get_participation_of_student()
+            return student_list
+        else:
+            return "Student not found", 500
+
+    @projectmanager.marshal_with(participation, code=201)
+    #@secured
+    def post(self, id):
+        """Anlegen einer Teilnahme für ein gegebenen Studenten.
+
+        Die neu angelegte Teilnahme wird als Ergebnis zurückgegeben.
+
+        **Hinweis:** Unter der id muss ein Student existieren, andernfalls wird Status Code 500 ausgegeben."""
+        adm = ProjectAdministration()
+        """Stelle fest, ob es unter der id einen Studenten gibt. 
+        Dies ist aus Gründen der referentiellen Integrität sinnvoll!
+        """
+        stud = adm.get_student_by_id(id)
+
+        if stud is not None:
+            # Jetzt erst macht es Sinn, für den Studenten eine neue Teilnahme anzulegen und diese zurückzugeben.
+            result = adm.create_particpation_for_student(stud)
+            return result
+        else:
+            return "Student unknown", 500
+
 """User"""
 @projectmanager.route("/user")
 class UserOperations(Resource):
@@ -617,7 +661,7 @@ class UserOperations(Resource):
 
 @projectmanager.route("/user/<int:id>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@projectmanager.param('id', 'Die ID des Bewertungs-Objekts')
+@projectmanager.param('id', 'Die ID des User-Objekts')
 class UserOperations(Resource):
     @projectmanager.marshal_with(user)
     def get(self, id):

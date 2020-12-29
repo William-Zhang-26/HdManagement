@@ -67,14 +67,18 @@ class ProjectAdministration (object):
 
 # Validation
 
-    def create_validation(self, grade):
+
+    """Platzhalter
+        
+        def create_validation(self, grade):
 
         validation = Validation()
         validation.set_grade(grade)
         validation.set_id(1)
 
         with ValidationMapper() as mapper:
-            return mapper.insert(validation)
+            return mapper.insert(validation) """
+
 
     def get_all_validations(self):
         with ValidationMapper() as mapper:
@@ -288,10 +292,10 @@ class ProjectAdministration (object):
 
 # Automat-spezifische Methoden
 
-    def get_automat_of_project(self, automat_id):
+    def get_automat_of_project(self, project):
         """Alle Automaten des gegebenen Projekts auslesen."""
         with ProjectMapper() as mapper:
-            return mapper.find_by_automat_id(automat_id)
+            return mapper.find_by_automat_id(project.get_id())
 
     def create_automat_for_project(self, project):
         """Für einen gegebenes Projekt einen neuen Automaten anlegen."""
@@ -485,6 +489,25 @@ class ProjectAdministration (object):
 
             mapper.delete(student)
 
+# StudentTeilnahme-spezifische Methoden
+
+    def get_participation_of_student(self, student):
+            """Die Teilnahme des gegebenen Studenten auslesen."""
+            with StudentMapper() as mapper:
+                return mapper.find_by_participation_id(student.get_participation_id())
+
+    def create_particpation_for_student(self, student):
+        """Für einen gegebenen Studenten einen neuen Teilnahme anlegen."""
+        with ParticipationMapper() as mapper:
+            if student is not None:
+                participation = Participation()
+                participation.set_student_id(student.get_id())
+                participation.set_id(1)
+
+                return mapper.insert(participation)
+            else:
+                return None
+
 # User
     def create_user(self, name, firstname, mail, google_id, role_id):
 
@@ -518,6 +541,10 @@ class ProjectAdministration (object):
     def get_user_by_role_id(self, role_id):
         with UserMapper() as mapper:
             mapper.find_by_role_id(role_id)
+
+    def get_user_by_google_user_id(self, google_id):
+        with UserMapper() as mapper:
+            mapper.find_by_google_user_id(google_id)
 
     def save_user(self, user):
         with UserMapper() as mapper:
