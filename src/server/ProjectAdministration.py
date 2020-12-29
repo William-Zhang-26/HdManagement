@@ -288,10 +288,10 @@ class ProjectAdministration (object):
 
 # Automat-spezifische Methoden
 
-    def get_automat_of_project(self, automat_id):
+    def get_automat_of_project(self, project):
         """Alle Automaten des gegebenen Projekts auslesen."""
         with ProjectMapper() as mapper:
-            return mapper.find_by_automat_id(automat_id)
+            return mapper.find_by_automat_id(project.get_id())
 
     def create_automat_for_project(self, project):
         """Für einen gegebenes Projekt einen neuen Automaten anlegen."""
