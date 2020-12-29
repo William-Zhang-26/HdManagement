@@ -89,17 +89,17 @@ project_type = api.inherit('Project_type', nbo, {
 
 """User&Student"""
 
-user= api.inherit('User', nbo, {
+user = api.inherit('User', nbo, {
     'firstname': fields.String(attribute='_firstname', description='Der Vorname eines Users'),
     'mail': fields.String(attribute='_mail', description='Die E-Mail eines Users'),
-    'google_id': fields.String(attribute= '_google_id', description='Die Google-ID eines Users'),
+    'google_id': fields.String(attribute='_google_id', description='Die Google-ID eines Users'),
     'role_id': fields.Integer(attribute='_role_id', description='Die ID der zugehörigen Rolle')
 })
 
-student= api.inherit('Student', user, {
+student = api.inherit('Student', user, {
     'course': fields.String(attribute='_course', description='Der zugehörige Kurs'),
     'matriculation_number': fields.Integer(attribute='_matriculation_number', description='Die Matrikelnummer des Studenten'),
-    'project_id': fields.Integer(attribute='_project_id', description='Die ID der zugehörigen Projekte')
+    'participation_id': fields.Integer(attribute='_participation_id', description='Die Zugehörigkeit des Studenten')
 })
 
 state = api.inherit('State', nbo, {

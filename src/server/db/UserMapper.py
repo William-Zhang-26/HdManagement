@@ -193,7 +193,7 @@ if __name__ == "__main__":
     with UserMapper() as mapper:
         u = mapper.find_all()
         for i in u:
-            print(i.get_create_time())
+            print(i.get_firstname())
 
 if __name__ == "__main__":
     with UserMapper() as mapper:
