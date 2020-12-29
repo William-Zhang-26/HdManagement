@@ -200,7 +200,27 @@ class ProjectAdministration (object):
         with AutomatMapper() as mapper:
             mapper.delete(automat)
 
-# Status
+# Automat-spezifische Methoden
+
+    def get_automat_of_project(self, project):
+        """Für das angegebene Projekt den Automaten ausgeben"""
+        with AutomatMapper() as mapper:
+            return mapper.find_by_key(project.get_id())
+
+    def create_automat_for_project(self, project, name):
+        """Für einen gegebenes Projekt einen neuen Automaten anlegen."""
+        with AutomatMapper() as mapper:
+            if project is not None:
+                automat = Automat()
+                automat.set_id(project.get_id())
+                automat.set_name(name)
+                automat.set_state_id(1)
+
+                return mapper.insert(automat)
+            else:
+                return None
+
+    # Status
 
     def create_state(self, name):
         """Einen Status anlegen"""
@@ -289,25 +309,6 @@ class ProjectAdministration (object):
                     self.delete_automat(a)
 
             mapper.delete(project)
-
-# Automat-spezifische Methoden
-
-    def get_automat_of_project(self, project):
-        """Alle Automaten des gegebenen Projekts auslesen."""
-        with ProjectMapper() as mapper:
-            return mapper.find_by_automat_id(project.get_id())
-
-    def create_automat_for_project(self, project):
-        """Für einen gegebenes Projekt einen neuen Automaten anlegen."""
-        with ProjectMapper() as mapper:
-            if project is not None:
-                project = Project()
-                project.set_automat_id(project.get_id())
-                project.set_id(1)
-
-                return mapper.insert(project)
-            else:
-                return None
 
 # Project_type
     def create_project_type(self, name, ects, sws):

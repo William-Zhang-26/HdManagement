@@ -161,7 +161,7 @@ class ProjectRelatedAutomatOperations(Resource):
     @projectmanager.marshal_with(automat)
     #@secured
     def get(self, id):
-        """Auslesen aller Automat-Objekte bzgl. eines bestimmten Projekt-Objekts.
+        """Auslesen eines Automat-Objektes bzgl. eines bestimmten Projekt-Objekts.
 
         Das Projekt-Objekt dessen Automat wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
         """
