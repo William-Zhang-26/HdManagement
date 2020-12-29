@@ -306,10 +306,10 @@ if __name__ == "__main__":
         p = mapper.find_by_preferred_room("s305")
         for i in p:
             print(i.get_id())
-
+"""
 if __name__ == "__main__":
     with ProjectMapper() as mapper:
-        p = mapper.find_by_automat_id(1)
+        p = mapper.find_by_automat_id(3)
         for i in p:
-            print(i.get_name())
-"""
+            print(i.get_state_id())
+

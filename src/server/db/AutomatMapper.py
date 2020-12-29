@@ -64,7 +64,7 @@ class AutomatMapper (Mapper):
                 automat.set_state_id(state_id)
                 automat.set_create_time(create_time)
                 result.append(automat)
-            result = automat
+                result = automat
 
         else:
             result = None
@@ -89,12 +89,37 @@ class AutomatMapper (Mapper):
             automat.set_state_id(state_id)
             automat.set_create_time(create_time)
             result.append(automat)
-        result = automat
+            result = automat
 
         self._cnx.commit()
         cursor.close()
 
         return result
+
+    def find_by_state_id(self, state_id):
+        """Auslesen aller Automaten durch sein State ID."""
+
+        result = []
+        cursor = self._cnx.cursor()
+        command = "SELECT * FROM automat WHERE state_id like '{}'".format(state_id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        for (id, name, state_id, create_time) in tuples:
+            automat = Automat()
+            automat.set_id(id)
+            automat.set_name(name)
+            automat.set_state_id(state_id)
+            automat.set_create_time(create_time)
+            result.append(automat)
+
+
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+
 
 
     def insert(self, automat):
@@ -144,12 +169,12 @@ if __name__ == "__main__":
         for p in result:
             print(p.get_name())
 """
-
+"""
 if __name__ == "__main__":
    with AutomatMapper() as mapper:
-       p = mapper.find_by_key(1).get_name()
+       p = mapper.find_by_key(1).get_state_id()
        print(p)
-
+"""
 """
 if __name__ == "__main__":
    with AutomatMapper() as mapper:
@@ -179,3 +204,8 @@ if __name__ == "__main__":
        test = mapper.find_by_key(10)
        mapper.delete(test)
 """
+if __name__ == "__main__":
+   with AutomatMapper() as mapper:
+       p = mapper.find_by_state_id(2)
+       for i in p:
+           print(i.get_name())

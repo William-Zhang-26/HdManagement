@@ -67,7 +67,7 @@ class Project_typeMapper (Mapper):
                 project_type.set_create_time(create_time)
                 result.append(project_type)
 
-            result = project_type
+                result = project_type
 
         else:
             result = None

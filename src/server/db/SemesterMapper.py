@@ -64,7 +64,7 @@ class SemesterMapper (Mapper):
                 semester.set_create_time(create_time)
                 result.append(semester)
 
-            result = semester
+                result = semester
 
         else:
             result = None

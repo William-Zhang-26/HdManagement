@@ -144,6 +144,31 @@ class UserMapper(Mapper):
 
         return result
 
+    def find_by_google_user_id(self, google_id):
+        """Suchen eines Users anhand seiner Google-ID"""
+
+        result = []
+        cursor = self._cnx.cursor()
+        command = "SELECT * FROM user WHERE google_id like '{}'".format(google_id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        for (id, name, firstname, mail, google_id, role_id, create_time) in tuples:
+            user = User()
+            user.set_id(id)
+            user.set_name(name)
+            user.set_firstname(firstname)
+            user.set_mail(mail)
+            user.set_google_id(google_id)
+            user.set_role_id(role_id)
+            user.set_create_time(create_time)
+            result.append(user)
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+
     def insert(self, user):
         """Einfügen eines User-Objekts in die Datenbank."""
 
@@ -193,7 +218,7 @@ if __name__ == "__main__":
     with UserMapper() as mapper:
         u = mapper.find_all()
         for i in u:
-            print(i.get_create_time())
+            print(i.get_firstname())
 
 if __name__ == "__main__":
     with UserMapper() as mapper:
