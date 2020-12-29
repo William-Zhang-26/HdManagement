@@ -16,7 +16,7 @@ class User(NamedBusinessObject):
         self._firstname = ""
         self._mail = ""
         self._google_id = ""
-        self._role_id = 0
+        self._role_id = 4
 
     def get_firstname(self):
         """Auslesen des Vornamens"""
