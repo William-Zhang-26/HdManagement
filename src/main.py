@@ -321,7 +321,7 @@ class ParticipationOperationen(Resource):
 
 @projectmanager.route("/participation/<int:id>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@projectmanager.param('id', 'Die ID des Account-Objekts')
+@projectmanager.param('id', 'Die ID des Teilnahme-Objekts')
 class ParticipationOperationen(Resource):
     @projectmanager.marshal_with(participation)
 
@@ -566,7 +566,7 @@ class StudentOperations(Resource):
 
 @projectmanager.route("/student/<int:id>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@projectmanager.param('id', 'Die ID des Bewertungs-Objekts')
+@projectmanager.param('id', 'Die ID des Studenten-Objekts')
 class StudentOperations(Resource):
     @projectmanager.marshal_with(student)
     def get(self, id):
@@ -617,7 +617,7 @@ class UserOperations(Resource):
 
 @projectmanager.route("/user/<int:id>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@projectmanager.param('id', 'Die ID des Bewertungs-Objekts')
+@projectmanager.param('id', 'Die ID des User-Objekts')
 class UserOperations(Resource):
     @projectmanager.marshal_with(user)
     def get(self, id):
