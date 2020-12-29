@@ -67,14 +67,18 @@ class ProjectAdministration (object):
 
 # Validation
 
-    def create_validation(self, grade):
+
+    """Platzhalter
+        
+        def create_validation(self, grade):
 
         validation = Validation()
         validation.set_grade(grade)
         validation.set_id(1)
 
         with ValidationMapper() as mapper:
-            return mapper.insert(validation)
+            return mapper.insert(validation) """
+
 
     def get_all_validations(self):
         with ValidationMapper() as mapper:
@@ -484,6 +488,25 @@ class ProjectAdministration (object):
                     self.delete_participation(i)
 
             mapper.delete(student)
+
+# StudentTeilnahme-spezifische Methoden
+
+    def get_participation_of_student(self, student):
+            """Die Teilnahme des gegebenen Studenten auslesen."""
+            with StudentMapper() as mapper:
+                return mapper.find_by_participation_id(student.get_participation_id())
+
+    def create_particpation_for_student(self, student):
+        """Für einen gegebenen Studenten einen neuen Teilnahme anlegen."""
+        with ParticipationMapper() as mapper:
+            if student is not None:
+                participation = Participation()
+                participation.set_student_id(student.get_id())
+                participation.set_id(1)
+
+                return mapper.insert(participation)
+            else:
+                return None
 
 # User
     def create_user(self, name, firstname, mail, google_id, role_id):
