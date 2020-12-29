@@ -542,6 +542,10 @@ class ProjectAdministration (object):
         with UserMapper() as mapper:
             mapper.find_by_role_id(role_id)
 
+    def get_user_by_google_user_id(self, google_id):
+        with UserMapper() as mapper:
+            mapper.find_by_google_user_id(google_id)
+
     def save_user(self, user):
         with UserMapper() as mapper:
             mapper.update(user)
