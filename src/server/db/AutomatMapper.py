@@ -101,7 +101,7 @@ class AutomatMapper (Mapper):
 
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM automat WHERE state_id like '{}'".format(state_id)
+        command = "SELECT * FROM automat WHERE state_id like '{}' ORDER BY id".format(state_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -206,6 +206,6 @@ if __name__ == "__main__":
 """
 if __name__ == "__main__":
    with AutomatMapper() as mapper:
-       p = mapper.find_by_state_id(2)
+       p = mapper.find_by_state_id(1)
        for i in p:
            print(i.get_name())
