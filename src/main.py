@@ -177,26 +177,30 @@ class ProjectRelatedAutomatOperations(Resource):
         else:
             return "Project not found", 500
 
+    @projectmanager.param('id', 'Die ID des Automat-Objekts')
     @projectmanager.marshal_with(automat, code=201)
     #@secured
     def post(self, id):
-        """Anlegen eines Automaten für ein gegebenes Projekt.
+        """Anlegen eines Projektes für ein gegebenen Automaten.
 
-        Der neu angelegte Automat wird als Ergebnis zurückgegeben.
+        Das neu angelegte Projekt wird als Ergebnis zurückgegeben.
 
-        **Hinweis:** Unter der id muss ein Projekt existieren, andernfalls wird Status Code 500 ausgegeben."""
+        **Hinweis:** Unter der id muss ein Automat existieren, andernfalls wird Status Code 500 ausgegeben."""
         adm = ProjectAdministration()
-        """Stelle fest, ob es unter der id eine Projekt gibt. 
+        """Stelle fest, ob es unter der id ein Automaten gibt. 
         Dies ist aus Gründen der referentiellen Integrität sinnvoll!
         """
-        proj = adm.get_project_by_id(id)
-
-        if proj is not None:
-            # Jetzt erst macht es Sinn, für das Projekt ein neuen Automaten anzulegen und diesen zurückzugeben.
-            result = adm.create_automat_for_project(proj)
+        pro = adm.get_automat_by_id(id)
+        proje = Project.from_dict(api.payload)
+        if proje is not None:
+            # Jetzt erst macht es Sinn, für das Automaten ein neues Projekt anzulegen und diesen zurückzugeben.
+            result = adm.create_project_for_automat(pro, proje.get_name(), proje.get_automat_id(), proje.get_project_description(), proje.get_partners(),
+                                    proje.get_capacity(), proje.get_preferred_room(), proje.get_b_days_pre_schedule(),
+                                    proje.get_b_days_finale(), proje.get_b_days_saturdays(), proje.get_preferred_b_days(),
+                                    proje.get_project_category(), proje.get_additional_supervisor(), proje.get_weekly())
             return result
         else:
-            return "Project unknown", 500
+            return "Automat unknown", 500
 
 
 """State"""
@@ -617,7 +621,7 @@ class StudentRelatedParticipationOperations(Resource):
         # Haben wir eine brauchbare Referenz auf ein Student-Objekt bekommen?
         if stud is not None:
             # Jetzt erst lesen wir die Teilnahme des Studenten aus.
-            student_list = adm.get_participation_of_student()
+            student_list = adm.get_participation_of_student(stud)
             return student_list
         else:
             return "Student not found", 500
