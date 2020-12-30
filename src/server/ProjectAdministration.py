@@ -207,16 +207,29 @@ class ProjectAdministration (object):
         with AutomatMapper() as mapper:
             return mapper.find_by_key(project.get_id())
 
-    def create_automat_for_project(self, project, name):
-        """Für einen gegebenes Projekt einen neuen Automaten anlegen."""
-        with AutomatMapper() as mapper:
-            if project is not None:
-                automat = Automat()
-                automat.set_id(project.get_id())
-                automat.set_name(name)
-                automat.set_state_id(1)
+    def create_project_for_automat(self, automat, name, automat_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+             b_days_finale, b_days_saturdays, preferred_b_days, project_category, additional_supervisor,
+             weekly):
 
-                return mapper.insert(automat)
+        """Für einen gegebenen Automaten ein Project anlegen."""
+        with ProjectMapper() as mapper:
+            if automat is not None:
+                project = Project()
+                project.set_name(name)
+                project.set_automat_id(automat_id)
+                project.set_project_description(project_description)
+                project.set_partners(partners)
+                project.set_capacity(capacity)
+                project.set_preferred_room(preferred_room)
+                project.set_b_days_pre_schedule(b_days_pre_schedule)
+                project.set_b_days_finale(b_days_finale)
+                project.set_b_days_saturdays(b_days_saturdays)
+                project.set_preferred_b_days(preferred_b_days)
+                project.set_project_category(project_category)
+                project.set_additional_supervisor(additional_supervisor)
+                project.set_weekly(weekly)
+                project.set_id(1)
+                return mapper.insert(project)
             else:
                 return None
 
