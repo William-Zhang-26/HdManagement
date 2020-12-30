@@ -617,7 +617,7 @@ class StudentRelatedParticipationOperations(Resource):
         # Haben wir eine brauchbare Referenz auf ein Student-Objekt bekommen?
         if stud is not None:
             # Jetzt erst lesen wir die Teilnahme des Studenten aus.
-            student_list = adm.get_participation_of_student()
+            student_list = adm.get_participation_of_student(stud)
             return student_list
         else:
             return "Student not found", 500

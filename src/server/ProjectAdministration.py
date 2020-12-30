@@ -494,8 +494,8 @@ class ProjectAdministration (object):
 
     def get_participation_of_student(self, student):
             """Die Teilnahme des gegebenen Studenten auslesen."""
-            with StudentMapper() as mapper:
-                return mapper.find_by_participation_id(student.get_participation_id())
+            with ParticipationMapper() as mapper:
+                return mapper.find_by_key(student.get_id())
 
     def create_particpation_for_student(self, student):
         """Für einen gegebenen Studenten einen neuen Teilnahme anlegen."""
