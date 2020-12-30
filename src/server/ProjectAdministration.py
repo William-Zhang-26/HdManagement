@@ -525,27 +525,27 @@ class ProjectAdministration (object):
 
     def get_all_user(self):
         with UserMapper() as mapper:
-            mapper.find_all()
+            return mapper.find_all()
 
     def get_user_by_id(self, id):
         with UserMapper() as mapper:
-            mapper.find_by_key(id)
+            return mapper.find_by_key(id)
 
     def get_user_by_name(self, name):
         with UserMapper() as mapper:
-            mapper.find_by_name(name)
+            return mapper.find_by_name(name)
 
     def get_user_by_firstname(self, firstname):
         with UserMapper() as mapper:
-            mapper.find_by_firstname(firstname)
+            return mapper.find_by_firstname(firstname)
+
+    def get_user_by_google_id(self, google_id):
+        with UserMapper() as mapper:
+            return mapper.find_by_google_user_id(google_id)
 
     def get_user_by_role_id(self, role_id):
         with UserMapper() as mapper:
-            mapper.find_by_role_id(role_id)
-
-    def get_user_by_google_user_id(self, google_id):
-        with UserMapper() as mapper:
-            mapper.find_by_google_user_id(google_id)
+            return mapper.find_by_role_id(role_id)
 
     def save_user(self, user):
         with UserMapper() as mapper:
