@@ -447,7 +447,7 @@ class ProjectAdministration (object):
             mapper.delete(semester)
 
 # Student
-    def create_student(self, name, firstname, course, matriculation_number, mail, google_id, participation_id):
+    def create_student(self, name, firstname, course, matriculation_number, mail, google_id):
 
         student = Student()
         student.set_name(name)
@@ -456,7 +456,6 @@ class ProjectAdministration (object):
         student.set_matriculation_number(matriculation_number)
         student.set_mail(mail)
         student.set_google_id(google_id)
-        student.set_participation_id(participation_id)
         student.set_id(1)
 
         with StudentMapper() as mapper:
@@ -486,14 +485,12 @@ class ProjectAdministration (object):
         with StudentMapper() as mapper:
             return mapper.find_by_matriculation_number(matriculation_number)
 
-    def get_student_by_participation_id(self, participation_id):
-        with StudentMapper() as mapper:
-            return mapper.find_by_participation_id(participation_id)
-
     def save_student(self, student):
         with StudentMapper() as mapper:
             mapper.update(student)
 
+
+#Änderung notwendig
     def delete_student(self, student):
         with StudentMapper() as mapper:
             participation = self.get_participation_by_student_id(student)
@@ -503,12 +500,13 @@ class ProjectAdministration (object):
 
             mapper.delete(student)
 
+
 # StudentTeilnahme-spezifische Methoden
 
-    def get_participation_of_student(self, student):
+    def get_participation_of_student(self, participation):
             """Die Teilnahme des gegebenen Studenten auslesen."""
             with ParticipationMapper() as mapper:
-                return mapper.find_by_key(student.get_id())
+                return mapper.find_by_student(participation.get_id())
 
     def create_particpation_for_student(self, student):
         """Für einen gegebenen Studenten einen neuen Teilnahme anlegen."""

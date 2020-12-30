@@ -98,8 +98,7 @@ user = api.inherit('User', nbo, {
 
 student = api.inherit('Student', user, {
     'course': fields.String(attribute='_course', description='Der zugehörige Kurs'),
-    'matriculation_number': fields.Integer(attribute='_matriculation_number', description='Die Matrikelnummer des Studenten'),
-    'participation_id': fields.Integer(attribute='_participation_id', description='Die Zugehörigkeit des Studenten')
+    'matriculation_number': fields.Integer(attribute='_matriculation_number', description='Die Matrikelnummer des Studenten')
 })
 
 state = api.inherit('State', nbo, {
@@ -563,7 +562,7 @@ class StudentOperations(Resource):
         if student is not None:
             c = adm.create_student(student.get_name(), student.get_firstname(), student.get_course(),
                                    student.get_matriculation_number(),
-                                   student.get_mail(), student.get_google_id(), student.get_participation_id())
+                                   student.get_mail(), student.get_google_id(),)
             return c, 200
         else:
             return '', 500
