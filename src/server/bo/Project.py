@@ -44,36 +44,6 @@ class Project(Automat):
     def fifth_event(self, fifth_event):
         self._current_state = self._current_state.fifth_event(fifth_event)
 
-    def first_event (self, first_event):
-        if first_event == 'neu':
-            return Project.s_new
-
-        return self
-
-    def sec_event(self, sec_event):
-        if sec_event == 'abgelehnt':
-            return Project.s_dismissed
-
-        return self
-
-    def third_event(self, third_event):
-        if third_event == 'genehmigt':
-            return Project.s_approved
-
-        return self
-
-    def fourth_event(self, fourth_event):
-        if fourth_event == 'in Bewertung':
-            return Project.s_inreview
-
-        return self
-
-    def fifth_event(self, fifth_event):
-        if fifth_event == 'Bewertung abgeschlossen':
-            return Project.s_reviewed
-
-        return self
-
     def get_automat_id(self):
         """Auslesen der Automaten-ID"""
         return self._automat_id
