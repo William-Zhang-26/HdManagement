@@ -344,6 +344,20 @@ class ParticipationOperationen(Resource):
             adm.delete_participation(participation)
             return 'Teilnahme wurde erfolgreich aus der DB gelöscht', 200
 
+    @projectmanager.expect(participation)
+    def put(self, id):
+        """Teilnahme wird aktualisiert"""
+        adm = ProjectAdministration()
+        participation = Participation.from_dict(api.payload)
+
+        if participation is None:
+            return "Teilnahme konnte nicht geändert werden", 500
+
+        else:
+            participation.set_id(id)
+            adm.save_participation(participation)
+            return "Teilnahme wurde erfolgreich geändert", 200
+
 """Project"""
 @projectmanager.route("/project")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
