@@ -66,19 +66,15 @@ class ProjectAdministration (object):
             mapper.delete(module)
 
 # Validation
-
-
-    """Platzhalter
         
-        def create_validation(self, grade):
+    def create_validation(self, grade):
 
         validation = Validation()
         validation.set_grade(grade)
         validation.set_id(1)
 
         with ValidationMapper() as mapper:
-            return mapper.insert(validation) """
-
+            return mapper.insert(validation)
 
     def get_all_validations(self):
         with ValidationMapper() as mapper:
@@ -146,26 +142,6 @@ class ProjectAdministration (object):
 
     def delete_participation(self, participation):
         with ParticipationMapper() as mapper:
-            module = self.get_participation_by_module_id(participation)
-            if not (module is None):
-                for i in module:
-                    self.delete_module(i)
-
-            project = self.get_participation_by_project_id(participation)
-            if not (project is None):
-                for i in project:
-                    self.delete_project(i)
-
-            student = self.get_participation_by_student_id(participation)
-            if not (student is None):
-                for i in student:
-                    self.delete_student(i)
-
-            validation = self.get_participation_by_validation_id(participation)
-            if not (validation is None):
-                for i in validation:
-                    self.delete_validation(i)
-
             mapper.delete(participation)
 
 # Automat
