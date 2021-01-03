@@ -21,7 +21,7 @@ class StudentMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, firstname, course, matriculation_number, mail, google_id, participation_id, create_time) \
+        for (id, name, firstname, course, matriculation_number, mail, google_id, create_time) \
                 in tuples:
             student = Student()
             student.set_id(id)
@@ -31,7 +31,6 @@ class StudentMapper(Mapper):
             student.set_matriculation_number(matriculation_number)
             student.set_mail(mail)
             student.set_google_id(google_id)
-            student.set_participation_id(participation_id)
             student.set_create_time(create_time)
             result.append(student)
 
@@ -51,7 +50,7 @@ class StudentMapper(Mapper):
 
         if len(tuples) != 0:
 
-            for (id, name, firstname, course, matriculation_number, mail, google_id, participation_id, create_time) \
+            for (id, name, firstname, course, matriculation_number, mail, google_id, create_time) \
                     in tuples:
                 student = Student()
                 student.set_id(id)
@@ -61,7 +60,6 @@ class StudentMapper(Mapper):
                 student.set_matriculation_number(matriculation_number)
                 student.set_mail(mail)
                 student.set_google_id(google_id)
-                student.set_participation_id(participation_id)
                 student.set_create_time(create_time)
                 result.append(student)
                 result = student
@@ -83,7 +81,7 @@ class StudentMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, firstname, course, matriculation_number, mail, google_id, participation_id, create_time) \
+        for (id, name, firstname, course, matriculation_number, mail, google_id, create_time) \
                 in tuples:
             student = Student()
             student.set_id(id)
@@ -93,7 +91,6 @@ class StudentMapper(Mapper):
             student.set_matriculation_number(matriculation_number)
             student.set_mail(mail)
             student.set_google_id(google_id)
-            student.set_participation_id(participation_id)
             student.set_create_time(create_time)
             result.append(student)
 
@@ -111,7 +108,7 @@ class StudentMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, firstname, course, matriculation_number, mail, google_id, participation_id, create_time) \
+        for (id, name, firstname, course, matriculation_number, mail, google_id, create_time) \
                 in tuples:
             student = Student()
             student.set_id(id)
@@ -121,7 +118,6 @@ class StudentMapper(Mapper):
             student.set_matriculation_number(matriculation_number)
             student.set_mail(mail)
             student.set_google_id(google_id)
-            student.set_participation_id(participation_id)
             student.set_create_time(create_time)
             result.append(student)
 
@@ -139,7 +135,7 @@ class StudentMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, firstname, course, matriculation_number, mail, google_id, participation_id, create_time) \
+        for (id, name, firstname, course, matriculation_number, mail, google_id, create_time) \
                 in tuples:
             student = Student()
             student.set_id(id)
@@ -149,7 +145,6 @@ class StudentMapper(Mapper):
             student.set_matriculation_number(matriculation_number)
             student.set_mail(mail)
             student.set_google_id(google_id)
-            student.set_participation_id(participation_id)
             student.set_create_time(create_time)
             result.append(student)
 
@@ -167,7 +162,7 @@ class StudentMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, firstname, course, matriculation_number, mail, google_id, participation_id, create_time) \
+        for (id, name, firstname, course, matriculation_number, mail, google_id, create_time) \
                 in tuples:
             student = Student()
             student.set_id(id)
@@ -177,34 +172,6 @@ class StudentMapper(Mapper):
             student.set_matriculation_number(matriculation_number)
             student.set_mail(mail)
             student.set_google_id(google_id)
-            student.set_participation_id(participation_id)
-            student.set_create_time(create_time)
-            result.append(student)
-
-        self._cnx.commit()
-        cursor.close()
-
-        return result
-
-    def find_by_participation_id(self, participation_id):
-        """Suchen eines Studenten anhand der Teilnehmer_ID"""
-        result = []
-        cursor = self._cnx.cursor()
-        command = "SELECT * FROM student WHERE participation_id like '{}'".format(participation_id)
-        cursor.execute(command)
-        tuples = cursor.fetchall()
-
-        for (id, name, firstname, course, matriculation_number, mail, google_id, participation_id, create_time) \
-                in tuples:
-            student = Student()
-            student.set_id(id)
-            student.set_name(name)
-            student.set_firstname(firstname)
-            student.set_course(course)
-            student.set_matriculation_number(matriculation_number)
-            student.set_mail(mail)
-            student.set_google_id(google_id)
-            student.set_participation_id(participation_id)
             student.set_create_time(create_time)
             result.append(student)
 
@@ -223,13 +190,11 @@ class StudentMapper(Mapper):
         for (MaxID) in tuples:
             student.set_id(MaxID[0] + 1)
 
-        command = "INSERT INTO student (id, name, firstname, course, matriculation_number, mail, google_id," \
-                "participation_id, create_time)" \
-                "VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}')" \
+        command = "INSERT INTO student (id, name, firstname, course, matriculation_number, mail, google_id, create_time)" \
+                "VALUES ('{}','{}','{}','{}','{}','{}','{}','{}')" \
             .format(student.get_id(), student.get_name(), student.get_firstname(), student.get_course(),
                     student.get_matriculation_number(),
-                    student.get_mail(), student.get_google_id(), student.get_participation_id(),
-                    student.get_create_time())
+                    student.get_mail(), student.get_google_id(), student.get_create_time())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -242,11 +207,11 @@ class StudentMapper(Mapper):
 
         command = "UPDATE student SET name = ('{}'), firstname = ('{}'), course = ('{}')," \
                 "matriculation_number = ('{}')," \
-                "mail = ('{}'), google_id = ('{}'), participation_id = ('{}'), create_time = ('{}')" \
+                "mail = ('{}'), google_id = ('{}'), create_time = ('{}')" \
                 "WHERE id = ('{}')"\
             .format(student.get_name(), student.get_firstname(), student.get_course(),
                     student.get_matriculation_number(), student.get_mail(), student.get_google_id(),
-                    student.get_participation_id(), student.get_create_time(), student.get_id())
+                    student.get_create_time(), student.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -277,7 +242,6 @@ if __name__ == "__main__":
     s.set_matriculation_number("36576")
     s.set_mail("rü004@hdm-stuttgart.de")
     s.set_google_id("rahel.Ün@google.com")
-    s.set_participation_id(4)
     s.set_create_time("2020-12-22")
     with StudentMapper() as mapper:
         mapper.insert(s)
@@ -298,10 +262,4 @@ if __name__ == "__main__":
         s = mapper.find_all()
         for i in s:
             print(i.get_create_time())
-
-if __name__ == "__main__":
-    with StudentMapper() as mapper:
-        student = mapper.find_by_participation_id(3)
-        for i in student:
-            print(i.get_firstname())
 """

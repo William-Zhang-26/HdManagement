@@ -98,8 +98,7 @@ user = api.inherit('User', nbo, {
 
 student = api.inherit('Student', user, {
     'course': fields.String(attribute='_course', description='Der zugehörige Kurs'),
-    'matriculation_number': fields.Integer(attribute='_matriculation_number', description='Die Matrikelnummer des Studenten'),
-    'participation_id': fields.Integer(attribute='_participation_id', description='Die Zugehörigkeit des Studenten')
+    'matriculation_number': fields.Integer(attribute='_matriculation_number', description='Die Matrikelnummer des Studenten')
 })
 
 state = api.inherit('State', nbo, {
@@ -161,7 +160,7 @@ class ProjectRelatedAutomatOperations(Resource):
     @projectmanager.marshal_with(automat)
     #@secured
     def get(self, id):
-        """Auslesen aller Automat-Objekte bzgl. eines bestimmten Projekt-Objekts.
+        """Auslesen eines Automat-Objektes bzgl. eines bestimmten Projekt-Objekts.
 
         Das Projekt-Objekt dessen Automat wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
         """
@@ -177,26 +176,30 @@ class ProjectRelatedAutomatOperations(Resource):
         else:
             return "Project not found", 500
 
+    @projectmanager.param('id', 'Die ID des Automat-Objekts')
     @projectmanager.marshal_with(automat, code=201)
     #@secured
     def post(self, id):
-        """Anlegen eines Automaten für ein gegebenes Projekt.
+        """Anlegen eines Projektes für ein gegebenen Automaten.
 
-        Der neu angelegte Automat wird als Ergebnis zurückgegeben.
+        Das neu angelegte Projekt wird als Ergebnis zurückgegeben.
 
-        **Hinweis:** Unter der id muss ein Projekt existieren, andernfalls wird Status Code 500 ausgegeben."""
+        **Hinweis:** Unter der id muss ein Automat existieren, andernfalls wird Status Code 500 ausgegeben."""
         adm = ProjectAdministration()
-        """Stelle fest, ob es unter der id eine Projekt gibt. 
+        """Stelle fest, ob es unter der id ein Automaten gibt. 
         Dies ist aus Gründen der referentiellen Integrität sinnvoll!
         """
-        proj = adm.get_project_by_id(id)
-
-        if proj is not None:
-            # Jetzt erst macht es Sinn, für das Projekt ein neuen Automaten anzulegen und diesen zurückzugeben.
-            result = adm.create_automat_for_project(proj)
+        pro = adm.get_automat_by_id(id)
+        proje = Project.from_dict(api.payload)
+        if proje is not None:
+            # Jetzt erst macht es Sinn, für das Automaten ein neues Projekt anzulegen und diesen zurückzugeben.
+            result = adm.create_project_for_automat(pro, proje.get_name(), proje.get_automat_id(), proje.get_project_description(), proje.get_partners(),
+                                    proje.get_capacity(), proje.get_preferred_room(), proje.get_b_days_pre_schedule(),
+                                    proje.get_b_days_finale(), proje.get_b_days_saturdays(), proje.get_preferred_b_days(),
+                                    proje.get_project_category(), proje.get_additional_supervisor(), proje.get_weekly())
             return result
         else:
-            return "Project unknown", 500
+            return "Automat unknown", 500
 
 
 """State"""
@@ -559,7 +562,7 @@ class StudentOperations(Resource):
         if student is not None:
             c = adm.create_student(student.get_name(), student.get_firstname(), student.get_course(),
                                    student.get_matriculation_number(),
-                                   student.get_mail(), student.get_google_id(), student.get_participation_id())
+                                   student.get_mail(), student.get_google_id(),)
             return c, 200
         else:
             return '', 500
@@ -617,7 +620,7 @@ class StudentRelatedParticipationOperations(Resource):
         # Haben wir eine brauchbare Referenz auf ein Student-Objekt bekommen?
         if stud is not None:
             # Jetzt erst lesen wir die Teilnahme des Studenten aus.
-            student_list = adm.get_participation_of_student()
+            student_list = adm.get_participation_of_student(stud)
             return student_list
         else:
             return "Student not found", 500

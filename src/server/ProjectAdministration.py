@@ -200,7 +200,40 @@ class ProjectAdministration (object):
         with AutomatMapper() as mapper:
             mapper.delete(automat)
 
-# Status
+# Automat-spezifische Methoden
+
+    def get_automat_of_project(self, project):
+        """Für das angegebene Projekt den Automaten ausgeben"""
+        with AutomatMapper() as mapper:
+            return mapper.find_by_key(project.get_id())
+
+    def create_project_for_automat(self, automat, name, automat_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+             b_days_finale, b_days_saturdays, preferred_b_days, project_category, additional_supervisor,
+             weekly):
+
+        """Für einen gegebenen Automaten ein Project anlegen."""
+        with ProjectMapper() as mapper:
+            if automat is not None:
+                project = Project()
+                project.set_name(name)
+                project.set_automat_id(automat_id)
+                project.set_project_description(project_description)
+                project.set_partners(partners)
+                project.set_capacity(capacity)
+                project.set_preferred_room(preferred_room)
+                project.set_b_days_pre_schedule(b_days_pre_schedule)
+                project.set_b_days_finale(b_days_finale)
+                project.set_b_days_saturdays(b_days_saturdays)
+                project.set_preferred_b_days(preferred_b_days)
+                project.set_project_category(project_category)
+                project.set_additional_supervisor(additional_supervisor)
+                project.set_weekly(weekly)
+                project.set_id(1)
+                return mapper.insert(project)
+            else:
+                return None
+
+    # Status
 
     def create_state(self, name):
         """Einen Status anlegen"""
@@ -289,25 +322,6 @@ class ProjectAdministration (object):
                     self.delete_automat(a)
 
             mapper.delete(project)
-
-# Automat-spezifische Methoden
-
-    def get_automat_of_project(self, project):
-        """Alle Automaten des gegebenen Projekts auslesen."""
-        with ProjectMapper() as mapper:
-            return mapper.find_by_automat_id(project.get_id())
-
-    def create_automat_for_project(self, project):
-        """Für einen gegebenes Projekt einen neuen Automaten anlegen."""
-        with ProjectMapper() as mapper:
-            if project is not None:
-                project = Project()
-                project.set_automat_id(project.get_id())
-                project.set_id(1)
-
-                return mapper.insert(project)
-            else:
-                return None
 
 # Project_type
     def create_project_type(self, name, ects, sws):
@@ -433,7 +447,7 @@ class ProjectAdministration (object):
             mapper.delete(semester)
 
 # Student
-    def create_student(self, name, firstname, course, matriculation_number, mail, google_id, participation_id):
+    def create_student(self, name, firstname, course, matriculation_number, mail, google_id):
 
         student = Student()
         student.set_name(name)
@@ -442,7 +456,6 @@ class ProjectAdministration (object):
         student.set_matriculation_number(matriculation_number)
         student.set_mail(mail)
         student.set_google_id(google_id)
-        student.set_participation_id(participation_id)
         student.set_id(1)
 
         with StudentMapper() as mapper:
@@ -472,14 +485,12 @@ class ProjectAdministration (object):
         with StudentMapper() as mapper:
             return mapper.find_by_matriculation_number(matriculation_number)
 
-    def get_student_by_participation_id(self, participation_id):
-        with StudentMapper() as mapper:
-            return mapper.find_by_participation_id(participation_id)
-
     def save_student(self, student):
         with StudentMapper() as mapper:
             mapper.update(student)
 
+
+#Änderung notwendig
     def delete_student(self, student):
         with StudentMapper() as mapper:
             participation = self.get_participation_by_student_id(student)
@@ -489,12 +500,13 @@ class ProjectAdministration (object):
 
             mapper.delete(student)
 
+
 # StudentTeilnahme-spezifische Methoden
 
-    def get_participation_of_student(self, student):
+    def get_participation_of_student(self, participation):
             """Die Teilnahme des gegebenen Studenten auslesen."""
-            with StudentMapper() as mapper:
-                return mapper.find_by_participation_id(student.get_participation_id())
+            with ParticipationMapper() as mapper:
+                return mapper.find_by_student(participation.get_id())
 
     def create_particpation_for_student(self, student):
         """Für einen gegebenen Studenten einen neuen Teilnahme anlegen."""
@@ -524,27 +536,27 @@ class ProjectAdministration (object):
 
     def get_all_user(self):
         with UserMapper() as mapper:
-            mapper.find_all()
+            return mapper.find_all()
 
     def get_user_by_id(self, id):
         with UserMapper() as mapper:
-            mapper.find_by_key(id)
+            return mapper.find_by_key(id)
 
     def get_user_by_name(self, name):
         with UserMapper() as mapper:
-            mapper.find_by_name(name)
+            return mapper.find_by_name(name)
 
     def get_user_by_firstname(self, firstname):
         with UserMapper() as mapper:
-            mapper.find_by_firstname(firstname)
+            return mapper.find_by_firstname(firstname)
+
+    def get_user_by_google_id(self, google_id):
+        with UserMapper() as mapper:
+            return mapper.find_by_google_user_id(google_id)
 
     def get_user_by_role_id(self, role_id):
         with UserMapper() as mapper:
-            mapper.find_by_role_id(role_id)
-
-    def get_user_by_google_user_id(self, google_id):
-        with UserMapper() as mapper:
-            mapper.find_by_google_user_id(google_id)
+            return mapper.find_by_role_id(role_id)
 
     def save_user(self, user):
         with UserMapper() as mapper:

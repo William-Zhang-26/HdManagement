@@ -265,10 +265,10 @@ if __name__ == "__main__":
 #find_by_student
 if __name__ == "__main__":
    with ParticipationMapper() as mapper:
-       m = mapper.find_by_student(1)
+       m = mapper.find_by_student(2)
        for i in m:
-           print(i.get_id())
-           
+           print(i.get_participation_status())
+    
 #find_by_validation
 if __name__ == "__main__":
    with ParticipationMapper() as mapper:
