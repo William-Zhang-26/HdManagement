@@ -494,7 +494,7 @@ class RoleOperations(Resource):
     def delete(self, id):
         """Löschen einer Rolle aus der DB"""
         adm = ProjectAdministration()
-        role = adm.get_semester_by_id(id)
+        role = adm.get_role_by_id(id)
         if role is None:
             return 'Rolle konnte nicht aus der DB gelöscht werden', 500
         else:
