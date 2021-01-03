@@ -176,8 +176,10 @@ class ProjectRelatedAutomatOperations(Resource):
         else:
             return "Project not found", 500
 
+
     @projectmanager.param('id', 'Die ID des Automat-Objekts')
-    @projectmanager.marshal_with(automat, code=201)
+    @projectmanager.marshal_with(project, code=201)
+    @projectmanager.expect(project)
     #@secured
     def post(self, id):
         """Anlegen eines Projektes für ein gegebenen Automaten.
@@ -191,12 +193,11 @@ class ProjectRelatedAutomatOperations(Resource):
         """
         pro = adm.get_automat_by_id(id)
         proje = Project.from_dict(api.payload)
-        if proje is not None:
+        if pro is not None:
             # Jetzt erst macht es Sinn, für das Automaten ein neues Projekt anzulegen und diesen zurückzugeben.
-            result = adm.create_project_for_automat(pro, proje.get_name(), proje.get_automat_id(), proje.get_project_description(), proje.get_partners(),
-                                    proje.get_capacity(), proje.get_preferred_room(), proje.get_b_days_pre_schedule(),
-                                    proje.get_b_days_finale(), proje.get_b_days_saturdays(), proje.get_preferred_b_days(),
-                                    proje.get_project_category(), proje.get_additional_supervisor(), proje.get_weekly())
+            result = adm.create_project_for_automat(pro, proje.get_name(),proje.get_automat_id(),proje.get_project_description(),proje.get_partners(),
+                            proje.get_capacity(),proje.get_preferred_room(),proje.get_b_days_pre_schedule(), proje.get_b_days_finale(),proje.get_b_days_saturdays(),
+                            proje.get_preferred_b_days(),proje.get_project_category(),proje.get_additional_supervisor(),proje.get_weekly())
             return result
         else:
             return "Automat unknown", 500
@@ -359,13 +360,14 @@ class ParticipationOperationen(Resource):
             return "Teilnahme wurde erfolgreich geändert", 200
 
 """Project"""
+"""
 @projectmanager.route("/project")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class ProjectOperations(Resource):
     @projectmanager.marshal_with(project, code=200)
     @projectmanager.expect(project)
     def post(self):
-        """Projekt erstellen"""
+        #Projekt erstellen
         adm = ProjectAdministration()
         proposal = Project.from_dict(api.payload)
         if proposal is not None:
@@ -376,7 +378,7 @@ class ProjectOperations(Resource):
             return c, 200
         else:
             return '', 500
-
+"""
 @projectmanager.route("/project/<int:id>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @projectmanager.param('id', 'Die ID des Semester-Objekts')
