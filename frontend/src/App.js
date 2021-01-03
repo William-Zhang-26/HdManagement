@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import { ThemeProvider, CssBaseline } from '@material-ui/core';
 //import { Container } from '@material-ui/core';
 import Theme from './Theme';
@@ -16,6 +16,7 @@ import LecturerProjectList from './components/LecturerProjectList';
 import AdminProjectList from './components/AdminProjectList';
 import ProjectListParticipants from './components/ProjectListParticipants';
 import Header from './components/layout/Header';
+import RoleChoice from './components/pages/RoleChoice';
 
 
 class App extends React.Component {
@@ -112,37 +113,13 @@ class App extends React.Component {
           <div className="App">
           <Header user={currentUser}/>
             {
-            //<LecturerAdminHeader user={currentUser}/><StudentHeader user={currentUser}/>
-            //<StudentHeader user={currentUser}/>
-            }
-            {
 
               currentUser ?
                   <>
-                    <Redirect from='/' to='projects1' />
-                    <Route exact path='/projects1'>
-                      <StudentProjectList />
+                    <Redirect from = '/' to = '/rolechoice' />
+                    <Route exact path="/rolechoice">
+                      <RoleChoice/>
                     </Route>
-
-                    <Route exact path='/projects2'>
-                      <LecturerProjectList />
-                    </Route>
-
-                    <Route exact path='/projects3'>
-                      <AdminProjectList />
-                    </Route>
-                   
-                    <Route path='/report'>
-								  	</Route>
-
-                    <Route path='/grades'>
-										  <ProjectListParticipants />
-								  	</Route>
-                   
-                    <Route path='/impressum' component={Impressum} />
-
-
-
                   </>
                   :
                   <>
