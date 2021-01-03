@@ -204,10 +204,8 @@ class ParticipationMapper (Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "UPDATE participation SET module_id = ('{}'), project_id = ('{}'), student_id = ('{}'), validation_id = ('{}'), participation_status = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
-            .format(participation.get_module_id(), participation.get_project_id(),
-                    participation.get_student_id(), participation.get_validation_id(),
-                    participation.get_participation_status(), participation.get_create_time(), participation.get_id())
+        command = "UPDATE participation SET participation_status = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
+            .format(participation.get_participation_status(), participation.get_create_time(), participation.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
