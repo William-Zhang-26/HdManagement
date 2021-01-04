@@ -160,7 +160,7 @@ class Project(Automat):
         new_project.set_project_category(dict["project_category"])
         new_project.set_additional_supervisor(dict["additional_supervisor"])
         new_project.set_weekly(dict["weekly"])
-        new_project.set_weekly(dict["create_time"])
+        new_project.set_create_time(dict["create_time"])
         return new_project
 
 """

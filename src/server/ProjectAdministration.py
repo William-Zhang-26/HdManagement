@@ -145,6 +145,15 @@ class ProjectAdministration (object):
             mapper.delete(participation)
 
 # Automat
+    def create_automat(self, name, state_id):
+        """Einen Automaten anlegen"""
+        automat = Automat()
+        automat.set_name(name)
+        automat.set_state_id(state_id)
+        automat.set_id(1)
+
+        with AutomatMapper() as mapper:
+            return mapper.insert(automat)
 
     def get_all_automat(self):
         """Alle Automate auslesen."""
@@ -183,7 +192,7 @@ class ProjectAdministration (object):
         with AutomatMapper() as mapper:
             return mapper.find_by_key(project.get_id())
 
-    def create_project_for_automat(self, automat, name, automat_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+    def create_project_for_automat(self, automat, name, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
              b_days_finale, b_days_saturdays, preferred_b_days, project_category, additional_supervisor,
              weekly):
 
@@ -192,7 +201,7 @@ class ProjectAdministration (object):
             if automat is not None:
                 project = Project()
                 project.set_name(name)
-                project.set_automat_id(automat_id)
+                project.set_automat_id(automat.get_id())
                 project.set_project_description(project_description)
                 project.set_partners(partners)
                 project.set_capacity(capacity)
