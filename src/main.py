@@ -115,6 +115,20 @@ class HelloWorld(Resource):
         return jsonify({'hello': 'world'})
 
 """Automat"""
+@projectmanager.route("/automat")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class AutomatOperations(Resource):
+    @projectmanager.marshal_with(automat, code=200)
+    @projectmanager.expect(automat)
+    def post(self):
+        """Automat erstellen"""
+        adm = ProjectAdministration()
+        proposal = Automat.from_dict(api.payload)
+        if proposal is not None:
+            c = adm.create_automat(proposal.get_name(), proposal.get_state_id())
+            return c, 200
+        else:
+            return '', 500
 
 @projectmanager.route("/automat/<int:id>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -176,31 +190,24 @@ class ProjectRelatedAutomatOperations(Resource):
         else:
             return "Project not found", 500
 
-
     @projectmanager.param('id', 'Die ID des Automat-Objekts')
     @projectmanager.marshal_with(project, code=201)
     @projectmanager.expect(project)
     #@secured
     def post(self, id):
-        """Anlegen eines Projektes für ein gegebenen Automaten.
-
-        Das neu angelegte Projekt wird als Ergebnis zurückgegeben.
-
-        **Hinweis:** Unter der id muss ein Automat existieren, andernfalls wird Status Code 500 ausgegeben."""
         adm = ProjectAdministration()
-        """Stelle fest, ob es unter der id ein Automaten gibt. 
-        Dies ist aus Gründen der referentiellen Integrität sinnvoll!
-        """
-        pro = adm.get_automat_by_id(id)
-        proje = Project.from_dict(api.payload)
-        if pro is not None:
-            # Jetzt erst macht es Sinn, für das Automaten ein neues Projekt anzulegen und diesen zurückzugeben.
-            result = adm.create_project_for_automat(pro, proje.get_name(),proje.get_automat_id(),proje.get_project_description(),proje.get_partners(),
-                            proje.get_capacity(),proje.get_preferred_room(),proje.get_b_days_pre_schedule(), proje.get_b_days_finale(),proje.get_b_days_saturdays(),
-                            proje.get_preferred_b_days(),proje.get_project_category(),proje.get_additional_supervisor(),proje.get_weekly())
-            return result
+        pane = adm.get_automat_by_id(id) #prüfen ob es einen autoamten von der id gibt
+        pan = Project.from_dict(api.payload)
+
+        if pan is not None:
+            project_list = adm.create_project_for_automat(pane, pan.get_name(), pan.get_project_description(), pan.get_partners(),
+                                              pan.get_capacity (), pan.get_preferred_room(), pan.get_b_days_pre_schedule(),
+                                                pan.get_b_days_finale(), pan.get_b_days_saturdays(), pan.get_preferred_b_days(),
+                                                pan.get_project_category(), pan.get_additional_supervisor(), pan.get_weekly())
+            return project_list
         else:
-            return "Automat unknown", 500
+            return "Automat not found", 500
+
 
 
 """State"""
@@ -360,14 +367,14 @@ class ParticipationOperationen(Resource):
             return "Teilnahme wurde erfolgreich geändert", 200
 
 """Project"""
-"""
+
 @projectmanager.route("/project")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class ProjectOperations(Resource):
     @projectmanager.marshal_with(project, code=200)
     @projectmanager.expect(project)
     def post(self):
-        #Projekt erstellen
+        """Projekt erstellen"""
         adm = ProjectAdministration()
         proposal = Project.from_dict(api.payload)
         if proposal is not None:
@@ -378,7 +385,7 @@ class ProjectOperations(Resource):
             return c, 200
         else:
             return '', 500
-"""
+
 @projectmanager.route("/project/<int:id>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @projectmanager.param('id', 'Die ID des Semester-Objekts')
