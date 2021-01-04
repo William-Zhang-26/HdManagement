@@ -5,10 +5,14 @@ import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import StudentHeader from '../layout/StudentHeader';
 import LecturerAdminHeader from '../layout/LecturerAdminHeader';
-//import StudentProjectList from './components/StudentProjectList';
-//import LecturerProjectList from './components/LecturerProjectList';
+import StudentProjectList from '../StudentProjectList';
+import LecturerProjectList from '../LecturerProjectList';
 //import AdminProjectList from './components/AdminProjectList';
-//import ProjectListParticipants from './components/ProjectListParticipants';
+import ProjectListParticipants from '../ProjectListParticipants';
+import Impressum from './Impressum';
+import StudentReportIndividualTitle from '../StudentReportIndividualTitle';
+import StudentReportList from '../StudentReportList';
+
 
 class RoleChoice extends Component {
     constructor(props) {
@@ -17,7 +21,8 @@ class RoleChoice extends Component {
 
             StudentClicked: false, 
             LecturerClicked: false,
-            AdminClicked: false
+            AdminClicked: false,
+            AlwaysTrue: true
         };
     }
     
@@ -25,23 +30,27 @@ class RoleChoice extends Component {
     handleStudentButtonClicked = () => {
         this.setState ({StudentClicked: true});
 
+
   }
 
     handleLecturerButtonClicked = () => {
         this.setState ({LecturerClicked: true});
+
 
   }
  
     handleAdminButtonClicked = () => {
         this.setState ({AdminClicked: true});
 
+
   }
 
     render() {
         const { classes } = this.props;
-        const { StudentClicked, LecturerClicked, AdminClicked } = this.state;
+        const { StudentClicked, LecturerClicked, AdminClicked, AlwaysTrue } = this.state;
+        const { user } = this.props;
         
-        if (StudentClicked) {
+        /*if (StudentClicked) {
             <div>
                 <StudentHeader/>
             </div>        
@@ -53,7 +62,7 @@ class RoleChoice extends Component {
             <div>
                 <LecturerAdminHeader/>
             </div>
-        }
+        }*/
 
         return (
             <div>
@@ -80,22 +89,57 @@ class RoleChoice extends Component {
                 </Button>
                 </Grid>
             </Grid>
+
+            {/*<Route exact path="/">
+                 {StudentClicked ? 
+                 <>
+                    <Redirect to="/projects" /> 
+                    <Route exact path='/projects'>
+                        <StudentProjectList/>
+                    </Route> 
+                    <Link to = '/projects' replace />
+                 </>
+                 
+                 : <RoleChoice />}
+                 </Route>*/}
+
             { 
                 StudentClicked ?
                     <>
-                        <Redirect from='/' to='projects' />
-                        <Route exact path='/projects'>
-                            <StudentHeader/>
-                        </Route> 
+                        <Router>
+                            <Redirect exact from='/' to='projects' />
+
+                                <StudentHeader/> 
+
+
+                            <Route exact path='/projects'>
+                                <StudentProjectList />
+                            </Route>
+
+                            <Route exact path = '/report'>
+                            </Route>
+
+                            <Route path='/impressum' component={Impressum} />
+                        </Router>                      
                     </>
                     : LecturerClicked ?
                     <>
-                        <Redirect from='/' to='projects' />
-                        <Route exact path='/projects'>
-                            <LecturerAdminHeader />
-                        </Route>
+                        <Router>
+                            <Redirect from='/' to='projects' />
+                            <LecturerAdminHeader/> 
+                            
+                            <Route exact path='/projects'>
+                                <LecturerProjectList />
+                            </Route>
+
+                            <Route path = '/grade'>
+                                <ProjectListParticipants/>
+                            </Route>
+
+                            <Route path='/impressum' component={Impressum} />
+                        </Router>
                     </>
-                    : AdminClicked ?
+                    : AdminClicked /*?
                     <>
                         <Redirect from='/' to='projects' />
                         <Route exact path='/projects'>
@@ -104,12 +148,13 @@ class RoleChoice extends Component {
                     </>
                     :
                     <>
+                        <Redirect to='/index.html' />    
                         <Route exact path="/rolechoice">
                             <RoleChoice />
                         </Route>
                     </>
 
-             }   
+            */}   
         </div>
     );
     }
