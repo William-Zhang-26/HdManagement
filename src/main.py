@@ -190,26 +190,6 @@ class ProjectRelatedAutomatOperations(Resource):
         else:
             return "Project not found", 500
 
-    @projectmanager.param('id', 'Die ID des Automat-Objekts')
-    @projectmanager.marshal_with(project, code=201)
-    @projectmanager.expect(project)
-    #@secured
-    def post(self, id):
-        adm = ProjectAdministration()
-        pane = adm.get_automat_by_id(id) #prüfen ob es einen autoamten von der id gibt
-        pan = Project.from_dict(api.payload)
-
-        if pan is not None:
-            project_list = adm.create_project_for_automat(pane, pan.get_name(), pan.get_project_description(), pan.get_partners(),
-                                              pan.get_capacity (), pan.get_preferred_room(), pan.get_b_days_pre_schedule(),
-                                                pan.get_b_days_finale(), pan.get_b_days_saturdays(), pan.get_preferred_b_days(),
-                                                pan.get_project_category(), pan.get_additional_supervisor(), pan.get_weekly())
-            return project_list
-        else:
-            return "Automat not found", 500
-
-
-
 """State"""
 @projectmanager.route("/state")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -367,24 +347,27 @@ class ParticipationOperationen(Resource):
             return "Teilnahme wurde erfolgreich geändert", 200
 
 """Project"""
-
-@projectmanager.route("/project")
+@projectmanager.route('/project/<int:id>/')
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-class ProjectOperations(Resource):
-    @projectmanager.marshal_with(project, code=200)
+@projectmanager.param('id', 'Die ID des Automat-Objekts')
+class ProjectRelatedAutomatOperationss(Resource):
+    @projectmanager.marshal_with(project, code=201)
     @projectmanager.expect(project)
-    def post(self):
-        """Projekt erstellen"""
+    #@secured
+    def post(self, id):
         adm = ProjectAdministration()
-        proposal = Project.from_dict(api.payload)
-        if proposal is not None:
-            c = adm.create_project(proposal.get_name(), proposal.get_automat_id(), proposal.get_project_description(), proposal.get_partners(),
-                                    proposal.get_capacity(), proposal.get_preferred_room(), proposal.get_b_days_pre_schedule(),
-                                    proposal.get_b_days_finale(), proposal.get_b_days_saturdays(), proposal.get_preferred_b_days(),
-                                    proposal.get_project_category(), proposal.get_additional_supervisor(), proposal.get_weekly())
-            return c, 200
+        pane = adm.get_automat_by_id(id) #prüfen ob es einen autoamten von der id gibt
+        pan = Project.from_dict(api.payload)
+
+        if pane is not None:
+            project_list = adm.create_project_for_automat(pane, pan.get_name(), pan.get_project_description(), pan.get_partners(),
+                                              pan.get_capacity (), pan.get_preferred_room(), pan.get_b_days_pre_schedule(),
+                                                pan.get_b_days_finale(), pan.get_b_days_saturdays(), pan.get_preferred_b_days(),
+                                                pan.get_project_category(), pan.get_additional_supervisor(), pan.get_weekly())
+            return project_list
         else:
-            return '', 500
+            return "Automat not found", 500
+
 
 @projectmanager.route("/project/<int:id>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
