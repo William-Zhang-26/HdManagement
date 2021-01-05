@@ -145,11 +145,10 @@ class ProjectAdministration (object):
             mapper.delete(participation)
 
 # Automat
-    def create_automat(self, name, state_id):
+    def create_automat(self, name):
         """Einen Automaten anlegen"""
         automat = Automat()
         automat.set_name(name)
-        automat.set_state_id(state_id)
         automat.set_id(1)
 
         with AutomatMapper() as mapper:
@@ -479,9 +478,15 @@ class ProjectAdministration (object):
     def delete_student(self, student):
         with StudentMapper() as mapper:
             participation = self.get_participation_by_student_id(student)
+            user = self.get_user_by_student(student)
+
             if not (participation is None):
                 for i in participation:
                     self.delete_participation(i)
+
+            if not (user is None):
+                for j in user:
+                    self.delete_user(j)
 
             mapper.delete(student)
 
@@ -505,15 +510,18 @@ class ProjectAdministration (object):
             else:
                 return None
 
+    def get_user_by_student(self, user):
+        with UserMapper() as mapper:
+            return mapper.find_by_student(user.get_id())
+
 # User
-    def create_user(self, name, firstname, mail, google_id, role_id):
+    def create_user(self, name, firstname, mail, google_id):
 
         user = User()
         user.set_name(name)
         user.set_firstname(firstname)
         user.set_mail(mail)
         user.set_google_id(google_id)
-        user.set_role_id(role_id)
         user.set_id(1)
 
         with UserMapper() as mapper:
@@ -538,10 +546,6 @@ class ProjectAdministration (object):
     def get_user_by_google_id(self, google_id):
         with UserMapper() as mapper:
             return mapper.find_by_google_user_id(google_id)
-
-    def get_user_by_role_id(self, role_id):
-        with UserMapper() as mapper:
-            return mapper.find_by_role_id(role_id)
 
     def save_user(self, user):
         with UserMapper() as mapper:
