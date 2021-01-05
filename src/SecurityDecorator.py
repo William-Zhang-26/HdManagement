@@ -40,28 +40,33 @@ def secured(function):
                 if claims is not None:
                     adm = ProjectAdministration()
 
-                    google_user_id = claims.get("user_id")
-                    email = claims.get("email")
+                    google_id = claims.get("google_id")
+                    mail = claims.get("mail")
+                    firstname = claims.get("firstname")
                     name = claims.get("name")
+                    role_id = claims.get("role_id")
 
-                    user = adm.get_user_by_google_user_id(google_user_id)
+                    user = adm.get_user_by_google_id(google_id)
                     if user is not None:
                         """Fall: Der Benutzer ist unserem System bereits bekannt.
-                        Wir gehen davon aus, dass die google_user_id sich nicht ändert.
-                        Wohl aber können sich der zugehörige Klarname (name) und die
-                        E-Mail-Adresse ändern. Daher werden diese beiden Daten sicherheitshalber
+                        Wir gehen davon aus, dass die google_id sich nicht ändert.
+                        Wohl aber können sich der zugehörige Name (firstname),
+                        die E-Mail-Adresse (mail) und die Role (role_id) ändern. 
+                        Daher werden diese beiden Daten sicherheitshalber
                         in unserem System geupdated."""
                         user.set_name(name)
-                        user.set_email(email)
+                        user.set_firstname(firstname)
+                        user.set_mail(mail)
+                        user.set_role_id(role_id)
                         adm.save_user(user)
                     else:
                         """Fall: Der Benutzer war bislang noch nicht eingelogged. 
                         Wir legen daher ein neues User-Objekt an, um dieses ggf. später
                         nutzen zu können.
                         """
-                        user = adm.create_user(name, email, google_user_id)
+                        user = adm.create_user(name, firstname, mail, google_id, role_id)
 
-                    print(request.method, request.path, "angefragt durch:", name, email)
+                    print(request.method, request.path, "angefragt durch:", name, firstname, mail, role_id)
 
                     objects = function(*args, **kwargs)
                     return objects
