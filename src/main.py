@@ -372,7 +372,7 @@ class ProjectRelatedAutomatOperationss(Resource):
 
 @projectmanager.route("/project/<int:id>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@projectmanager.param('id', 'Die ID des Semester-Objekts')
+@projectmanager.param('id', 'Die ID des Projekt-Objekts')
 class ProjectOperations(Resource):
     @projectmanager.marshal_with(project)
     def get(self, id):
