@@ -193,14 +193,8 @@ const styles = theme => ({
 AdminProjectListEntry.propTypes = {
     /** @ignore */
     classes: PropTypes.object.isRequired,
-    /** The CustomerBO to be rendered */
     project: PropTypes.object.isRequired,
-    /** The state of this CustomerListEntry. If true the customer is shown with its accounts */
     expandedState: PropTypes.bool.isRequired,
-    /** The handler responsible for handle expanded state changes (exanding/collapsing) of this CustomerListEntry 
-     * 
-     * Signature: onExpandedStateChange(CustomerBO customer)
-     */
     onExpandedStateChange: PropTypes.func.isRequired
     }
   

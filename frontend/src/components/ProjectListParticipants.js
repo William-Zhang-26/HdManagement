@@ -36,13 +36,13 @@ class ProjectListParticipants extends Component {
   }
 
   onExpandedStateChange = project => {
-    // console.log(customerID);
-    // Set expandend customer entry to null by default
+    // console.log(projectID);
+    // Set expandend project entry to null by default
     let newID = null;
 
-    // If same customer entry is clicked, collapse it else expand a new one
+    // If same project entry is clicked, collapse it else expand a new one
     if (project.getID() !== this.state.expandedProjectID) {
-      // Expand the customer entry with customerID
+      // Expand the project entry with customerID
       newID = project.getID();
     }
     // console.log(newID);
@@ -54,46 +54,38 @@ class ProjectListParticipants extends Component {
   getProjects = () => {
     ProjectAPI.getAPI().getProjects()
       .then(projectBOs =>
-        this.setState({               // Set new state when CustomerBOs have been fetched
+        this.setState({            
           projects: projectBOs,
-          loadingInProgress: false,   // disable loading indicator 
+          loadingInProgress: false,   
           error: null
         })).catch(e =>
-          this.setState({             // Reset state with error from catch 
+          this.setState({            
             projects: [],
-            loadingInProgress: false, // disable loading indicator 
+            loadingInProgress: false, 
             error: e
           })
         );
 
-    // set loading to true
+
     this.setState({
       loadingInProgress: true,
       error: null
     });
   }
 
-  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
     this.getProjects();
   }
 
-  /** 
-   * Handles onExpandedStateChange events from the CustomerListEntry component. Toggels the expanded state of 
-   * the CustomerListEntry of the given CustomerBO.
-   * 
-   */
+
   onExpandedStateChange = project => {
-    // console.log(customerID);
-    // Set expandend customer entry to null by default
+
     let newID = null;
 
-    // If same customer entry is clicked, collapse it else expand a new one
     if (project.getID() !== this.state.expandedProjectID) {
-      // Expand the customer entry with customerID
       newID = project.getID();
     }
-    // console.log(newID);
+ 
     this.setState({
       expandedProjectID: newID,
     });
@@ -110,8 +102,7 @@ class ProjectListParticipants extends Component {
       <div className={classes.root}>
         <List className={classes.projectList}>
         { 
-          // Show the list of CustomerListEntry components
-          // Do not use strict comparison, since expandedCustomerID maybe a string if given from the URL parameters
+         
           projects.map(project => <ProjectListEntryParticipants key={project.getID()} project={project} 
           show={this.props.show}  onExpandedStateChange={this.onExpandedStateChange}/>)
         }

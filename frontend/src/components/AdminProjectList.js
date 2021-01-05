@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, List, ListItem, Button } from '@material-ui/core';
-//import AddIcon from '@material-ui/icons/Add';
 import { withRouter } from 'react-router-dom';
 import ProjectAPI  from '../api/ProjectAPI';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
@@ -36,13 +35,13 @@ class AdminProjectList extends Component {
   }
 
   onExpandedStateChange = project => {
-    // console.log(customerID);
-    // Set expandend customer entry to null by default
+    // console.log(projectID);
+    // Set expandend project entry to null by default
     let newID = null;
 
-    // If same customer entry is clicked, collapse it else expand a new one
+    // If same project entry is clicked, collapse it else expand a new one
     if (project.getID() !== this.state.expandedProjectID) {
-      // Expand the customer entry with customerID
+      // Expand the customer entry with projectID
       newID = project.getID();
     }
     // console.log(newID);
@@ -54,7 +53,7 @@ class AdminProjectList extends Component {
   getProjects = () => {
     ProjectAPI.getAPI().getProjects()
       .then(projectBOs =>
-        this.setState({               // Set new state when CustomerBOs have been fetched
+        this.setState({               // Set new state when ProjectBOs have been fetched
           projects: projectBOs,
           loadingInProgress: false,   // disable loading indicator 
           error: null
@@ -89,8 +88,8 @@ class AdminProjectList extends Component {
       <div className={classes.root}>
         <List className={classes.projectList}>
         { 
-          // Show the list of CustomerListEntry components
-          // Do not use strict comparison, since expandedCustomerID maybe a string if given from the URL parameters
+          // Show the list of ProjectListEntry components
+          // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
           projects.map(project => <AdminProjectListEntry key={project.getID()} project={project} 
           show={this.props.show}  onExpandedStateChange={this.onExpandedStateChange}/>)
         }
@@ -116,10 +115,7 @@ const styles = theme => ({
     //marginRight: theme.spacing(10),
     marginLeft: theme.spacing(10),
   },
-  /**customerFilter: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(1),
-  }*/
+
 });
 
 /** PropTypes */
