@@ -36,16 +36,12 @@ class LecturerProjectList extends Component {
   }
 
   onExpandedStateChange = project => {
-    // console.log(customerID);
-    // Set expandend customer entry to null by default
     let newID = null;
 
-    // If same customer entry is clicked, collapse it else expand a new one
     if (project.getID() !== this.state.expandedProjectID) {
-      // Expand the customer entry with customerID
       newID = project.getID();
     }
-    // console.log(newID);
+
     this.setState({
       expandedProjectID: newID,
     });
@@ -54,14 +50,14 @@ class LecturerProjectList extends Component {
   getProjects = () => {
     ProjectAPI.getAPI().getProjects()
       .then(projectBOs =>
-        this.setState({               // Set new state when CustomerBOs have been fetched
+        this.setState({               
           projects: projectBOs,
-          loadingInProgress: false,   // disable loading indicator 
+          loadingInProgress: false,   
           error: null
         })).catch(e =>
-          this.setState({             // Reset state with error from catch 
+          this.setState({           
             projects: [],
-            loadingInProgress: false, // disable loading indicator 
+            loadingInProgress: false, 
             error: e
           })
         );
@@ -79,19 +75,19 @@ class LecturerProjectList extends Component {
   }
 
 
-  /** Handles the onClick event of the add customer button */
+  /** Handles the onClick event of the add project button */
   addProjectButtonClicked = event => {
     // Do not toggle the expanded state
     event.stopPropagation();
-    //Show the CustmerForm
+    //Show the ProjectForm
     this.setState({
       showProjectForm: true
     });
   }
 
-  /** Handles the onClose event of the CustomerForm */
+  /** Handles the onClose event of the ProjectForm */
   projectFormClosed = project => {
-    // customer is not null and therefore created
+    // project is not null and therefore created
     if (project) {
       const newProjectList = [...this.state.projects, project];
       this.setState({
@@ -119,8 +115,8 @@ class LecturerProjectList extends Component {
               Projekt erstellen
           </Button>
         { 
-          // Show the list of CustomerListEntry components
-          // Do not use strict comparison, since expandedCustomerID maybe a string if given from the URL parameters
+          // Show the list of ProjectListEntry components
+          // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
           projects.map(project => <LecturerProjectListEntry key={project.getID()} project={project} 
           show={this.props.show}  onExpandedStateChange={this.onExpandedStateChange}/>)
         }
