@@ -663,7 +663,7 @@ class UserOperations(Resource):
         user = User.from_dict(api.payload)
         if user is not None:
             c = adm.create_user(user.get_name(), user.get_firstname(), user.get_mail(),
-                                user.get_google_id(), user.get_role_id())
+                                user.get_google_id())
             return c, 200
         else:
             return '', 500
