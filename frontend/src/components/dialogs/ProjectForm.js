@@ -96,8 +96,8 @@ class ProjectForm extends Component {
       addingError: null
     };
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    //this.handleChange = this.handleChange.bind(this);
+    //this.handleSubmit = this.handleSubmit.bind(this);
     // Beim Schließen des Dialogs soll der Anfangszustand wieder hergestellt werden
     this.baseState = this.state;
   }
@@ -146,7 +146,7 @@ class ProjectForm extends Component {
     });
   } 
 
-  /** Handles the close / cancel button click event */
+  /** Handles the close / cancel button click event*/
   handleClose = () => {
     // Reset the state
     this.setState(this.baseState);
@@ -154,24 +154,30 @@ class ProjectForm extends Component {
   }
 
 
-  handleChange(event) {
-    this.setState({value: event.target.projectCategory});
-  }
 
-  handleSubmit(event) {
+  /*handleSubmit(event) {
     event.preventDefault();
-  }
+  }*/
+
+  handleChange = (event) => {
+    this.setState({
+        value: event.target.value
+    });}
+
+  handleChange2 = (event) => {
+    this.setState({
+        value2: event.target.value
+    });}
 
 
   /** Renders the component */
   render() {
     const { classes, show } = this.props;
-    const { handleChange, handleSubmit } = this.props;
     const { projectName, projectNameValidationFailed } = this.state;
     const { additionalSupervisor, additionalSupervisorValidationFailed } = this.state;
     const { externalPartners, externalPartnersValidationFailed } = this.state;
     const { projectDescription, projectDescriptionValidationFailed } = this.state;
-    const { projectCategory, projectCategoryValidationFailed } = this.state;
+    const { projectCategory, value, value2 } = this.state;
     const { weekly, weeklyValidationFailed } = this.state;
     const { capacity, capacityValidationFailed } = this.state;
     const { bDaysPreSchedule, bDaysPreScheduleValidationFailed } = this.state;
@@ -185,7 +191,6 @@ class ProjectForm extends Component {
     const { sws } = this.state;
     //const {  } = this.state;
     const { addingInProgress, addingError } = this.state;
-
 
     let title = 'Neues Projekt erstellen';
     let header = 'Füllen Sie das Formuler aus';
@@ -220,25 +225,20 @@ class ProjectForm extends Component {
             {/*<TextField autoFocus type='text' required fullWidth margin='normal' id='projectCategory' label='Kategorie des Projektes:' value={projectCategory} 
                 onChange={this.textFieldValueChange} error={projectCategoryValidationFailed} 
     helperText={projectCategoryValidationFailed ? 'Die Projektkategorie muss mindestens ein Zeichen besitzen' : ' '} />*/}
-
+            <Typography>Projektkategorie</Typography>
             <FormControl className={classes.formControl}>
                 <InputLabel id="open-select-label">Bitte auswählen</InputLabel>
                 <Select
-                labelId="controlled-open-select-label"
-                id="projectCategory"
-                open={handleChange}
-                value={projectCategory}
-                onChange={this.handleChange}
+                  value={value}
+                  onChange={this.handleChange}
                 >
-                <MenuItem value="">
-                    <em>-</em>
-                </MenuItem>
-                <MenuItem value={'Management 338005-338009'}>Management 338005-338009</MenuItem>
-                <MenuItem value={'IT 338010-338014'}>IT 338010-338014</MenuItem>
-                <MenuItem value={'Medienproduktion 338015-338019'}>Medienproduktion 338015-338019</MenuItem>
-                <MenuItem value={'Medien/Kultur 338020-338024'}>Medien/Kultur 338020-338024</MenuItem>
+                  <MenuItem value={'Management 338005-338009'}>Management 338005-338009</MenuItem>
+                  <MenuItem value={'IT 338010-338014'}>IT 338010-338014</MenuItem>
+                  <MenuItem value={'Medienproduktion 338015-338019'}>Medienproduktion 338015-338019</MenuItem>
+                  <MenuItem value={'Medien/Kultur 338020-338024'}>Medien/Kultur 338020-338024</MenuItem>
                 </Select>
-            </FormControl>
+              </FormControl>
+              <p>Ausgewählte Projektkategorie: {value} </p>
 
             <TextField type='text' required fullWidth margin='normal' id='capacity' label='Kapazität:' value={capacity} 
                 onChange={this.textFieldValueChange} error={capacityValidationFailed} 
@@ -251,6 +251,20 @@ class ProjectForm extends Component {
             <TextField type='text' required fullWidth margin='normal' id='projectTypeName' label='Projektart:' value={projectTypeName} 
                 onChange={this.textFieldValueChange} error={projectTypeNameValidationFailed} 
                 helperText={projectTypeNameValidationFailed ? 'Es muss eine Projektart angegeben werden' : ' '} />
+            
+            <Typography>Projektart</Typography>
+            <FormControl className={classes.formControl}>
+                <InputLabel id="open-select-label">Bitte auswählen</InputLabel>
+                <Select
+                  value={value2}
+                  onChange={this.handleChange2}
+                >
+                  <MenuItem value={'Fachspezifisches Projekt'}>Fachspezifisches Projekt</MenuItem>
+                  <MenuItem value={'Interdisziplinäres Projekt'}>Interdisziplinäres Projekt</MenuItem>
+                  <MenuItem value={'Transdisziplinäres Projekt'}>Transdisziplinäres Projekt</MenuItem>
+                </Select>
+              </FormControl>
+              <p>Ausgewählte Projektart: {value2} </p>
 
             <TextField type='text' required fullWidth margin='normal' id='ects' label='ECTS:' value={ects} 
                 onChange={this.textFieldValueChange} />

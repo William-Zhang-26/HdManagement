@@ -20,6 +20,7 @@ export default class ProjectAPI {
     #getProjectURL = (id) => `${this.#projectServerBaseURL}/projects/${id}`;
     #getAttributesForProjectURL = (id) => `${this.#projectServerBaseURL}/projects/${id}/attributes`;
     #addProjectURL = () => `${this.#projectServerBaseURL}/projects`;
+    #deleteProjectURL = (id) => `${this.#projectServerBaseURL}/projects/${id}`;
 
     //Student related
     #getStudentURL = (id) => `${this.#projectServerBaseURL}/students/${id}`;
@@ -101,6 +102,17 @@ export default class ProjectAPI {
           // We always get an array of CustomerBOs.fromJSON, but only need one object
           let responseProjectBO = ProjectBO.fromJSON(responseJSON)[0];
           // console.info(accountBOs);
+          return new Promise(function (resolve) {
+            resolve(responseProjectBO);
+          })
+        })
+      }
+
+      deleteProject(projectID) {
+        return this.#fetchAdvanced(this.#deleteProjectURL(projectID), {
+          method: 'DELETE'
+        }).then((responseJSON) => {
+          let responseProjectBO = ProjectBO.fromJSON(responseJSON)[0];
           return new Promise(function (resolve) {
             resolve(responseProjectBO);
           })
