@@ -7,6 +7,7 @@ import StudentHeader from '../layout/StudentHeader';
 import LecturerAdminHeader from '../layout/LecturerAdminHeader';
 import StudentProjectList from '../StudentProjectList';
 import LecturerProjectList from '../LecturerProjectList';
+import AdminProjectList from '../AdminProjectList';
 //import AdminProjectList from './components/AdminProjectList';
 import ProjectListParticipants from '../ProjectListParticipants';
 import Impressum from './Impressum';
@@ -129,7 +130,7 @@ class RoleChoice extends Component {
                             <LecturerAdminHeader/> 
                             
                             <Route exact path='/projects'>
-                                <LecturerProjectList />
+                                <LecturerProjectList/>
                             </Route>
 
                             <Route path = '/grade'>
@@ -139,14 +140,25 @@ class RoleChoice extends Component {
                             <Route path='/impressum' component={Impressum} />
                         </Router>
                     </>
-                    : AdminClicked /*?
+                    : AdminClicked ?
                     <>
-                        <Redirect from='/' to='projects' />
-                        <Route exact path='/projects'>
-                            <LecturerAdminHeader />
-                        </Route>
+                        <Router>
+                            <Redirect from='/' to='projects' />
+                            <LecturerAdminHeader/>
+                            
+                            <Route exact path='/projects'>
+                                <AdminProjectList/>
+                            </Route>
+
+                            <Route path = '/grade'>
+                                <ProjectListParticipants/>
+                            </Route>
+
+                            <Route path='/impressum' component={Impressum} />
+
+                        </Router>
                     </>
-                    :
+                    : AlwaysTrue /*
                     <>
                         <Redirect to='/index.html' />    
                         <Route exact path="/rolechoice">

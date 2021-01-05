@@ -23,7 +23,6 @@ class LecturerProjectListEntry extends Component {
   
       // Init the state
       this.state = {
-        showProjectDeleteDialog: false,
         project: props.project
       };
     }
@@ -33,33 +32,11 @@ class LecturerProjectListEntry extends Component {
     this.props.onExpandedStateChange(this.props.project);
   }
 
-  /** Handles the onClick event of the delete project button */
-  deleteProjectButtonClicked = (event) => {
-    event.stopPropagation();
-    this.setState({
-      showProjectDeleteDialog: true
-    });
-  }
-
-  /** Handles the onClose event of the ProjectDeleteDialog */
-  deleteProjectDialogClosed = (project) => {
-    // if project is not null, delete it
-    if (project) {
-      this.props.onProjectDeleted(project);
-    };
-
-    // Don´t show the dialog
-    this.setState({
-      showProjectDeleteDialog: false
-    });
-  }
-
-
   /** Renders the component */
   render() {
     const { classes, expandedState } = this.props;
     // Use the states project
-    const { project, showProjectDeleteDialog} = this.state;
+    const { project } = this.state;
 
     // console.log(this.state);
     return (
@@ -73,13 +50,6 @@ class LecturerProjectListEntry extends Component {
               <Grid item>
                 <Typography variant='body1' className={classes.heading}>{project.getName()} {/** Angabe des Dozenten (UserBO?)*/}
                 </Typography>
-              </Grid>
-              <Grid item>
-                <ButtonGroup variant='text' size='small'>
-                  <Button color='secondary' onClick={this.deleteProjectButtonClicked}>
-                    Löschen
-                  </Button>
-                </ButtonGroup>
               </Grid>
               <Grid item xs />
               <Grid item>
@@ -101,7 +71,6 @@ class LecturerProjectListEntry extends Component {
           </List>
           </AccordionDetails>
         </Accordion>
-        <ProjectDeleteDialog show={showProjectDeleteDialog} project={project} onClose={this.deleteProjectDialogClosed} />
 
       </div>
     );
@@ -121,14 +90,8 @@ const styles = theme => ({
 LecturerProjectListEntry.propTypes = {
     /** @ignore */
     classes: PropTypes.object.isRequired,
-    /** The CustomerBO to be rendered */
     project: PropTypes.object.isRequired,
-    /** The state of this CustomerListEntry. If true the customer is shown with its accounts */
     expandedState: PropTypes.bool.isRequired,
-    /** The handler responsible for handle expanded state changes (exanding/collapsing) of this CustomerListEntry 
-     * 
-     * Signature: onExpandedStateChange(CustomerBO customer)
-     */
     onExpandedStateChange: PropTypes.func.isRequired
     }
   

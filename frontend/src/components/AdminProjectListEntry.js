@@ -7,6 +7,10 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 //import ApproveValidationForm from './dialogs/ApproveValidationForm';
 //import RejectValidationForm from './dialogs/RejectValidationForm';
 import AddIcon from '@material-ui/icons/Add';
+import { ButtonGroup } from '@material-ui/core';
+import ProjectDeleteDialog from './dialogs/ProjectDeleteDialog';
+import DeleteIcon from '@material-ui/icons/Delete';
+import red from '@material-ui/core/colors/red';
 
 /** Fehlende Inhalte:
  *  
@@ -27,6 +31,7 @@ class AdminProjectListEntry extends Component {
       // Init the state
       this.state = {
         project: props.project,
+        showProjectDeleteDialog: false,
         //showApproveValidationForm: false,
         //showRejectValidationForm: false,
         
@@ -85,13 +90,34 @@ class AdminProjectListEntry extends Component {
     });
   } */
 
+  /** Handles the onClick event of the delete project button */
+  deleteProjectButtonClicked = (event) => {
+    event.stopPropagation();
+    this.setState({
+      showProjectDeleteDialog: true
+    });
+  }
+
+  /** Handles the onClose event of the ProjectDeleteDialog */
+  deleteProjectDialogClosed = (project) => {
+    // if project is not null, delete it
+    if (project) {
+      this.props.onProjectDeleted(project);
+    };
+
+    // Don´t show the dialog
+    this.setState({
+      showProjectDeleteDialog: false
+    });
+  }
+
 
 
   /** Renders the component */
   render() {
     const { classes, expandedState } = this.props;
-    // Use the states customer
-    const { project } = this.state;
+    // Use the states project
+    const { project, showProjectDeleteDialog } = this.state;
 
     // console.log(this.state);
     return (
@@ -105,6 +131,14 @@ class AdminProjectListEntry extends Component {
               <Grid item>
                 <Typography variant='body1' className={classes.heading}>{project.getName()} {/** Angabe des Dozenten (UserBO?)*/}
                 </Typography>
+              </Grid>
+              <Grid item>
+                <ButtonGroup size='small'>
+                <Button className={classes.root} startIcon={<DeleteIcon />}
+                onClick = {this.deleteProjectButtonClicked}>
+                  Löschen
+                </Button>
+                </ButtonGroup>
               </Grid>
               <Grid item xs />
               <Grid item>
@@ -134,6 +168,7 @@ class AdminProjectListEntry extends Component {
           </List>
           </AccordionDetails>
         </Accordion>
+        <ProjectDeleteDialog show={showProjectDeleteDialog} project={project} onClose={this.deleteProjectDialogClosed} />
         {/**<ApproveValidationForm show={showApproveValidationForm} project={project} onClose={this.ApproveValidationFormClosed} />
         <RejectValidationForm show={showRejectValidationForm} project={project} onClose={this.RejectValidationFormClosed} /> 
         <StudentProjectSignOut show={showRejectProject} project={project} onClose={this.StudentProjectSignOutClosed} /> 
@@ -149,6 +184,8 @@ class AdminProjectListEntry extends Component {
 const styles = theme => ({
     root: {
       width: '100%',
+      color: red[500],
+      borderColor: red[500],
     }
   });
   
