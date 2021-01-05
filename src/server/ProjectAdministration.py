@@ -479,9 +479,15 @@ class ProjectAdministration (object):
     def delete_student(self, student):
         with StudentMapper() as mapper:
             participation = self.get_participation_by_student_id(student)
+            user = self.get_user_by_student(student)
+
             if not (participation is None):
                 for i in participation:
                     self.delete_participation(i)
+
+            if not (user is None):
+                for j in user:
+                    self.delete_user(j)
 
             mapper.delete(student)
 
@@ -504,6 +510,10 @@ class ProjectAdministration (object):
                 return mapper.insert(participation)
             else:
                 return None
+
+    def get_user_by_student(self, user):
+        with UserMapper() as mapper:
+            return mapper.find_by_student(user.get_id())
 
 # User
     def create_user(self, name, firstname, mail, google_id, role_id):
