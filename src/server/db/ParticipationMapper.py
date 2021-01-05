@@ -62,7 +62,7 @@ class ParticipationMapper (Mapper):
                 participation.set_create_time(create_time)
                 result.append(participation)
 
-            result = participation
+                result = participation
 
         else:
             result = None
