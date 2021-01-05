@@ -125,7 +125,7 @@ class AutomatOperations(Resource):
         adm = ProjectAdministration()
         proposal = Automat.from_dict(api.payload)
         if proposal is not None:
-            c = adm.create_automat(proposal.get_name(), proposal.get_state_id())
+            c = adm.create_automat(proposal.get_name())
             return c, 200
         else:
             return '', 500
@@ -355,6 +355,7 @@ class ProjectRelatedAutomatOperationss(Resource):
     @projectmanager.expect(project)
     #@secured
     def post(self, id):
+        """Ein neues Projekt für einen zugehörigen Automaten in der DB anlegen"""
         adm = ProjectAdministration()
         pane = adm.get_automat_by_id(id) #prüfen ob es einen autoamten von der id gibt
         pan = Project.from_dict(api.payload)

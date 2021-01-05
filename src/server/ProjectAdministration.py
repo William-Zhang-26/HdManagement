@@ -145,11 +145,10 @@ class ProjectAdministration (object):
             mapper.delete(participation)
 
 # Automat
-    def create_automat(self, name, state_id):
+    def create_automat(self, name):
         """Einen Automaten anlegen"""
         automat = Automat()
         automat.set_name(name)
-        automat.set_state_id(state_id)
         automat.set_id(1)
 
         with AutomatMapper() as mapper:
