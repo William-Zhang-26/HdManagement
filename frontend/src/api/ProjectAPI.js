@@ -9,15 +9,15 @@ export default class ProjectAPI {
   
   
     // Local Python backend
-    ///#projectServerBaseURL = '/project';
+    #projectServerBaseURL = '/projectmanager';
   
     //Local http-fake-backend 
-    #projectServerBaseURL = '/api/project';
+    //#projectServerBaseURL = '/api/project';
 
 
     //Project related
-    #getProjectsURL = () => `${this.#projectServerBaseURL}/projects`;
-    #getProjectURL = (id) => `${this.#projectServerBaseURL}/projects/${id}`;
+    #getProjectsURL = () => `${this.#projectServerBaseURL}/project/${1}`;
+    #getProjectURL = (id) => `${this.#projectServerBaseURL}/project/${id}`;
     #getAttributesForProjectURL = (id) => `${this.#projectServerBaseURL}/projects/${id}/attributes`;
     #addProjectURL = () => `${this.#projectServerBaseURL}/projects`;
     #deleteProjectURL = (id) => `${this.#projectServerBaseURL}/projects/${id}`;
