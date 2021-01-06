@@ -405,6 +405,16 @@ class ProjectOperations(Resource):
             adm.save_project(project)
             return "Projekt wurde erfolgreich geändert", 200
 
+@projectmanager.route("/project/")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class ProjectOperations(Resource):
+    @projectmanager.marshal_with(project)
+    def get(self):
+        """Auslesen aller Projekte aus der DB"""
+        adm = ProjectAdministration()
+        project = adm.get_all_projects()
+        return project
+
 """Project_type"""
 @projectmanager.route("/project_type")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
