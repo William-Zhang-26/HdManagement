@@ -16,7 +16,7 @@ export default class ProjectAPI {
 
 
     //Project related
-    #getProjectsURL = () => `${this.#projectServerBaseURL}/project/${1}`;
+    #getProjectsURL = () => `${this.#projectServerBaseURL}/project/`;
     #getProjectURL = (id) => `${this.#projectServerBaseURL}/project/${id}`;
     #getAttributesForProjectURL = (id) => `${this.#projectServerBaseURL}/projects/${id}/attributes`;
     #addProjectURL = () => `${this.#projectServerBaseURL}/projects`;
