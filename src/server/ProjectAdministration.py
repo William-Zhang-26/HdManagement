@@ -99,23 +99,18 @@ class ProjectAdministration (object):
 
 # Participation
 
-    def create_participation(self, module, project, student, validation, participation_status):
+    def create_participation(self, module_id, project_id, student_id, validation_id, participation_status):
 
-        with ParticipationMapper() as mapper:
-            if module and project and student and validation is not None:
+            participation = Participation()
+            participation.set_module_id(module_id)
+            participation.set_project_id(project_id)
+            participation.set_student_id(student_id)
+            participation.set_validation_id(validation_id)
+            participation.set_participation_status(participation_status)
+            participation.set_id(1)
 
-                participation = Participation()
-                participation.set_module_id(module.get_id())
-                participation.set_project_id(project.get_id())
-                participation.set_student_id(student.get_id())
-                participation.set_validation_id(validation.get_id())
-                participation.set_participation_status(participation_status)
-                participation.set_id(1)
-
-                return mapper.insert(participation)
-
-            else:
-                return None
+            with ParticipationMapper() as mapper:
+                mapper.insert(participation)
 
     def get_all_participation(self):
         with ParticipationMapper() as mapper:
