@@ -182,14 +182,13 @@ if __name__ == "__main__":
        for i in p:
            print(i.get_id())
 """
-"""
+
 if __name__ == "__main__":
    p = Automat(anfangszustand="neu")
-   p.set_name("Automat 12")
    p.set_create_time("2020-12-05")
    with AutomatMapper() as mapper:
        mapper.insert(p)
-"""
+
 """
 if __name__ == "__main__":
    with AutomatMapper() as mapper:
@@ -204,8 +203,10 @@ if __name__ == "__main__":
        test = mapper.find_by_key(10)
        mapper.delete(test)
 """
+"""
 if __name__ == "__main__":
    with AutomatMapper() as mapper:
        p = mapper.find_by_state_id(1)
        for i in p:
            print(i.get_name())
+"""

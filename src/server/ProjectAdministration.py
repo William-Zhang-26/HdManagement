@@ -148,7 +148,6 @@ class ProjectAdministration (object):
     def create_automat(self, name):
         """Einen Automaten anlegen"""
         automat = Automat()
-        automat.set_name(name)
         automat.set_id(1)
 
         with AutomatMapper() as mapper:
