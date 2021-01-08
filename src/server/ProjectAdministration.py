@@ -107,7 +107,7 @@ class ProjectAdministration (object):
                 participation = Participation()
                 participation.set_module_id(module.get_id())
                 participation.set_project_id(project.get_id())
-                participation.set_student_id(student.get_id)
+                participation.set_student_id(student.get_id())
                 participation.set_validation_id(validation.get_id())
                 participation.set_participation_status(participation_status)
                 participation.set_id(1)

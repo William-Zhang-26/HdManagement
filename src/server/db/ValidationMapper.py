@@ -53,8 +53,7 @@ class ValidationMapper (Mapper):
                 validation.set_grade(grade)
                 validation.set_create_time(create_time)
                 result.append(validation)
-
-            result = validation
+                result = validation
 
         else:
             result = None
