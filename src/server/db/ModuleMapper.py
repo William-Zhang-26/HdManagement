@@ -54,8 +54,7 @@ class ModuleMapper (Mapper):
                 module.set_edv_number(edv_number)
                 module.set_create_time(create_time)
                 result.append(module)
-
-            result = module
+                result = module
 
         else:
             result = None
