@@ -7,6 +7,7 @@ class Automat(NamedBusinessObject):
         super().__init__()
         self._current_state = anfangszustand
         self._state_id = 1
+        self._name = "Automat"
 
     def first_event (self, first_event):
         if first_event == 'neu':
