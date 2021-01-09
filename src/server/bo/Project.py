@@ -15,6 +15,7 @@ class Project(Automat):
     def __init__(self):
         super().__init__(Project.s_new)
         self._automat_id = 0
+        self._project_type_id = 0
         self._project_description = ""
         self._partners = ""
         self._capacity = 0
@@ -51,6 +52,14 @@ class Project(Automat):
     def set_automat_id(self, new_automat_id):
         """Setzen der Automat_ID"""
         self._automat_id = new_automat_id
+
+    def get_project_type_id(self):
+        """Auslesen des Projekttyp-ID"""
+        return self._project_type_id
+    
+    def set_project_type_id(self, new_project_type_id):
+        """Setzen des Projekttyp-ID"""
+        self._project_type_id = new_project_type_id
 
     def get_project_description(self):
         """Auslesen der Projektbeschreibung"""
@@ -140,8 +149,8 @@ class Project(Automat):
         """Setzen ob die Termine wöchhentlich sind"""
         self._weekly = new_weekly
 
-    #def __str__(self):
-        #return self._name
+    def __str__(self):
+        return self._name
 
 
     @staticmethod
@@ -169,3 +178,4 @@ if __name__ == "__main__":
     if p.is_in_state(Project.s_new):
         print(p, "ist neu")
 """
+
