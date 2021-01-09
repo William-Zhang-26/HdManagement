@@ -102,7 +102,7 @@ class ProjectForm extends Component {
     this.baseState = this.state;
   }
 
-  /** Adds the customer */
+  /** Adds the Project */
   addProject = () => {
     let newProject = new ProjectBO(this.state.projectName, this.state.additionalSupervisor, this.state.externalPartners, 
       this.state.projectDescription, this.state.projectCategory, this.state.weekly, this.state.capacity, 
@@ -111,7 +111,7 @@ class ProjectForm extends Component {
     let newProjectType = new ProjectTypeBO(this.state.projectTypeName, this.state.ects, this.state.sws);
     ProjectAPI.getAPI().addProject(newProject, newProjectType).then(project => {
       // Backend call sucessfull
-      // reinit the dialogs state for a new empty customer
+      // reinit the dialogs state for a new empty project
       this.setState(this.baseState);
       this.props.onClose(project); // call the parent with the customer object from backend
     }).catch(e =>

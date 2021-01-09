@@ -40,7 +40,6 @@ class StudentProjectListEntry extends Component {
 
 
 
-  /** Handles the onClick event of the delete customer button */
   StudentProjectSignInClicked = (event) => {
     event.stopPropagation();
     this.setState({
@@ -48,9 +47,7 @@ class StudentProjectListEntry extends Component {
     });
   }
 
-  /** Handles the onClose event of the CustomerDeleteDialog */
   StudentProjectSignInClosed = (project) => {
-    // if customer is not null, delete it
     if (project) {
       this.props.onStudentProjectSignIn(project);
     };
@@ -63,7 +60,6 @@ class StudentProjectListEntry extends Component {
 
 
   
-  /** Handles the onClick event of the delete customer button */
   StudentProjectSignOutClicked = (event) => {
     event.stopPropagation();
     this.setState({
@@ -71,9 +67,7 @@ class StudentProjectListEntry extends Component {
     });
   }
 
-  /** Handles the onClose event of the CustomerDeleteDialog */
   StudentProjectSignOutClosed = (project) => {
-    // if customer is not null, delete it
     if (project) {
       this.props.onStudentProjectSignOut(project);
     };
@@ -89,7 +83,6 @@ class StudentProjectListEntry extends Component {
   /** Renders the component */
   render() {
     const { classes, expandedState } = this.props;
-    // Use the states customer
     const { project, showStudentProjectSignIn, showStudentProjectSignOut } = this.state;
 
     // console.log(this.state);
@@ -154,14 +147,8 @@ const styles = theme => ({
 StudentProjectListEntry.propTypes = {
     /** @ignore */
     classes: PropTypes.object.isRequired,
-    /** The CustomerBO to be rendered */
     project: PropTypes.object.isRequired,
-    /** The state of this CustomerListEntry. If true the customer is shown with its accounts */
     expandedState: PropTypes.bool.isRequired,
-    /** The handler responsible for handle expanded state changes (exanding/collapsing) of this CustomerListEntry 
-     * 
-     * Signature: onExpandedStateChange(CustomerBO customer)
-     */
     onExpandedStateChange: PropTypes.func.isRequired
     }
   

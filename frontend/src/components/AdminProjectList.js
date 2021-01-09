@@ -41,7 +41,6 @@ class AdminProjectList extends Component {
 
     // If same project entry is clicked, collapse it else expand a new one
     if (project.getID() !== this.state.expandedProjectID) {
-      // Expand the customer entry with projectID
       newID = project.getID();
     }
     // console.log(newID);
