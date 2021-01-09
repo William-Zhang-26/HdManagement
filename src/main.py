@@ -133,7 +133,7 @@ class AutomatOperations(Resource):
 
 @projectmanager.route("/automat/<int:id>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@projectmanager.param('id', 'Die ID des Zustand-Objekts')
+@projectmanager.param('id', 'Die ID des Automat-Objekts')
 class AutomatOperations(Resource):
     @projectmanager.marshal_with(automat)
     def get(self, id):
@@ -408,7 +408,7 @@ class ProjectOperations(Resource):
 
 @projectmanager.route("/project/")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-class ProjectOperations(Resource):
+class ProjectOperationss(Resource):
     @projectmanager.marshal_with(project)
     def get(self):
         """Auslesen aller Projekte aus der DB"""
