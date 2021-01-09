@@ -22,13 +22,14 @@ class ProjectMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, automat_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+        for (id, name, automat_id, project_type_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
              b_days_finale, b_days_saturdays, preferred_b_days, project_category, additional_supervisor,
              weekly, create_time) in tuples:
             project = Project()
             project.set_id(id)
             project.set_name(name)
             project.set_automat_id(automat_id)
+            project.set_project_type_id(project_type_id)
             project.set_project_description(project_description)
             project.set_partners(partners)
             project.set_capacity(capacity)
@@ -59,13 +60,14 @@ class ProjectMapper(Mapper):
 
         if len(tuples) != 0:
 
-            for (id, name, automat_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+            for (id, name, automat_id, project_type_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
                  b_days_finale, b_days_saturdays, preferred_b_days, project_category, additional_supervisor,
                  weekly, create_time) in tuples:
                 project = Project()
                 project.set_id(id)
                 project.set_name(name)
                 project.set_automat_id(automat_id)
+                project.set_project_type_id(project_type_id)
                 project.set_project_description(project_description)
                 project.set_partners(partners)
                 project.set_capacity(capacity)
@@ -99,13 +101,14 @@ class ProjectMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, automat_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+        for (id, name, automat_id, project_type_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
              b_days_finale, b_days_saturdays, preferred_b_days, project_category, additional_supervisor,
              weekly, create_time) in tuples:
             project = Project()
             project.set_id(id)
             project.set_name(name)
             project.set_automat_id(automat_id)
+            project.set_project_type_id(project_type_id)
             project.set_project_description(project_description)
             project.set_partners(partners)
             project.set_capacity(capacity)
@@ -134,13 +137,14 @@ class ProjectMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, automat_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+        for (id, name, automat_id, project_type_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
              b_days_finale, b_days_saturdays, preferred_b_days, project_category, additional_supervisor,
              weekly, create_time) in tuples:
             project = Project()
             project.set_id(id)
             project.set_name(name)
             project.set_automat_id(automat_id)
+            project.set_project_type_id(project_type_id)
             project.set_project_description(project_description)
             project.set_partners(partners)
             project.set_capacity(capacity)
@@ -169,13 +173,51 @@ class ProjectMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, automat_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+        for (id, name, automat_id, project_type_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
              b_days_finale, b_days_saturdays, preferred_b_days, project_category, additional_supervisor,
              weekly, create_time) in tuples:
             project = Project()
             project.set_id(id)
             project.set_name(name)
             project.set_automat_id(automat_id)
+            project.set_project_type_id(project_type_id)
+            project.set_project_description(project_description)
+            project.set_partners(partners)
+            project.set_capacity(capacity)
+            project.set_preferred_room(preferred_room)
+            project.set_b_days_pre_schedule(b_days_pre_schedule)
+            project.set_b_days_finale(b_days_finale)
+            project.set_b_days_saturdays(b_days_saturdays)
+            project.set_preferred_b_days(preferred_b_days)
+            project.set_project_category(project_category)
+            project.set_additional_supervisor(additional_supervisor)
+            project.set_weekly(weekly)
+            project.set_create_time(create_time)
+            result.append(project)
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+
+    def find_by_project_type_id(self, project_type_id):
+        """Suchen eines Projekt anhand der Projekttypen-ID."""
+
+        result = []
+        cursor = self._cnx.cursor()
+        command = "SELECT * FROM project WHERE project_type_id like '{}'".format(project_type_id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        for (id, name, automat_id, project_type_id, project_description, partners, capacity, preferred_room,
+             b_days_pre_schedule,
+             b_days_finale, b_days_saturdays, preferred_b_days, project_category, additional_supervisor,
+             weekly, create_time) in tuples:
+            project = Project()
+            project.set_id(id)
+            project.set_name(name)
+            project.set_automat_id(automat_id)
+            project.set_project_type_id(project_type_id)
             project.set_project_description(project_description)
             project.set_partners(partners)
             project.set_capacity(capacity)
@@ -205,12 +247,12 @@ class ProjectMapper(Mapper):
         for (MaxID) in tuples:
             project.set_id(MaxID[0] + 1)
 
-        command = "INSERT INTO project (id, name, automat_id, project_description, partners, capacity, preferred_room, " \
+        command = "INSERT INTO project (id, name, automat_id, project_type_id, project_description, partners, capacity, preferred_room, " \
                   "b_days_pre_schedule, b_days_finale, b_days_saturdays, preferred_b_days, " \
                   "project_category, additional_supervisor, " \
                   "weekly, create_time)" \
-                  "VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')" \
-            .format(project.get_id(), project.get_name(), project.get_automat_id(), project.get_project_description(),
+                  "VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')" \
+            .format(project.get_id(), project.get_name(), project.get_automat_id(), project.get_project_type_id(), project.get_project_description(),
                     project.get_partners(), project.get_capacity(), project.get_preferred_room(),
                     project.get_b_days_pre_schedule(), project.get_b_days_finale(), project.get_b_days_saturdays(),
                     project.get_preferred_b_days(), project.get_project_category(),
@@ -226,12 +268,12 @@ class ProjectMapper(Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "UPDATE project SET name = ('{}'), automat_id = ('{}'), project_description = ('{}'), " \
+        command = "UPDATE project SET name = ('{}'), automat_id = ('{}'), project_type_id = ('{}'), project_description = ('{}'), " \
                   "partners = ('{}'), capacity = ('{}'), preferred_room = ('{}'), b_days_pre_schedule = ('{}'), " \
                   "b_days_finale = ('{}'), b_days_saturdays = ('{}'), preferred_b_days = ('{}'), " \
                   "project_category = ('{}'), additional_supervisor = ('{}'), weekly = ('{}'), create_time = ('{}')" \
                   "WHERE id = ('{}')" \
-            .format(project.get_name(), project.get_automat_id(), project.get_project_description(),
+            .format(project.get_name(), project.get_automat_id(), project.get_project_type_id(), project.get_project_description(),
                     project.get_partners(), project.get_capacity(), project.get_preferred_room(),
                     project.get_b_days_pre_schedule(), project.get_b_days_finale(), project.get_b_days_saturdays(),
                     project.get_preferred_b_days(), project.get_project_category(),
@@ -256,19 +298,23 @@ class ProjectMapper(Mapper):
 """
 if __name__ == "__main__":
     with ProjectMapper() as mapper:
-        test = mapper.find_by_key(1).get_project_description()
+        test = mapper.find_by_key(4).get_project_type_id()
         print(test)
-
+"""
+"""
 if __name__ == "__main__":
     with ProjectMapper() as mapper:
         p = mapper.find_all()
         for result in p:
-            print(result.get_create_time())
+            print(result.get_project_type_id())
+"""
 
+"""
 if __name__ == "__main__":
     p = Project()
     p.set_name("Marketing")
-    p.set_automat_id(5)
+    p.set_automat_id(8)
+    p.set_project_type_id(1)
     p.set_project_description("5 Forces")
     p.set_partners("Stingel")
     p.set_capacity(40)
@@ -283,33 +329,46 @@ if __name__ == "__main__":
     p.set_create_time("2020-12-23")
     with ProjectMapper() as mapper:
         mapper.insert(p)
-
+"""
+"""
 if __name__ == "__main__":
     with ProjectMapper() as mapper:
-        p = mapper.find_by_key(6)
+        p = mapper.find_by_key(8)
         mapper.delete(p)
-
+"""
+"""
 if __name__ == "__main__":
     with ProjectMapper() as mapper:
-        p = mapper.find_by_key(1)
-        p.set_name("IT-Projekt")
+        p = mapper.find_by_key(7)
+        p.set_project_type_id(2)
         mapper.update(p)
+"""
 
+"""
 if __name__ == "__main__":
     with ProjectMapper() as mapper:
         p = mapper.find_by_name("IT-Projekt")
         for i in p:
             print(i.get_id())
-
+"""
+"""
 if __name__ == "__main__":
     with ProjectMapper() as mapper:
         p = mapper.find_by_preferred_room("s305")
         for i in p:
             print(i.get_id())
 """
+"""
 if __name__ == "__main__":
     with ProjectMapper() as mapper:
         p = mapper.find_by_automat_id(3)
         for i in p:
-            print(i.get_state_id())
-
+            print(i.get_id())
+"""
+"""
+if __name__ == "__main__":
+    with ProjectMapper() as mapper:
+        t = mapper.find_by_project_type_id(2)
+        for i in t:
+            print(i.get_id())
+"""
