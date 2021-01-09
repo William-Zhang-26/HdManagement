@@ -81,9 +81,9 @@ export default class ProjectAPI {
 */
     getProject(projectID) {
         return this.#fetchAdvanced(this.#getProjectURL(projectID)).then((responseJSON) => {
-          // We always get an array of CustomerBOs.fromJSON, but only need one object
+          // We always get an array of ProjectBOs.fromJSON, but only need one object
           let responseProjectBO = ProjectBO.fromJSON(responseJSON)[0];
-          // console.info(responseCustomerBO);
+          // console.info(responsePtojectBO);
           return new Promise(function (resolve) {
             resolve(responseProjectBO);
           })
@@ -99,9 +99,9 @@ export default class ProjectAPI {
           },
           body: JSON.stringify(projectBO)
         }).then((responseJSON) => {
-          // We always get an array of CustomerBOs.fromJSON, but only need one object
+          // We always get an array of ProjectBOs.fromJSON, but only need one object
           let responseProjectBO = ProjectBO.fromJSON(responseJSON)[0];
-          // console.info(accountBOs);
+         
           return new Promise(function (resolve) {
             resolve(responseProjectBO);
           })
@@ -127,7 +127,7 @@ export default class ProjectAPI {
         return this.#fetchAdvanced(this.#getStudentURL(studentID)).then((responseJSON) => {
           // We always get an array of StudentBOs.fromJSON, but only need one object
           let responseStudentBO = StudentBO.fromJSON(responseJSON)[0];
-          // console.info(responseCustomerBO);
+          
           return new Promise(function (resolve) {
             resolve(responseStudentBO);
           })
@@ -141,9 +141,9 @@ export default class ProjectAPI {
             .then((responseJSON) => {
                 // We always get an array of StudentBO.fromJSON, but only need one object
                 let studentBO = StudentBO.fromJSON(responseJSON)[0];
-                // console.info(accountBO);
+            
                 return new Promise(function (resolve) {
-                    // We expect only one new account
+                    
                     resolve(studentBO);
                 })
             })
@@ -158,7 +158,7 @@ export default class ProjectAPI {
         }).then((responseJSON) => {
         // We always get an array of StudentBOs.fromJSON
         let responseStudentBO = StudentBO.fromJSON(responseJSON)[0];
-        // console.info(accountBOs);
+       
         return new Promise(function (resolve) {
             resolve(responseStudentBO);
         })
