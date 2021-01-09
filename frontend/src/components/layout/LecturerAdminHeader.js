@@ -1,7 +1,7 @@
 //Der Admin und Dozenten spezifische Header (Tabs: Projekte, Noten, Impressum)
 
 import React, { Component } from 'react';
-import { Paper, Typography, Tabs, Tab } from '@material-ui/core';
+import { Paper, Typography, Tabs, Tab, Box } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import ProfileDropDown from '../dialogs/ProfileDropDown';
 
@@ -30,16 +30,14 @@ class Header extends Component {
     return (
       <Paper variant='outlined' >
         <ProfileDropDown user={user} />
-        <Typography variant='h3' component='h1' align='center'>
-          HdManagement
-        </Typography>
-        <Typography variant='h4' component='h2' align='center'>
-          Home
+        <Box p = {3}/>
+        <Typography variant='h4' component='h1' align='center'>
+          Willkommen
         </Typography>
         
             <Tabs indicatorColor='primary' textColor='primary' centered value={this.state.tabindex} onChange={this.handleTabChange} >
               <Tab label='Projekte' component={RouterLink} to={`/projects`} />
-              <Tab label='Noten' component={RouterLink} to={`/grades`} />
+              <Tab label='Bericht' component={RouterLink} to={`/grades`} />
               <Tab label='Impressum' component={RouterLink} to={`/impressum`} />
             </Tabs>
             

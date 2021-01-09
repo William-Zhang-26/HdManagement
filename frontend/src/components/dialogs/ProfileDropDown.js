@@ -4,6 +4,7 @@ import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { Popover, IconButton, Avatar, ClickAwayListener, withStyles, Typography, Paper, Button, Grid, Divider } from '@material-ui/core';
 import firebase from 'firebase/app';
+import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 
 
 class ProfileDropDown extends Component {
@@ -45,7 +46,7 @@ class ProfileDropDown extends Component {
         user ?
           <div>
             <IconButton className={classes.avatarButton} ref={this.#avatarButtonRef} onClick={this.handleAvatarButtonClick}>
-              <Avatar src={user.photoURL} />
+              <EmojiEmotionsIcon />
             </IconButton>
   
             <Popover open={open} anchorEl={this.#avatarButtonRef.current} onClose={this.handleClose}
