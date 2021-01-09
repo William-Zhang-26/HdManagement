@@ -37,7 +37,7 @@ class Header extends Component {
         {
           user ?
             <Tabs indicatorColor='primary' textColor='primary' centered value={this.state.tabindex} onChange={this.handleTabChange} >
-              <Tab label='rolechoice' component={RouterLink} to={`/rolechoice`} />
+              <Tab label='' component={RouterLink} to={`/rolechoice`} />
             </Tabs>
             : null
         }
