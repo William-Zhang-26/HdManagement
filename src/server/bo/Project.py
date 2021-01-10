@@ -1,10 +1,15 @@
 from src.server.bo.Automat import Automat
 from src.server.bo.State import State
+from src.server.bo.Project_type import Project_type
 
 class Project(Automat):
     """
     Realisierung der Projekte
     """
+    f_project = Project_type("Fachspezifisches Projekt")
+    i_project = Project_type("Interdisziplinäres Projekt")
+    t_project = Project_type("Transdisziplinäres Projekt")
+
 
     s_new = State("neu")
     s_approved = State("genehmigt")
@@ -45,6 +50,16 @@ class Project(Automat):
 
     def fifth_event(self, fifth_event):
         self._current_state = self._current_state.fifth_event(fifth_event)
+
+    def first_project(self, first_project):
+        self._project_type = self._project_type.first_project(first_project)
+
+    def sec_project(self, sec_project):
+        self._project_type = self._project_type.sec_project(sec_project)
+
+    def third_project(self, third_project):
+        self._project_type = self._project_type.third_project(third_project)
+
 
     def get_automat_id(self):
         """Auslesen der Automaten-ID"""
