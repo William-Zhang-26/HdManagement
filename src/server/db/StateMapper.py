@@ -94,7 +94,6 @@ class StateMapper (Mapper):
 
         return result
 
-
     def insert(self, state):
         """Einen neuen Zustand in die Datenbank hinzufügen."""
 
@@ -148,12 +147,12 @@ if __name__ == "__main__":
             print(p.get_create_time())
 """
 
-"""
+
 if __name__ == "__main__":
    with StateMapper() as mapper:
        p = mapper.find_by_key(2).get_name()
        print(p)
-"""
+
 
 """
 if __name__ == "__main__":

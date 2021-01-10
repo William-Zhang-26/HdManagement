@@ -59,6 +59,7 @@ module = api.inherit('Module', nbo, {
 project = api.inherit('Project', nbo, {
     'automat_id': fields.Integer(attribute='_automat_id', description='Die ID des zugehörigen Automats'),
     'project_type_id': fields.Integer(attribute='_project_type_id', description='Die ID des zugehörigen Projekttypen'),
+    'state_id': fields.Integer(attribute='_state_id', description='Die ID des zugehörigen Zustandes'),
     'project_description': fields.String(attribute='_project_description', description='Die Beschreibung des Projektes'),
     'partners': fields.String(attribute='_partners', description='Die Partner die das Projekt mit gestalten'),
     'capacity': fields.Integer(attribute='_capacity', description='Die Anzahl der Personen die in dem Projekt teilnehmen können'),
