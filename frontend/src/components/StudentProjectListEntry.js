@@ -27,8 +27,10 @@ class StudentProjectListEntry extends Component {
       // Init the state
       this.state = {
         project: props.project,
+        state: props.state,
         showStudentProjectSignOut: false,
         showStudentProjectSignIn: false,
+
         //Admin Attribute für Funktionen
       };
     }
@@ -83,11 +85,13 @@ class StudentProjectListEntry extends Component {
   /** Renders the component */
   render() {
     const { classes, expandedState } = this.props;
-    const { project, showStudentProjectSignIn, showStudentProjectSignOut } = this.state;
+    const { project, state, showStudentProjectSignIn, showStudentProjectSignOut } = this.state;
 
     // console.log(this.state);
     return (
       <div>
+      { project.getStateID() === 3 ?
+      <Grid>
       <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -100,7 +104,8 @@ class StudentProjectListEntry extends Component {
               </Grid>
               <Grid item xs />
               <Grid item>
-                <Typography variant='body2' color={'textSecondary'}>State</Typography> {/**Ergänzend steht hier die aktuelle Condition des Projektes */}
+                <Typography variant='body2' color={'textSecondary'}> {project.getStateID()} {/**Ergänzend steht hier die aktuelle Condition des Projektes */}
+                </Typography>
               </Grid>
             </Grid>
           </AccordionSummary>
@@ -115,6 +120,7 @@ class StudentProjectListEntry extends Component {
             <ListItem>Anzahl der Blocktage in der Prüfungszeit: {project.getBDaysFinale()} </ListItem>            
             <ListItem>Anzahl der Blocktage in der Vorlesungszeit (Samstage): {project.getBDaysSaturdays()} </ListItem>
             <ListItem>Raum: {project.getPreferredRoom()} </ListItem> 
+            <ListItem>StateID: {project.getStateID()} </ListItem> 
             <ListItem>
               <Button  color='secondary' startIcon={<AddIcon />} onClick={this.StudentProjectSignInClicked}>
                 Anmelden
@@ -129,6 +135,8 @@ class StudentProjectListEntry extends Component {
         <StudentProjectSignIn show={showStudentProjectSignIn} project={project} onClose={this.StudentProjectSignInClosed} /> 
         <StudentProjectSignOut show={showStudentProjectSignOut} project={project} onClose={this.StudentProjectSignOutClosed} /> 
         {/**<CustomerDeleteDialog show={showCustomerDeleteDialog} customer={customer} onClose={this.deleteCustomerDialogClosed} />   Admin Funktionen*/} 
+        </Grid>
+      : null }
       </div>
     );
   }

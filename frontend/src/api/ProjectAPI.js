@@ -1,5 +1,6 @@
 import ProjectBO from './ProjectBO'
 import StudentBO from './StudentBO'
+import StateBO from './StateBO'
 
 
 export default class ProjectAPI {

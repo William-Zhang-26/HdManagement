@@ -6,6 +6,7 @@ import StateBO from './StateBO';
  * 
  * - weekly muss ein bool sein
  * - preferred room muss ein bool sein
+ * - Project_category gibt es gar nicht?
  * 
  */
 
@@ -18,9 +19,14 @@ export default class ProjectBO extends NamedBusinessObject {
     static s_reviewed = "Bewertung abgeschlossen"*/
 
     //Konstruktorklasse, welche ein Projekttypen BO erstellt mit den abgebildeten Attributen
-    constructor(aCapacity, aPartners, aProjectDescription, aWeekly, aBDaysPreSchedule, aBDaysFinale, aBDaysSaturdays, aPreferredBDays, aRoomPreference, aPreferredRoom, aProjectCategory, aAdditionalSupervisor) {
+    constructor(aAutomatID, aProjectTypeID, aStateID, aCapacity, aPartners, aProjectDescription, aWeekly, aBDaysPreSchedule,
+        aBDaysFinale, aBDaysSaturdays, aPreferredBDays, aRoomPreference, aPreferredRoom, 
+        aProjectCategory, aAdditionalSupervisor) {
 
         super();
+        this.automat_id = aAutomatID;
+        this.project_type_id = aProjectTypeID;
+        this.state_id = aStateID;
         this.capacity = aCapacity;
         this.partners = aPartners;
         this.project_description = aProjectDescription;
@@ -105,6 +111,35 @@ export default class ProjectBO extends NamedBusinessObject {
         }
         return result;
     }*/
+
+    //AutomatID
+    getAutomatID() {
+        return this.automat_id;
+    }
+
+    setAutomatID(aAutomatID) {
+        this.automat_id = aAutomatID;
+    }
+
+
+    //ProjectTypeID
+    getProjectTypeID() {
+        return this.project_type_id;
+    }
+
+    setProjectTypeID(aProjectTypeID) {
+        this.project_type_id = aProjectTypeID;
+    }
+
+
+    //StateID
+    getStateID() {
+        return this.state_id;
+    }
+
+    setStateID(aStateID) {
+        this.state_id = aStateID;
+    }
 
 
     //Kapazität
