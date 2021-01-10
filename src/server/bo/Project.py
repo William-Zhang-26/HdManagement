@@ -16,6 +16,7 @@ class Project(Automat):
         super().__init__(Project.s_new)
         self._automat_id = 0
         self._project_type_id = 0
+        self._state_id = 1
         self._project_description = ""
         self._partners = ""
         self._capacity = 0
@@ -60,6 +61,14 @@ class Project(Automat):
     def set_project_type_id(self, new_project_type_id):
         """Setzen des Projekttyp-ID"""
         self._project_type_id = new_project_type_id
+
+    def get_state_id(self):
+        """Auslesen der Zustand-ID"""
+        return self._state_id
+
+    def set_state_id(self, new_state_id):
+        """Setzen des Zustand-ID"""
+        self._state_id = new_state_id
 
     def get_project_description(self):
         """Auslesen der Projektbeschreibung"""

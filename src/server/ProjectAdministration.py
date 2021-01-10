@@ -252,6 +252,13 @@ class ProjectAdministration (object):
         with StateMapper() as mapper:
             mapper.delete(state)
 
+# State-spezifische Methoden
+
+    def get_state_by_name_for_project(self, project):
+        """Den Status mit dem gegebenen Namen auslesen."""
+        with ProjectMapper() as mapper:
+            return mapper.find_by_state_id_get_name(project.get_id())
+
 # Project
 
     def create_project(self, name, automat_id, project_type_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
