@@ -307,6 +307,13 @@ class ProjectAdministration (object):
 
             mapper.delete(project)
 
+    # Project/Teilnahme-spezifische Methoden
+
+    def get_participation_of_project(self, participation):
+        """Die Teilnahme des gegebenen Projektes auslesen."""
+        with ParticipationMapper() as mapper:
+            return mapper.find_by_project(participation.get_id())
+
 # Project_type
     def create_project_type(self, name, ects, sws):
         """Einen Projekttyp anlegen"""

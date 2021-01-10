@@ -416,6 +416,29 @@ class ProjectOperationss(Resource):
         project = adm.get_all_projects()
         return project
 
+"Projec&Participation"
+
+@projectmanager.route('/project/<int:id>/participation')
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@projectmanager.param('id', 'Die ID des Projekt-Objekts')
+class ProjectRelatedParticipationOperations(Resource):
+    @projectmanager.marshal_with(participation)
+    #@secured
+    def get(self, id):
+        """Auslesen aller Teilnahme-Objekte bzgl. eines bestimmten Projekt-Objekts.
+        """
+        adm = ProjectAdministration()
+        # Zunächst benötigen wir den durch id gegebenen Projekt.
+        proj = adm.get_project_by_id(id)
+
+        # Haben wir eine brauchbare Referenz auf ein Projekt-Objekt bekommen?
+        if proj is not None:
+            # Jetzt erst lesen wir die Teilnahmen des Projektes aus.
+            project_list = adm.get_participation_of_project(proj)
+            return project_list
+        else:
+            return "Project not found", 500
+
 """Project_type"""
 @projectmanager.route("/project_type")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
