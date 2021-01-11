@@ -279,9 +279,9 @@ if __name__ == "__main__":
    p = Participation()
    p.set_participation_status("true")
    p.set_module_id(1)
-   p.set_project_id(3)
-   p.set_student_id(3)
-   p.set_validation_id(4)
+   p.set_project_id(1)
+   p.set_student_id(1)
+   p.set_validation_id(1)
    with ParticipationMapper() as mapper:
        mapper.insert(p)
 """

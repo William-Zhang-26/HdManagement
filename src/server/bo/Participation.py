@@ -56,10 +56,10 @@ class Participation(BusinessObject):
     def from_dict(dict = dict()):
         new_participation = Participation()
         new_participation.set_id(dict["id"])
-        new_participation.set_module_id(dict["id"])
-        new_participation.set_project_id(dict["id"])
-        new_participation.set_student_id(dict["id"])
-        new_participation.set_validation_id(dict["id"])
+        new_participation.set_module_id(dict["module_id"])
+        new_participation.set_project_id(dict["project_id"])
+        new_participation.set_student_id(dict["student_id"])
+        new_participation.set_validation_id(dict["validation_id"])
         new_participation.set_participation_status(dict["participation_status"])
         new_participation.set_create_time(dict["create_time"])
         return new_participation

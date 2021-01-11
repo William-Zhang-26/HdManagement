@@ -110,7 +110,7 @@ class ProjectAdministration (object):
         participation.set_id(1)
 
         with ParticipationMapper() as mapper:
-            mapper.insert(participation)
+            return mapper.insert(participation)
 
     def get_all_participation(self):
         with ParticipationMapper() as mapper:
