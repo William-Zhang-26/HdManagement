@@ -367,7 +367,7 @@ class ProjectRelatedAutomatOperationss(Resource):
         pan = Project.from_dict(api.payload)
 
         if pane is not None:
-            project_list = adm.create_project_for_automat(pane, pan.get_name(), pan.get_project_description(), pan.get_partners(),
+            project_list = adm.create_project_for_automat(pane, pan.get_name(),pan.get_project_type_id(), pan.get_project_description(), pan.get_partners(),
                                               pan.get_capacity (), pan.get_preferred_room(), pan.get_b_days_pre_schedule(),
                                                 pan.get_b_days_finale(), pan.get_b_days_saturdays(), pan.get_preferred_b_days(),
                                                 pan.get_project_category(), pan.get_additional_supervisor(), pan.get_weekly())
