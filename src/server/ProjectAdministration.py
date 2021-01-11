@@ -190,7 +190,7 @@ class ProjectAdministration (object):
         with AutomatMapper() as mapper:
             return mapper.find_by_key(project.get_id())
 
-    def create_project_for_automat(self, automat, name, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+    def create_project_for_automat(self, automat, name, project_type_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
              b_days_finale, b_days_saturdays, preferred_b_days, project_category, additional_supervisor,
              weekly):
 
@@ -200,6 +200,7 @@ class ProjectAdministration (object):
                 project = Project()
                 project.set_name(name)
                 project.set_automat_id(automat.get_id())
+                project.set_project_type_id(project_type_id)
                 project.set_project_description(project_description)
                 project.set_partners(partners)
                 project.set_capacity(capacity)
@@ -557,9 +558,13 @@ class ProjectAdministration (object):
         with UserMapper() as mapper:
             return mapper.find_by_firstname(firstname)
 
-    def get_user_by_google_id(self, google_id):
+    def get_user_by_role_id(self, role):
         with UserMapper() as mapper:
-            return mapper.find_by_google_user_id(google_id)
+            return mapper.find_by_role_id(role.get_id())
+
+    def get_user_by_google_id(self, google):
+        with UserMapper() as mapper:
+            return mapper.find_by_google_user_id(google)
 
     def save_user(self, user):
         with UserMapper() as mapper:
@@ -568,6 +573,17 @@ class ProjectAdministration (object):
     def delete_user(self, user):
         with UserMapper() as mapper:
             mapper.delete(user)
+
+    def get_role_of_user(self, user):
+        with RoleMapper() as mapper:
+            result = 1
+
+            if not (user is None):
+                roles = mapper.find_by_name(user.get_id())
+                if not (roles is None):
+                    pass
+
+            return result
 
 #Add
     def add_member_to_project(self, module_id, project_id, student_id, validation_id, participation_status):

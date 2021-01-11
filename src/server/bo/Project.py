@@ -182,6 +182,7 @@ class Project(Automat):
         new_project = Project()
         new_project.set_id(dict["id"])
         new_project.set_name(dict["name"])
+        new_project.set_project_type_id(dict["project_type_id"])
         new_project.set_project_description(dict["project_description"])
         new_project.set_partners(dict["partners"])
         new_project.set_capacity(dict["capacity"])
