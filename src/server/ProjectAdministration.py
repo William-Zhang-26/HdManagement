@@ -557,9 +557,13 @@ class ProjectAdministration (object):
         with UserMapper() as mapper:
             return mapper.find_by_firstname(firstname)
 
-    def get_user_by_google_id(self, google_id):
+    def get_user_by_role_id(self, role):
         with UserMapper() as mapper:
-            return mapper.find_by_google_user_id(google_id)
+            return mapper.find_by_role_id(role.get_id())
+
+    def get_user_by_google_id(self, google):
+        with UserMapper() as mapper:
+            return mapper.find_by_google_user_id(google)
 
     def save_user(self, user):
         with UserMapper() as mapper:
@@ -568,6 +572,17 @@ class ProjectAdministration (object):
     def delete_user(self, user):
         with UserMapper() as mapper:
             mapper.delete(user)
+
+    def get_role_of_user(self, user):
+        with RoleMapper() as mapper:
+            result = 1
+
+            if not (user is None):
+                roles = mapper.find_by_name(user.get_id())
+                if not (roles is None):
+                    pass
+
+            return result
 
 #Add
     def add_member_to_project(self, module_id, project_id, student_id, validation_id, participation_status):

@@ -30,6 +30,10 @@ bo = api.model('BusinessObject', {
     'id': fields.Integer(attribute='_id', description='Der Unique Identifier eines Business Object'),
     'create_time': fields.Date(attribute='_create_time', description='Erstellungszeitpunkt eines Business Objects')
 })
+test = api.model('test', {
+    'name': fields.String(attribute='_name', description='Der Name von eines Users'),
+    'firstname': fields.String(attribute='_firstname', description='Der Vorname eines Users')
+})
 
 """Participation, Validation und NamedBusinessObject sind BusinessObjects..."""
 participation = api.inherit('Participation', bo, {
@@ -738,6 +742,37 @@ class UserOperations(Resource):
             user.set_id(id)
             adm.save_user(user)
             return "User wurde erfolgreich geändert", 200
+
+@projectmanager.route("/user/<int:id>/role")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@projectmanager.param('id', 'Die ID des User-Objekts')
+class RoleUserOperations(Resource):
+    @projectmanager.marshal_with(role)
+    def get(self, id):
+        """Versuch 1"""
+        adm = ProjectAdministration()
+        rol = adm.get_user_by_id(id)
+
+        if rol is not None:
+            role = adm.get_role_by_name(rol)
+            return role
+        else:
+            return "Role not found", 500
+
+@projectmanager.route("/user/<int:id>/roles")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@projectmanager.param('id', 'Die ID des Rollen-Objekts')
+class RoleRelatedUserOperations(Resource):
+    @projectmanager.marshal_with(test)
+    def get(self, id):
+        """Versuch 2"""
+        adm = ProjectAdministration()
+        ro = adm.get_user_by_id(id)
+        if ro is not None:
+            role_list = adm.get_user_by_role_id(ro)
+            return role_list
+        else:
+            return '', 500
 
 """Validation"""
 @projectmanager.route("/validation")
