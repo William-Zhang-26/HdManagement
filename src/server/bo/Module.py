@@ -13,9 +13,9 @@ class Module(NamedBusinessObject):
         """Auslesen der EDV-Nummer"""
         return self._edv_number
 
-    def set_edv_number(self, int):
+    def set_edv_number(self, new_edv_number):
         """Setzen der EDV-Nummer"""
-        self._edv_number = int
+        self._edv_number = new_edv_number
 
     @staticmethod
     def from_dict(dict=dict()):

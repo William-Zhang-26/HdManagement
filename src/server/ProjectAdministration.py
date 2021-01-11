@@ -101,16 +101,16 @@ class ProjectAdministration (object):
 
     def create_participation(self, module_id, project_id, student_id, validation_id, participation_status):
 
-            participation = Participation()
-            participation.set_module_id(module_id)
-            participation.set_project_id(project_id)
-            participation.set_student_id(student_id)
-            participation.set_validation_id(validation_id)
-            participation.set_participation_status(participation_status)
-            participation.set_id(1)
+        participation = Participation()
+        participation.set_module_id(module_id)
+        participation.set_project_id(project_id)
+        participation.set_student_id(student_id)
+        participation.set_validation_id(validation_id)
+        participation.set_participation_status(participation_status)
+        participation.set_id(1)
 
-            with ParticipationMapper() as mapper:
-                mapper.insert(participation)
+        with ParticipationMapper() as mapper:
+            return mapper.insert(participation)
 
     def get_all_participation(self):
         with ParticipationMapper() as mapper:

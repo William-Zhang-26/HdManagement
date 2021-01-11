@@ -16,50 +16,50 @@ class Participation(BusinessObject):
         """Auslesen des Foreign Keys module_id"""
         return self._module_id
 
-    def set_module_id(self, module_id):
+    def set_module_id(self, new_module_id):
         """Setzen des Foreign Keys module_id"""
-        self._module_id = module_id
+        self._module_id = new_module_id
 
     def get_project_id(self):
         """Auslesen des Foreign Keys project_id"""
         return self._project_id
 
-    def set_project_id(self, project_id):
+    def set_project_id(self, new_project_id):
         """Setzen des Foreign Keys project_id"""
-        self._project_id = project_id
+        self._project_id = new_project_id
 
     def get_student_id(self):
         """Auslesen des Foreign Keys student_id"""
         return self._student_id
 
-    def set_student_id(self, student_id):
+    def set_student_id(self, new_student_id):
         """Setzen des Foreign Keys student_id"""
-        self._student_id = student_id
+        self._student_id = new_student_id
 
     def get_validation_id(self):
         """Auslesen des Foreign Keys validation_id"""
         return self._validation_id
 
-    def set_validation_id(self, validation_id):
+    def set_validation_id(self, new_validation_id):
         """Setzen des Foreign Keys validation_id"""
-        self._validation_id = validation_id
+        self._validation_id = new_validation_id
 
     def get_participation_status(self):
         """Auslesen des Teilnahmestatuses."""
         return self._participation_status
 
-    def set_participation_status(self, bool):
+    def set_participation_status(self, new_participation_status):
         """Setzen des Teilnahmestatuses"""
-        self._participation_status = bool
+        self._participation_status = new_participation_status
 
     @staticmethod
     def from_dict(dict = dict()):
         new_participation = Participation()
         new_participation.set_id(dict["id"])
-        new_participation.set_module_id(dict["id"])
-        new_participation.set_project_id(dict["id"])
-        new_participation.set_student_id(dict["id"])
-        new_participation.set_validation_id(dict["id"])
+        new_participation.set_module_id(dict["module_id"])
+        new_participation.set_project_id(dict["project_id"])
+        new_participation.set_student_id(dict["student_id"])
+        new_participation.set_validation_id(dict["validation_id"])
         new_participation.set_participation_status(dict["participation_status"])
         new_participation.set_create_time(dict["create_time"])
         return new_participation
