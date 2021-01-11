@@ -13,9 +13,9 @@ class Validation(BusinessObject):
         """Auslesen der Note"""
         return self._grade
 
-    def set_grade(self, float):
+    def set_grade(self, new_grade):
         """Setzen der Note"""
-        self._grade = float
+        self._grade = new_grade
 
     @staticmethod
     def from_dict(dict=dict()):
