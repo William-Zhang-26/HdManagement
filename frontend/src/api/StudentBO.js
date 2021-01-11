@@ -1,10 +1,10 @@
-//import NamedBusinessObject from './NamedBusinessObject';
+import UserBO from './UserBO';
 
-export default class StudentBO /*extends NamedBusinessObject*/ {
+export default class StudentBO extends UserBO {
 
     //Konstruktorklasse, welche ein Studenten BO erstellt mit den abgebildeten Attributen
     constructor(aLastname, aFirstname, aCourse, aMatriculation_number, aMail, aProject_id) {
-        //super();
+        super();
         this.lastname = aLastname;
         this.firstname = aFirstname;
         this.course = aCourse;
