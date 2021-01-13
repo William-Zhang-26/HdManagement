@@ -442,10 +442,10 @@ class ProjectAdministration (object):
 
 # StudentTeilnahme-spezifische Methoden
 
-    def get_participation_of_student(self, participation):
+    def get_participation_of_student(self, student):
             """Die Teilnahme des gegebenen Studenten auslesen."""
             with ParticipationMapper() as mapper:
-                return mapper.find_by_student(participation.get_id())
+                return mapper.find_by_student(student.get_id())
 
     def create_particpation_for_student(self, student):
         """Für einen gegebenen Studenten einen neuen Teilnahme anlegen."""
