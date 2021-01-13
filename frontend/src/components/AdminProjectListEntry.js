@@ -195,7 +195,8 @@ AdminProjectListEntry.propTypes = {
     classes: PropTypes.object.isRequired,
     project: PropTypes.object.isRequired,
     expandedState: PropTypes.bool.isRequired,
-    onExpandedStateChange: PropTypes.func.isRequired
+    onExpandedStateChange: PropTypes.func.isRequired,
+    onProjectDeleted: PropTypes.func.isRequired
     }
   
 export default withStyles(styles)(AdminProjectListEntry);
