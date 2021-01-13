@@ -2,7 +2,7 @@ from flask import Flask, jsonify
 from flask_restx import Api, Resource, fields
 from flask_cors import CORS
 
-from src.server.bo.Automat import Automat
+
 from src.server.bo.State import State
 from src.server.bo.Module import Module
 from src.server.bo.Participation import Participation
@@ -61,7 +61,7 @@ module = api.inherit('Module', nbo, {
 })
 
 project = api.inherit('Project', nbo, {
-    'automat_id': fields.Integer(attribute='_automat_id', description='Die ID des zugehörigen Automats'),
+    'lecturer_id': fields.Integer(attribute='_lecturer_id', description='Die ID des zugehörigen Dozenten'),
     'project_type_id': fields.Integer(attribute='_project_type_id', description='Die ID des zugehörigen Projekttypen'),
     'state_id': fields.Integer(attribute='_state_id', description='Die ID des zugehörigen Zustandes'),
     'project_description': fields.String(attribute='_project_description', description='Die Beschreibung des Projektes'),
@@ -72,8 +72,7 @@ project = api.inherit('Project', nbo, {
     'b_days_finale': fields.String(attribute='_b_days_finale', description='Anzahl der Blocktage in der Prüfungszeit'),
     'b_days_saturdays': fields.String(attribute='_b_days_saturdays', description='Anzahl der Blocktage in der Vorlesungszeit (Samstage)'),
     'preferred_b_days': fields.String(attribute='_preferred_b_days', description='Die präferierten Blocktage in der Vorlesungszeit'),
-    'project_category': fields.String(attribute='_project_category', description='Die Projekt Kategorie des Projektes'),
-    'additional_supervisor': fields.String(attribute='_additional_supervisor', description='Die beteiligten Professoren in dem Projekt'),
+    'additional_lecturer': fields.String(attribute='_additional_lecturer', description='Die beteiligten Dozenten in dem Projekt'),
     'weekly': fields.String(attribute='_weekly', description='Angabe ob das Projekt wöchentlich stattfindet'),
 })
 
@@ -111,90 +110,11 @@ state = api.inherit('State', nbo, {
 
 })
 
-automat = api.inherit('Automat', nbo, {
-    'state_id': fields.Integer(attribute='_state_id', description='Die ID des zugehörigen Zustandes')
-})
 
 @api.route('/hello')
 class HelloWorld(Resource):
     def get(self):
         return jsonify({'hello': 'world'})
-
-"""Automat"""
-@projectmanager.route("/automat")
-@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-class AutomatOperations(Resource):
-    @projectmanager.marshal_with(automat, code=200)
-    @projectmanager.expect(automat)
-    def post(self):
-        """Automat erstellen"""
-        adm = ProjectAdministration()
-        proposal = Automat.from_dict(api.payload)
-        if proposal is not None:
-            c = adm.create_automat(proposal.get_name())
-            return c, 200
-        else:
-            return '', 500
-
-@projectmanager.route("/automat/<int:id>")
-@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@projectmanager.param('id', 'Die ID des Automat-Objekts')
-class AutomatOperations(Resource):
-    @projectmanager.marshal_with(automat)
-    def get(self, id):
-        """Auslesen eines Automaten aus der DB"""
-        adm = ProjectAdministration()
-        automat = adm.get_automat_by_id(id)
-        return automat
-
-    def delete(self, id):
-        """Löschen eines Automaten aus der DB"""
-        adm = ProjectAdministration()
-        automat = adm.get_automat_by_id(id)
-        if automat is None:
-            return 'Automat konnte nicht aus der DB gelöscht werden', 500
-        else:
-            adm.delete_automat(automat)
-            return 'Automat wurde erfolgreich aus der DB gelöscht', 200
-
-    @projectmanager.expect(automat)
-    def put(self, id):
-        """Automat wird aktualisiert"""
-        adm = ProjectAdministration()
-        automat = Automat.from_dict(api.payload)
-
-        if automat is None:
-            return "Automat konnte nicht geändert werden", 500
-
-        else:
-            automat.set_id(id)
-            adm.save_automat(automat)
-            return "Automat wurde erfolgreich geändert", 200
-
-
-
-@projectmanager.route('/project/<int:id>/automat')
-@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@projectmanager.param('id', 'Die ID des Project-Objekts')
-class ProjectRelatedAutomatOperations(Resource):
-    @projectmanager.marshal_with(automat)
-    #@secured
-    def get(self, id):
-        """Auslesen eines Automat-Objektes bzgl. eines bestimmten Projekt-Objekts.
-
-        Das Projekt-Objekt dessen Automat wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
-        """
-        adm = ProjectAdministration()
-        # Zunächst benötigen wir den durch id gegebenen Projektes.
-        proj = adm.get_project_by_id(id)
-
-        # Haben wir eine brauchbare Referenz auf ein Projekt-Objekt bekommen?
-        if proj is not None:
-            # Jetzt erst lesen wir den Automaten des Projektes aus.
-            automat_list = adm.get_automat_of_project(proj)
-            return automat_list
-        else:
-            return "Project not found", 500
 
 """State"""
 @projectmanager.route("/state")
@@ -353,24 +273,22 @@ class ParticipationOperationen(Resource):
             return "Teilnahme wurde erfolgreich geändert", 200
 
 """Project"""
-@projectmanager.route('/project/<int:id>/')
+@projectmanager.route('/project')
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@projectmanager.param('id', 'Die ID des Automat-Objekts')
-class ProjectRelatedAutomatOperationss(Resource):
-    @projectmanager.marshal_with(project, code=201)
+class ProjectOperations(Resource):
+    @projectmanager.marshal_with(project, code=200)
     @projectmanager.expect(project)
     #@secured
-    def post(self, id):
-        """Ein neues Projekt für einen zugehörigen Automaten in der DB anlegen"""
+    def post(self):
+        """Ein neues Projekt in der DB anlegen"""
         adm = ProjectAdministration()
-        pane = adm.get_automat_by_id(id) #prüfen ob es einen autoamten von der id gibt
         pan = Project.from_dict(api.payload)
 
-        if pane is not None:
-            project_list = adm.create_project_for_automat(pane, pan.get_name(),pan.get_project_type_id(), pan.get_project_description(), pan.get_partners(),
+        if pan is not None:
+            project_list = adm.create_project(pan.get_name(),pan.get_lecturer_id(),pan.get_project_type_id(), pan.get_project_description(), pan.get_partners(),
                                               pan.get_capacity (), pan.get_preferred_room(), pan.get_b_days_pre_schedule(),
                                                 pan.get_b_days_finale(), pan.get_b_days_saturdays(), pan.get_preferred_b_days(),
-                                                pan.get_project_category(), pan.get_additional_supervisor(), pan.get_weekly())
+                                                pan.get_additional_lecturer(), pan.get_weekly())
             return project_list
         else:
             return "Automat not found", 500
