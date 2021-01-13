@@ -23,14 +23,14 @@ class ParticipationMapper (Mapper):
         tuples = cursor.fetchall()
 
 
-        for (id, module_id, project_id, student_id, validation_id, participation_status, create_time) in tuples:
+        for (id, module_id, project_id, student_id, validation_id, status, create_time) in tuples:
             participation = Participation()
             participation.set_id(id)
             participation.set_module_id(module_id)
             participation.set_project_id(project_id)
             participation.set_student_id(student_id)
             participation.set_validation_id(validation_id)
-            participation.set_participation_status(participation_status)
+            participation.set_status(status)
             participation.set_create_time(create_time)
             result.append(participation)
 
@@ -51,14 +51,14 @@ class ParticipationMapper (Mapper):
 
         if len(tuples) != 0:
 
-            for (id, module_id, project_id, student_id, validation_id, participation_status, create_time) in tuples:
+            for (id, module_id, project_id, student_id, validation_id, status, create_time) in tuples:
                 participation = Participation()
                 participation.set_id(id)
                 participation.set_module_id(module_id)
                 participation.set_project_id(project_id)
                 participation.set_student_id(student_id)
                 participation.set_validation_id(validation_id)
-                participation.set_participation_status(participation_status)
+                participation.set_status(status)
                 participation.set_create_time(create_time)
                 result.append(participation)
 
@@ -81,14 +81,14 @@ class ParticipationMapper (Mapper):
         tuples = cursor.fetchall()
 
         if len(tuples) != 0:
-            for (id, module_id, project_id, student_id, validation_id, participation_status, create_time) in tuples:
+            for (id, module_id, project_id, student_id, validation_id, status, create_time) in tuples:
                 participation = Participation()
                 participation.set_id(id)
                 participation.set_module_id(module_id)
                 participation.set_project_id(project_id)
                 participation.set_student_id(student_id)
                 participation.set_validation_id(validation_id)
-                participation.set_participation_status(participation_status)
+                participation.set_status(status)
                 participation.set_create_time(create_time)
                 result.append(participation)
 
@@ -108,14 +108,14 @@ class ParticipationMapper (Mapper):
         tuples = cursor.fetchall()
 
         if len(tuples) != 0:
-            for (id, module_id, project_id, student_id, validation_id, participation_status, create_time) in tuples:
+            for (id, module_id, project_id, student_id, validation_id, status, create_time) in tuples:
                 participation = Participation()
                 participation.set_id(id)
                 participation.set_module_id(module_id)
                 participation.set_project_id(project_id)
                 participation.set_student_id(student_id)
                 participation.set_validation_id(validation_id)
-                participation.set_participation_status(participation_status)
+                participation.set_status(status)
                 participation.set_create_time(create_time)
                 result.append(participation)
 
@@ -135,14 +135,14 @@ class ParticipationMapper (Mapper):
         tuples = cursor.fetchall()
 
         if len(tuples) != 0:
-            for (id, module_id, project_id, student_id, validation_id, participation_status, create_time) in tuples:
+            for (id, module_id, project_id, student_id, validation_id, status, create_time) in tuples:
                 participation = Participation()
                 participation.set_id(id)
                 participation.set_module_id(module_id)
                 participation.set_project_id(project_id)
                 participation.set_student_id(student_id)
                 participation.set_validation_id(validation_id)
-                participation.set_participation_status(participation_status)
+                participation.set_status(status)
                 participation.set_create_time(create_time)
                 result.append(participation)
 
@@ -162,14 +162,14 @@ class ParticipationMapper (Mapper):
         tuples = cursor.fetchall()
 
         if len(tuples) != 0:
-            for (id, module_id, project_id, student_id, validation_id, participation_status, create_time) in tuples:
+            for (id, module_id, project_id, student_id, validation_id, status, create_time) in tuples:
                 participation = Participation()
                 participation.set_id(id)
                 participation.set_module_id(module_id)
                 participation.set_project_id(project_id)
                 participation.set_student_id(student_id)
                 participation.set_validation_id(validation_id)
-                participation.set_participation_status(participation_status)
+                participation.set_status(status)
                 participation.set_create_time(create_time)
                 result.append(participation)
 
@@ -190,10 +190,10 @@ class ParticipationMapper (Mapper):
         for (MaxID) in tuples:
             participation.set_id(MaxID[0] + 1)
 
-        command = "INSERT INTO participation (id, module_id, project_id, student_id, validation_id, participation_status, create_time) VALUES ('{}','{}','{}','{}','{}','{}','{}')" \
+        command = "INSERT INTO participation (id, module_id, project_id, student_id, validation_id, status, create_time) VALUES ('{}','{}','{}','{}','{}','{}','{}')" \
             .format(participation.get_id(), participation.get_module_id(), participation.get_project_id(),
                     participation.get_student_id(), participation.get_validation_id(),
-                    participation.get_participation_status(), participation.get_create_time())
+                    participation.get_status(), participation.get_create_time())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -204,8 +204,8 @@ class ParticipationMapper (Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "UPDATE participation SET participation_status = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
-            .format(participation.get_participation_status(), participation.get_create_time(), participation.get_id())
+        command = "UPDATE participation SET validation_id = ('{}'), status = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
+            .format(participation.get_validation_id(), participation.get_status(), participation.get_create_time(), participation.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -219,7 +219,7 @@ class ParticipationMapper (Mapper):
         command = "DELETE FROM participation WHERE id = {}".format(participation.get_id())\
             .format(participation.get_module_id(), participation.get_project_id(),
                     participation.get_student_id(), participation.get_validation_id(),
-                    participation.get_participation_status(), participation.get_create_time(), participation.get_id())
+                    participation.get_status(), participation.get_create_time(), participation.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -242,49 +242,49 @@ if __name__ == "__main__":
 #find_by_key
 if __name__ == "__main__":
    with ParticipationMapper() as mapper:
-       p = mapper.find_by_key(2).get_participation_status()
+       p = mapper.find_by_key(2).get_status()
        print(p)
 
 
 #find_by_module
 if __name__ == "__main__":
    with ParticipationMapper() as mapper:
-       m = mapper.find_by_module(1)
+       m = mapper.find_by_module(2)
        for i in m:
            print(i.get_id())
 
 #find_by_project
 if __name__ == "__main__":
    with ParticipationMapper() as mapper:
-       m = mapper.find_by_project(3)
+       m = mapper.find_by_project(1)
        for i in m:
            print(i.get_id())
 
 #find_by_student
 if __name__ == "__main__":
    with ParticipationMapper() as mapper:
-       m = mapper.find_by_student(2)
+       m = mapper.find_by_student(1)
        for i in m:
-           print(i.get_participation_status())
-    
+           print(i.get_status())
+
 #find_by_validation
 if __name__ == "__main__":
    with ParticipationMapper() as mapper:
-       m = mapper.find_by_validation(2)
+       m = mapper.find_by_validation(5)
        for i in m:
            print(i.get_id())
 
-#insert"""
+#insert
 if __name__ == "__main__":
    p = Participation()
-   p.set_participation_status("true")
-   p.set_module_id(1)
+   p.set_status("bestanden")
+   p.set_module_id(6)
    p.set_project_id(1)
    p.set_student_id(1)
    p.set_validation_id(1)
    with ParticipationMapper() as mapper:
        mapper.insert(p)
-"""
+
 
 #update
 if __name__ == "__main__":
@@ -293,10 +293,11 @@ if __name__ == "__main__":
        participation.set_validation_id(2)
        mapper.update(participation)
 
+"""
 
 #delete
 if __name__ == "__main__":
    with ParticipationMapper() as mapper:
-       test = mapper.find_by_key(5)
+       test = mapper.find_by_key(4)
        mapper.delete(test)
-"""
+
