@@ -21,10 +21,10 @@ export default class ProjectAPI {
     #getProjectURL = (id) => `${this.#projectServerBaseURL}/project/${id}`;
     #getAttributesForProjectURL = (id) => `${this.#projectServerBaseURL}/projects/${id}/attributes`;
     #addProjectURL = () => `${this.#projectServerBaseURL}/projects`;
-    #deleteProjectURL = (id) => `${this.#projectServerBaseURL}/projects/${id}`;
+    #deleteProjectURL = (id) => `${this.#projectServerBaseURL}/project/${id}`;
 
     //Student related
-    #getStudentByIdURL = (id) => `${this.#projectServerBaseURL}/students/${id}`;
+    #getStudentByIdURL = (id) => `${this.#projectServerBaseURL}/student/${id}`;
     #deleteStudentURL = (id) => `${this.#projectServerBaseURL}/students/${id}`;
     #addStudentsForProjectURL = (id) => `${this.#projectServerBaseURL}/project/${id}/student`;
 
@@ -125,11 +125,11 @@ export default class ProjectAPI {
 
 
     //Student related
-    getStudentById(studentID) {
+    getStudentById(studentID) { 
         return this.#fetchAdvanced(this.#getStudentByIdURL(studentID)).then((responseJSON) => {
           // We always get an array of StudentBOs.fromJSON, but only need one object
           let responseStudentBO = StudentBO.fromJSON(responseJSON)[0];
-          
+        
           return new Promise(function (resolve) {
             resolve(responseStudentBO);
           })

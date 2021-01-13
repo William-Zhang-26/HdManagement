@@ -1,57 +1,70 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, List, ListItem, Grid } from '@material-ui/core';
+import { withStyles, List, ListItem, Grid, Typography, Paper } from '@material-ui/core';
 import  ProjectAPI  from '../api/ProjectAPI';
-import StudentBO from '../api/StudentBO';
+
 
 class StudentReportIndividualTitle extends Component{
 
-    constructor(props) {
-        super(props);
+  constructor(props) {
+      super(props);
 
-        this.state = {
-            student: props.student,
-            //studentId: this.props.match.params.studentid,
-            studentId: props.studentId,
+      this.state = {
+          student: null,
+          //studentId: this.props.match.params.studentid,
+          studentId: this.props.studentId,
 
-        };
-    }
-
-    getStudent = () => {
-        ProjectAPI.getAPI().getStudentById(this.state.studentId)
-        //ProjectAPI.getAPI().getStudentById()
-            .then (studentBO => {
-                this.setState({ student: studentBO });
-            })
-
-    }
-
-    componentDidMount() {
-        this.getStudent();
-      }
+      };
+  }
 
 
 
-    render() {
+  componentDidMount() {
+    this.getStudent();
+    console.log('miau')
+  }
+
+  getStudent = () => {
+      ProjectAPI.getAPI().getStudentById(1)   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
+      //ProjectAPI.getAPI().getStudentById()
+          .then (studentBO => {
+              this.setState({ student: studentBO });
+          })
+          console.log("hello");
+  }
+
+
+
+
+
+
+  render() {
     const { classes } = this.props;
-    const { student, studentId } = this.state;
+    const student = this.state.student;
 
-    // console.log(this.state);
+    console.log("hello again");
+    console.log(this.state);
     return (
-        <div>
-       
+        <div> 
+        
+        { student ?
+
         <Grid className = {classes.root}>
+          <Paper>
             <List>
             <ListItem>Name: {student.getFirstName()} {student.getName()} </ListItem>
             <ListItem>Matrikelnummer: {student.getMatriculationNumber()} </ListItem>
             <ListItem>Studiengangskürzel: {student.getCourse()} </ListItem>  
             </List>
+          </Paper>
         </Grid>
+
+        : <Typography>Klappt nicht</Typography>}
 
         </div>
     );
-    }
-    
+  }
+  
 
 
 /*
@@ -85,7 +98,9 @@ class StudentReportIndividualTitle extends Component{
 /** Component specific styles */
 const styles = theme => ({
     root: {
-      width: '100%',
+      width: '90%',
+      marginTop: theme.spacing(3),
+      marginLeft: theme.spacing(10),
     }
   });
   

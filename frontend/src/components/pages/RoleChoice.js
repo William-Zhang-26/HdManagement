@@ -116,6 +116,7 @@ class RoleChoice extends Component {
 
                             <Route exact path = '/report'>
                                 <StudentReportIndividualTitle />
+                                <StudentReportList />
                             </Route>
 
                             <Route path='/impressum' component={Impressum} />
