@@ -1,9 +1,8 @@
 from src.server.bo.Participation import Participation
-from src.server.bo.Student import Student
+from src.server.bo.Module import Module
 from src.server.db.Mapper import Mapper
 
-class ParticipationStudentMapper (Mapper):
-
+class ParticipationModuleMapper (Mapper):
     def __init__(self):
         super().__init__()
 
@@ -12,12 +11,12 @@ class ParticipationStudentMapper (Mapper):
 
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM participation LEFT OUTER JOIN student USING (student_id)"
+        command = "SELECT * FROM participation LEFT OUTER JOIN module USING (module_id)"
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         for (id, module_id, project_id, student_id, validation_id, status, create_time,
-             name, firstname, course, matriculation_number, mail, google_id, student_create_time) in tuples:
+             name, edv_number, module_create_time) in tuples:
 
             participation = Participation()
             participation.set_id(id)
@@ -28,16 +27,13 @@ class ParticipationStudentMapper (Mapper):
             participation.set_status(status)
             participation.set_create_time(create_time)
 
-            student = Student()
-            student.set_name(name)
-            student.set_firstname(firstname)
-            student.set_course(course)
-            student.set_matriculation_number(matriculation_number)
-            student.set_mail(mail)
-            student.set_google_id(google_id)
-            student.set_create_time(student_create_time)
+            module = Module()
+            module.set_name(name)
+            module.set_edv_number(edv_number)
+            module.set_create_time(module_create_time)
+            result.append(module)
 
-            result.append(participation and student)
+            result.append(participation and module)
 
         self._cnx.commit()
         cursor.close()
@@ -48,12 +44,12 @@ class ParticipationStudentMapper (Mapper):
         """Per key ausgeben"""
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM participation LEFT OUTER JOIN student USING (student_id) WHERE id like '{}'".format(id)
+        command = "SELECT * FROM participation LEFT OUTER JOIN module USING (module_id) WHERE id like '{}'".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         for (id, module_id, project_id, student_id, validation_id, status, create_time,
-             name, firstname, course, matriculation_number, mail, google_id, student_create_time) in tuples:
+             name, edv_number, module_create_time) in tuples:
             participation = Participation()
             participation.set_id(id)
             participation.set_module_id(module_id)
@@ -63,41 +59,37 @@ class ParticipationStudentMapper (Mapper):
             participation.set_status(status)
             participation.set_create_time(create_time)
 
-            student = Student()
-            student.set_name(name)
-            student.set_firstname(firstname)
-            student.set_course(course)
-            student.set_matriculation_number(matriculation_number)
-            student.set_mail(mail)
-            student.set_google_id(google_id)
-            student.set_create_time(student_create_time)
+            module = Module()
+            module.set_name(name)
+            module.set_edv_number(edv_number)
+            module.set_create_time(module_create_time)
+            result.append(module)
 
-            result.append(participation and student)
-            result = participation and student
+            result.append(participation and module)
+            result = participation and module
 
         self._cnx.commit()
         cursor.close()
 
         return result
 
-    def insert(self, participationstudent):
+    def insert(self, participationmodule):
         pass
 
-    def update(self, participationstudent):
+    def update(self, participationmodule):
         pass
 
-    def delete(self, participationstudent):
+    def delete(self, participationmodule):
         pass
 
 """
 if __name__ == "__main__":
-    with ParticipationStudentMapper() as mapper:
-        u = mapper.find_by_key(7).get_firstname()
+    with ParticipationModuleMapper() as mapper:
+        u = mapper.find_by_key(1).get_edv_number()
         print(u)
-        
+"""
 if __name__ == "__main__":
-    with ParticipationStudentMapper() as mapper:
+    with ParticipationModuleMapper() as mapper:
         u = mapper.find_all()
         for i in u:
-            print(i.get_firstname())
-"""
+            print(i.get_edv_number())
