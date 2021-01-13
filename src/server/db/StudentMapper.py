@@ -44,7 +44,7 @@ class StudentMapper(Mapper):
 
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM student WHERE id like '{}'".format(id)
+        command = "SELECT * FROM student WHERE student_id like '{}'".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -208,7 +208,7 @@ class StudentMapper(Mapper):
         command = "UPDATE student SET name = ('{}'), firstname = ('{}'), course = ('{}')," \
                 "matriculation_number = ('{}')," \
                 "mail = ('{}'), google_id = ('{}'), create_time = ('{}')" \
-                "WHERE id = ('{}')"\
+                "WHERE student_id = ('{}')"\
             .format(student.get_name(), student.get_firstname(), student.get_course(),
                     student.get_matriculation_number(), student.get_mail(), student.get_google_id(),
                     student.get_create_time(), student.get_id())
