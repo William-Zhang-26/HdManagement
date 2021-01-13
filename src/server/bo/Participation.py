@@ -10,7 +10,7 @@ class Participation(BusinessObject):
         self._project_id = None # Fremdschlüsselbeziehung zum Projekt.
         self._student_id = None # Fremdschlüsselbeziehung zum Studenten.
         self._validation_id = None # Fremdschlüsselbeziehung zur Bewertung.
-        self._participation_status = bool
+        self._participation_status = ""
 
     def get_module_id(self):
         """Auslesen des Foreign Keys module_id"""
@@ -44,13 +44,13 @@ class Participation(BusinessObject):
         """Setzen des Foreign Keys validation_id"""
         self._validation_id = new_validation_id
 
-    def get_participation_status(self):
-        """Auslesen des Teilnahmestatuses."""
-        return self._participation_status
+    def get_status(self):
+        """Auslesen des Bestehungsstatuses."""
+        return self._status
 
-    def set_participation_status(self, new_participation_status):
-        """Setzen des Teilnahmestatuses"""
-        self._participation_status = new_participation_status
+    def set_status(self, new_status):
+        """Setzen des Bestehungsstatuses"""
+        self._status = new_status
 
     @staticmethod
     def from_dict(dict = dict()):
@@ -60,6 +60,6 @@ class Participation(BusinessObject):
         new_participation.set_project_id(dict["project_id"])
         new_participation.set_student_id(dict["student_id"])
         new_participation.set_validation_id(dict["validation_id"])
-        new_participation.set_participation_status(dict["participation_status"])
+        new_participation.set_status(dict["status"])
         new_participation.set_create_time(dict["create_time"])
         return new_participation
