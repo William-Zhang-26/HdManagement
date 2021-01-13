@@ -9,7 +9,7 @@ class Participation(BusinessObject):
         self._module_id = None # Fremdschlüsselbeziehung zum Modul.
         self._project_id = None # Fremdschlüsselbeziehung zum Projekt.
         self._student_id = None # Fremdschlüsselbeziehung zum Studenten.
-        self._validation_id = None # Fremdschlüsselbeziehung zur Bewertung.
+        self._validation_id = 1 # Fremdschlüsselbeziehung zur Bewertung.
         self._status = ""
 
     def get_module_id(self):

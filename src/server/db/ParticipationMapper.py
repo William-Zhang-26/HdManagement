@@ -273,18 +273,16 @@ if __name__ == "__main__":
        m = mapper.find_by_validation(5)
        for i in m:
            print(i.get_id())
-
+"""
 #insert
 if __name__ == "__main__":
    p = Participation()
-   p.set_status("bestanden")
-   p.set_module_id(6)
+   p.set_module_id(12)
    p.set_project_id(1)
    p.set_student_id(1)
-   p.set_validation_id(1)
    with ParticipationMapper() as mapper:
        mapper.insert(p)
-
+"""
 
 #update
 if __name__ == "__main__":
