@@ -9,11 +9,11 @@ class Project_type(NamedBusinessObject):
     lediglich einen ECTS und einen SWS.
     """
 
-    def __init__(self, project_type= ""):
+    def __init__(self):
         super().__init__()
         self._ects = None
         self._sws = None
-        self._name = project_type
+
 
     def get_ects(self):
         """Auslesen der ECTS."""
@@ -30,15 +30,6 @@ class Project_type(NamedBusinessObject):
     def set_sws(self, new_sws):
         """Setzen der SWS."""
         self._sws = new_sws
-
-    def first_project(self, first_project):
-        pass
-
-    def sec_project(self, sec_project):
-        pass
-
-    def third_project(self, third_project):
-        pass
 
 
     @staticmethod

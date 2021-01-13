@@ -22,13 +22,13 @@ class ProjectMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, automat_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
-             b_days_finale, b_days_saturdays, preferred_b_days, project_category, additional_supervisor,
+        for (id, name, lecturer_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+             b_days_finale, b_days_saturdays, preferred_b_days, additional_lecturer,
              weekly, create_time) in tuples:
             project = Project()
             project.set_id(id)
             project.set_name(name)
-            project.set_automat_id(automat_id)
+            project.set_lecturer_id(lecturer_id)
             project.set_project_type_id(project_type_id)
             project.set_state_id(state_id)
             project.set_project_description(project_description)
@@ -39,8 +39,7 @@ class ProjectMapper(Mapper):
             project.set_b_days_finale(b_days_finale)
             project.set_b_days_saturdays(b_days_saturdays)
             project.set_preferred_b_days(preferred_b_days)
-            project.set_project_category(project_category)
-            project.set_additional_supervisor(additional_supervisor)
+            project.set_additional_lecturer(additional_lecturer)
             project.set_weekly(weekly)
             project.set_create_time(create_time)
             result.append(project)
@@ -61,13 +60,13 @@ class ProjectMapper(Mapper):
 
         if len(tuples) != 0:
 
-            for (id, name, automat_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
-                 b_days_finale, b_days_saturdays, preferred_b_days, project_category, additional_supervisor,
+            for (id, name, lecturer_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+                 b_days_finale, b_days_saturdays, preferred_b_days, additional_lecturer,
                  weekly, create_time) in tuples:
                 project = Project()
                 project.set_id(id)
                 project.set_name(name)
-                project.set_automat_id(automat_id)
+                project.set_lecturer_id(lecturer_id)
                 project.set_project_type_id(project_type_id)
                 project.set_state_id(state_id)
                 project.set_project_description(project_description)
@@ -78,8 +77,7 @@ class ProjectMapper(Mapper):
                 project.set_b_days_finale(b_days_finale)
                 project.set_b_days_saturdays(b_days_saturdays)
                 project.set_preferred_b_days(preferred_b_days)
-                project.set_project_category(project_category)
-                project.set_additional_supervisor(additional_supervisor)
+                project.set_additional_lecturer(additional_lecturer)
                 project.set_weekly(weekly)
                 project.set_create_time(create_time)
                 result.append(project)
@@ -103,13 +101,13 @@ class ProjectMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, automat_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
-             b_days_finale, b_days_saturdays, preferred_b_days, project_category, additional_supervisor,
+        for (id, name, lecturer_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+             b_days_finale, b_days_saturdays, preferred_b_days, additional_lecturer,
              weekly, create_time) in tuples:
             project = Project()
             project.set_id(id)
             project.set_name(name)
-            project.set_automat_id(automat_id)
+            project.set_lecturer_id(lecturer_id)
             project.set_project_type_id(project_type_id)
             project.set_state_id(state_id)
             project.set_project_description(project_description)
@@ -120,8 +118,7 @@ class ProjectMapper(Mapper):
             project.set_b_days_finale(b_days_finale)
             project.set_b_days_saturdays(b_days_saturdays)
             project.set_preferred_b_days(preferred_b_days)
-            project.set_project_category(project_category)
-            project.set_additional_supervisor(additional_supervisor)
+            project.set_additional_lecturer(additional_lecturer)
             project.set_weekly(weekly)
             project.set_create_time(create_time)
             result.append(project)
@@ -140,13 +137,13 @@ class ProjectMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, automat_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
-             b_days_finale, b_days_saturdays, preferred_b_days, project_category, additional_supervisor,
+        for (id, name, lecturer_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+             b_days_finale, b_days_saturdays, preferred_b_days, additional_lecturer,
              weekly, create_time) in tuples:
             project = Project()
             project.set_id(id)
             project.set_name(name)
-            project.set_automat_id(automat_id)
+            project.set_lecturer_id(lecturer_id)
             project.set_project_type_id(project_type_id)
             project.set_state_id(state_id)
             project.set_project_description(project_description)
@@ -157,8 +154,7 @@ class ProjectMapper(Mapper):
             project.set_b_days_finale(b_days_finale)
             project.set_b_days_saturdays(b_days_saturdays)
             project.set_preferred_b_days(preferred_b_days)
-            project.set_project_category(project_category)
-            project.set_additional_supervisor(additional_supervisor)
+            project.set_additional_lecturer(additional_lecturer)
             project.set_weekly(weekly)
             project.set_create_time(create_time)
             result.append(project)
@@ -168,22 +164,22 @@ class ProjectMapper(Mapper):
 
         return result
 
-    def find_by_automat_id(self, automat_id):
-        """Suchen eines Projekt anhand der automaten-ID."""
+    def find_by_lecturer_id(self, lecturer_id):
+        """Suchen eines Projekt anhand der Lecturer-ID."""
 
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM project WHERE automat_id like '{}'".format(automat_id)
+        command = "SELECT * FROM project WHERE lecturer_id like '{}'".format(lecturer_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, automat_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
-             b_days_finale, b_days_saturdays, preferred_b_days, project_category, additional_supervisor,
+        for (id, name, lecturer_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+             b_days_finale, b_days_saturdays, preferred_b_days, additional_lecturer,
              weekly, create_time) in tuples:
             project = Project()
             project.set_id(id)
             project.set_name(name)
-            project.set_automat_id(automat_id)
+            project.set_lecturer_id(lecturer_id)
             project.set_project_type_id(project_type_id)
             project.set_state_id(state_id)
             project.set_project_description(project_description)
@@ -194,8 +190,7 @@ class ProjectMapper(Mapper):
             project.set_b_days_finale(b_days_finale)
             project.set_b_days_saturdays(b_days_saturdays)
             project.set_preferred_b_days(preferred_b_days)
-            project.set_project_category(project_category)
-            project.set_additional_supervisor(additional_supervisor)
+            project.set_additional_lecturer(additional_lecturer)
             project.set_weekly(weekly)
             project.set_create_time(create_time)
             result.append(project)
@@ -214,14 +209,13 @@ class ProjectMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, automat_id, project_type_id, state_id, project_description, partners, capacity, preferred_room,
-             b_days_pre_schedule,
-             b_days_finale, b_days_saturdays, preferred_b_days, project_category, additional_supervisor,
+        for (id, name, lecturer_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+             b_days_finale, b_days_saturdays, preferred_b_days, additional_lecturer,
              weekly, create_time) in tuples:
             project = Project()
             project.set_id(id)
             project.set_name(name)
-            project.set_automat_id(automat_id)
+            project.set_lecturer_id(lecturer_id)
             project.set_project_type_id(project_type_id)
             project.set_state_id(state_id)
             project.set_project_description(project_description)
@@ -232,8 +226,7 @@ class ProjectMapper(Mapper):
             project.set_b_days_finale(b_days_finale)
             project.set_b_days_saturdays(b_days_saturdays)
             project.set_preferred_b_days(preferred_b_days)
-            project.set_project_category(project_category)
-            project.set_additional_supervisor(additional_supervisor)
+            project.set_additional_lecturer(additional_lecturer)
             project.set_weekly(weekly)
             project.set_create_time(create_time)
             result.append(project)
@@ -243,7 +236,7 @@ class ProjectMapper(Mapper):
 
         return result
 
-    def find_by_state_id_get_name(self, state_id):
+    def find_by_state_id(self, state_id):
         """Suchen alle Projekte anhand der State-ID."""
 
         result = []
@@ -252,18 +245,32 @@ class ProjectMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (state_id) in tuples:
+        for (id, name, lecturer_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+             b_days_finale, b_days_saturdays, preferred_b_days, additional_lecturer,
+             weekly, create_time) in tuples:
             project = Project()
+            project.set_id(id)
+            project.set_name(name)
+            project.set_lecturer_id(lecturer_id)
+            project.set_project_type_id(project_type_id)
             project.set_state_id(state_id)
-
+            project.set_project_description(project_description)
+            project.set_partners(partners)
+            project.set_capacity(capacity)
+            project.set_preferred_room(preferred_room)
+            project.set_b_days_pre_schedule(b_days_pre_schedule)
+            project.set_b_days_finale(b_days_finale)
+            project.set_b_days_saturdays(b_days_saturdays)
+            project.set_preferred_b_days(preferred_b_days)
+            project.set_additional_lecturer(additional_lecturer)
+            project.set_weekly(weekly)
+            project.set_create_time(create_time)
             result.append(project)
 
         self._cnx.commit()
         cursor.close()
 
         return result
-
-
 
     def insert(self, project):
         """Einfügen eines Projekt-Objekts in die Datenbank."""
@@ -275,17 +282,17 @@ class ProjectMapper(Mapper):
         for (MaxID) in tuples:
             project.set_id(MaxID[0] + 1)
 
-        command = "INSERT INTO project (id, name, automat_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, " \
+        command = "INSERT INTO project (id, name, lecturer_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, " \
                   "b_days_pre_schedule, b_days_finale, b_days_saturdays, preferred_b_days, " \
-                  "project_category, additional_supervisor, " \
+                  "additional_lecturer, " \
                   "weekly, create_time)" \
-                  "VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')" \
-            .format(project.get_id(), project.get_name(), project.get_automat_id(), project.get_project_type_id(), project.get_state_id(),
+                  "VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')" \
+            .format(project.get_id(), project.get_name(), project.get_lecturer_id(), project.get_project_type_id(), project.get_state_id(),
                     project.get_project_description(),
                     project.get_partners(), project.get_capacity(), project.get_preferred_room(),
                     project.get_b_days_pre_schedule(), project.get_b_days_finale(), project.get_b_days_saturdays(),
-                    project.get_preferred_b_days(), project.get_project_category(),
-                    project.get_additional_supervisor(), project.get_weekly(),
+                    project.get_preferred_b_days(),
+                    project.get_additional_lecturer(), project.get_weekly(),
                     project.get_create_time())
         cursor.execute(command)
 
@@ -297,16 +304,16 @@ class ProjectMapper(Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "UPDATE project SET name = ('{}'), automat_id = ('{}'), project_type_id = ('{}'), state_id = ('{}'), project_description = ('{}'), " \
+        command = "UPDATE project SET name = ('{}'), lecturer_id = ('{}'), project_type_id = ('{}'), state_id = ('{}'), project_description = ('{}'), " \
                   "partners = ('{}'), capacity = ('{}'), preferred_room = ('{}'), b_days_pre_schedule = ('{}'), " \
                   "b_days_finale = ('{}'), b_days_saturdays = ('{}'), preferred_b_days = ('{}'), " \
-                  "project_category = ('{}'), additional_supervisor = ('{}'), weekly = ('{}'), create_time = ('{}')" \
+                  "additional_lecturer = ('{}'), weekly = ('{}'), create_time = ('{}')" \
                   "WHERE id = ('{}')" \
-            .format(project.get_name(), project.get_automat_id(), project.get_project_type_id(), project.get_state_id(),
+            .format(project.get_name(), project.get_lecturer_id(), project.get_project_type_id(), project.get_state_id(),
                     project.get_project_description(), project.get_partners(), project.get_capacity(), project.get_preferred_room(),
                     project.get_b_days_pre_schedule(), project.get_b_days_finale(), project.get_b_days_saturdays(),
-                    project.get_preferred_b_days(), project.get_project_category(),
-                    project.get_additional_supervisor(), project.get_weekly(),
+                    project.get_preferred_b_days(),
+                    project.get_additional_lecturer(), project.get_weekly(),
                     project.get_create_time(), project.get_id())
         cursor.execute(command)
 
@@ -327,7 +334,7 @@ class ProjectMapper(Mapper):
 """
 if __name__ == "__main__":
     with ProjectMapper() as mapper:
-        test = mapper.find_by_key(6).get_state_id()
+        test = mapper.find_by_key(2).get_additional_lecturer()
         print(test)
 """
 """
@@ -335,16 +342,15 @@ if __name__ == "__main__":
     with ProjectMapper() as mapper:
         p = mapper.find_all()
         for result in p:
-            print(result.get_state_id())
-"""
+            print(result.get_capacity())
 
+"""
 """
 if __name__ == "__main__":
     p = Project()
-    p.set_name("Marketing")
-    p.set_automat_id(8)
+    p.set_name("Marketing IT")
+    p.set_lecturer_id(2)
     p.set_project_type_id(1)
-    p.set_state_id(2)
     p.set_project_description("5 Forces")
     p.set_partners("Stingel")
     p.set_capacity(40)
@@ -353,8 +359,7 @@ if __name__ == "__main__":
     p.set_b_days_finale("yes")
     p.set_b_days_saturdays("yes")
     p.set_preferred_b_days("yes")
-    p.set_project_category("Design und Usablity")
-    p.set_additional_supervisor("Kunz")
+    p.set_additional_lecturer("Kunz")
     p.set_weekly("yes")
     p.set_create_time("2020-12-23")
     with ProjectMapper() as mapper:
@@ -363,21 +368,21 @@ if __name__ == "__main__":
 """
 if __name__ == "__main__":
     with ProjectMapper() as mapper:
-        p = mapper.find_by_key(8)
+        p = mapper.find_by_key(14)
         mapper.delete(p)
 """
 """
 if __name__ == "__main__":
     with ProjectMapper() as mapper:
-        p = mapper.find_by_key(7)
-        p.set_state_id(4)
+        p = mapper.find_by_key(12)
+        p.set_lecturer_id(2)
         mapper.update(p)
 """
 
 """
 if __name__ == "__main__":
     with ProjectMapper() as mapper:
-        p = mapper.find_by_name("IT-Projekt")
+        p = mapper.find_by_name("automat 4")
         for i in p:
             print(i.get_id())
 """
@@ -386,25 +391,26 @@ if __name__ == "__main__":
     with ProjectMapper() as mapper:
         p = mapper.find_by_preferred_room("s305")
         for i in p:
-            print(i.get_id())
+            print(i.get_lecturer_id())
 """
 """
 if __name__ == "__main__":
     with ProjectMapper() as mapper:
-        p = mapper.find_by_automat_id(3)
+        p = mapper.find_by_lecturer_id(2)
         for i in p:
-            print(i.get_id())
+            print(i.get_name())
 """
 """
 if __name__ == "__main__":
     with ProjectMapper() as mapper:
         t = mapper.find_by_project_type_id(2)
         for i in t:
-            print(i.get_id())
+            print(i.get_additional_lecturer())
 """
-
+"""
 if __name__ == "__main__":
     with ProjectMapper() as mapper:
-        t = mapper.find_by_state_id(2)
+        t = mapper.find_by_state_id(5)
         for i in t:
             print(i.get_name())
+"""
