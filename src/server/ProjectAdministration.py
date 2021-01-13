@@ -220,13 +220,13 @@ class ProjectAdministration (object):
         with ProjectMapper() as mapper:
             return mapper.find_by_key(id)
 
-    def get_project_by_lecturer_id(self, lecturer_id):
+    def get_project_by_lecturer_id(self, user):
         with ProjectMapper() as mapper:
-            return mapper.find_by_lecturer_id(lecturer_id)
+            return mapper.find_by_lecturer_id(user.get_id())
 
-    def get_project_by_project_type_id(self, project_type_id):
+    def get_project_by_project_type_id(self, project_type):
         with ProjectMapper() as mapper:
-            return mapper.find_by_project_type_id(project_type_id)
+            return mapper.find_by_project_type_id(project_type.get_id())
 
     def get_project_by_state_id(self, state_id):
         with ProjectMapper() as mapper:
