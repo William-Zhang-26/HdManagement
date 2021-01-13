@@ -1,15 +1,10 @@
 from src.server.bo.Automat import Automat
 from src.server.bo.State import State
-from src.server.bo.Project_type import Project_type
 
 class Project(Automat):
     """
     Realisierung der Projekte
     """
-    f_project = Project_type("Fachspezifisches Projekt")
-    i_project = Project_type("Interdisziplinäres Projekt")
-    t_project = Project_type("Transdisziplinäres Projekt")
-
 
     s_new = State("neu")
     s_approved = State("genehmigt")
@@ -19,7 +14,7 @@ class Project(Automat):
 
     def __init__(self):
         super().__init__(Project.s_new)
-        self._automat_id = 0
+        self._lecturer_id = 0
         self._project_type_id = 0
         self._state_id = 1
         self._project_description = ""
@@ -30,8 +25,7 @@ class Project(Automat):
         self._b_days_finale = ""
         self._b_days_saturdays = ""
         self._preferred_b_days = ""
-        self._project_category = ""
-        self._additional_supervisor = ""
+        self._additional_lecturer = ""
         self._weekly = ""
 
 #Platzhalter für spätere änderung ist nicht final
@@ -51,23 +45,13 @@ class Project(Automat):
     def fifth_event(self, fifth_event):
         self._current_state = self._current_state.fifth_event(fifth_event)
 
-    def first_project(self, first_project):
-        self._project_type = self._project_type.first_project(first_project)
+    def get_lecturer_id(self):
+        """Auslesen der Dozent-ID"""
+        return self._lecturer_id
 
-    def sec_project(self, sec_project):
-        self._project_type = self._project_type.sec_project(sec_project)
-
-    def third_project(self, third_project):
-        self._project_type = self._project_type.third_project(third_project)
-
-
-    def get_automat_id(self):
-        """Auslesen der Automaten-ID"""
-        return self._automat_id
-
-    def set_automat_id(self, new_automat_id):
-        """Setzen der Automat_ID"""
-        self._automat_id = new_automat_id
+    def set_lecturer_id(self, new_lecturer_id):
+        """Setzen der Dozent_ID"""
+        self._lecturer_id = new_lecturer_id
 
     def get_project_type_id(self):
         """Auslesen des Projekttyp-ID"""
@@ -149,21 +133,13 @@ class Project(Automat):
         """Setzen der bevorzugten Blocktage"""
         self._preferred_b_days = new_preferred_b_days
 
-    def get_project_category(self):
-        """Auselsen der Projektkategorie"""
-        return self._project_category
+    def get_additional_lecturer(self):
+        """Auslesen der betreuenden Dozenten"""
+        return self._additional_lecturer
 
-    def set_project_category(self, new_category):
-        """Setzen der Projekt-Ketgorie"""
-        self._project_category = new_category
-
-    def get_additional_supervisor(self):
-        """Auslesen der Supervisor"""
-        return self._additional_supervisor
-
-    def set_additional_supervisor(self, new_additional_supervisor):
-        """Setzen der Supervisor"""
-        self._additional_supervisor = new_additional_supervisor
+    def set_additional_lecturer(self, new_additional_lecturer):
+        """Setzen der betreuenden Dozenten"""
+        self._additional_lecturer = new_additional_lecturer
 
     def get_weekly(self):
         """Auslesen ob die Termine wöchentlich sind"""
@@ -182,7 +158,7 @@ class Project(Automat):
         new_project = Project()
         new_project.set_id(dict["id"])
         new_project.set_name(dict["name"])
-        new_project.set_automat_id(dict["automat_id"])
+        new_project.set_lecturer_id(dict["lecturer_id"])
         new_project.set_project_type_id(dict["project_type_id"])
         new_project.set_state_id(dict["state_id"])
         new_project.set_project_description(dict["project_description"])
@@ -193,8 +169,7 @@ class Project(Automat):
         new_project.set_b_days_finale(dict["b_days_finale"])
         new_project.set_b_days_saturdays(dict["b_days_saturdays"])
         new_project.set_preferred_b_days(dict["preferred_b_days"])
-        new_project.set_project_category(dict["project_category"])
-        new_project.set_additional_supervisor(dict["additional_supervisor"])
+        new_project.set_additional_lecturer(dict["additional_lecturer"])
         new_project.set_weekly(dict["weekly"])
         new_project.set_create_time(dict["create_time"])
         return new_project
