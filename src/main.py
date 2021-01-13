@@ -339,6 +339,45 @@ class ProjectOperationss(Resource):
         project = adm.get_all_projects()
         return project
 
+@projectmanager.route("/project/<int:id>/lecturer")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@projectmanager.param('id', 'Die ID des Dozent-Objekts')
+class ProjectRelatedUserOperations(Resource):
+    @projectmanager.marshal_with(project)
+    def get(self, id):
+        """Auslesen aller Projekt-Objekte bzgl. eines bestimmten Dozenten-Objekts.
+
+        Das Dozenten-Objekt dessen Projekt wir lesen möchten, wird durch die id in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        proj = adm.get_user_by_id(id)
+
+        if proj is not None:
+            project_list = adm.get_project_by_lecturer_id(proj)
+            return project_list
+        else:
+            return "", 500
+
+@projectmanager.route("/project/<int:id>/project_type")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@projectmanager.param('id', 'Die ID des Projekt_type-Objekts')
+class ProjectRelatedProject_typeOperations(Resource):
+    @projectmanager.marshal_with(project)
+    def get(self, id):
+        """Auslesen aller Projekt-Objekte bzgl. eines bestimmten Projekttypen-Objekts.
+
+        Das Projekktypen-Objekt dessen Projekt wir lesen möchten, wird durch die id in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        proje = adm.get_project_type_by_id(id)
+
+        if proje is not None:
+            project_liste = adm.get_project_by_project_type_id(proje)
+            return project_liste
+        else:
+            return "", 500
+
+
 "Projec&Participation"
 
 @projectmanager.route('/project/<int:id>/participation')
