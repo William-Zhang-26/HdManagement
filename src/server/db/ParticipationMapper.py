@@ -293,11 +293,10 @@ if __name__ == "__main__":
        participation.set_validation_id(2)
        mapper.update(participation)
 
-"""
+
 
 #delete
 if __name__ == "__main__":
    with ParticipationMapper() as mapper:
        test = mapper.find_by_key(4)
-       mapper.delete(test)
-
+       mapper.delete(test)"""
