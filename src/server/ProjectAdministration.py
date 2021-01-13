@@ -99,14 +99,14 @@ class ProjectAdministration (object):
 
 # Participation
 
-    def create_participation(self, module_id, project_id, student_id, validation_id, participation_status):
+    def create_participation(self, module_id, project_id, student_id, validation_id, status):
 
         participation = Participation()
         participation.set_module_id(module_id)
         participation.set_project_id(project_id)
         participation.set_student_id(student_id)
         participation.set_validation_id(validation_id)
-        participation.set_participation_status(participation_status)
+        participation.set_status(status)
         participation.set_id(1)
 
         with ParticipationMapper() as mapper:
@@ -525,7 +525,7 @@ class ProjectAdministration (object):
         d = False
         p = self.get_all_participation()
         for i in p:
-            if i == [module_id, student_id, project_id, validation_id, participation_status]:
+            if i == [module_id, student_id, project_id, validation_id, status]:
                 d = True
 
             if d is False:

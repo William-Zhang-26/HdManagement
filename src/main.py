@@ -41,7 +41,7 @@ participation = api.inherit('Participation', bo, {
     'project_id': fields.Integer(attribute='_project_id', description='Die ID des zugehörigen Projektes'),
     'student_id': fields.Integer(attribute='_student_id', description='Die ID des zugehörigen Studenten'),
     'validation_id': fields.Integer(attribute='_validation_id', description='Die ID der zugehörigen Bewertung'),
-    'participation_status': fields.Boolean(attribute='_participation_status', description='Status der Teilnahme an einem Projekt')
+    'status': fields.String(attribute='_status', description='Bewertungsstand einer Teilnahme')
 })
 
 validation = api.inherit('Validation', bo, {
@@ -231,7 +231,7 @@ class ParticipationOperationen(Resource):
         proposal = Participation.from_dict(api.payload)
         if proposal is not None:
             c = adm.create_participation(proposal.get_module_id(), proposal.get_project_id(), proposal.get_student_id(),
-                                         proposal.get_validation_id(), proposal.get_participation_status())
+                                         proposal.get_validation_id(), proposal.get_status())
             return c, 200
         else:
             return '', 500
