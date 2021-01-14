@@ -33,6 +33,7 @@ class AdminProjectList extends Component {
         error: null,
         loadingInProgress: false,
         expandedProjectID: expandedID,
+        filterdProjects: []
     };
   }
 
@@ -79,10 +80,10 @@ class AdminProjectList extends Component {
   }
 
    /** 
-   * Handles onCustomerDeleted events from the CustomerListEntry component
+   
    */
   projectDeleted = project => {
-    const newProjectList = this.state.project.filter(projectFromState => projectFromState.getID() !== project.getID());
+    const newProjectList = this.state.projects.filter(projectFromState => projectFromState.getID() !== project.getID());
     this.setState({
       projects: newProjectList,
     });
