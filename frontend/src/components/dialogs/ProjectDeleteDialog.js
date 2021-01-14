@@ -51,11 +51,12 @@ class ProjectDeleteDialog extends Component {
 
   /** Renders the component */
   render() {
-    const { classes, project, show } = this.props;
+    const { classes, show, project } = this.props;
     const { deletingInProgress, deletingError } = this.state;
 
     return (
-      show ?
+      <div>
+      { show ?
         <Dialog open={show} onClose={this.handleClose}>
           <DialogTitle id='delete-dialog-title'>Löschen des Projektes
             <IconButton className={classes.closeButton} onClick={this.handleClose}>
@@ -79,7 +80,8 @@ class ProjectDeleteDialog extends Component {
             </Button> 
           </DialogActions>
         </Dialog>
-        : null
+      : null }
+      </div>
     );
   }
 }

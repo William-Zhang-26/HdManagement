@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, List, ListItem, Grid, Typography } from '@material-ui/core';
+import { withStyles, List, ListItem, Grid, Typography, Paper } from '@material-ui/core';
 import  ProjectAPI  from '../api/ProjectAPI';
 
 
@@ -50,11 +50,13 @@ class StudentReportIndividualTitle extends Component{
         { student ?
 
         <Grid className = {classes.root}>
+          <Paper>
             <List>
             <ListItem>Name: {student.getFirstName()} {student.getName()} </ListItem>
             <ListItem>Matrikelnummer: {student.getMatriculationNumber()} </ListItem>
             <ListItem>Studiengangskürzel: {student.getCourse()} </ListItem>  
             </List>
+          </Paper>
         </Grid>
 
         : <Typography>Klappt nicht</Typography>}
@@ -96,7 +98,9 @@ class StudentReportIndividualTitle extends Component{
 /** Component specific styles */
 const styles = theme => ({
     root: {
-      width: '100%',
+      width: '90%',
+      marginTop: theme.spacing(3),
+      marginLeft: theme.spacing(10),
     }
   });
   

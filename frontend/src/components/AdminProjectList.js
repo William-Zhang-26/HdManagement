@@ -7,6 +7,8 @@ import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import AdminProjectListEntry from './AdminProjectListEntry';
 import ValidationForm from './dialogs/ValidationForm';
+import ProjectDeleteDialog from './dialogs/ProjectDeleteDialog';
+import ProjectForm from './dialogs/ProjectForm';
 
 /**  
  * Hier wird die Liste aus Studentensicht angezeigt. Studenten sehen alle genehmigten Projekte
@@ -31,6 +33,7 @@ class AdminProjectList extends Component {
         error: null,
         loadingInProgress: false,
         expandedProjectID: expandedID,
+        filterdProjects: []
     };
   }
 
@@ -76,12 +79,22 @@ class AdminProjectList extends Component {
     this.getProjects();
   }
 
+   /** 
+   
+   */
+  projectDeleted = project => {
+    const newProjectList = this.state.projects.filter(projectFromState => projectFromState.getID() !== project.getID());
+    this.setState({
+      projects: newProjectList,
+    });
+  }
+
 
 
   /** Renders the component */
   render() {
     const { classes } = this.props;
-    const { projects, expandedProjectID, loadingInProgress, error } = this.state;
+    const { projects, expandedProjectID, loadingInProgress, error, showProjectDeleteDialog } = this.state;
 
     return (
       <div className={classes.root}>
@@ -90,7 +103,9 @@ class AdminProjectList extends Component {
           // Show the list of ProjectListEntry components
           // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
           projects.map(project => <AdminProjectListEntry key={project.getID()} project={project} 
-          show={this.props.show}  onExpandedStateChange={this.onExpandedStateChange}/>)
+          show={this.props.show}  
+          onExpandedStateChange={this.onExpandedStateChange}
+          onProjectDeleted={this.projectDeleted}/>)
         }
 
           <ListItem>
