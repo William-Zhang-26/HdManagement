@@ -247,8 +247,7 @@ class ParticipationOperationen(Resource):
         adm = ProjectAdministration()
         proposal = Participation.from_dict(api.payload)
         if proposal is not None:
-            c = adm.create_participation(proposal.get_module_id(), proposal.get_project_id(), proposal.get_student_id(),
-                                         proposal.get_validation_id(), proposal.get_status())
+            c = adm.create_participation(proposal.get_module_id(), proposal.get_project_id(), proposal.get_student_id())
             return c, 200
         else:
             return '', 500

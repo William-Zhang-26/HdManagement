@@ -277,7 +277,7 @@ if __name__ == "__main__":
 #insert
 if __name__ == "__main__":
    p = Participation()
-   p.set_module_id(12)
+   p.set_module_id(17)
    p.set_project_id(1)
    p.set_student_id(1)
    with ParticipationMapper() as mapper:

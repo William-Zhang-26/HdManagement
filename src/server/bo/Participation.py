@@ -10,7 +10,7 @@ class Participation(BusinessObject):
         self._project_id = None # Fremdschlüsselbeziehung zum Projekt.
         self._student_id = None # Fremdschlüsselbeziehung zum Studenten.
         self._validation_id = 1 # Fremdschlüsselbeziehung zur Bewertung.
-        self._status = ""
+        self._status = "angemeldet"
 
     def get_module_id(self):
         """Auslesen des Foreign Keys module_id"""
