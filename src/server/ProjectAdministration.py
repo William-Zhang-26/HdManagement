@@ -1,4 +1,3 @@
-from .bo.Automat import Automat
 from .bo.State import State
 from .bo.Module import Module
 from .bo.Participation import Participation
@@ -14,6 +13,10 @@ from .bo.Validation import Validation
 from .db.StateMapper import StateMapper
 from .db.ModuleMapper import ModuleMapper
 from .db.ParticipationMapper import ParticipationMapper
+from .db.ParticipationStudentMapper import ParticipationStudentMapper
+from .db.ParticipationValidationMapper import ParticipationValidationMapper
+from .db.ParticipationModuleMapper import ParticipationModuleMapper
+from .db.ParticipationProjectMapper import ParticipationProjectMapper
 from .db.ProjectMapper import ProjectMapper
 from .db.Project_typeMapper import Project_typeMapper
 from .db.RoleMapper import RoleMapper
@@ -99,7 +102,7 @@ class ProjectAdministration (object):
 
 # Participation
 
-    def create_participation(self, module_id, project_id, student_id, validation_id, status):
+    def create_participation(self, module_id, project_id, student_id, status):
 
         participation = Participation()
         participation.set_module_id(module_id)
@@ -144,7 +147,46 @@ class ProjectAdministration (object):
         with ParticipationMapper() as mapper:
             mapper.delete(participation)
 
-    # Status
+#ParticipationStudent
+
+    def get_all_participationstudent(self):
+        with ParticipationStudentMapper() as mapper:
+            return mapper.find_all()
+
+    def get_particpationstudent_by_key(self, id):
+        with ParticipationStudentMapper() as mapper:
+            return mapper.find_by_key(id)
+
+#ParticipationValidation
+
+    def get_all_participationvalidation(self):
+        with ParticipationValidationMapper() as mapper:
+            return mapper.find_all()
+
+    def get_participationvalidation_by_key(self, id):
+        with ParticipationValidationMapper() as mapper:
+            return mapper.find_by_key(id)
+
+#ParticipationModule
+
+    def get_all_participationmodule(self):
+        with ParticipationModuleMapper() as mapper:
+            return mapper.find_all()
+
+    def get_participationmodule_by_key(self, id):
+        with ParticipationModuleMapper() as mapper:
+            return mapper.find_by_key(id)
+
+#ParticipationProject
+
+    def get_all_participationproject(self):
+        with ParticipationProjectMapper() as mapper:
+            return mapper.find_all()
+
+    def get_participationproject_by_key(self, id):
+        with ParticipationProjectMapper() as mapper:
+            return mapper.find_by_key(id)
+# Status
 
     def create_state(self, name):
         """Einen Status anlegen"""
@@ -249,7 +291,7 @@ class ProjectAdministration (object):
             mapper.delete(project)
 
 
-    # Project/Teilnahme-spezifische Methoden
+# Project/Teilnahme-spezifische Methoden
 
     def get_participation_of_project(self, participation):
         """Die Teilnahme des gegebenen Projektes auslesen."""
@@ -520,7 +562,7 @@ class ProjectAdministration (object):
             return result
 
 #Add
-    def add_member_to_project(self, module_id, project_id, student_id, validation_id, participation_status):
+    def add_member_to_project(self, module_id, project_id, student_id, validation_id, status):
 
         d = False
         p = self.get_all_participation()
@@ -529,11 +571,11 @@ class ProjectAdministration (object):
                 d = True
 
             if d is False:
-                self.create_participation(module_id, project_id, student_id, validation_id, participation_status)
+                self.create_participation(module_id, project_id, student_id, validation_id, status)
 
-    def remove_member_from_project(self, module_id, project_id, student_id, validation_id, participation_status):
+    def remove_member_from_project(self, module_id, project_id, student_id, validation_id, status):
 
         l = self.get_all_participation()
         for i in l:
-            if i == [module_id, project_id, student_id, validation_id, participation_status]:
+            if i == [module_id, project_id, student_id, validation_id, status]:
                 self.delete_participation(l)

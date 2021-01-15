@@ -3,6 +3,7 @@ from src.server.bo.Validation import Validation
 from src.server.db.Mapper import Mapper
 
 class ParticipationValidationMapper (Mapper):
+
     def __init__(self):
         super().__init__()
 
@@ -88,5 +89,5 @@ if __name__ == "__main__":
 """
 if __name__ == "__main__":
     with ParticipationValidationMapper() as mapper:
-        u = mapper.find_by_key(1).get_grade()
+        u = mapper.find_by_key(2).get_grade()
         print(u)

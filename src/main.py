@@ -30,9 +30,13 @@ bo = api.model('BusinessObject', {
     'id': fields.Integer(attribute='_id', description='Der Unique Identifier eines Business Object'),
     'create_time': fields.Date(attribute='_create_time', description='Erstellungszeitpunkt eines Business Objects')
 })
-test = api.model('test', {
-    'name': fields.String(attribute='_name', description='Der Name von eines Users'),
-    'firstname': fields.String(attribute='_firstname', description='Der Vorname eines Users')
+ps = api.model('ps', {
+    'name': fields.String(attribute='_name', description='Der Name von eines Studenten'),
+    'firstname': fields.String(attribute='_firstname', description='Der Vorname eines Studenten')
+})
+
+pv = api.model('pv', {
+    'grade': fields.Float(attribute='_grade', description='Bewertung eines Projektes')
 })
 
 """Participation, Validation und NamedBusinessObject sind BusinessObjects..."""
@@ -111,26 +115,26 @@ state = api.inherit('State', nbo, {
 })
 
 
-@api.route('/hello')
-class HelloWorld(Resource):
-    def get(self):
-        return jsonify({'hello': 'world'})
+#@api.route('/hello')
+#class HelloWorld(Resource):
+#    def get(self):
+#        return jsonify({'hello': 'world'})
 
 """State"""
-@projectmanager.route("/state")
-@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-class StateOperations(Resource):
-    @projectmanager.marshal_with(state, code=200)
-    @projectmanager.expect(state)
-    def post(self):
-        """Zustand erstellen"""
-        adm = ProjectAdministration()
-        proposal = State.from_dict(api.payload)
-        if proposal is not None:
-            c = adm.create_state(proposal.get_name())
-            return c, 200
-        else:
-            return '', 500
+#@projectmanager.route("/state")
+#@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+#class StateOperations(Resource):
+#    @projectmanager.marshal_with(state, code=200)
+#    @projectmanager.expect(state)
+#    def post(self):
+#        """Zustand erstellen"""
+#        adm = ProjectAdministration()
+#        proposal = State.from_dict(api.payload)
+#        if proposal is not None:
+#            c = adm.create_state(proposal.get_name())
+#            return c, 200
+#        else:
+#            return '', 500
 
 @projectmanager.route("/state/<int:id>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -143,29 +147,29 @@ class StateOperations(Resource):
         state = adm.get_state_by_id(id)
         return state
 
-    def delete(self, id):
-        """Löschen eines Zustandes aus der DB"""
-        adm = ProjectAdministration()
-        state = adm.get_state_by_id(id)
-        if state is None:
-            return 'Zustand konnte nicht aus der DB gelöscht werden', 500
-        else:
-            adm.delete_state(state)
-            return 'Zustand wurde erfolgreich aus der DB gelöscht', 200
+#    def delete(self, id):
+#        """Löschen eines Zustandes aus der DB"""
+#        adm = ProjectAdministration()
+#        state = adm.get_state_by_id(id)
+#        if state is None:
+#            return 'Zustand konnte nicht aus der DB gelöscht werden', 500
+#        else:
+#            adm.delete_state(state)
+#            return 'Zustand wurde erfolgreich aus der DB gelöscht', 200
 
-    @projectmanager.expect(state)
-    def put(self, id):
-        """Zustand wird aktualisiert"""
-        adm = ProjectAdministration()
-        state = State.from_dict(api.payload)
+#    @projectmanager.expect(state)
+#    def put(self, id):
+#        """Zustand wird aktualisiert"""
+#        adm = ProjectAdministration()
+#        state = State.from_dict(api.payload)
 
-        if state is None:
-            return "Zustand konnte nicht geändert werden", 500
+#        if state is None:
+#            return "Zustand konnte nicht geändert werden", 500
 
-        else:
-            state.set_id(id)
-            adm.save_state(state)
-            return "Zustand wurde erfolgreich geändert", 200
+#        else:
+#            state.set_id(id)
+#            adm.save_state(state)
+#            return "Zustand wurde erfolgreich geändert", 200
 
 """Module"""
 @projectmanager.route("/module")
@@ -271,6 +275,40 @@ class ParticipationOperationen(Resource):
             participation.set_id(id)
             adm.save_participation(participation)
             return "Teilnahme wurde erfolgreich geändert", 200
+
+"""PS Methoden"""
+@projectmanager.route("/participationstudent/<int:id>")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@projectmanager.param('id', 'Die ID des Participation-Objekts')
+class PSOperations(Resource):
+    @projectmanager.marshal_with(ps)
+    def get(self, id):
+        """Auslesen einer Particpation mit Studenten Daten"""
+        adm = ProjectAdministration()
+        ps = adm.get_particpationstudent_by_key(id)
+        return ps
+
+"""PV Methoden"""
+@projectmanager.route("/participationvalidation/<int:id>")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@projectmanager.param('id', 'Die ID des Participation-Objekts')
+class PVOperations(Resource):
+    @projectmanager.marshal_with(pv)
+    def get(self, id):
+        """Auslesen einer Particpation mit Validation Daten"""
+        adm = ProjectAdministration()
+        pv = adm.get_participationvalidation_by_key(id)
+        return pv
+
+@projectmanager.route("/participationvalidation/")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class PVOPerations(Resource):
+    @projectmanager.marshal_with(pv)
+    def get(self):
+        """Auslesen aller Particpation mit Validation Daten"""
+        adm = ProjectAdministration()
+        pv1 = adm.get_all_participationvalidation()
+        return pv1
 
 """Project"""
 @projectmanager.route('/project')
@@ -453,19 +491,19 @@ class Project_typeOperations(Resource):
             return "Projekt Typ wurde erfolgreich geändert", 200
 
 """Role"""
-@projectmanager.route("/role")
-class RoleOperations(Resource):
-    @projectmanager.marshal_with(role, code=200)
-    @projectmanager.expect(role)
-    def post(self):
-        """Rolle erstellen"""
-        adm = ProjectAdministration()
-        r = Role.from_dict(api.payload)
-        if r is not None:
-            c = adm.create_role(r.get_name())
-            return c, 200
-        else:
-            return '', 500
+#@projectmanager.route("/role")
+#class RoleOperations(Resource):
+#    @projectmanager.marshal_with(role, code=200)
+#    @projectmanager.expect(role)
+#    def post(self):
+#        """Rolle erstellen"""
+#       adm = ProjectAdministration()
+#        r = Role.from_dict(api.payload)
+#        if r is not None:
+#            c = adm.create_role(r.get_name())
+#            return c, 200
+#        else:
+#            return '', 500
 
 @projectmanager.route("/role/<int:id>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -478,29 +516,29 @@ class RoleOperations(Resource):
         role = adm.get_role_by_id(id)
         return role
 
-    def delete(self, id):
-        """Löschen einer Rolle aus der DB"""
-        adm = ProjectAdministration()
-        role = adm.get_role_by_id(id)
-        if role is None:
-            return 'Rolle konnte nicht aus der DB gelöscht werden', 500
-        else:
-            adm.delete_role(role)
-            return 'Rolle wurde erfolgreich aus der DB gelöscht', 200
+#    def delete(self, id):
+#        """Löschen einer Rolle aus der DB"""
+#        adm = ProjectAdministration()
+#        role = adm.get_role_by_id(id)
+#        if role is None:
+#            return 'Rolle konnte nicht aus der DB gelöscht werden', 500
+#        else:
+#            adm.delete_role(role)
+#            return 'Rolle wurde erfolgreich aus der DB gelöscht', 200
 
-    @projectmanager.expect(role)
-    def put(self, id):
-        """Rolle wird aktualisiert"""
-        adm = ProjectAdministration()
-        role = Role.from_dict(api.payload)
+#    @projectmanager.expect(role)
+#    def put(self, id):
+#        """Rolle wird aktualisiert"""
+#        adm = ProjectAdministration()
+#        role = Role.from_dict(api.payload)
 
-        if role is None:
-            return "Rolle konnte nicht geändert werden", 500
+#        if role is None:
+#            return "Rolle konnte nicht geändert werden", 500
 
-        else:
-            role.set_id(id)
-            adm.save_role(role)
-            return "Rolle wurde erfolgreich geändert", 200
+#        else:
+#            role.set_id(id)
+#            adm.save_role(role)
+#            return "Rolle wurde erfolgreich geändert", 200
 
 """Semester"""
 @projectmanager.route("/semester")
@@ -581,15 +619,15 @@ class StudentOperations(Resource):
         student = adm.get_student_by_id(id)
         return student
 
-    def delete(self,id):
-        """Löschen eines Studenten aus der DB"""
-        adm = ProjectAdministration()
-        student = adm.get_student_by_id(id)
-        if student is None:
-            return 'Student konnte nicht aus der DB gelöscht werden', 500
-        else:
-            adm.delete_student(student)
-            return 'Student wurde erfolgreich aus der DB gelöscht', 200
+#    def delete(self,id):
+#        """Löschen eines Studenten aus der DB"""
+#        adm = ProjectAdministration()
+#        student = adm.get_student_by_id(id)
+#        if student is None:
+#            return 'Student konnte nicht aus der DB gelöscht werden', 500
+#        else:
+#            adm.delete_student(student)
+#            return 'Student wurde erfolgreich aus der DB gelöscht', 200
 
     @projectmanager.expect(student)
     def put(self, id):
@@ -676,15 +714,15 @@ class UserOperations(Resource):
         user = adm.get_user_by_id(id)
         return user
 
-    def delete(self,id):
-        """Löschen eines Users aus der DB"""
-        adm = ProjectAdministration()
-        user = adm.get_user_by_id(id)
-        if user is None:
-            return 'User konnte nicht aus der DB gelöscht werden', 500
-        else:
-            adm.delete_user(user)
-            return 'User wurde erfolgreich aus der DB gelöscht', 200
+#    def delete(self,id):
+#        """Löschen eines Users aus der DB"""
+#        adm = ProjectAdministration()
+#        user = adm.get_user_by_id(id)
+#        if user is None:
+#            return 'User konnte nicht aus der DB gelöscht werden', 500
+#        else:
+#            adm.delete_user(user)
+#            return 'User wurde erfolgreich aus der DB gelöscht', 200
 
     @projectmanager.expect(user)
     def put(self, id):
@@ -700,36 +738,36 @@ class UserOperations(Resource):
             adm.save_user(user)
             return "User wurde erfolgreich geändert", 200
 
-@projectmanager.route("/user/<int:id>/role")
-@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@projectmanager.param('id', 'Die ID des User-Objekts')
-class RoleUserOperations(Resource):
-    @projectmanager.marshal_with(role)
-    def get(self, id):
-        """Versuch 1"""
-        adm = ProjectAdministration()
-        rol = adm.get_user_by_id(id)
+#@projectmanager.route("/user/<int:id>/role")
+#@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+#@projectmanager.param('id', 'Die ID des User-Objekts')
+#class RoleUserOperations(Resource):
+#    @projectmanager.marshal_with(role)
+#    def get(self, id):
+#        """Versuch 1"""
+#        adm = ProjectAdministration()
+#        rol = adm.get_user_by_id(id)
+#
+#        if rol is not None:
+#            role = adm.get_role_by_name(rol)
+#            return role
+#        else:
+#           return "Role not found", 500
 
-        if rol is not None:
-            role = adm.get_role_by_name(rol)
-            return role
-        else:
-            return "Role not found", 500
-
-@projectmanager.route("/user/<int:id>/roles")
-@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@projectmanager.param('id', 'Die ID des Rollen-Objekts')
-class RoleRelatedUserOperations(Resource):
-    @projectmanager.marshal_with(test)
-    def get(self, id):
-        """Versuch 2"""
-        adm = ProjectAdministration()
-        ro = adm.get_user_by_id(id)
-        if ro is not None:
-            role_list = adm.get_user_by_role_id(ro)
-            return role_list
-        else:
-            return '', 500
+#@projectmanager.route("/user/<int:id>/roles")
+#@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+#@projectmanager.param('id', 'Die ID des Rollen-Objekts')
+#class RoleRelatedUserOperations(Resource):
+#    @projectmanager.marshal_with(test)
+#    def get(self, id):
+#        """Versuch 2"""
+#        adm = ProjectAdministration()
+#        ro = adm.get_user_by_id(id)
+#        if ro is not None:
+#            role_list = adm.get_user_by_role_id(ro)
+#            return role_list
+#        else:
+#            return '', 500
 
 """Validation"""
 @projectmanager.route("/validation")
