@@ -39,6 +39,13 @@ pv = api.model('pv', {
     'grade': fields.Float(attribute='_grade', description='Bewertung eines Projektes')
 })
 
+"""Project, State"""
+project_state = api.model('project_state', {
+    'name': fields.String(attribute='_name', description='Der Name eines Zustandes'),
+
+})
+
+
 """Participation, Validation und NamedBusinessObject sind BusinessObjects..."""
 participation = api.inherit('Participation', bo, {
     'module_id': fields.Integer(attribute='_module_id', description='Die ID des zugehörigen Moduls'),
@@ -414,6 +421,18 @@ class ProjectRelatedProject_typeOperations(Resource):
             return project_liste
         else:
             return "", 500
+
+"Project& State"
+@projectmanager.route("/project_state/<int:id>")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@projectmanager.param('id', 'Die ID des Projekt-Objekts')
+class ProjectStateOperations(Resource):
+    @projectmanager.marshal_with(project_state)
+    def get(self, id):
+        """Auslesen eines Projektes mit den Daten von State aus der DB"""
+        adm = ProjectAdministration()
+        project = adm.get_project_state_by_key(id)
+        return project
 
 
 "Projec&Participation"

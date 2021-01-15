@@ -18,6 +18,7 @@ from .db.ParticipationValidationMapper import ParticipationValidationMapper
 from .db.ParticipationModuleMapper import ParticipationModuleMapper
 from .db.ParticipationProjectMapper import ParticipationProjectMapper
 from .db.ProjectMapper import ProjectMapper
+from .db.ProjectStateMapper import ProjectStateMapper
 from .db.Project_typeMapper import Project_typeMapper
 from .db.RoleMapper import RoleMapper
 from .db.SemesterMapper import SemesterMapper
@@ -289,6 +290,18 @@ class ProjectAdministration (object):
     def delete_project(self, project):
         with ProjectMapper() as mapper:
             mapper.delete(project)
+
+# Project/State-spezifische Methoden
+
+    def get_all_project_state(self):
+        with ProjectStateMapper() as mapper:
+            return mapper.find_all()
+
+    def get_project_state_by_key(self, id):
+        with ProjectStateMapper() as mapper:
+            return mapper.find_by_key(id)
+
+
 
 
 # Project/Teilnahme-spezifische Methoden
