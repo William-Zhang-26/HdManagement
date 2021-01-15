@@ -103,14 +103,12 @@ class ProjectAdministration (object):
 
 # Participation
 
-    def create_participation(self, module_id, project_id, student_id, status):
+    def create_participation(self, module_id, project_id, student_id):
 
         participation = Participation()
         participation.set_module_id(module_id)
         participation.set_project_id(project_id)
         participation.set_student_id(student_id)
-        participation.set_validation_id(1)
-        participation.set_status(status)
         participation.set_id(1)
 
         with ParticipationMapper() as mapper:

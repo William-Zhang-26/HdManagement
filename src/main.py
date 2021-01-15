@@ -32,11 +32,17 @@ bo = api.model('BusinessObject', {
 })
 ps = api.model('ps', {
     'name': fields.String(attribute='_name', description='Der Name von eines Studenten'),
-    'firstname': fields.String(attribute='_firstname', description='Der Vorname eines Studenten')
+    'firstname': fields.String(attribute='_firstname', description='Der Vorname eines Studenten'),
+    'matriculation_number': fields.Integer(attribute='_matriculation_number', description='Die Matrikelnummer des Studenten')
 })
 
 pv = api.model('pv', {
     'grade': fields.Float(attribute='_grade', description='Bewertung eines Projektes')
+})
+
+part = api.model('part', {
+    'project_description': fields.String(attribute='_project_description',
+                                         description='Die Beschreibung des Projektes'),
 })
 
 """Project, State"""
@@ -241,8 +247,7 @@ class ParticipationOperationen(Resource):
         adm = ProjectAdministration()
         proposal = Participation.from_dict(api.payload)
         if proposal is not None:
-            c = adm.create_participation(proposal.get_module_id(), proposal.get_project_id(), proposal.get_student_id(),
-                                         proposal.get_validation_id(), proposal.get_status())
+            c = adm.create_participation(proposal.get_module_id(), proposal.get_project_id(), proposal.get_student_id())
             return c, 200
         else:
             return '', 500
@@ -307,15 +312,39 @@ class PVOperations(Resource):
         pv = adm.get_participationvalidation_by_key(id)
         return pv
 
-@projectmanager.route("/participationvalidation/")
+#@projectmanager.route("/participationvalidation/")
+#@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+#class PVOPerations(Resource):
+#    @projectmanager.marshal_with(pv)
+#    def get(self):
+#        """Auslesen aller Particpation mit Validation Daten"""
+#        adm = ProjectAdministration()
+#        pv1 = adm.get_all_participationvalidation()
+#        return pv1
+
+"""ParticipationProject Methoden"""
+@projectmanager.route("/participationproject/<int:id>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-class PVOPerations(Resource):
-    @projectmanager.marshal_with(pv)
-    def get(self):
-        """Auslesen aller Particpation mit Validation Daten"""
+@projectmanager.param('id', 'Die ID des Participation-Objekts')
+class PartStudentOperations(Resource):
+    @projectmanager.marshal_with(part)
+    def get(self, id):
+        """Auslesen einer Particpation mit Projekt Daten"""
         adm = ProjectAdministration()
-        pv1 = adm.get_all_participationvalidation()
-        return pv1
+        part = adm.get_participationproject_by_key(id)
+        return part
+
+"""ParticipationModule Methoden"""
+@projectmanager.route("/participationmodule/<int:id>")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@projectmanager.param('id', 'Die ID des Participation-Objekts')
+class PMOperations(Resource):
+    @projectmanager.marshal_with(module)
+    def get(self, id):
+        """Auslesen einer Particpation mit Module Daten"""
+        adm = ProjectAdministration()
+        pm = adm.get_participationmodule_by_key(id)
+        return pm
 
 """Project"""
 @projectmanager.route('/project')
