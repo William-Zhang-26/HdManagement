@@ -19,6 +19,7 @@ from .db.ParticipationModuleMapper import ParticipationModuleMapper
 from .db.ParticipationProjectMapper import ParticipationProjectMapper
 from .db.ProjectMapper import ProjectMapper
 from .db.ProjectStateMapper import ProjectStateMapper
+from .db.ProjectUserMapper import ProjectUserMapper
 from .db.Project_typeMapper import Project_typeMapper
 from .db.RoleMapper import RoleMapper
 from .db.SemesterMapper import SemesterMapper
@@ -299,8 +300,15 @@ class ProjectAdministration (object):
         with ProjectStateMapper() as mapper:
             return mapper.find_by_key(id)
 
+# Project/User- spezifische Methoden
 
+    def get_all_project_user(self):
+        with ProjectUserMapper() as mapper:
+            return mapper.find_all()
 
+    def get_project_user_by_key(self, id):
+        with ProjectUserMapper() as mapper:
+            return mapper.find_by_key(id)
 
 # Project/Teilnahme-spezifische Methoden
 
