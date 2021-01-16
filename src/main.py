@@ -459,7 +459,7 @@ class ProjectRelatedProject_typeOperations(Resource):
             return "", 500
 
 "Project& State"
-@projectmanager.route("/project_state/<int:id>")
+@projectmanager.route("/project/<int:id>/state")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @projectmanager.param('id', 'Die ID des Projekt-Objekts')
 class ProjectStateOperations(Resource):

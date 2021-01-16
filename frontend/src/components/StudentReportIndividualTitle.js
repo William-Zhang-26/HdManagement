@@ -3,25 +3,26 @@ import PropTypes from 'prop-types';
 import { withStyles, List, ListItem, Grid, Typography, Paper } from '@material-ui/core';
 import  ProjectAPI  from '../api/ProjectAPI';
 
-
 class StudentReportIndividualTitle extends Component{
 
   constructor(props) {
       super(props);
+      var today = new Date(),
+      date = today.getDate() + '.' + (today.getMonth() + 1) + '.' + today.getFullYear();
 
       this.state = {
           student: null,
           //studentId: this.props.match.params.studentid,
           studentId: this.props.studentId,
+          currentDate: date
 
       };
   }
 
-
+    
 
   componentDidMount() {
     this.getStudent();
-    console.log('miau')
   }
 
   getStudent = () => {
@@ -33,17 +34,16 @@ class StudentReportIndividualTitle extends Component{
           console.log("hello");
   }
 
-
-
-
+  
 
 
   render() {
     const { classes } = this.props;
     const student = this.state.student;
 
-    console.log("hello again");
-    console.log(this.state);
+    //console.log(this.state);
+
+
     return (
         <div> 
         
@@ -54,7 +54,15 @@ class StudentReportIndividualTitle extends Component{
             <List>
             <ListItem>Name: {student.getFirstName()} {student.getName()} </ListItem>
             <ListItem>Matrikelnummer: {student.getMatriculationNumber()} </ListItem>
-            <ListItem>Studiengangskürzel: {student.getCourse()} </ListItem>  
+            <Grid container spacing={1}> 
+                <Grid item>
+                  <ListItem>Studiengangskürzel: {student.getCourse()} </ListItem>  
+                </Grid>
+                <Grid item xs = {8} />
+                <Grid item>
+                  <ListItem>Datum: { this.state.currentDate }</ListItem>  
+                </Grid>
+            </Grid>
             </List>
           </Paper>
         </Grid>

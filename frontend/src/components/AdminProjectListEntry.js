@@ -11,6 +11,7 @@ import { ButtonGroup } from '@material-ui/core';
 import ProjectDeleteDialog from './dialogs/ProjectDeleteDialog';
 import DeleteIcon from '@material-ui/icons/Delete';
 import red from '@material-ui/core/colors/red';
+import  ProjectAPI  from '../api/ProjectAPI';
 
 /** Fehlende Inhalte:
  *  
@@ -32,6 +33,7 @@ class AdminProjectListEntry extends Component {
       this.state = {
         project: props.project,
         showProjectDeleteDialog: false,
+        state: null,
         //showApproveValidationForm: false,
         //showRejectValidationForm: false,
         
@@ -112,16 +114,32 @@ class AdminProjectListEntry extends Component {
   }
 
 
+  getProjectStateName = () => {
+    ProjectAPI.getAPI().getStateByName(this.state.project.getID())   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
+    //ProjectAPI.getAPI().getStudentById()
+        .then (projectBO => {
+            this.setState({ state: projectBO });
+        })
+        console.log("hello");
+  }
+
+  
+  componentDidMount() {
+    this.getProjectStateName();
+  }
+
 
   /** Renders the component */
   render() {
     const { classes, expandedState } = this.props;
     // Use the states project
-    const { project, showProjectDeleteDialog } = this.state;
+    const { project, state, showProjectDeleteDialog } = this.state;
 
     // console.log(this.state);
     return (
       <div>
+      { state ?
+
       <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -142,7 +160,7 @@ class AdminProjectListEntry extends Component {
               </Grid>
               <Grid item xs />
               <Grid item>
-                <Typography variant='body2' color={'textSecondary'}>State</Typography> {/**Ergänzend steht hier die aktuelle Condition des Projektes */}
+                <Typography variant='body2' color={'textSecondary'}>{state.getName()}</Typography> {/**Ergänzend steht hier die aktuelle Condition des Projektes */}
               </Grid>
             </Grid>
           </AccordionSummary>
@@ -168,11 +186,12 @@ class AdminProjectListEntry extends Component {
           </List>
           </AccordionDetails>
         </Accordion>
+        : null }
         <ProjectDeleteDialog show={showProjectDeleteDialog} project={project} onClose={this.deleteProjectDialogClosed} />
         {/**<ApproveValidationForm show={showApproveValidationForm} project={project} onClose={this.ApproveValidationFormClosed} />
         <RejectValidationForm show={showRejectValidationForm} project={project} onClose={this.RejectValidationFormClosed} /> 
         <StudentProjectSignOut show={showRejectProject} project={project} onClose={this.StudentProjectSignOutClosed} /> 
-        <CustomerDeleteDialog show={showCustomerDeleteDialog} customer={customer} onClose={this.deleteCustomerDialogClosed} />   Admin Funktionen*/} 
+        <CustomerDeleteDialog show={showCustomerDeleteDialog} customer={customer} onClose={this.deleteCustomerDialogClosed} />   Admin Funktionen*/}
       </div>
     );
   }
@@ -194,6 +213,7 @@ AdminProjectListEntry.propTypes = {
     /** @ignore */
     classes: PropTypes.object.isRequired,
     project: PropTypes.object.isRequired,
+    state: PropTypes.object.isRequired,
     expandedState: PropTypes.bool.isRequired,
     onExpandedStateChange: PropTypes.func.isRequired,
     onProjectDeleted: PropTypes.func.isRequired

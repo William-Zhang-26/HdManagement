@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
 import { List, ListItem } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import  ProjectAPI  from '../api/ProjectAPI';
 
 /** Fehlende Inhalte:
  *  
@@ -23,7 +24,8 @@ class LecturerProjectListEntry extends Component {
   
       // Init the state
       this.state = {
-        project: props.project
+        project: props.project,
+        state: null,
       };
     }
 
@@ -32,15 +34,32 @@ class LecturerProjectListEntry extends Component {
     this.props.onExpandedStateChange(this.props.project);
   }
 
+
+  getProjectStateName = () => {
+    ProjectAPI.getAPI().getStateByName(this.state.project.getID())   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
+    //ProjectAPI.getAPI().getStudentById()
+        .then (projectBO => {
+            this.setState({ state: projectBO });
+        })
+        console.log("hello");
+  }
+
+  
+  componentDidMount() {
+    this.getProjectStateName();
+  }
+
+
   /** Renders the component */
   render() {
     const { classes, expandedState } = this.props;
     // Use the states project
-    const { project } = this.state;
+    const { project, state } = this.state;
 
     // console.log(this.state);
     return (
       <div>
+      { state ?
       <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -53,7 +72,7 @@ class LecturerProjectListEntry extends Component {
               </Grid>
               <Grid item xs />
               <Grid item>
-                <Typography variant='body2' color={'textSecondary'}>State</Typography> {/**Ergänzend steht hier die aktuelle Condition des Projektes */}
+                <Typography variant='body2' color={'textSecondary'}>{state.getName()}</Typography> {/**Ergänzend steht hier die aktuelle Condition des Projektes */}
               </Grid>
             </Grid>
           </AccordionSummary>
@@ -71,7 +90,7 @@ class LecturerProjectListEntry extends Component {
           </List>
           </AccordionDetails>
         </Accordion>
-
+      : null }
       </div>
     );
   }
@@ -91,6 +110,7 @@ LecturerProjectListEntry.propTypes = {
     /** @ignore */
     classes: PropTypes.object.isRequired,
     project: PropTypes.object.isRequired,
+    state: PropTypes.object.isRequired,
     expandedState: PropTypes.bool.isRequired,
     onExpandedStateChange: PropTypes.func.isRequired
     }

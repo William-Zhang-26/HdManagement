@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles, List, ListItem, Button } from '@material-ui/core';
 //import AddIcon from '@material-ui/icons/Add';
 import { withRouter } from 'react-router-dom';
-import  ProjectAPI  from '../api/ProjectAPI';
+import ProjectAPI  from '../api/ProjectAPI';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import StudentProjectListEntry from './StudentProjectListEntry';
@@ -76,7 +76,6 @@ class StudentProjectList extends Component {
   componentDidMount() {
     this.getProjects();
   }
-
 
 
   /** Renders the component */

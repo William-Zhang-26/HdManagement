@@ -28,6 +28,8 @@ export default class ProjectAPI {
     #deleteStudentURL = (id) => `${this.#projectServerBaseURL}/students/${id}`;
     #addStudentsForProjectURL = (id) => `${this.#projectServerBaseURL}/project/${id}/student`;
 
+    //State related
+    #getStateByNameURL = (id) => `${this.#projectServerBaseURL}/project/${id}/state`;
 
 
     static getAPI() {
@@ -166,5 +168,25 @@ export default class ProjectAPI {
         })
         })
     } 
-   
+
+
+    //State related
+    /*getStateByName() {
+      return this.#fetchAdvanced(this.#getStateByNameURL()).then((responseJSON) => {
+          let projectBOs = ProjectBO.fromJSON(responseJSON);
+          //console.info(projectBOs);
+          return new Promise(function (resolve) {
+              resolve(projectBOs);
+          })
+      })
+  }*/
+
+  getStateByName(project) { 
+    return this.#fetchAdvanced(this.#getStateByNameURL(project)).then((responseJSON) => {
+      let responseProjectBO = ProjectBO.fromJSON(responseJSON)[0];
+      return new Promise(function (resolve) {
+        resolve(responseProjectBO);
+      })
+    })
+  }
 }

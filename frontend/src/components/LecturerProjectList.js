@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles, List, ListItem, Button } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { withRouter } from 'react-router-dom';
-import  ProjectAPI  from '../api/ProjectAPI';
+import ProjectAPI  from '../api/ProjectAPI';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import LecturerProjectListEntry from './LecturerProjectListEntry';
@@ -61,6 +61,7 @@ class LecturerProjectList extends Component {
             error: e
           })
         );
+      
 
     // set loading to true
     this.setState({
@@ -69,10 +70,32 @@ class LecturerProjectList extends Component {
     });
   }
 
+  /*getProjectStateName = () => {
+    ProjectAPI.getAPI().getStateByName()
+      .then(projectBOs =>
+        this.setState({              
+          projects: projectBOs,
+          loadingInProgress: false,   
+          error: null
+        })).catch(e =>
+          this.setState({            
+            projects: [],
+            loadingInProgress: false, 
+            error: e
+          })
+        );
+      }*/
+    
+  
+
+
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
     this.getProjects();
   }
+
+  
+
 
 
   /** Handles the onClick event of the add project button */
@@ -117,7 +140,7 @@ class LecturerProjectList extends Component {
         { 
           // Show the list of ProjectListEntry components
           // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
-          projects.map(project => <LecturerProjectListEntry key={project.getID()} project={project} 
+          projects.map(project => <LecturerProjectListEntry key={project.getID()} project={project}
           show={this.props.show}  onExpandedStateChange={this.onExpandedStateChange}/>)
         }
 

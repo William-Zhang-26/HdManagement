@@ -19,12 +19,12 @@ export default class ProjectBO extends NamedBusinessObject {
     static s_reviewed = "Bewertung abgeschlossen"*/
 
     //Konstruktorklasse, welche ein Projekttypen BO erstellt mit den abgebildeten Attributen
-    constructor(aLecturerID, aProjectTypeID, aStateID, aCapacity, aPartners, aProjectDescription, aWeekly, aBDaysPreSchedule,
+    constructor(aUserID, aProjectTypeID, aStateID, aCapacity, aPartners, aProjectDescription, aWeekly, aBDaysPreSchedule,
         aBDaysFinale, aBDaysSaturdays, aPreferredBDays, aRoomPreference, aPreferredRoom, 
         aProjectCategory, aAdditionalSupervisor) {
 
         super();
-        this.lecturer_id = aLecturerID;
+        this.user_id = aUserID;
         this.project_type_id = aProjectTypeID;
         this.state_id = aStateID;
         this.capacity = aCapacity;
@@ -113,12 +113,12 @@ export default class ProjectBO extends NamedBusinessObject {
     }*/
 
     //AutomatID
-    getLecturerID() {
-        return this.lecturer_id;
+    getUserID() {
+        return this.user_id;
     }
 
-    setLecturerID(aLecturerID) {
-        this.lecturer_id = aLecturerID;
+    setUserID(aUserID) {
+        this.user_id = aUserID;
     }
 
 

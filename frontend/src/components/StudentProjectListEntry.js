@@ -102,11 +102,6 @@ class StudentProjectListEntry extends Component {
                 <Typography variant='body1' className={classes.heading}>{project.getName()} {/** Angabe des Dozenten (UserBO?)*/}
                 </Typography>
               </Grid>
-              <Grid item xs />
-              <Grid item>
-                <Typography variant='body2' color={'textSecondary'}> {project.getStateID()} {/**Ergänzend steht hier die aktuelle Condition des Projektes */}
-                </Typography>
-              </Grid>
             </Grid>
           </AccordionSummary>
           <AccordionDetails>
