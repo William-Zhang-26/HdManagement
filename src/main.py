@@ -42,12 +42,19 @@ pv = api.model('pv', {
 
 part = api.model('part', {
     'project_description': fields.String(attribute='_project_description',
-                                         description='Die Beschreibung des Projektes'),
+                                         description='Die Beschreibung des Projektes')
 })
 
 """Project, State"""
 project_state = api.model('project_state', {
-    'name': fields.String(attribute='_name', description='Der Name eines Zustandes'),
+    'name': fields.String(attribute='_name', description='Der Name eines Zustandes')
+
+})
+
+"""Project, User"""
+project_user = api.model('project_user', {
+    'name': fields.String(attribute='_name', description='Der Name des Dozenten'),
+    'firstname': fields.String(attribute='_firstname', description='Der Vorname des Dozenten')
 
 })
 
@@ -463,6 +470,17 @@ class ProjectStateOperations(Resource):
         project = adm.get_project_state_by_key(id)
         return project
 
+"Project& User"
+@projectmanager.route("/project_user/<int:id>")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@projectmanager.param('id', 'Die ID des Projekt-Objekts')
+class ProjectUserOperations(Resource):
+    @projectmanager.marshal_with(project_user)
+    def get(self, id):
+        """Auslesen eines Projektes mit den Daten von User aus der DB"""
+        adm = ProjectAdministration()
+        project = adm.get_project_user_by_key(id)
+        return project
 
 "Projec&Participation"
 
