@@ -230,13 +230,13 @@ class ProjectAdministration (object):
 
 # Project
 
-    def create_project(self, name, lecturer_id, project_type_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+    def create_project(self, name, user_id, project_type_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
              b_days_finale, b_days_saturdays, preferred_b_days, additional_lecturer,
              weekly):
 
         project = Project()
         project.set_name(name)
-        project.set_lecturer_id(lecturer_id)
+        project.set_user_id(user_id)
         project.set_project_type_id(project_type_id)
         project.set_project_description(project_description)
         project.set_partners(partners)
@@ -261,9 +261,9 @@ class ProjectAdministration (object):
         with ProjectMapper() as mapper:
             return mapper.find_by_key(id)
 
-    def get_project_by_lecturer_id(self, user):
+    def get_project_by_user_id(self, user):
         with ProjectMapper() as mapper:
-            return mapper.find_by_lecturer_id(user.get_id())
+            return mapper.find_by_user_id(user.get_id())
 
     def get_project_by_project_type_id(self, project_type):
         with ProjectMapper() as mapper:

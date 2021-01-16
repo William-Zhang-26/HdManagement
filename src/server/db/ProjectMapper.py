@@ -22,13 +22,13 @@ class ProjectMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, lecturer_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+        for (id, name, user_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
              b_days_finale, b_days_saturdays, preferred_b_days, additional_lecturer,
              weekly, create_time) in tuples:
             project = Project()
             project.set_id(id)
             project.set_name(name)
-            project.set_lecturer_id(lecturer_id)
+            project.set_user_id(user_id)
             project.set_project_type_id(project_type_id)
             project.set_state_id(state_id)
             project.set_project_description(project_description)
@@ -54,19 +54,19 @@ class ProjectMapper(Mapper):
 
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM project WHERE id like '{}'".format(id)
+        command = "SELECT * FROM project WHERE project_id like '{}'".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         if len(tuples) != 0:
 
-            for (id, name, lecturer_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+            for (id, name, user_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
                  b_days_finale, b_days_saturdays, preferred_b_days, additional_lecturer,
                  weekly, create_time) in tuples:
                 project = Project()
                 project.set_id(id)
                 project.set_name(name)
-                project.set_lecturer_id(lecturer_id)
+                project.set_user_id(user_id)
                 project.set_project_type_id(project_type_id)
                 project.set_state_id(state_id)
                 project.set_project_description(project_description)
@@ -101,13 +101,13 @@ class ProjectMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, lecturer_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+        for (id, name, user_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
              b_days_finale, b_days_saturdays, preferred_b_days, additional_lecturer,
              weekly, create_time) in tuples:
             project = Project()
             project.set_id(id)
             project.set_name(name)
-            project.set_lecturer_id(lecturer_id)
+            project.set_user_id(user_id)
             project.set_project_type_id(project_type_id)
             project.set_state_id(state_id)
             project.set_project_description(project_description)
@@ -137,13 +137,13 @@ class ProjectMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, lecturer_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+        for (id, name, user_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
              b_days_finale, b_days_saturdays, preferred_b_days, additional_lecturer,
              weekly, create_time) in tuples:
             project = Project()
             project.set_id(id)
             project.set_name(name)
-            project.set_lecturer_id(lecturer_id)
+            project.set_user_id(user_id)
             project.set_project_type_id(project_type_id)
             project.set_state_id(state_id)
             project.set_project_description(project_description)
@@ -164,22 +164,22 @@ class ProjectMapper(Mapper):
 
         return result
 
-    def find_by_lecturer_id(self, lecturer_id):
+    def find_by_user_id(self, user_id):
         """Suchen eines Projekt anhand der Lecturer-ID."""
 
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM project WHERE lecturer_id like '{}'".format(lecturer_id)
+        command = "SELECT * FROM project WHERE user_id like '{}'".format(user_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, lecturer_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+        for (id, name, user_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
              b_days_finale, b_days_saturdays, preferred_b_days, additional_lecturer,
              weekly, create_time) in tuples:
             project = Project()
             project.set_id(id)
             project.set_name(name)
-            project.set_lecturer_id(lecturer_id)
+            project.set_user_id(user_id)
             project.set_project_type_id(project_type_id)
             project.set_state_id(state_id)
             project.set_project_description(project_description)
@@ -209,13 +209,13 @@ class ProjectMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, lecturer_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+        for (id, name, user_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
              b_days_finale, b_days_saturdays, preferred_b_days, additional_lecturer,
              weekly, create_time) in tuples:
             project = Project()
             project.set_id(id)
             project.set_name(name)
-            project.set_lecturer_id(lecturer_id)
+            project.set_user_id(user_id)
             project.set_project_type_id(project_type_id)
             project.set_state_id(state_id)
             project.set_project_description(project_description)
@@ -245,13 +245,13 @@ class ProjectMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, lecturer_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
+        for (id, name, user_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
              b_days_finale, b_days_saturdays, preferred_b_days, additional_lecturer,
              weekly, create_time) in tuples:
             project = Project()
             project.set_id(id)
             project.set_name(name)
-            project.set_lecturer_id(lecturer_id)
+            project.set_user_id(user_id)
             project.set_project_type_id(project_type_id)
             project.set_state_id(state_id)
             project.set_project_description(project_description)
@@ -276,18 +276,18 @@ class ProjectMapper(Mapper):
         """Einfügen eines Projekt-Objekts in die Datenbank."""
 
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT MAX(id) as MaxID from project")
+        cursor.execute("SELECT MAX(project_id) as MaxID from project")
         tuples = cursor.fetchall()
 
         for (MaxID) in tuples:
             project.set_id(MaxID[0] + 1)
 
-        command = "INSERT INTO project (id, name, lecturer_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, " \
+        command = "INSERT INTO project (project_id, name, user_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, " \
                   "b_days_pre_schedule, b_days_finale, b_days_saturdays, preferred_b_days, " \
                   "additional_lecturer, " \
                   "weekly, create_time)" \
                   "VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')" \
-            .format(project.get_id(), project.get_name(), project.get_lecturer_id(), project.get_project_type_id(), project.get_state_id(),
+            .format(project.get_id(), project.get_name(), project.get_user_id(), project.get_project_type_id(), project.get_state_id(),
                     project.get_project_description(),
                     project.get_partners(), project.get_capacity(), project.get_preferred_room(),
                     project.get_b_days_pre_schedule(), project.get_b_days_finale(), project.get_b_days_saturdays(),
@@ -304,12 +304,12 @@ class ProjectMapper(Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "UPDATE project SET name = ('{}'), lecturer_id = ('{}'), project_type_id = ('{}'), state_id = ('{}'), project_description = ('{}'), " \
+        command = "UPDATE project SET name = ('{}'), user_id = ('{}'), project_type_id = ('{}'), state_id = ('{}'), project_description = ('{}'), " \
                   "partners = ('{}'), capacity = ('{}'), preferred_room = ('{}'), b_days_pre_schedule = ('{}'), " \
                   "b_days_finale = ('{}'), b_days_saturdays = ('{}'), preferred_b_days = ('{}'), " \
                   "additional_lecturer = ('{}'), weekly = ('{}'), create_time = ('{}')" \
-                  "WHERE id = ('{}')" \
-            .format(project.get_name(), project.get_lecturer_id(), project.get_project_type_id(), project.get_state_id(),
+                  "WHERE project_id = ('{}')" \
+            .format(project.get_name(), project.get_user_id(), project.get_project_type_id(), project.get_state_id(),
                     project.get_project_description(), project.get_partners(), project.get_capacity(), project.get_preferred_room(),
                     project.get_b_days_pre_schedule(), project.get_b_days_finale(), project.get_b_days_saturdays(),
                     project.get_preferred_b_days(),
@@ -325,7 +325,7 @@ class ProjectMapper(Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "DELETE FROM project WHERE id={}".format(project.get_id())
+        command = "DELETE FROM project WHERE project_id={}".format(project.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -334,7 +334,7 @@ class ProjectMapper(Mapper):
 """
 if __name__ == "__main__":
     with ProjectMapper() as mapper:
-        test = mapper.find_by_key(2).get_additional_lecturer()
+        test = mapper.find_by_key(14).get_name()
         print(test)
 """
 """
@@ -342,14 +342,14 @@ if __name__ == "__main__":
     with ProjectMapper() as mapper:
         p = mapper.find_all()
         for result in p:
-            print(result.get_capacity())
-
+            print(result.get_name())
 """
+
 """
 if __name__ == "__main__":
     p = Project()
-    p.set_name("Marketing IT")
-    p.set_lecturer_id(2)
+    p.set_name("Tolga Project")
+    p.set_user_id(2)
     p.set_project_type_id(1)
     p.set_project_description("5 Forces")
     p.set_partners("Stingel")
@@ -368,38 +368,39 @@ if __name__ == "__main__":
 """
 if __name__ == "__main__":
     with ProjectMapper() as mapper:
-        p = mapper.find_by_key(14)
+        p = mapper.find_by_key(16)
         mapper.delete(p)
 """
 """
 if __name__ == "__main__":
     with ProjectMapper() as mapper:
-        p = mapper.find_by_key(12)
-        p.set_lecturer_id(2)
+        p = mapper.find_by_key(15)
+        p.set_user_id(2)
+        p.set_project_type_id(2)
         mapper.update(p)
 """
 
 """
 if __name__ == "__main__":
     with ProjectMapper() as mapper:
-        p = mapper.find_by_name("automat 4")
+        p = mapper.find_by_name("tolga Projekt")
         for i in p:
             print(i.get_id())
 """
 """
 if __name__ == "__main__":
     with ProjectMapper() as mapper:
-        p = mapper.find_by_preferred_room("s305")
+        p = mapper.find_by_preferred_room("s210")
         for i in p:
-            print(i.get_lecturer_id())
+            print(i.get_id())
 """
-"""
+
 if __name__ == "__main__":
     with ProjectMapper() as mapper:
-        p = mapper.find_by_lecturer_id(2)
+        p = mapper.find_by_user_id(1)
         for i in p:
             print(i.get_name())
-"""
+
 """
 if __name__ == "__main__":
     with ProjectMapper() as mapper:

@@ -78,7 +78,7 @@ module = api.inherit('Module', nbo, {
 })
 
 project = api.inherit('Project', nbo, {
-    'lecturer_id': fields.Integer(attribute='_lecturer_id', description='Die ID des zugehörigen Dozenten'),
+    'user_id': fields.Integer(attribute='_user_id', description='Die ID des zugehörigen Dozenten'),
     'project_type_id': fields.Integer(attribute='_project_type_id', description='Die ID des zugehörigen Projekttypen'),
     'state_id': fields.Integer(attribute='_state_id', description='Die ID des zugehörigen Zustandes'),
     'project_description': fields.String(attribute='_project_description', description='Die Beschreibung des Projektes'),
@@ -359,7 +359,7 @@ class ProjectOperations(Resource):
         pan = Project.from_dict(api.payload)
 
         if pan is not None:
-            project_list = adm.create_project(pan.get_name(),pan.get_lecturer_id(),pan.get_project_type_id(), pan.get_project_description(), pan.get_partners(),
+            project_list = adm.create_project(pan.get_name(),pan.get_user_id(),pan.get_project_type_id(), pan.get_project_description(), pan.get_partners(),
                                               pan.get_capacity (), pan.get_preferred_room(), pan.get_b_days_pre_schedule(),
                                                 pan.get_b_days_finale(), pan.get_b_days_saturdays(), pan.get_preferred_b_days(),
                                                 pan.get_additional_lecturer(), pan.get_weekly())
@@ -413,7 +413,7 @@ class ProjectOperationss(Resource):
         project = adm.get_all_projects()
         return project
 
-@projectmanager.route("/project/<int:id>/lecturer")
+@projectmanager.route("/project/<int:id>/user")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @projectmanager.param('id', 'Die ID des Dozent-Objekts')
 class ProjectRelatedUserOperations(Resource):
@@ -427,7 +427,7 @@ class ProjectRelatedUserOperations(Resource):
         proj = adm.get_user_by_id(id)
 
         if proj is not None:
-            project_list = adm.get_project_by_lecturer_id(proj)
+            project_list = adm.get_project_by_user_id(proj)
             return project_list
         else:
             return "", 500

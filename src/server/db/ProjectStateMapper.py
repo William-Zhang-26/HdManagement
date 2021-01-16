@@ -17,7 +17,7 @@ class ProjectStateMapper (Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, lecturer_id, project_type_id, state_id, project_description, partners, capacity,
+        for (id, name, user_id, project_type_id, state_id, project_description, partners, capacity,
              preferred_room, b_days_pre_schedule, b_days_finale, b_days_saturdays, preferred_b_days,
              additional_lecturer, weekly, create_time,
              s_id, name, s_create_time) in tuples:
@@ -25,7 +25,7 @@ class ProjectStateMapper (Mapper):
             project = Project()
             project.set_id(id)
             project.set_name(name)
-            project.set_lecturer_id(lecturer_id)
+            project.set_user_id(user_id)
             project.set_project_type_id(project_type_id)
             project.set_state_id(state_id)
             project.set_project_description(project_description)
@@ -69,7 +69,7 @@ class ProjectStateMapper (Mapper):
             project = Project()
             project.set_id(id)
             project.set_name(name)
-            project.set_lecturer_id(user_id)
+            project.set_user_id(user_id)
             project.set_project_type_id(project_type_id)
             project.set_state_id(state_id)
             project.set_project_description(project_description)

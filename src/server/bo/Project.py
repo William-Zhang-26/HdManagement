@@ -14,7 +14,7 @@ class Project(Automat):
 
     def __init__(self):
         super().__init__(Project.s_new)
-        self._lecturer_id = 0
+        self._user_id = 0
         self._project_type_id = 0
         self._state_id = 1
         self._project_description = ""
@@ -45,13 +45,13 @@ class Project(Automat):
     def fifth_event(self, fifth_event):
         self._current_state = self._current_state.fifth_event(fifth_event)
 
-    def get_lecturer_id(self):
+    def get_user_id(self):
         """Auslesen der Dozent-ID"""
-        return self._lecturer_id
+        return self._user_id
 
-    def set_lecturer_id(self, new_lecturer_id):
+    def set_user_id(self, new_user_id):
         """Setzen der Dozent_ID"""
-        self._lecturer_id = new_lecturer_id
+        self._user_id = new_user_id
 
     def get_project_type_id(self):
         """Auslesen des Projekttyp-ID"""
@@ -158,7 +158,7 @@ class Project(Automat):
         new_project = Project()
         new_project.set_id(dict["id"])
         new_project.set_name(dict["name"])
-        new_project.set_lecturer_id(dict["lecturer_id"])
+        new_project.set_user_id(dict["user_id"])
         new_project.set_project_type_id(dict["project_type_id"])
         new_project.set_state_id(dict["state_id"])
         new_project.set_project_description(dict["project_description"])
