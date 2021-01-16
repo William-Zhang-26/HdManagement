@@ -42,7 +42,7 @@ class UserMapper(Mapper):
 
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM user WHERE id like '{}'".format(id)
+        command = "SELECT * FROM user WHERE user_id like '{}'".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -173,13 +173,13 @@ class UserMapper(Mapper):
         """Einfügen eines User-Objekts in die Datenbank."""
 
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT MAX(id) as MaxID from user")
+        cursor.execute("SELECT MAX(user_id) as MaxID from user")
         tuples = cursor.fetchall()
 
         for (MaxID) in tuples:
             user.set_id(MaxID[0] + 1)
 
-        command = "INSERT INTO user (id, name, firstname, mail, google_id, role_id, " \
+        command = "INSERT INTO user (user_id, name, firstname, mail, google_id, role_id, " \
                   "create_time) VALUES ('{}','{}','{}','{}','{}','{}','{}')" \
             .format(user.get_id(), user.get_name(), user.get_firstname(),
                     user.get_mail(), user.get_google_id(), user.get_role_id(), user.get_create_time())
@@ -194,7 +194,7 @@ class UserMapper(Mapper):
         cursor = self._cnx.cursor()
 
         command = "UPDATE user SET name = ('{}'), firstname = ('{}'), mail = ('{}'), google_id = ('{}'),"\
-                  "role_id = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
+                  "role_id = ('{}'), create_time = ('{}')" "WHERE user_id = ('{}')"\
             .format(user.get_name(), user.get_firstname(), user.get_mail(), user.get_google_id(),
                     user.get_role_id(), user.get_create_time(), user.get_id())
         cursor.execute(command)
@@ -207,7 +207,7 @@ class UserMapper(Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "DELETE FROM user WHERE id={}".format(user.get_id())
+        command = "DELETE FROM user WHERE user_id={}".format(user.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -219,12 +219,14 @@ if __name__ == "__main__":
         u = mapper.find_all()
         for i in u:
             print(i.get_firstname())
-
+"""
+"""
 if __name__ == "__main__":
     with UserMapper() as mapper:
-        user = mapper.find_by_key(2).get_name()
+        user = mapper.find_by_key(1).get_name()
         print(user)
-
+"""
+"""
 if __name__ == "__main__":
     u = User()
     u.set_name("Ulmer")
@@ -235,18 +237,21 @@ if __name__ == "__main__":
     u.set_create_time("2020-12-22")
     with UserMapper() as mapper:
         mapper.insert(u)
-
+"""
+"""
 if __name__ == "__main__":
     with UserMapper() as mapper:
-        i = mapper.find_by_key(4)
+        i = mapper.find_by_key(3)
         mapper.delete(i)
-
+"""
+"""
 if __name__ == "__main__":
     with UserMapper() as mapper:
-        user = mapper.find_by_key('2')
+        user = mapper.find_by_key(3)
         user.set_name("Weinberger")
         mapper.update(user)
-
+"""
+"""
 if __name__ == "__main__":
     with UserMapper() as mapper:
         user = mapper.find_by_role_id(1)
