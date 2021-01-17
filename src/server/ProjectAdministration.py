@@ -441,9 +441,10 @@ class ProjectAdministration (object):
             mapper.delete(semester)
 
 # Student
-    def create_student(self, name, firstname, course, matriculation_number, mail, google_id):
+    def create_student(self, user_id, name, firstname, course, matriculation_number, mail, google_id):
 
         student = Student()
+        student.set_user_id(user_id)
         student.set_name(name)
         student.set_firstname(firstname)
         student.set_course(course)
@@ -462,6 +463,10 @@ class ProjectAdministration (object):
     def get_student_by_id(self, id):
         with StudentMapper() as mapper:
             return mapper.find_by_key(id)
+
+    def get_student_by_user_id(self, user_id):
+        with StudentMapper() as mapper:
+            return mapper.find_by_user_id(user_id)
 
     def get_student_by_name(self, name):
         with StudentMapper() as mapper:
