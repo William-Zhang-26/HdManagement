@@ -675,7 +675,8 @@ class StudentOperations(Resource):
         adm = ProjectAdministration()
         student = Student.from_dict(api.payload)
         if student is not None:
-            c = adm.create_student(student.get_name(), student.get_firstname(), student.get_course(),
+            c = adm.create_student(student.get_user_id(), student.get_name(), student.get_firstname(),
+                                   student.get_course(),
                                    student.get_matriculation_number(),
                                    student.get_mail(), student.get_google_id(),)
             return c, 200
@@ -716,6 +717,17 @@ class StudentOperations(Resource):
             student.set_id(id)
             adm.save_student(student)
             return "Student wurde erfolgreich geändert", 200
+
+@projectmanager.route("/student/<int:id>")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@projectmanager.param('id', 'Die ID des Studenten-Objekts')
+class StudentOperationss(Resource):
+    @projectmanager.marshal_with(student)
+    def get(self, user_id):
+        """Auslesen eines Studenten aus der Datenbank"""
+        adm = ProjectAdministration()
+        student = adm.get_student_by_user_id(user_id)
+        return student
 
 "Student&Participation"
 
