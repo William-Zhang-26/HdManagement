@@ -134,6 +134,7 @@ user = api.inherit('User', nbo, {
 })
 
 student = api.inherit('Student', user, {
+    'user_id': fields.Integer(attribute='_user_id', description='Die ID der zugehörigen Users'),
     'course': fields.String(attribute='_course', description='Der zugehörige Kurs'),
     'matriculation_number': fields.Integer(attribute='_matriculation_number', description='Die Matrikelnummer des Studenten')
 })
@@ -735,7 +736,7 @@ class StudentOperations(Resource):
 class StudentOperationss(Resource):
     @projectmanager.marshal_with(student)
     def get(self, user_id):
-        """Auslesen eines Studenten aus der Datenbank"""
+        """Auslesen eines Studenten aus der Datenbank mit der User_id"""
         adm = ProjectAdministration()
         student = adm.get_student_by_user_id(user_id)
         return student
