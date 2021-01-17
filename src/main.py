@@ -303,6 +303,17 @@ class ParticipationOperationen(Resource):
             adm.save_participation(participation)
             return "Teilnahme wurde erfolgreich geändert", 200
 
+@projectmanager.route("/all_participations/")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class AllParticipationsOperations(Resource):
+    @projectmanager.marshal_with(participation)
+    def get(self):
+        """Auslesen aller vorhandenen Teilnahmen"""
+        adm = ProjectAdministration()
+        participations = adm.get_all_participations()
+        return participations
+
+
 """PS Methoden"""
 @projectmanager.route("/participationstudent/<int:id>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')

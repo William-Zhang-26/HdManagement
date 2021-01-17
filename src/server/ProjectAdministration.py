@@ -115,7 +115,7 @@ class ProjectAdministration (object):
         with ParticipationMapper() as mapper:
             return mapper.insert(participation)
 
-    def get_all_participation(self):
+    def get_all_participations(self):
         with ParticipationMapper() as mapper:
             return mapper.find_all()
 
