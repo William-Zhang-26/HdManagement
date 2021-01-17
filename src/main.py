@@ -736,7 +736,7 @@ class StudentOperations(Resource):
 class StudentOperationss(Resource):
     @projectmanager.marshal_with(student)
     def get(self, user_id):
-        """Auslesen eines Studenten aus der Datenbank"""
+        """Auslesen eines Studenten aus der Datenbank mit der User_id"""
         adm = ProjectAdministration()
         student = adm.get_student_by_user_id(user_id)
         return student
