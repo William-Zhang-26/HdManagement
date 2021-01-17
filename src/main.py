@@ -41,8 +41,16 @@ pv = api.model('pv', {
 })
 
 part = api.model('part', {
-    'project_description': fields.String(attribute='_project_description',
-                                         description='Die Beschreibung des Projektes')
+    'project_description': fields.String(attribute='_project_description', description='Die Beschreibung des Projektes'),
+    'partners': fields.String(attribute='_partners', description='Die Partner die das Projekt mit gestalten'),
+    'capacity': fields.Integer(attribute='_capacity', description='Die Anzahl der Personen die in dem Projekt teilnehmen können'),
+    'preferred_room': fields.String(attribute='_preferred_room', description='Die Raumnnumer in der das Projekt stattfinden soll'),
+    'b_days_pre_schedule': fields.String(attribute='_b_days_pre_schedule', description='Anzahl der Blocktage vor der Vorlesungszeit'),
+    'b_days_finale': fields.String(attribute='_b_days_finale', description='Anzahl der Blocktage in der Prüfungszeit'),
+    'b_days_saturdays': fields.String(attribute='_b_days_saturdays', description='Anzahl der Blocktage in der Vorlesungszeit (Samstage)'),
+    'preferred_b_days': fields.String(attribute='_preferred_b_days', description='Die präferierten Blocktage in der Vorlesungszeit'),
+    'additional_lecturer': fields.String(attribute='_additional_lecturer', description='Die beteiligten Dozenten in dem Projekt'),
+    'weekly': fields.String(attribute='_weekly', description='Angabe ob das Projekt wöchentlich stattfindet')
 })
 
 """Project, State"""
