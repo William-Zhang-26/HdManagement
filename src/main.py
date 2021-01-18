@@ -37,7 +37,7 @@ ps = api.model('ps', {
 })
 
 pv = api.model('pv', {
-    'grade': fields.Float(attribute='_grade', description='Bewertung eines Projektes')
+    'grade': fields.String(attribute='_grade', description='Bewertung eines Projektes')
 })
 
 part = api.model('part', {
@@ -764,26 +764,26 @@ class StudentRelatedParticipationOperations(Resource):
         else:
             return "Student not found", 500
 
-    @projectmanager.marshal_with(participation, code=201)
+    #@projectmanager.marshal_with(participation, code=201)
     #@secured
-    def post(self, id):
-        """Anlegen einer Teilnahme für ein gegebenen Studenten.
+    #def post(self, id):
+        #"""Anlegen einer Teilnahme für ein gegebenen Studenten.
 
-        Die neu angelegte Teilnahme wird als Ergebnis zurückgegeben.
+        #Die neu angelegte Teilnahme wird als Ergebnis zurückgegeben.
 
-        **Hinweis:** Unter der id muss ein Student existieren, andernfalls wird Status Code 500 ausgegeben."""
-        adm = ProjectAdministration()
-        """Stelle fest, ob es unter der id einen Studenten gibt. 
-        Dies ist aus Gründen der referentiellen Integrität sinnvoll!
-        """
-        stud = adm.get_student_by_id(id)
+        #**Hinweis:** Unter der id muss ein Student existieren, andernfalls wird Status Code 500 ausgegeben."""
+        #adm = ProjectAdministration()
+        #"""Stelle fest, ob es unter der id einen Studenten gibt.
+        #Dies ist aus Gründen der referentiellen Integrität sinnvoll!
+        #"""
+        #stud = adm.get_student_by_id(id)
 
-        if stud is not None:
+        #if stud is not None:
             # Jetzt erst macht es Sinn, für den Studenten eine neue Teilnahme anzulegen und diese zurückzugeben.
-            result = adm.create_particpation_for_student(stud)
-            return result
-        else:
-            return "Student unknown", 500
+            #result = adm.create_particpation_for_student(stud)
+            #return result
+        #else:
+            #return "Student unknown", 500
 
 """User"""
 @projectmanager.route("/user")
