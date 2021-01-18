@@ -41,7 +41,6 @@ class LecturerProjectListEntry extends Component {
         .then (projectBO => {
             this.setState({ state: projectBO });
         })
-        console.log("hello");
   }
 
   

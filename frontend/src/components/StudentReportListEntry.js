@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
-import { Button, List, ListItem, Paper } from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-//import CustomerForm from './dialogs/CustomerForm';
-import AddIcon from '@material-ui/icons/Add';
+import { withStyles, Typography, Grid } from '@material-ui/core';
+import { List, ListItem, Paper } from '@material-ui/core';
 import indigo from '@material-ui/core/colors/indigo';
+import  ProjectAPI  from '../api/ProjectAPI';
 
 /** Fehlende Inhalte:
  *  
@@ -24,30 +22,94 @@ class StudentReportListEntry extends Component {
   
       // Init the state
       this.state = {
-        project: props.project,
-        state: props.state,
+        participation: props.participation,
+        project: null,
+        validation: null,
+
       };
     }
+
+
+    getParticipationProject = () => {
+      ProjectAPI.getAPI().getParticipationProject(this.state.participation.getID())
+          .then (participationBOs => {
+              this.setState({ project: participationBOs });
+          })
+        }
+
+
+    getParticipationValidation = () => {
+        ProjectAPI.getAPI().getParticipationValidation(this.state.participation.getID())  
+            .then (participationBO => {
+                this.setState({ validation: participationBO });
+            })
+      }
+
+    /*getParticipationModule = () => {
+      ProjectAPI.getAPI().getParticipationModule(this.state.participation.getID())
+          .then (participationBOss => {
+              this.setState({ module: participationBOss });
+          })
+        }*/
+
+      
+    componentDidMount() {
+      this.getParticipationProject();
+      this.getParticipationValidation();
+      //this.getParticipationModule();
+    }
+
+  
+    
 
 
   /** Renders the component */
   render() {
     const { classes, expandedState } = this.props;
-    const { project, state } = this.state;
+    const { participation, project, validation } = this.state;
 
-    // console.log(this.state);
+    console.log(this.state);
     return (
       <div>
-      { project.getStateID() === 4 ?
+
+      { project && validation && participation.getStudentID() === 1 ?
+
+
       <Grid>
           <Paper elevation={3} >
             <List>
                 <ListItem className = {classes.font}>{project.getName()}</ListItem>
                 <ListItem>Projektbeschreibung: {project.getProjectDescription()} </ListItem> 
+                <ListItem>Modul: {//module.getName()
+                }</ListItem> 
+
+                { participation.getValidationID() !== 1 && participation.getValidationID() !== 14 && participation.getValidationID() !== 15 ? <ListItem>Note: {validation.getGrade()}</ListItem> : null }
+              
+
+                { participation.getValidationID() === 1 ?
+                <ListItem>Status: angemeldet </ListItem> :
+                
+                participation.getValidationID() > 1 && participation.getValidationID() <= 11  ?
+                  <ListItem>Status: bestanden </ListItem> :
+
+                participation.getValidationID() === 12 && participation.getValidationID() === 13 ?
+                  <ListItem>Status: nicht bestanden </ListItem> : 
+
+                participation.getValidationID() === 14 ?
+                <ListItem>Status: bestanden </ListItem> :
+
+                participation.getValidationID() === 15 ?
+                <ListItem>Status: nicht bestanden </ListItem> 
+                  
+              : null }
+
             </List>
           </Paper>
         </Grid>
+
+
       : null }
+
       </div>
     );
   }
@@ -71,7 +133,7 @@ const styles = theme => ({
 StudentReportListEntry.propTypes = {
     /** @ignore */
     classes: PropTypes.object.isRequired,
-    project: PropTypes.object.isRequired,
+    participation: PropTypes.object.isRequired,
     expandedState: PropTypes.bool.isRequired,
     onExpandedStateChange: PropTypes.func.isRequired
     }

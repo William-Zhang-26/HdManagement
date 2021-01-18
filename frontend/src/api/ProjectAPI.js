@@ -1,6 +1,9 @@
-import ProjectBO from './ProjectBO'
-import StudentBO from './StudentBO'
-import StateBO from './StateBO'
+import ProjectBO from './ProjectBO';
+import StudentBO from './StudentBO';
+import StateBO from './StateBO';
+import ParticipationBO from './ParticipationBO';
+import ValidationBO from './ValidationBO';
+import ModuleBO from './ModuleBO';
 
 
 export default class ProjectAPI {
@@ -30,6 +33,17 @@ export default class ProjectAPI {
 
     //State related
     #getStateByNameURL = (id) => `${this.#projectServerBaseURL}/project/${id}/state`;
+
+    //Validation related
+    #getParticipationValidationURL = (id) => `${this.#projectServerBaseURL}/participationvalidation/${id}`;
+
+    //Participation related
+    #getParticipationsURL = () => `${this.#projectServerBaseURL}/all_participations/`;
+    #getParticipationProjectURL = (id) => `${this.#projectServerBaseURL}/participationproject/${id}`;
+    //#getParticipationsForStudentURL = (id) => `${this.#projectServerBaseURL}/participationproject/${id}`;
+    
+    //Module related
+    #getParticipationModuleURL = (id) => `${this.#projectServerBaseURL}/participationmodule/${id}`;
 
 
     static getAPI() {
@@ -171,22 +185,74 @@ export default class ProjectAPI {
 
 
     //State related
-    /*getStateByName() {
-      return this.#fetchAdvanced(this.#getStateByNameURL()).then((responseJSON) => {
-          let projectBOs = ProjectBO.fromJSON(responseJSON);
-          //console.info(projectBOs);
-          return new Promise(function (resolve) {
-              resolve(projectBOs);
-          })
+    getStateByName(project) { 
+      return this.#fetchAdvanced(this.#getStateByNameURL(project)).then((responseJSON) => {
+        let responseProjectBO = ProjectBO.fromJSON(responseJSON)[0];
+        return new Promise(function (resolve) {
+          resolve(responseProjectBO);
+        })
       })
-  }*/
+    }
 
-  getStateByName(project) { 
-    return this.#fetchAdvanced(this.#getStateByNameURL(project)).then((responseJSON) => {
-      let responseProjectBO = ProjectBO.fromJSON(responseJSON)[0];
+
+
+  //Validation related
+  getParticipationValidation(participationID) { 
+    return this.#fetchAdvanced(this.#getParticipationValidationURL(participationID)).then((responseJSON) => {
+      let responseParticipationBO = ValidationBO.fromJSON(responseJSON)[0];
       return new Promise(function (resolve) {
-        resolve(responseProjectBO);
+        resolve(responseParticipationBO);
       })
     })
   }
+
+
+
+    //Participation related
+    getParticipations() {
+      return this.#fetchAdvanced(this.#getParticipationsURL()).then((responseJSON) => {
+          let participationBOs = ParticipationBO.fromJSON(responseJSON);
+          return new Promise(function (resolve) {
+              resolve(participationBOs);
+          })
+      })
+    }
+
+    getParticipationProject(participationID) { 
+      return this.#fetchAdvanced(this.#getParticipationProjectURL(participationID)).then((responseJSON) => {
+        // We always get an array of ParticipationBOs.fromJSON, but only need one object
+        let projectBO = ProjectBO.fromJSON(responseJSON)[0];
+      
+        return new Promise(function (resolve) {
+          resolve(projectBO);
+        })
+      })
+    }
+
+
+    /*getParticipationsForStudent(participationID) { 
+      return this.#fetchAdvanced(this.#getParticipationsForStudentURL(participationID)).then((responseJSON) => {
+        // We always get an array of ParticipationBOs.fromJSON, but only need one object
+        let responseParticipationBO = ParticipationBO.fromJSON(responseJSON)[0];
+      
+        return new Promise(function (resolve) {
+          resolve(responseParticipationBO);
+        })
+      })
+    }*/
+
+    //Module related
+    getParticipationModule(participationID) { 
+      return this.#fetchAdvanced(this.#getParticipationModuleURL(participationID)).then((responseJSON) => {
+        // We always get an array of ParticipationBOs.fromJSON, but only need one object
+        let moduleBO = ModuleBO.fromJSON(responseJSON)[0];
+        return new Promise(function (resolve) {
+          resolve(moduleBO);
+        })
+      })
+    }
+
+
+
+    
 }

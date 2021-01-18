@@ -31,7 +31,7 @@ class StudentReportIndividualTitle extends Component{
           .then (studentBO => {
               this.setState({ student: studentBO });
           })
-          console.log("hello");
+
   }
 
   

@@ -21,14 +21,14 @@ class StudentReportList extends Component {
 
     // Init an empty state
     this.state = {
-        projects: [],
+        participations: [],
         error: null,
         loadingInProgress: false,
     };
   }
 
 
-  getProjects = () => {
+  /*getProjects = () => {
     ProjectAPI.getAPI().getProjects()
       .then(projectBOs =>
         this.setState({              
@@ -48,19 +48,67 @@ class StudentReportList extends Component {
       loadingInProgress: true,
       error: null
     });
+
+
+  componentDidMount() {
+    this.getProjects();
+  }
+  }*/
+
+    getParticipations = () => {
+    ProjectAPI.getAPI().getParticipations()
+      .then(participationBOs =>
+        this.setState({              
+          participations: participationBOs,
+          loadingInProgress: false,   
+          error: null
+        })).catch(e =>
+          this.setState({            
+            participations: [],
+            loadingInProgress: false, 
+            error: e
+          })
+        );
+
+    // set loading to true
+    this.setState({
+      loadingInProgress: true,
+      error: null
+    });
   }
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
-    this.getProjects();
+    this.getParticipations();
   }
+
+
+
+  /*getParticipationsForStudent = () => {
+    ProjectAPI.getAPI().getParticipationsForStudent(2)   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
+    //ProjectAPI.getAPI().getStudentById()
+        .then (participationBO => {
+            this.setState({ projects: participationBO });
+        }).catch(e =>
+          this.setState({            
+            projects: []
+          })
+        );
+}
+
+
+  //Lifecycle method, which is called when the component gets inserted into the browsers DOM 
+  componentDidMount() {
+    this.getParticipationsForStudent();
+  }*/
 
 
 
   /** Renders the component */
   render() {
     const { classes } = this.props;
-    const { projects, loadingInProgress, error } = this.state;
+    const { participations, loadingInProgress, error } = this.state;
+    console.log(this.state);
 
     return (
       <div className={classes.root}>
@@ -69,17 +117,17 @@ class StudentReportList extends Component {
         { 
           // Show the list of ProjectListEntry components
           // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
-          projects.map(project => <StudentReportListEntry key={project.getID()} project={project} 
+          participations.map(participation => <StudentReportListEntry key={participation.getID()} participation={participation} 
           show={this.props.show}/>)
         }
 
           <ListItem>
             <LoadingProgress show={loadingInProgress} />
-            <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjects} />
+            <ContextErrorMessage error={error} contextErrorMsg={`The list of participations could not be loaded.`} onReload={this.getParticipations} />
           </ListItem>
 
         </List>
-        
+
 
       </div>
     );

@@ -1,23 +1,65 @@
-//import BusinessObject from './BusinessObject';
+import BusinessObject from './BusinessObject';
 
-export default class  ParticipationBO /*extends BusinessObject*/ {
+export default class  ParticipationBO extends BusinessObject {
 
 
     //Konstruktorklasse, welche ein Teilnahme BO erstellt mit den abgebildeten Attributen
-    constructor(aParticipation_status) {
-        //super();
-        this.participation_status = aParticipation_status;
+    constructor(aModuleID, aProjectID, aStudentID, aValidationID, aStatus) {
+        super();
+        this.module_id = aModuleID;
+        this.project_id = aProjectID;
+        this.student_id = aStudentID;
+        this.validation_id = aValidationID;
+        this.status = aStatus;
+    }
+
+    //Modul ID
+    getModuleID() {
+        return this.module_id
+    }
+    
+    setModuleID(aModuleID) {
+        this.module_id = aModuleID;
+    }
+
+
+    //Projekt ID
+    getProjectID() {
+        return this.project_id
+    }
+    
+    setProjectID(aProjectID) {
+        this.project_id = aProjectID;
+    }
+
+
+    //Student ID
+    getStudentID() {
+        return this.student_id
+    }
+    
+    setStudentID(aStudentID) {
+        this.student_id = aStudentID;
+    }
+
+
+    //Noten ID
+    getValidationID() {
+        return this.validation_id
+    }
+    
+    setValidationID(aValidationID) {
+        this.validation_id = aValidationID;
     }
 
 
     //Teilnahme Status
-    getParticipation_status() {
-        return this.participation_status
+    getStatus() {
+        return this.status
     }
     
-    
-    setParticipation_status(aParticipation_status) {
-        this.participation_status = aParticipation_status;
+    setStatus(aStatus) {
+        this.status = aStatus;
     }
 
 

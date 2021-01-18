@@ -1,7 +1,7 @@
-//import NamedBusinessObject from './NamedBusinessObject';
+import NamedBusinessObject from './NamedBusinessObject';
 
 
-export default class ModuleBO /*extends NamedBusinessObject*/ {
+export default class ModuleBO extends NamedBusinessObject {
 
     //Konstruktorklasse, welche ein Modul BO erstellt mit den abgebildeten Attributen
     constructor(aEDV_number) {
