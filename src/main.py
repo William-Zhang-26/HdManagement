@@ -41,6 +41,7 @@ pv = api.model('pv', {
 })
 
 part = api.model('part', {
+    'name': fields.String(attribute='_name', description='Der Name des Projektes'),
     'project_description': fields.String(attribute='_project_description', description='Die Beschreibung des Projektes'),
     'partners': fields.String(attribute='_partners', description='Die Partner die das Projekt mit gestalten'),
     'capacity': fields.Integer(attribute='_capacity', description='Die Anzahl der Personen die in dem Projekt teilnehmen können'),
