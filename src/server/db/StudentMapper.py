@@ -214,6 +214,34 @@ class StudentMapper(Mapper):
 
         return result
 
+    def find_by_google_id(self, course):
+        """Suchen eines Studenten anhand seiner Google_ID."""
+
+        result = []
+        cursor = self._cnx.cursor()
+        command = "SELECT * FROM student WHERE google_id like '{}'".format(course)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        for (id, user_id, name, firstname, course, matriculation_number, mail, google_id, create_time) \
+                in tuples:
+            student = Student()
+            student.set_id(id)
+            student.set_user_id(user_id)
+            student.set_name(name)
+            student.set_firstname(firstname)
+            student.set_course(course)
+            student.set_matriculation_number(matriculation_number)
+            student.set_mail(mail)
+            student.set_google_id(google_id)
+            student.set_create_time(create_time)
+            result.append(student)
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+
     def insert(self, student):
         """Einfügen eines Student-Objekts in die Datenbank."""
 

@@ -480,6 +480,10 @@ class ProjectAdministration (object):
         with StudentMapper() as mapper:
             return mapper.find_by_course(course)
 
+    def get_student_by_google_id(self, google_id):
+        with StudentMapper() as mapper:
+            return mapper.find_by_google_id(google_id)
+
     def get_student_by_matriculation_number(self, matriculation_number):
         with StudentMapper() as mapper:
             return mapper.find_by_matriculation_number(matriculation_number)
