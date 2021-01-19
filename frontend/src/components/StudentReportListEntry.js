@@ -45,18 +45,18 @@ class StudentReportListEntry extends Component {
             })
       }
 
-    /*getParticipationModule = () => {
+    getParticipationModule = () => {
       ProjectAPI.getAPI().getParticipationModule(this.state.participation.getID())
           .then (participationBOss => {
               this.setState({ module: participationBOss });
           })
-        }*/
+        }
 
       
     componentDidMount() {
       this.getParticipationProject();
       this.getParticipationValidation();
-      //this.getParticipationModule();
+      this.getParticipationModule();
     }
 
   
@@ -66,13 +66,13 @@ class StudentReportListEntry extends Component {
   /** Renders the component */
   render() {
     const { classes, expandedState } = this.props;
-    const { participation, project, validation } = this.state;
+    const { participation, project, module, validation } = this.state;
 
     console.log(this.state);
     return (
       <div>
 
-      { project && validation && participation.getStudentID() === 1 ?
+      { project && validation && module && participation.getStudentID() === 1 ?
 
 
       <Grid>
@@ -80,8 +80,7 @@ class StudentReportListEntry extends Component {
             <List>
                 <ListItem className = {classes.font}>{project.getName()}</ListItem>
                 <ListItem>Projektbeschreibung: {project.getProjectDescription()} </ListItem> 
-                <ListItem>Modul: {//module.getName()
-                }</ListItem> 
+                <ListItem>Modul: {module.getName()}</ListItem> 
 
                 { participation.getValidationID() !== 1 && participation.getValidationID() !== 14 && participation.getValidationID() !== 15 ? <ListItem>Note: {validation.getGrade()}</ListItem> : null }
               
@@ -92,7 +91,7 @@ class StudentReportListEntry extends Component {
                 participation.getValidationID() > 1 && participation.getValidationID() <= 11  ?
                   <ListItem>Status: bestanden </ListItem> :
 
-                participation.getValidationID() === 12 && participation.getValidationID() === 13 ?
+                participation.getValidationID() >= 12 && participation.getValidationID() <= 13 ?
                   <ListItem>Status: nicht bestanden </ListItem> : 
 
                 participation.getValidationID() === 14 ?
