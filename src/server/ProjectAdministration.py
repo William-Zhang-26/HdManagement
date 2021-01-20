@@ -526,20 +526,20 @@ class ProjectAdministration (object):
             return result
 
 #Add
-    def add_member_to_project(self, module_id, project_id, student_id, validation_id, status):
+    def add_member_to_project(self, module_id, project_id, student_id, validation_id):
 
         d = False
-        p = self.get_all_participation()
+        p = self.get_all_participations()
         for i in p:
-            if i == [module_id, student_id, project_id, validation_id, status]:
+            if i == [module_id, student_id, project_id, validation_id]:
                 d = True
 
             if d is False:
-                self.create_participation(module_id, project_id, student_id, validation_id, status)
+                self.create_participation(module_id, project_id, student_id)
 
-    def remove_member_from_project(self, module_id, project_id, student_id, validation_id, status):
+    def remove_member_from_project(self, module_id, project_id, student_id, validation_id):
 
-        l = self.get_all_participation()
+        l = self.get_all_participations()
         for i in l:
-            if i == [module_id, project_id, student_id, validation_id, status]:
+            if i == [module_id, project_id, student_id, validation_id]:
                 self.delete_participation(l)

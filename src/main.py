@@ -37,8 +37,7 @@ participation = api.inherit('Participation', bo, {
     'module_id': fields.Integer(attribute='_module_id', description='Die ID des zugehörigen Moduls'),
     'project_id': fields.Integer(attribute='_project_id', description='Die ID des zugehörigen Projektes'),
     'student_id': fields.Integer(attribute='_student_id', description='Die ID des zugehörigen Studenten'),
-    'validation_id': fields.Integer(attribute='_validation_id', description='Die ID der zugehörigen Bewertung'),
-    'status': fields.String(attribute='_status', description='Bewertungsstand einer Teilnahme')
+    'validation_id': fields.Integer(attribute='_validation_id', description='Die ID der zugehörigen Bewertung')
 })
 
 validation = api.inherit('Validation', bo, {
