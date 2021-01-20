@@ -45,7 +45,7 @@ class StudentMapper(Mapper):
 
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM student WHERE student_id like '{}'".format(id)
+        command = "SELECT * FROM student WHERE id like '{}'".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -252,7 +252,8 @@ class StudentMapper(Mapper):
         for (MaxID) in tuples:
             student.set_id(MaxID[0] + 1)
 
-        command = "INSERT INTO student (student_id, user_id, name, firstname, course, matriculation_number, mail, google_id, student_create_time)" \
+        command = "INSERT INTO student (id, user_id, name, firstname, course, matriculation_number, mail, " \
+                  "google_id, student_create_time)" \
                 "VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}')" \
             .format(student.get_id(), student.get_user_id(), student.get_name(), student.get_firstname(), student.get_course(),
                     student.get_matriculation_number(),
@@ -270,7 +271,7 @@ class StudentMapper(Mapper):
         command = "UPDATE student SET user_id = ('{}'), name = ('{}'), firstname = ('{}'), course = ('{}')," \
                 "matriculation_number = ('{}')," \
                 "mail = ('{}'), google_id = ('{}'), student_create_time = ('{}')" \
-                "WHERE student_id = ('{}')"\
+                "WHERE id = ('{}')"\
             .format(student.get_user_id(), student.get_name(), student.get_firstname(), student.get_course(),
                     student.get_matriculation_number(), student.get_mail(), student.get_google_id(),
                     student.get_create_time(), student.get_id())
@@ -284,7 +285,7 @@ class StudentMapper(Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "DELETE FROM student WHERE student_id={}".format(student.get_id())
+        command = "DELETE FROM student WHERE id={}".format(student.get_id())
         cursor.execute(command)
 
         self._cnx.commit()

@@ -42,7 +42,7 @@ class UserMapper(Mapper):
 
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM user WHERE user_id like '{}'".format(id)
+        command = "SELECT * FROM user WHERE id like '{}'".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -179,7 +179,7 @@ class UserMapper(Mapper):
         for (MaxID) in tuples:
             user.set_id(MaxID[0] + 1)
 
-        command = "INSERT INTO user (user_id, name, firstname, mail, google_id, role_id, " \
+        command = "INSERT INTO user (id, name, firstname, mail, google_id, role_id, " \
                   "create_time) VALUES ('{}','{}','{}','{}','{}','{}','{}')" \
             .format(user.get_id(), user.get_name(), user.get_firstname(),
                     user.get_mail(), user.get_google_id(), user.get_role_id(), user.get_create_time())
@@ -194,7 +194,7 @@ class UserMapper(Mapper):
         cursor = self._cnx.cursor()
 
         command = "UPDATE user SET name = ('{}'), firstname = ('{}'), mail = ('{}'), google_id = ('{}'),"\
-                  "role_id = ('{}'), create_time = ('{}')" "WHERE user_id = ('{}')"\
+                  "role_id = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
             .format(user.get_name(), user.get_firstname(), user.get_mail(), user.get_google_id(),
                     user.get_role_id(), user.get_create_time(), user.get_id())
         cursor.execute(command)
@@ -207,7 +207,7 @@ class UserMapper(Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "DELETE FROM user WHERE user_id={}".format(user.get_id())
+        command = "DELETE FROM user WHERE id={}".format(user.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
