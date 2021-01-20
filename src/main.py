@@ -31,19 +31,6 @@ bo = api.model('BusinessObject', {
     'create_time': fields.Date(attribute='_create_time', description='Erstellungszeitpunkt eines Business Objects')
 })
 
-"""Project, State"""
-project_state = api.model('project_state', {
-    'name': fields.String(attribute='_name', description='Der Name eines Zustandes')
-
-})
-
-"""Project, User"""
-project_user = api.model('project_user', {
-    'name': fields.String(attribute='_name', description='Der Name des Dozenten'),
-    'firstname': fields.String(attribute='_firstname', description='Der Vorname des Dozenten')
-
-})
-
 
 """Participation, Validation und NamedBusinessObject sind BusinessObjects..."""
 participation = api.inherit('Participation', bo, {
@@ -407,29 +394,6 @@ class ProjectRelatedProject_typeOperations(Resource):
         else:
             return "", 500
 
-"Project& State"
-@projectmanager.route("/project/<int:id>/state")
-@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@projectmanager.param('id', 'Die ID des Projekt-Objekts')
-class ProjectStateOperations(Resource):
-    @projectmanager.marshal_with(project_state)
-    def get(self, id):
-        """Auslesen eines Projektes mit den Daten von State aus der DB"""
-        adm = ProjectAdministration()
-        project = adm.get_project_state_by_key(id)
-        return project
-
-"Project& User"
-@projectmanager.route("/project_user/<int:id>")
-@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@projectmanager.param('id', 'Die ID des Projekt-Objekts')
-class ProjectUserOperations(Resource):
-    @projectmanager.marshal_with(project_user)
-    def get(self, id):
-        """Auslesen eines Projektes mit den Daten von User aus der DB"""
-        adm = ProjectAdministration()
-        project = adm.get_project_user_by_key(id)
-        return project
 
 "Projec&Participation"
 

@@ -54,7 +54,7 @@ class ProjectMapper(Mapper):
 
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM project WHERE project_id like '{}'".format(id)
+        command = "SELECT * FROM project WHERE id like '{}'".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -276,13 +276,13 @@ class ProjectMapper(Mapper):
         """Einfügen eines Projekt-Objekts in die Datenbank."""
 
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT MAX(project_id) as MaxID from project")
+        cursor.execute("SELECT MAX(id) as MaxID from project")
         tuples = cursor.fetchall()
 
         for (MaxID) in tuples:
             project.set_id(MaxID[0] + 1)
 
-        command = "INSERT INTO project (project_id, name, user_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, " \
+        command = "INSERT INTO project (id, name, user_id, project_type_id, state_id, project_description, partners, capacity, preferred_room, " \
                   "b_days_pre_schedule, b_days_finale, b_days_saturdays, preferred_b_days, " \
                   "additional_lecturer, " \
                   "weekly, create_time)" \
@@ -308,7 +308,7 @@ class ProjectMapper(Mapper):
                   "partners = ('{}'), capacity = ('{}'), preferred_room = ('{}'), b_days_pre_schedule = ('{}'), " \
                   "b_days_finale = ('{}'), b_days_saturdays = ('{}'), preferred_b_days = ('{}'), " \
                   "additional_lecturer = ('{}'), weekly = ('{}'), create_time = ('{}')" \
-                  "WHERE project_id = ('{}')" \
+                  "WHERE id = ('{}')" \
             .format(project.get_name(), project.get_user_id(), project.get_project_type_id(), project.get_state_id(),
                     project.get_project_description(), project.get_partners(), project.get_capacity(), project.get_preferred_room(),
                     project.get_b_days_pre_schedule(), project.get_b_days_finale(), project.get_b_days_saturdays(),
@@ -325,7 +325,7 @@ class ProjectMapper(Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "DELETE FROM project WHERE project_id={}".format(project.get_id())
+        command = "DELETE FROM project WHERE id={}".format(project.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
