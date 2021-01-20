@@ -502,9 +502,9 @@ class ProjectAdministration (object):
         with UserMapper() as mapper:
             return mapper.find_by_role_id(role.get_id())
 
-    def get_user_by_google_id(self, google):
+    def get_user_by_google_id(self, google_id):
         with UserMapper() as mapper:
-            return mapper.find_by_google_user_id(google)
+            return mapper.find_by_google_user_id(google_id)
 
     def save_user(self, user):
         with UserMapper() as mapper:
