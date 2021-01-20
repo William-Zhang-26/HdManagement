@@ -41,7 +41,7 @@ participation = api.inherit('Participation', bo, {
 })
 
 validation = api.inherit('Validation', bo, {
-    'grade': fields.Float(attribute='_grade', description='Bewertung eines Projektes')
+    'grade': fields.String(attribute='_grade', description='Bewertung eines Projektes')
 })
 
 nbo = api.inherit('NamedBusinessObject', bo, {

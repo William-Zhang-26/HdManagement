@@ -9,9 +9,8 @@ import LoadingProgress from './dialogs/LoadingProgress';
 import ProjectListEntryParticipants from './ProjectListEntryParticipants';
 
 
-
 /**  
- * Hier wird die Liste aus Dozentensicht angezeigt. Dozenten sehen die eigenen Projekte und deren Teilnehmer
+ * Hier wird die gesamte Liste angezeigt. Man sieht die eigenen Projekte und deren Teilnehmer.
  */
 
 class ProjectListParticipants extends Component {
@@ -76,9 +75,6 @@ class ProjectListParticipants extends Component {
   componentDidMount() {
     this.getProjects();
   }
-
-
-
 
 
   /** Renders the component */

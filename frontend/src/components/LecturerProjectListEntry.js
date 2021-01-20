@@ -35,8 +35,8 @@ class LecturerProjectListEntry extends Component {
   }
 
 
-  getProjectStateName = () => {
-    ProjectAPI.getAPI().getStateByName(this.state.project.getID())   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
+  getStatebyID = () => {
+    ProjectAPI.getAPI().getStatebyId(this.state.project.getStateID())   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
     //ProjectAPI.getAPI().getStudentById()
         .then (projectBO => {
             this.setState({ state: projectBO });
@@ -45,7 +45,7 @@ class LecturerProjectListEntry extends Component {
 
   
   componentDidMount() {
-    this.getProjectStateName();
+    this.getStatebyID();
   }
 
 

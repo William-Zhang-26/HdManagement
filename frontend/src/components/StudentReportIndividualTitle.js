@@ -23,13 +23,12 @@ class StudentReportIndividualTitle extends Component{
   }
 
     
-
   componentDidMount() {
     this.getStudent();
   }
 
   getStudent = () => {
-      ProjectAPI.getAPI().getStudentById(1)   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
+      ProjectAPI.getAPI().getStudentbyId(1)   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
       //ProjectAPI.getAPI().getStudentById()
           .then (studentBO => {
               this.setState({ student: studentBO });
@@ -38,8 +37,6 @@ class StudentReportIndividualTitle extends Component{
   }
 
   
-
-
   render() {
     const { classes } = this.props;
     const student = this.state.student;

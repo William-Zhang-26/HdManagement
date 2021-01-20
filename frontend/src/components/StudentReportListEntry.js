@@ -24,63 +24,62 @@ class StudentReportListEntry extends Component {
       this.state = {
         participation: props.participation,
         project: null,
+        module: null,
         validation: null,
-
       };
     }
 
-
-    getParticipationProject = () => {
-      ProjectAPI.getAPI().getParticipationProject(this.state.participation.getID())
+    
+    getProjectbyID = () => {
+      ProjectAPI.getAPI().getProjectbyId(this.state.participation.getProjectID())
           .then (participationBOs => {
               this.setState({ project: participationBOs });
           })
         }
 
 
-    getParticipationValidation = () => {
-        ProjectAPI.getAPI().getParticipationValidation(this.state.participation.getID())  
-            .then (participationBO => {
-                this.setState({ validation: participationBO });
-            })
-      }
-
-    getParticipationModule = () => {
-      ProjectAPI.getAPI().getParticipationModule(this.state.participation.getID())
-          .then (participationBOss => {
-              this.setState({ module: participationBOss });
+    getModulebyID = () => {
+      ProjectAPI.getAPI().getModulebyId(this.state.participation.getModuleID())
+          .then (participationBOs => {
+              this.setState({ module: participationBOs });
           })
         }
 
-      
-    componentDidMount() {
-      this.getParticipationProject();
-      this.getParticipationValidation();
-      this.getParticipationModule();
-    }
 
-  
-    
+    getValidationbyID = () => {
+      ProjectAPI.getAPI().getValidationbyId(this.state.participation.getValidationID())
+          .then (participationBOs => {
+              this.setState({ validation: participationBOs });
+          })
+        }
+
+
+    componentDidMount() {
+      this.getProjectbyID();
+      this.getModulebyID();
+      this.getValidationbyID();
+    }
 
 
   /** Renders the component */
   render() {
     const { classes, expandedState } = this.props;
     const { participation, project, module, validation } = this.state;
+    //const { project, module, validation } = this.state;
 
     console.log(this.state);
+
     return (
       <div>
 
-      { project && validation && module && participation.getStudentID() === 1 ?
-
+      { project && module && validation ? 
 
       <Grid>
           <Paper elevation={3} >
             <List>
                 <ListItem className = {classes.font}>{project.getName()}</ListItem>
-                <ListItem>Projektbeschreibung: {project.getProjectDescription()} </ListItem> 
-                <ListItem>Modul: {module.getName()}</ListItem> 
+                <ListItem>Projektbeschreibung: {project.getProjectDescription()}</ListItem> 
+                <ListItem>Modul: {module.getEDV_number()} {module.getName()}</ListItem> 
 
                 { participation.getValidationID() !== 1 && participation.getValidationID() !== 14 && participation.getValidationID() !== 15 ? <ListItem>Note: {validation.getGrade()}</ListItem> : null }
               
@@ -106,9 +105,7 @@ class StudentReportListEntry extends Component {
           </Paper>
         </Grid>
 
-
       : null }
-
       </div>
     );
   }

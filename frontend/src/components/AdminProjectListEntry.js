@@ -11,7 +11,7 @@ import { ButtonGroup } from '@material-ui/core';
 import ProjectDeleteDialog from './dialogs/ProjectDeleteDialog';
 import DeleteIcon from '@material-ui/icons/Delete';
 import red from '@material-ui/core/colors/red';
-import  ProjectAPI  from '../api/ProjectAPI';
+import ProjectAPI from '../api/ProjectAPI';
 
 /** Fehlende Inhalte:
  *  
@@ -114,18 +114,17 @@ class AdminProjectListEntry extends Component {
   }
 
 
-  getProjectStateName = () => {
-    ProjectAPI.getAPI().getStateByName(this.state.project.getID())   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
+  getStatebyID = () => {
+    ProjectAPI.getAPI().getStatebyId(this.state.project.getStateID())   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
     //ProjectAPI.getAPI().getStudentById()
         .then (projectBO => {
             this.setState({ state: projectBO });
         })
-        console.log("hello");
   }
 
   
   componentDidMount() {
-    this.getProjectStateName();
+    this.getStatebyID();
   }
 
 

@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, List, ListItem, Button, Typography, Grid, Paper } from '@material-ui/core';
+import { withStyles, List, ListItem, Button, Typography, Grid, Paper, ButtonGroup } from '@material-ui/core';
 //import AddIcon from '@material-ui/icons/Add';
 import { withRouter } from 'react-router-dom';
 import  ProjectAPI  from '../api/ProjectAPI';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
+import ParticipantDeleteDialog from './dialogs/ParticipantDeleteDialog';
 import StudentReportListEntry from './StudentReportListEntry';
 import StudentBO from '../api/StudentBO';
+import indigo from '@material-ui/core/colors/indigo';
+import red from '@material-ui/core/colors/red';
 
 
 /**  
@@ -24,102 +27,85 @@ class ParticipantList extends Component {
     this.state = {
         participation: props.participation,
         student: null,
+        showParticipationDeleteDialog: false,
         error: null,
         loadingInProgress: false,
     };
   }
 
 
-  /*getProjects = () => {
-    ProjectAPI.getAPI().getProjects()
-      .then(projectBOs =>
-        this.setState({              
-          projects: projectBOs,
-          loadingInProgress: false,   
-          error: null
-        })).catch(e =>
-          this.setState({            
-            projects: [],
-            loadingInProgress: false, 
-            error: e
-          })
-        );
-
-    // set loading to true
-    this.setState({
-      loadingInProgress: true,
-      error: null
-    });
-
-
-  componentDidMount() {
-    this.getProjects();
-  }
-  }*/
-
   getParticipant = () => {
-    ProjectAPI.getAPI().getStudentById(this.state.participation.getStudentID())
+    ProjectAPI.getAPI().getStudentbyId(this.state.participation.getStudentID())
         .then (StudentBO => {
             this.setState({ student: StudentBO });
         })
       }
 
 
-
-
-
-  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
     this.getParticipant();
   }
 
+  /** Handles the onClick event of the delete project button */
+  deleteParticipationButtonClicked = (event) => {
+    event.stopPropagation();
+    this.setState({
+      showParticipationDeleteDialog: true
+    });
+  }
 
+  /** Handles the onClose event of the ProjectDeleteDialog */
+  deleteParticipationDialogClosed = (participation) => {
+    // if project is not null, delete it
+    if (participation) {
+      this.props.onParticipationDeleted(participation);
+    };
 
-  /*getParticipationsForStudent = () => {
-    ProjectAPI.getAPI().getParticipationsForStudent(2)   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
-    //ProjectAPI.getAPI().getStudentById()
-        .then (participationBO => {
-            this.setState({ projects: participationBO });
-        }).catch(e =>
-          this.setState({            
-            projects: []
-          })
-        );
-}
-
-
-  //Lifecycle method, which is called when the component gets inserted into the browsers DOM 
-  componentDidMount() {
-    this.getParticipationsForStudent();
-  }*/
+    // Don´t show the dialog
+    this.setState({
+      showParticipationDeleteDialog: false
+    });
+  }
 
 
 
   /** Renders the component */
   render() {
     const { classes } = this.props;
-    const { participations, loadingInProgress, student, error } = this.state;
+    const { loadingInProgress, student, participation, error, showParticipationDeleteDialog } = this.state;
     console.log(this.state);
 
     return (
       <div className={classes.root}>
-        { student ?
+        { student && participation ?
         
-        <Grid container spacing={8} className = {classes.root}>
+        <Grid className = {classes.root} container spacing={1} justify='flex-start' alignItems='center'>
+          
 
-            <List>
-                <ListItem>Name: {student.getFirstName()} {student.getName()} </ListItem>
-            <LoadingProgress show={loadingInProgress} />
-            <ContextErrorMessage error={error} contextErrorMsg={`The list of participations could not be loaded.`} onReload={this.getParticipations} />
-            </List>
+            <Grid item>
+                <Typography className = {classes.font} >{student.getFirstName()} {student.getName()} 
+                </Typography>
+            </Grid>
+            <Grid item>
+              <ButtonGroup variant='text' size='small'>
+                <Button size='small' className={classes.validate} >
+                  Bewerten
+                </Button>
+                <Button size='small' className={classes.delete} onClick = {this.deleteParticipationButtonClicked}>
+                  Entfernen
+                </Button>
+              </ButtonGroup>
+              <LoadingProgress show={loadingInProgress} />
+            <ContextErrorMessage error={error} contextErrorMsg={`The list of participations could not be loaded.`} onReload={this.getParticipant} />
+            </Grid>
 
         </Grid>
 
 
 
 
-        : null
-        }
+        : null}
+      <ParticipantDeleteDialog show={showParticipationDeleteDialog} participation={participation} onClose={this.deleteParticipationDialogClosed} />
       </div>
     );
   }
@@ -128,10 +114,23 @@ class ParticipantList extends Component {
 /** Component specific styles */
 const styles = theme => ({
   root: {
-    width: '90%',
+    //width: '90%',
     marginTop: theme.spacing(3),
     //marginRight: theme.spacing(10),
-    marginLeft: theme.spacing(10),
+    marginLeft: theme.spacing(1),
+  },
+  font: {
+    fontSize: 15,
+  },
+  validate: {
+    width: '100%',
+    color: indigo[300],
+    fontSize: 10,
+  },
+  delete: {
+    width: '100%',
+    color: red[500],
+    fontSize: 10,
   }
 });
 
@@ -145,6 +144,7 @@ ParticipantList.propTypes = {
   show: PropTypes.bool.isRequired,
 
   student: PropTypes.object.isRequired,
+  onParticipationDeleted: PropTypes.func.isRequired
 }
 
 export default withRouter(withStyles(styles)(ParticipantList));

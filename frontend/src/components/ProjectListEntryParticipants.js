@@ -1,23 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
-import { Button, List, ListItem } from '@material-ui/core';
+import { Button, List, ListItem, Box } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 //import CustomerForm from './dialogs/CustomerForm';
 import AddIcon from '@material-ui/icons/Add';
-import  ProjectAPI  from '../api/ProjectAPI';
+import ProjectAPI  from '../api/ProjectAPI';
 import ParticipantList from './ParticipantList';
+import ParticipantDeleteDialog from './dialogs/ParticipantDeleteDialog';
+import indigo from '@material-ui/core/colors/indigo';
 
 /** Fehlende Inhalte:
- *  
- * - Aus ProjectTypeBO: Name (Fachspezifisch, Inter-, Transdisziplinär), ECTS und SWS
- * - Aus ModuleBO: EDV-Nummer
  * 
  */
 
 //Condition für alle ergänzen
 //Admin Funktionen ergänzen
-
 
 class ProjectListEntryParticipants extends Component {
 
@@ -27,8 +25,7 @@ class ProjectListEntryParticipants extends Component {
       // Init the state
       this.state = {
         project: props.project,
-        participations: null
-        //Admin Attribute für Funktionen
+        participations: [],
       };
     }
 
@@ -44,15 +41,18 @@ class ProjectListEntryParticipants extends Component {
             this.setState({ participations: participationBOs });
         })
       }
-
-
   
   componentDidMount() {
     this.getParticipations();
   }
 
 
-
+  participationDeleted = participant => {
+    const newParticipationList = this.state.participations.filter(participationFromState => participationFromState.getID() !== participant.getID());
+    this.setState({
+      participations: newParticipationList,
+    });
+  }
 
 
 
@@ -75,18 +75,20 @@ class ProjectListEntryParticipants extends Component {
           >
             <Grid container spacing={1} justify='flex-start' alignItems='center'>
               <Grid item>
-                <Typography variant='body1' className={classes.heading}>{project.getName()} {/** Angabe des Dozenten (UserBO?)*/}
+                <Typography variant='body1' className={classes.font}>{project.getName()} {/** Angabe des Dozenten (UserBO?)*/}
                 </Typography>
               </Grid>
             </Grid>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography variant='body1' className={classes.heading}>Teilnehmer
-            </Typography>
               <List>
+              
+              <ListItem className={classes.heading}>Teilnehmer</ListItem>
               { 
                 participations.map(participation => <ParticipantList key={participation.getID()} participation={participation} 
-                show={this.props.show}  onExpandedStateChange={this.onExpandedStateChange}/>)
+                show={this.props.show}  
+                onExpandedStateChange={this.onExpandedStateChange}
+                onParticipationDeleted={this.participationDeleted}/>)
               }
               </List>
           </AccordionDetails>
@@ -105,6 +107,15 @@ class ProjectListEntryParticipants extends Component {
 const styles = theme => ({
     root: {
       width: '100%',
+    },
+    font: {
+      fontSize: 23,
+      fontFamily: '"Segoe UI"',
+      color: indigo[700],
+    },
+    heading: {
+      fontSize: 17,
+      color: indigo[500],
     }
   });
   

@@ -33,7 +33,6 @@ class AdminProjectList extends Component {
         error: null,
         loadingInProgress: false,
         expandedProjectID: expandedID,
-        filterdProjects: []
     };
   }
 
@@ -94,7 +93,7 @@ class AdminProjectList extends Component {
   /** Renders the component */
   render() {
     const { classes } = this.props;
-    const { projects, expandedProjectID, loadingInProgress, error, showProjectDeleteDialog } = this.state;
+    const { projects, expandedProjectID, loadingInProgress, error } = this.state;
 
     return (
       <div className={classes.root}>

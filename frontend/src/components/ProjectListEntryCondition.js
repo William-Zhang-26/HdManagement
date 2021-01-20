@@ -1,1 +1,0 @@
-//Status des Projektes, welcher im geschlossenen DropDown angezeigt wird
