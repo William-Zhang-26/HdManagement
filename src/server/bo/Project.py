@@ -28,22 +28,6 @@ class Project(Automat):
         self._additional_lecturer = ""
         self._weekly = ""
 
-#Platzhalter für spätere änderung ist nicht final
-
-    def first_event(self, first_event):
-        self._current_state = self._current_state.first_event(first_event)
-
-    def sec_event(self, sec_event):
-        self._current_state = self._current_state.sec_event(sec_event)
-
-    def third_event(self, third_event):
-        self._current_state = self._current_state.third_event(third_event)
-
-    def fourth_event(self, fourth_event):
-        self._current_state = self._current_state.fourth_event(fourth_event)
-
-    def fifth_event(self, fifth_event):
-        self._current_state = self._current_state.fifth_event(fifth_event)
 
     def get_user_id(self):
         """Auslesen der Dozent-ID"""
