@@ -13,13 +13,7 @@ from .bo.Validation import Validation
 from .db.StateMapper import StateMapper
 from .db.ModuleMapper import ModuleMapper
 from .db.ParticipationMapper import ParticipationMapper
-from .db.ParticipationStudentMapper import ParticipationStudentMapper
-from .db.ParticipationValidationMapper import ParticipationValidationMapper
-from .db.ParticipationModuleMapper import ParticipationModuleMapper
-from .db.ParticipationProjectMapper import ParticipationProjectMapper
 from .db.ProjectMapper import ProjectMapper
-from .db.ProjectStateMapper import ProjectStateMapper
-from .db.ProjectUserMapper import ProjectUserMapper
 from .db.Project_typeMapper import Project_typeMapper
 from .db.RoleMapper import RoleMapper
 from .db.SemesterMapper import SemesterMapper
@@ -147,45 +141,7 @@ class ProjectAdministration (object):
         with ParticipationMapper() as mapper:
             mapper.delete(participation)
 
-#ParticipationStudent
 
-    def get_all_participationstudent(self):
-        with ParticipationStudentMapper() as mapper:
-            return mapper.find_all()
-
-    def get_particpationstudent_by_key(self, id):
-        with ParticipationStudentMapper() as mapper:
-            return mapper.find_by_key(id)
-
-#ParticipationValidation
-
-    def get_all_participationvalidation(self):
-        with ParticipationValidationMapper() as mapper:
-            return mapper.find_all()
-
-    def get_participationvalidation_by_key(self, id):
-        with ParticipationValidationMapper() as mapper:
-            return mapper.find_by_key(id)
-
-#ParticipationModule
-
-    def get_all_participationmodule(self):
-        with ParticipationModuleMapper() as mapper:
-            return mapper.find_all()
-
-    def get_participationmodule_by_key(self, id):
-        with ParticipationModuleMapper() as mapper:
-            return mapper.find_by_key(id)
-
-#ParticipationProject
-
-    def get_all_participationproject(self):
-        with ParticipationProjectMapper() as mapper:
-            return mapper.find_all()
-
-    def get_participationproject_by_key(self, id):
-        with ParticipationProjectMapper() as mapper:
-            return mapper.find_by_key(id)
 # Status
 
     def create_state(self, name):
@@ -289,26 +245,6 @@ class ProjectAdministration (object):
     def delete_project(self, project):
         with ProjectMapper() as mapper:
             mapper.delete(project)
-
-# Project/State-spezifische Methoden
-
-    def get_all_project_state(self):
-        with ProjectStateMapper() as mapper:
-            return mapper.find_all()
-
-    def get_project_state_by_key(self, id):
-        with ProjectStateMapper() as mapper:
-            return mapper.find_by_key(id)
-
-# Project/User- spezifische Methoden
-
-    def get_all_project_user(self):
-        with ProjectUserMapper() as mapper:
-            return mapper.find_all()
-
-    def get_project_user_by_key(self, id):
-        with ProjectUserMapper() as mapper:
-            return mapper.find_by_key(id)
 
 # Project/Teilnahme-spezifische Methoden
 

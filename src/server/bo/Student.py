@@ -35,7 +35,7 @@ class Student(User):
     @staticmethod
     def from_dict(dict = dict()):
         new_student = Student()
-        new_student.set_id(dict["student_id"])
+        new_student.set_id(dict["id"])
         new_student.set_user_id(dict["user_id"])
         new_student.set_name(dict["name"])
         new_student.set_firstname(dict["firstname"])
