@@ -16,6 +16,8 @@ from src.server.bo.Validation import Validation
 
 from src.server.ProjectAdministration import ProjectAdministration
 
+from SecurityDecorator import secured
+
 """App und API Konfiguration"""
 app = Flask(__name__)
 CORS(app, resources=r'/hdmanagement/*')
@@ -709,6 +711,7 @@ class UserOperations(Resource):
 @projectmanager.param('id', 'Die ID des User-Objekts')
 class UserOperations(Resource):
     @projectmanager.marshal_with(user)
+    @secured
     def get(self, id):
         """Auslesen eines Users aus der Datenbank"""
         adm = ProjectAdministration()
