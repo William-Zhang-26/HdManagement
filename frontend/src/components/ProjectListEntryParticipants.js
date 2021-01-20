@@ -5,6 +5,8 @@ import { Button, List, ListItem } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 //import CustomerForm from './dialogs/CustomerForm';
 import AddIcon from '@material-ui/icons/Add';
+import  ProjectAPI  from '../api/ProjectAPI';
+import ParticipantList from './ParticipantList';
 
 /** Fehlende Inhalte:
  *  
@@ -25,6 +27,7 @@ class ProjectListEntryParticipants extends Component {
       // Init the state
       this.state = {
         project: props.project,
+        participations: null
         //Admin Attribute für Funktionen
       };
     }
@@ -35,16 +38,36 @@ class ProjectListEntryParticipants extends Component {
   }
 
 
+  getParticipations = () => {
+    ProjectAPI.getAPI().getParticipationForProject(this.state.project.getID())
+        .then (participationBOs => {
+            this.setState({ participations: participationBOs });
+        })
+      }
+
+
+  
+  componentDidMount() {
+    this.getParticipations();
+  }
+
+
+
+
+
 
   /** Renders the component */
   render() {
     const { classes, expandedState } = this.props;
     // Use the states customer
-    const { project } = this.state;
+    const { project, participations } = this.state;
 
-    // console.log(this.state);
+    console.log(this.state);
     return (
+
       <div>
+      { participations ?
+      <Grid>
       <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -55,17 +78,22 @@ class ProjectListEntryParticipants extends Component {
                 <Typography variant='body1' className={classes.heading}>{project.getName()} {/** Angabe des Dozenten (UserBO?)*/}
                 </Typography>
               </Grid>
-              <Grid item xs />
             </Grid>
           </AccordionSummary>
           <AccordionDetails>
-            <List>
-            <ListItem>Betreuuende Dozenten: {project.getAdditionalSupervisor()} </ListItem>  
-            
-          </List>
+            <Typography variant='body1' className={classes.heading}>Teilnehmer
+            </Typography>
+              <List>
+              { 
+                participations.map(participation => <ParticipantList key={participation.getID()} participation={participation} 
+                show={this.props.show}  onExpandedStateChange={this.onExpandedStateChange}/>)
+              }
+              </List>
           </AccordionDetails>
         </Accordion>
         {/**<CustomerDeleteDialog show={showCustomerDeleteDialog} customer={customer} onClose={this.deleteCustomerDialogClosed} />   Admin Funktionen*/} 
+        </Grid>
+      : null }
       </div>
     );
   }

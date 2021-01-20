@@ -40,6 +40,7 @@ export default class ProjectAPI {
     //Participation related
     #getParticipationsURL = () => `${this.#projectServerBaseURL}/all_participations/`;
     #getParticipationProjectURL = (id) => `${this.#projectServerBaseURL}/participationproject/${id}`;
+    #getParticipationForProjectURL = (id) => `${this.#projectServerBaseURL}/project/${id}/participation`;
     //#getParticipationsForStudentURL = (id) => `${this.#projectServerBaseURL}/participationproject/${id}`;
     
     //Module related
@@ -225,6 +226,18 @@ export default class ProjectAPI {
       
         return new Promise(function (resolve) {
           resolve(projectBO);
+        })
+      })
+    }
+
+
+    getParticipationForProject(projectID) { 
+      return this.#fetchAdvanced(this.#getParticipationForProjectURL(projectID)).then((responseJSON) => {
+        // We always get an array of ParticipationBOs.fromJSON, but only need one object
+        let participationBOs = ParticipationBO.fromJSON(responseJSON);                                      // hier wurde das [0] entfernt
+      
+        return new Promise(function (resolve) {
+          resolve(participationBOs);
         })
       })
     }
