@@ -9,35 +9,6 @@ class Automat(NamedBusinessObject):
         self._state_id = 1
         self._name = "Automat"
 
-    def first_event (self, first_event):
-        if first_event == 'neu':
-            return first_event
-
-        return self
-
-    def sec_event(self, sec_event):
-        if sec_event == 'abgelehnt':
-            return sec_event
-
-        return self
-
-    def third_event(self, third_event):
-        if third_event == 'genehmigt':
-            return third_event
-
-        return self
-
-    def fourth_event(self, fourth_event):
-        if fourth_event == 'in Bewertung':
-            return fourth_event
-
-        return self
-
-    def fifth_event(self, fifth_event):
-        if fifth_event == 'Bewertung abgeschlossen':
-            return fifth_event
-
-        return self
 
     def set_state(self, new_state):
         """ Hier wird der Zustand gesetzt"""
