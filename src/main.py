@@ -30,29 +30,6 @@ bo = api.model('BusinessObject', {
     'id': fields.Integer(attribute='_id', description='Der Unique Identifier eines Business Object'),
     'create_time': fields.Date(attribute='_create_time', description='Erstellungszeitpunkt eines Business Objects')
 })
-ps = api.model('ps', {
-    'name': fields.String(attribute='_name', description='Der Name von eines Studenten'),
-    'firstname': fields.String(attribute='_firstname', description='Der Vorname eines Studenten'),
-    'matriculation_number': fields.Integer(attribute='_matriculation_number', description='Die Matrikelnummer des Studenten')
-})
-
-pv = api.model('pv', {
-    'grade': fields.String(attribute='_grade', description='Bewertung eines Projektes')
-})
-
-part = api.model('part', {
-    'name': fields.String(attribute='_name', description='Der Name des Projektes'),
-    'project_description': fields.String(attribute='_project_description', description='Die Beschreibung des Projektes'),
-    'partners': fields.String(attribute='_partners', description='Die Partner die das Projekt mit gestalten'),
-    'capacity': fields.Integer(attribute='_capacity', description='Die Anzahl der Personen die in dem Projekt teilnehmen können'),
-    'preferred_room': fields.String(attribute='_preferred_room', description='Die Raumnnumer in der das Projekt stattfinden soll'),
-    'b_days_pre_schedule': fields.String(attribute='_b_days_pre_schedule', description='Anzahl der Blocktage vor der Vorlesungszeit'),
-    'b_days_finale': fields.String(attribute='_b_days_finale', description='Anzahl der Blocktage in der Prüfungszeit'),
-    'b_days_saturdays': fields.String(attribute='_b_days_saturdays', description='Anzahl der Blocktage in der Vorlesungszeit (Samstage)'),
-    'preferred_b_days': fields.String(attribute='_preferred_b_days', description='Die präferierten Blocktage in der Vorlesungszeit'),
-    'additional_lecturer': fields.String(attribute='_additional_lecturer', description='Die beteiligten Dozenten in dem Projekt'),
-    'weekly': fields.String(attribute='_weekly', description='Angabe ob das Projekt wöchentlich stattfindet')
-})
 
 """Project, State"""
 project_state = api.model('project_state', {
@@ -315,31 +292,6 @@ class AllParticipationsOperations(Resource):
         participations = adm.get_all_participations()
         return participations
 
-
-"""PS Methoden"""
-@projectmanager.route("/participationstudent/<int:id>")
-@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@projectmanager.param('id', 'Die ID des Participation-Objekts')
-class PSOperations(Resource):
-    @projectmanager.marshal_with(ps)
-    def get(self, id):
-        """Auslesen einer Particpation mit Studenten Daten"""
-        adm = ProjectAdministration()
-        ps = adm.get_particpationstudent_by_key(id)
-        return ps
-
-"""PV Methoden"""
-@projectmanager.route("/participationvalidation/<int:id>")
-@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@projectmanager.param('id', 'Die ID des Participation-Objekts')
-class PVOperations(Resource):
-    @projectmanager.marshal_with(pv)
-    def get(self, id):
-        """Auslesen einer Particpation mit Validation Daten"""
-        adm = ProjectAdministration()
-        pv = adm.get_participationvalidation_by_key(id)
-        return pv
-
 #@projectmanager.route("/participationvalidation/")
 #@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 #class PVOPerations(Resource):
@@ -349,30 +301,6 @@ class PVOperations(Resource):
 #        adm = ProjectAdministration()
 #        pv1 = adm.get_all_participationvalidation()
 #        return pv1
-
-"""ParticipationProject Methoden"""
-@projectmanager.route("/participationproject/<int:id>")
-@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@projectmanager.param('id', 'Die ID des Participation-Objekts')
-class PartStudentOperations(Resource):
-    @projectmanager.marshal_with(part)
-    def get(self, id):
-        """Auslesen einer Particpation mit Projekt Daten"""
-        adm = ProjectAdministration()
-        part = adm.get_participationproject_by_key(id)
-        return part
-
-"""ParticipationModule Methoden"""
-@projectmanager.route("/participationmodule/<int:id>")
-@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@projectmanager.param('id', 'Die ID des Participation-Objekts')
-class PMOperations(Resource):
-    @projectmanager.marshal_with(module)
-    def get(self, id):
-        """Auslesen einer Particpation mit Module Daten"""
-        adm = ProjectAdministration()
-        pm = adm.get_participationmodule_by_key(id)
-        return pm
 
 """Project"""
 @projectmanager.route('/project')
