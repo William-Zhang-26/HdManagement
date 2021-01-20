@@ -50,9 +50,9 @@ def secured(function):
                     if user is not None:
                         """Fall: Der Benutzer ist unserem System bereits bekannt.
                         Wir gehen davon aus, dass die google_id sich nicht ändert.
-                        Wohl aber können sich der zugehörige Name (firstname),
+                        Wohl aber können sich der zugehörige Name (name&firstname),
                         die E-Mail-Adresse (mail) und die Role (role_id) ändern. 
-                        Daher werden diese beiden Daten sicherheitshalber
+                        Daher werden diese vier Daten sicherheitshalber
                         in unserem System geupdated."""
                         user.set_name(name)
                         user.set_firstname(firstname)
@@ -64,9 +64,9 @@ def secured(function):
                         Wir legen daher ein neues User-Objekt an, um dieses ggf. später
                         nutzen zu können.
                         """
-                        user = adm.create_user(name, firstname, mail, google_id, role_id)
+                        user = adm.create_user(name, firstname, mail, google_id)
 
-                    print(request.method, request.path, "angefragt durch:", name, firstname, mail, role_id)
+                    print(request.method, request.path, "angefragt durch:", name, firstname, mail, google_id)
 
                     objects = function(*args, **kwargs)
                     return objects
