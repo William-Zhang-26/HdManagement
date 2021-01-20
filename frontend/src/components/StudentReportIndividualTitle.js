@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, List, ListItem, Grid, Typography, Paper } from '@material-ui/core';
 import  ProjectAPI  from '../api/ProjectAPI';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 class StudentReportIndividualTitle extends Component{
 
@@ -14,7 +16,8 @@ class StudentReportIndividualTitle extends Component{
           student: null,
           //studentId: this.props.match.params.studentid,
           studentId: this.props.studentId,
-          currentDate: date
+          currentDate: date,
+          googleUID: firebase.auth().currentUser.uid
 
       };
   }
@@ -41,7 +44,7 @@ class StudentReportIndividualTitle extends Component{
     const { classes } = this.props;
     const student = this.state.student;
 
-    //console.log(this.state);
+    console.log(this.state);
 
 
     return (

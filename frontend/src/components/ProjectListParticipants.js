@@ -78,18 +78,6 @@ class ProjectListParticipants extends Component {
   }
 
 
-  onExpandedStateChange = project => {
-
-    let newID = null;
-
-    if (project.getID() !== this.state.expandedProjectID) {
-      newID = project.getID();
-    }
- 
-    this.setState({
-      expandedProjectID: newID,
-    });
-  }
 
 
 
@@ -97,6 +85,8 @@ class ProjectListParticipants extends Component {
   render() {
     const { classes } = this.props;
     const { projects, expandedProjectID, loadingInProgress, error } = this.state;
+
+    //console.log(this.state)
 
     return (
       <div className={classes.root}>
