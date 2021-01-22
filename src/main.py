@@ -626,6 +626,17 @@ class StudentOperations(Resource):
 
 @projectmanager.route("/student/<string:google_id>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@projectmanager.param('string', 'Die Google_id des Studenten-Objekts')
+class StudentGoogleOperations(Resource):
+    @projectmanager.marshal_with(student)
+    def get(self, google_id):
+        """Auslesen eines Studenten aus der Datenbank mit der Google_id"""
+        adm = ProjectAdministration()
+        stud = adm.get_student_by_google_id(google_id)
+        return stud
+
+@projectmanager.route("/student/<string:google_id>")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @projectmanager.param('google_id', 'Die Google_ID des Studenten-Objekts')
 class StudentOperationswithGoogle_id(Resource):
     @projectmanager.marshal_with(student)
@@ -741,6 +752,17 @@ class UserOperations(Resource):
             user.set_id(id)
             adm.save_user(user)
             return "User wurde erfolgreich geändert", 200
+
+@projectmanager.route("/user/<string:google_id>")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@projectmanager.param('string', 'Die Google_id des Users-Objekts')
+class UserGoogleOperations(Resource):
+    @projectmanager.marshal_with(user)
+    def get(self, google_id):
+        """Auslesen eines Users aus der Datenbank mit der Google_id"""
+        adm = ProjectAdministration()
+        use = adm.get_user_by_google_id(google_id)
+        return use
 
 #@projectmanager.route("/user/<int:id>/role")
 #@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
