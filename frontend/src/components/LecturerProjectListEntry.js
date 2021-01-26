@@ -79,7 +79,7 @@ class LecturerProjectListEntry extends Component {
             <List>
             <ListItem>Kapazität: {project.getCapacity()} </ListItem>
             <ListItem>Projektbeschreibung: {project.getProjectDescription()} </ListItem>
-            <ListItem>Betreuuende Dozenten: {project.getAdditionalSupervisor()} </ListItem>  
+            <ListItem>Betreuuende Dozenten: {project.getAdditionalLecturer()} </ListItem>  
             <ListItem>Externe Partner: {project.getPartners()} </ListItem>
             <ListItem>Wöchentlicher Kurs: {project.getWeekly()} </ListItem>
             <ListItem>Anzahl der Blocktage vor der Vorlesungszeit: {project.getBDaysPreSchedule()} </ListItem>
