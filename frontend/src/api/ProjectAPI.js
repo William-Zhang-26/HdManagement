@@ -23,7 +23,7 @@ export default class ProjectAPI {
     #getProjectsURL = () => `${this.#projectServerBaseURL}/project/`;
     #getProjectbyIdURL = (id) => `${this.#projectServerBaseURL}/project/${id}`;
     #getAttributesForProjectURL = (id) => `${this.#projectServerBaseURL}/projects/${id}/attributes`;
-    #addProjectURL = () => `${this.#projectServerBaseURL}/projects`;
+    #addProjectURL = () => `${this.#projectServerBaseURL}/project`;
     #deleteProjectURL = (id) => `${this.#projectServerBaseURL}/project/${id}`;
 
     //Student related

@@ -3,18 +3,18 @@ from flask_restx import Api, Resource, fields
 from flask_cors import CORS
 
 
-from src.server.bo.State import State
-from src.server.bo.Module import Module
-from src.server.bo.Participation import Participation
-from src.server.bo.Project import Project
-from src.server.bo.Project_type import Project_type
-from src.server.bo.Role import Role
-from src.server.bo.Semester import Semester
-from src.server.bo.Student import Student
-from src.server.bo.User import User
-from src.server.bo.Validation import Validation
+#from src.server.bo.State import State
+from server.bo.Module import Module
+from server.bo.Participation import Participation
+from server.bo.Project import Project
+from server.bo.Project_type import Project_type
+#from src.server.bo.Role import Role
+from server.bo.Semester import Semester
+from server.bo.Student import Student
+from server.bo.User import User
+from server.bo.Validation import Validation
 
-from src.server.ProjectAdministration import ProjectAdministration
+from server.ProjectAdministration import ProjectAdministration
 
 from SecurityDecorator import secured
 

@@ -19,26 +19,25 @@ export default class ProjectBO extends NamedBusinessObject {
     static s_reviewed = "Bewertung abgeschlossen"*/
 
     //Konstruktorklasse, welche ein Projekttypen BO erstellt mit den abgebildeten Attributen
-    constructor(aUserID, aProjectTypeID, aStateID, aCapacity, aPartners, aProjectDescription, aWeekly, aBDaysPreSchedule,
-        aBDaysFinale, aBDaysSaturdays, aPreferredBDays, aRoomPreference, aPreferredRoom, 
-        aProjectCategory, aAdditionalSupervisor) {
+    constructor(aUserID, aProjectTypeID, aStateID,  aProjectDescription, aPartners, aCapacity, aPreferredRoom, aBDaysPreSchedule,
+        aBDaysFinale, aBDaysSaturdays, aPreferredBDays,  
+        aProjectCategory, aAdditionalLecturer, aWeekly) {
 
         super();
         this.user_id = aUserID;
         this.project_type_id = aProjectTypeID;
         this.state_id = aStateID;
-        this.capacity = aCapacity;
+        this.project_description = aProjectDescription;        
         this.partners = aPartners;
-        this.project_description = aProjectDescription;
-        this.weekly = aWeekly;
+        this.capacity = aCapacity;
+        this.preferred_room = aPreferredRoom;
         this.b_days_pre_schedule = aBDaysPreSchedule;
         this.b_days_finale = aBDaysFinale;
         this.b_days_saturdays = aBDaysSaturdays;
         this.preferred_b_days = aPreferredBDays;
-        this.room_preference = aRoomPreference;
-        this.preferred_room = aPreferredRoom;
         this.project_category = aProjectCategory;
-        this.additional_supervisor = aAdditionalSupervisor;
+        this.additional_lecturer = aAdditionalLecturer;
+        this.weekly = aWeekly;
     }
 
     /**setFirstEvent(first_event) {
@@ -242,12 +241,12 @@ export default class ProjectBO extends NamedBusinessObject {
     }
 
     //Externer Kooperationspartner 
-    getAdditionalSupervisor () {
-        return this.additional_supervisor;
+    getAdditionalLecturer () {
+        return this.additional_lecturer;
     }
 
-    setAdditionalSupervisor (aAdditionalSupervisor) {
-        this.additional_supervisor = aAdditionalSupervisor;
+    setAdditionalLecturer (aAdditionalLecturer) {
+        this.additional_lecturer = aAdditionalLecturer;
     }
 
     //Array von ProjectBOs aus einem JSON herraus mittels der setPrototypeOf fkt
