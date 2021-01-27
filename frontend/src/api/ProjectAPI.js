@@ -4,6 +4,7 @@ import StateBO from './StateBO';
 import ParticipationBO from './ParticipationBO';
 import ValidationBO from './ValidationBO';
 import ModuleBO from './ModuleBO';
+import UserBO from './UserBO';
 
 
 export default class ProjectAPI {
@@ -44,6 +45,9 @@ export default class ProjectAPI {
     
     //Module related
     #getModulebyIdURL = (id) => `${this.#projectServerBaseURL}/module/${id}`;
+
+    //User related
+    #addUser = () => `${this.#projectServerBaseURL}/user`;
 
 
     static getAPI() {
@@ -245,6 +249,26 @@ export default class ProjectAPI {
       })
     }
 
+
+
+    //User related
+    addUser(userBO) {
+      return this.#fetchAdvanced(this.#addProjectURL(), {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json, text/plain',
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(userBO)
+      }).then((responseJSON) => {
+        // We always get an array of ProjectBOs.fromJSON, but only need one object
+        let responseUserBO = UserBO.fromJSON(responseJSON)[0];
+        
+        return new Promise(function (resolve) {
+          resolve(responseUserBO);
+        })
+      })
+    }
 
 
     
