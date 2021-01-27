@@ -3,12 +3,12 @@ from flask_restx import Api, Resource, fields
 from flask_cors import CORS
 
 
-#from src.server.bo.State import State
+#from server.bo.State import State
 from server.bo.Module import Module
 from server.bo.Participation import Participation
 from server.bo.Project import Project
 from server.bo.Project_type import Project_type
-#from src.server.bo.Role import Role
+#from server.bo.Role import Role
 from server.bo.Semester import Semester
 from server.bo.Student import Student
 from server.bo.User import User
@@ -167,20 +167,20 @@ class StateOperations(Resource):
 #            return "Zustand wurde erfolgreich geändert", 200
 
 """Module"""
-@projectmanager.route("/module")
-@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-class ModuleOperations(Resource):
-    @projectmanager.marshal_with(module, code=200)
-    @projectmanager.expect(module)
-    def post(self):
-        """Modul erstellen"""
-        adm = ProjectAdministration()
-        proposal = Module.from_dict(api.payload)
-        if proposal is not None:
-            c = adm.create_module(proposal.get_name(), proposal.get_edv_number())
-            return c, 200
-        else:
-            return '', 500
+#@projectmanager.route("/module")
+#@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+#class ModuleOperations(Resource):
+    #@projectmanager.marshal_with(module, code=200)
+    #@projectmanager.expect(module)
+    #def post(self):
+        #"""Modul erstellen"""
+        #adm = ProjectAdministration()
+        #proposal = Module.from_dict(api.payload)
+        #if proposal is not None:
+            #c = adm.create_module(proposal.get_name(), proposal.get_edv_number())
+            #return c, 200
+        #else:
+            #return '', 500
 
 @projectmanager.route("/module/<int:id>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -193,29 +193,29 @@ class ModuleOperations(Resource):
         module = adm.get_module_by_id(id)
         return module
 
-    def delete(self, id):
-        """Löschen eines Moduls aus der DB"""
-        adm = ProjectAdministration()
-        module = adm.get_module_by_id(id)
-        if module is None:
-            return 'Modul konnte nicht aus der DB gelöscht werden', 500
-        else:
-            adm.delete_module(module)
-            return 'Modul wurde erfolgreich aus der DB gelöscht', 200
+    #def delete(self, id):
+        #"""Löschen eines Moduls aus der DB"""
+        #adm = ProjectAdministration()
+        #module = adm.get_module_by_id(id)
+        #if module is None:
+            #return 'Modul konnte nicht aus der DB gelöscht werden', 500
+        #else:
+            #adm.delete_module(module)
+            #return 'Modul wurde erfolgreich aus der DB gelöscht', 200
 
-    @projectmanager.expect(module)
-    def put(self, id):
-        """Modul wird aktualisiert"""
-        adm = ProjectAdministration()
-        module = Module.from_dict(api.payload)
+    #@projectmanager.expect(module)
+    #def put(self, id):
+        #"""Modul wird aktualisiert"""
+        #adm = ProjectAdministration()
+        #module = Module.from_dict(api.payload)
 
-        if module is None:
-            return "Modul konnte nicht geändert werden", 500
+        #if module is None:
+            #return "Modul konnte nicht geändert werden", 500
 
-        else:
-            module.set_id(id)
-            adm.save_module(module)
-            return "Modul wurde erfolgreich geändert", 200
+        #else:
+            #module.set_id(id)
+            #adm.save_module(module)
+            #return "Modul wurde erfolgreich geändert", 200
 
 """Participation"""
 
@@ -279,16 +279,6 @@ class AllParticipationsOperations(Resource):
         adm = ProjectAdministration()
         participations = adm.get_all_participations()
         return participations
-
-#@projectmanager.route("/participationvalidation/")
-#@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-#class PVOPerations(Resource):
-#    @projectmanager.marshal_with(pv)
-#    def get(self):
-#        """Auslesen aller Particpation mit Validation Daten"""
-#        adm = ProjectAdministration()
-#        pv1 = adm.get_all_participationvalidation()
-#        return pv1
 
 """Project"""
 @projectmanager.route('/project')
@@ -722,7 +712,7 @@ class UserOperations(Resource):
 @projectmanager.param('id', 'Die ID des User-Objekts')
 class UserOperations(Resource):
     @projectmanager.marshal_with(user)
-    @secured
+    #@secured
     def get(self, id):
         """Auslesen eines Users aus der Datenbank"""
         adm = ProjectAdministration()
@@ -796,20 +786,20 @@ class UserGoogleOperations(Resource):
 #            return '', 500
 
 """Validation"""
-@projectmanager.route("/validation")
-@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-class ValidationOperations(Resource):
-    @projectmanager.marshal_with(validation, code=200)
-    @projectmanager.expect(validation)
-    def post(self):
-        """Bewertung erstellen"""
-        adm = ProjectAdministration()
-        proposal = Validation.from_dict(api.payload)
-        if proposal is not None:
-            c = adm.create_validation(proposal.get_grade())
-            return c, 200
-        else:
-            return '', 500
+#@projectmanager.route("/validation")
+#@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+#class ValidationOperations(Resource):
+    #@projectmanager.marshal_with(validation, code=200)
+    #@projectmanager.expect(validation)
+    #def post(self):
+        #"""Bewertung erstellen"""
+        #adm = ProjectAdministration()
+        #proposal = Validation.from_dict(api.payload)
+        #if proposal is not None:
+            #c = adm.create_validation(proposal.get_grade())
+            #return c, 200
+        #else:
+            #return '', 500
 
 @projectmanager.route("/validation/<int:id>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -822,29 +812,29 @@ class ValidationOperations(Resource):
         validation = adm.get_validation_by_id(id)
         return validation
 
-    def delete(self, id):
-        """Löschen einer Bewertung aus der DB"""
-        adm = ProjectAdministration()
-        validation = adm.get_validation_by_id(id)
-        if validation is None:
-            return 'Bewertung konnte nicht aus der DB gelöscht werden', 500
-        else:
-            adm.delete_validation(validation)
-            return 'Bewertung wurde erfolgreich aus der DB gelöscht', 200
+    #def delete(self, id):
+        #"""Löschen einer Bewertung aus der DB"""
+        #adm = ProjectAdministration()
+        #validation = adm.get_validation_by_id(id)
+        #if validation is None:
+            #return 'Bewertung konnte nicht aus der DB gelöscht werden', 500
+        #else:
+            #adm.delete_validation(validation)
+            #return 'Bewertung wurde erfolgreich aus der DB gelöscht', 200
 
-    @projectmanager.expect(validation)
-    def put(self, id):
-        """Bewertung wird aktualisiert"""
-        adm = ProjectAdministration()
-        validation = Validation.from_dict(api.payload)
+    #@projectmanager.expect(validation)
+    #def put(self, id):
+        #"""Bewertung wird aktualisiert"""
+        #adm = ProjectAdministration()
+        #validation = Validation.from_dict(api.payload)
 
-        if validation is None:
-            return "Bewertung konnte nicht geändert werden", 500
+        #if validation is None:
+            #return "Bewertung konnte nicht geändert werden", 500
 
-        else:
-            validation.set_id(id)
-            adm.save_validation(validation)
-            return "Bewertung wurde erfolgreich geändert", 200
+        #else:
+            #validation.set_id(id)
+            #adm.save_validation(validation)
+            #return "Bewertung wurde erfolgreich geändert", 200
 
 if __name__ == '__main__':
     app.run(debug=True)
