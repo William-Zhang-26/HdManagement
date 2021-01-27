@@ -1,5 +1,5 @@
-from src.server.bo.Project import Project
-from src.server.db.Mapper import Mapper
+from server.bo.Project import Project
+from server.db.Mapper import Mapper
 
 
 class ProjectMapper(Mapper):

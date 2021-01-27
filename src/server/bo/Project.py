@@ -1,5 +1,5 @@
-from src.server.bo.Automat import Automat
-from src.server.bo.State import State
+from server.bo.Automat import Automat
+from server.bo.State import State
 
 class Project(Automat):
     """

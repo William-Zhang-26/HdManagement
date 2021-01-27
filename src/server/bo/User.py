@@ -1,5 +1,5 @@
-from src.server.bo.NamedBusinessObject import NamedBusinessObject
-from src.server.bo.Role import Role
+from server.bo.NamedBusinessObject import NamedBusinessObject
+from server.bo.Role import Role
 
 class User(NamedBusinessObject):
     """

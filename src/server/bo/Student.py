@@ -1,4 +1,4 @@
-from src.server.bo.User import User
+from server.bo.User import User
 
 class Student(User):
     """

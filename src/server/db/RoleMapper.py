@@ -1,5 +1,5 @@
-from src.server.bo.Role import Role
-from src.server.db.Mapper import Mapper
+from server.bo.Role import Role
+from server.db.Mapper import Mapper
 
 class RoleMapper(Mapper):
     """Mapper-Klasse, die Anwender-Objekte auf eine relationale

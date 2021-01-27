@@ -1,5 +1,5 @@
-from src.server.bo.Module import Module
-from src.server.db.Mapper import Mapper
+from server.bo.Module import Module
+from server.db.Mapper import Mapper
 
 
 class ModuleMapper (Mapper):
