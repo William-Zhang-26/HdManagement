@@ -173,7 +173,7 @@ class UserMapper(Mapper):
         """Einfügen eines User-Objekts in die Datenbank."""
 
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT MAX(user_id) as MaxID from user")
+        cursor.execute("SELECT MAX(id) as MaxID from user")
         tuples = cursor.fetchall()
 
         for (MaxID) in tuples:
