@@ -1,5 +1,5 @@
-from src.server.bo.State import State
-from src.server.db.Mapper import Mapper
+from server.bo.State import State
+from server.db.Mapper import Mapper
 
 
 class StateMapper (Mapper):

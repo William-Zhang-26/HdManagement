@@ -1,5 +1,5 @@
-from src.server.bo.User import User
-from src.server.db.Mapper import Mapper
+from server.bo.User import User
+from server.db.Mapper import Mapper
 
 class UserMapper(Mapper):
     """Mapper-Klasse, die Anwender-Objekte auf eine relationale

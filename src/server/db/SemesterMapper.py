@@ -1,5 +1,5 @@
-from src.server.bo.Semester import Semester
-from src.server.db.Mapper import Mapper
+from server.bo.Semester import Semester
+from server.db.Mapper import Mapper
 
 
 class SemesterMapper (Mapper):

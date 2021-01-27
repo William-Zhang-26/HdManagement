@@ -1,5 +1,5 @@
-from src.server.bo.Student import Student
-from src.server.db.Mapper import Mapper
+from server.bo.Student import Student
+from server.db.Mapper import Mapper
 
 class StudentMapper(Mapper):
     """Mapper-Klasse, die Anwender-Objekte auf eine relationale

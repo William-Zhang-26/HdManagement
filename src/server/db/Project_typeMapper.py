@@ -1,5 +1,5 @@
-from src.server.bo.Project_type import Project_type
-from src.server.db.Mapper import Mapper
+from server.bo.Project_type import Project_type
+from server.db.Mapper import Mapper
 
 
 class Project_typeMapper (Mapper):

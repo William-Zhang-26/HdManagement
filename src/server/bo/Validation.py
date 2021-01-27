@@ -1,4 +1,4 @@
-from src.server.bo.BusinessObject import BusinessObject
+from server.bo.BusinessObject import BusinessObject
 
 
 class Validation(BusinessObject):

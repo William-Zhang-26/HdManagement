@@ -1,25 +1,25 @@
-from .bo.State import State
-from .bo.Module import Module
-from .bo.Participation import Participation
-from .bo.Project import Project
-from .bo.Project_type import Project_type
-from .bo.Role import Role
-from .bo.Semester import Semester
-from .bo.Student import Student
-from .bo.User import User
-from .bo.Validation import Validation
+from server.bo.State import State
+from server.bo.Module import Module
+from server.bo.Participation import Participation
+from server.bo.Project import Project
+from server.bo.Project_type import Project_type
+from server.bo.Role import Role
+from server.bo.Semester import Semester
+from server.bo.Student import Student
+from server.bo.User import User
+from server.bo.Validation import Validation
 
 
-from .db.StateMapper import StateMapper
-from .db.ModuleMapper import ModuleMapper
-from .db.ParticipationMapper import ParticipationMapper
-from .db.ProjectMapper import ProjectMapper
-from .db.Project_typeMapper import Project_typeMapper
-from .db.RoleMapper import RoleMapper
-from .db.SemesterMapper import SemesterMapper
-from .db.StudentMapper import StudentMapper
-from .db.UserMapper import UserMapper
-from .db.ValidationMapper import ValidationMapper
+from server.db.StateMapper import StateMapper
+from server.db.ModuleMapper import ModuleMapper
+from server.db.ParticipationMapper import ParticipationMapper
+from server.db.ProjectMapper import ProjectMapper
+from server.db.Project_typeMapper import Project_typeMapper
+from server.db.RoleMapper import RoleMapper
+from server.db.SemesterMapper import SemesterMapper
+from server.db.StudentMapper import StudentMapper
+from server.db.UserMapper import UserMapper
+from server.db.ValidationMapper import ValidationMapper
 
 
 class ProjectAdministration (object):

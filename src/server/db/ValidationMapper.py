@@ -1,5 +1,5 @@
-from src.server.bo.Validation import Validation
-from src.server.db.Mapper import Mapper
+from server.bo.Validation import Validation
+from server.db.Mapper import Mapper
 
 
 class ValidationMapper (Mapper):

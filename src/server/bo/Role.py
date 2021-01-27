@@ -1,4 +1,4 @@
-from src.server.bo.NamedBusinessObject import NamedBusinessObject
+from server.bo.NamedBusinessObject import NamedBusinessObject
 
 class Role(NamedBusinessObject):
 
