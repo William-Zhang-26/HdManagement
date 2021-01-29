@@ -136,6 +136,7 @@ state = api.inherit('State', nbo, {
 @projectmanager.param('id', 'Die ID des Zustand-Objekts')
 class StateOperations(Resource):
     @projectmanager.marshal_with(state)
+    #@secured
     def get(self, id):
         """Auslesen eines Zustandes aus der DB"""
         adm = ProjectAdministration()
