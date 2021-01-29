@@ -93,7 +93,6 @@ project_type = api.inherit('Project_type', nbo, {
 """User&Student"""
 
 user = api.inherit('User', nbo, {
-    'firstname': fields.String(attribute='_firstname', description='Der Vorname eines Users'),
     'mail': fields.String(attribute='_mail', description='Die E-Mail eines Users'),
     'google_id': fields.String(attribute='_google_id', description='Die Google-ID eines Users'),
     'role_id': fields.Integer(attribute='_role_id', description='Die ID der zugehörigen Rolle')
@@ -739,8 +738,7 @@ class UserOperations(Resource):
         adm = ProjectAdministration()
         user = User.from_dict(api.payload)
         if user is not None:
-            c = adm.create_user(user.get_name(), user.get_mail(),
-                                user.get_google_id())
+            c = adm.create_user(user.get_name(), user.get_mail(), user.get_google_id())
             return c, 200
         else:
             return '', 500
