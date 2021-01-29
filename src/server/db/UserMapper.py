@@ -153,16 +153,24 @@ class UserMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, firstname, mail, google_id, role_id, create_time) in tuples:
-            user = User()
-            user.set_id(id)
-            user.set_name(name)
-            user.set_firstname(firstname)
-            user.set_mail(mail)
-            user.set_google_id(google_id)
-            user.set_role_id(role_id)
-            user.set_create_time(create_time)
-            result.append(user)
+
+        if len(tuples) != 0:
+
+            for (id, name, firstname, mail, google_id, role_id, create_time) in tuples:
+                user = User()
+                user.set_id(id)
+                user.set_name(name)
+                user.set_firstname(firstname)
+                user.set_mail(mail)
+                user.set_google_id(google_id)
+                user.set_role_id(role_id)
+                user.set_create_time(create_time)
+                result.append(user)
+
+        else:
+
+            result = None
+
 
         self._cnx.commit()
         cursor.close()
@@ -223,8 +231,9 @@ if __name__ == "__main__":
 """
 if __name__ == "__main__":
     with UserMapper() as mapper:
-        user = mapper.find_by_key(1).get_name()
-        print(user)
+        user = mapper.find_by_google_user_id("f")
+        for i in user:
+            print(i.get_name())
 """
 """
 if __name__ == "__main__":
