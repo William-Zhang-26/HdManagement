@@ -38,7 +38,7 @@ class User(NamedBusinessObject):
         return self._role_id
 
     def set_role_id(self, new_role_id):
-        """Setzen der Rollen-Id (Soll nicht wirklich funktionieren"""
+        """Setzen der Rollen-Id """
         self._role_id = new_role_id
 
     @staticmethod

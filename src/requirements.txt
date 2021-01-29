@@ -1,4 +1,6 @@
-Flask==1.1.1
-Flask-Cors==3.0.8
+Flask==1.1.2
+Flask-Cors==3.0.9
 flask-restx==0.2.0
-mysql-connector-python==8.0.19
+mysql-connector-python==8.0.22
+google-auth==1.23.0
+requests==2.24.0
