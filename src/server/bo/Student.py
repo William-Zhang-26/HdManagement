@@ -38,7 +38,6 @@ class Student(User):
         new_student.set_id(dict["id"])
         new_student.set_user_id(dict["user_id"])
         new_student.set_name(dict["name"])
-        new_student.set_firstname(dict["firstname"])
         new_student.set_course(dict["course"])
         new_student.set_matriculation_number(dict["matriculation_number"])
         new_student.set_mail(dict["mail"])

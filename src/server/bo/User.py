@@ -13,18 +13,9 @@ class User(NamedBusinessObject):
 
     def __init__(self):
         super().__init__()
-        self._firstname = ""
         self._mail = ""
         self._google_id = ""
         self._role_id = 4
-
-    def get_firstname(self):
-        """Auslesen des Vornamens"""
-        return self._firstname
-
-    def set_firstname(self, new_firstname):
-        """Setzen des Vornamens"""
-        self._firstname = new_firstname
 
     def get_mail(self):
         """Auslesen der Mail"""
@@ -55,7 +46,6 @@ class User(NamedBusinessObject):
         new_user = User()
         new_user.set_id(dict["id"])
         new_user.set_name(dict["name"])
-        new_user.set_firstname(dict["firstname"])
         new_user.set_mail(dict["mail"])
         new_user.set_google_id(dict["google_id"])
         new_user.set_role_id(dict["role_id"])
