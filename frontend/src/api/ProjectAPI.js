@@ -31,6 +31,7 @@ export default class ProjectAPI {
     #getStudentByIdURL = (id) => `${this.#projectServerBaseURL}/student/${id}`;
     #deleteStudentURL = (id) => `${this.#projectServerBaseURL}/students/${id}`;
     #addStudentsForProjectURL = (id) => `${this.#projectServerBaseURL}/project/${id}/student`;
+    #getStudentByGoogleIdURL= (google_id) => `${this.#projectServerBaseURL}/student/${google_id}`;
 
     //State related
     #getStatebyIdURL = (id) => `${this.#projectServerBaseURL}/state/${id}`;
@@ -48,6 +49,7 @@ export default class ProjectAPI {
 
     //User related
     #addUser = () => `${this.#projectServerBaseURL}/user`;
+    #getUserByGoogleIdURL= (google_id) => `${this.#projectServerBaseURL}/user/${google_id}`;
 
 
     static getAPI() {
@@ -179,6 +181,19 @@ export default class ProjectAPI {
     } 
 
 
+
+    getStudentByGoogleId(google_id) {
+      return this.#fetchAdvanced(this.#getStudentByGoogleIdURL(google_id)).then((responseJSON) => {
+        // We always get an array of ProjectBOs.fromJSON, but only need one object
+        let responseStudentBO = StudentBO.fromJSON(responseJSON)[0];
+        // console.info(responsePtojectBO);
+        return new Promise(function (resolve) {
+          resolve(responseStudentBO);
+        })
+      })
+    }
+
+
     //State related
     getStatebyId(stateID) {
       return this.#fetchAdvanced(this.#getStatebyIdURL(stateID)).then((responseJSON) => {
@@ -270,6 +285,18 @@ export default class ProjectAPI {
       })
     }
 
+
+    
+    getUserByGoogleId(google_id) {
+      return this.#fetchAdvanced(this.#getUserByGoogleIdURL(google_id)).then((responseJSON) => {
+        // We always get an array of ProjectBOs.fromJSON, but only need one object
+        let responseUserBO = UserBO.fromJSON(responseJSON)[0];
+        // console.info(responsePtojectBO);
+        return new Promise(function (resolve) {
+          resolve(responseUserBO);
+        })
+      })
+    }
 
     
 }

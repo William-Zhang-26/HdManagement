@@ -28,7 +28,7 @@ class StudentReportIndividualTitle extends Component{
   }
 
   getStudent = () => {
-      ProjectAPI.getAPI().getStudentbyId(1)   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
+      ProjectAPI.getAPI().getStudentbyId(firebase.auth().currentUser.uid)   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
       //ProjectAPI.getAPI().getStudentById()
           .then (studentBO => {
               this.setState({ student: studentBO });
