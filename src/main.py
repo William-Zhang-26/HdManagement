@@ -86,8 +86,8 @@ role = api.inherit('Role', nbo, {
 
 
 project_type = api.inherit('Project_type', nbo, {
-    'ects': fields.Integer(attribute='_ects', description='Die ECTS Punkte von dem Projekt'),
-    'sws': fields.Integer(attribute='_sws', description='Die SWS Punkte von dem Projekt')
+    'ects': fields.String(attribute='_ects', description='Die ECTS Punkte von dem Projekt'),
+    'sws': fields.String(attribute='_sws', description='Die SWS Punkte von dem Projekt')
 })
 
 """User&Student"""

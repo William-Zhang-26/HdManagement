@@ -11,8 +11,8 @@ class Project_type(NamedBusinessObject):
 
     def __init__(self):
         super().__init__()
-        self._ects = None
-        self._sws = None
+        self._ects = ""
+        self._sws = ""
 
 
     def get_ects(self):
