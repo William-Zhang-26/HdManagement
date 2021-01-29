@@ -308,6 +308,7 @@ class ProjectOperations(Resource):
 @projectmanager.param('id', 'Die ID des Projekt-Objekts')
 class ProjectOperations(Resource):
     @projectmanager.marshal_with(project)
+    #@secured
     def get(self, id):
         """Auslesen eines Projektes aus der DB"""
         adm = ProjectAdministration()
@@ -342,6 +343,7 @@ class ProjectOperations(Resource):
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class ProjectOperationss(Resource):
     @projectmanager.marshal_with(project)
+    #@secured
     def get(self):
         """Auslesen aller Projekte aus der DB"""
         adm = ProjectAdministration()

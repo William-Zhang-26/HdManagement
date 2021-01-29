@@ -1,6 +1,8 @@
 from flask import request
 from google.auth.transport import requests
+from server.bo.User import User
 import google.oauth2.id_token
+
 
 from server.ProjectAdministration import ProjectAdministration
 
@@ -40,11 +42,10 @@ def secured(function):
                 if claims is not None:
                     adm = ProjectAdministration()
 
-                    google_id = claims.get("google_id")
-                    mail = claims.get("mail")
-                    firstname = claims.get("firstname")
+                    google_id = claims.get("user_id")
+                    mail = claims.get("email")
                     name = claims.get("name")
-                    role_id = claims.get("role_id")
+
 
                     user = adm.get_user_by_google_id(google_id)
                     if user is not None:
@@ -54,31 +55,34 @@ def secured(function):
                         die E-Mail-Adresse (mail) und die Role (role_id) ändern. 
                         Daher werden diese vier Daten sicherheitshalber
                         in unserem System geupdated."""
-                        user.set_name(name)
-                        user.set_firstname(firstname)
-                        user.set_mail(mail)
-                        user.set_role_id(role_id)
-                        adm.save_user(user)
+
+                        u = User()
+                        u.set_name(name)
+                        u.set_mail(mail)
+                        adm.save_user(u)
+
                     else:
                         """Fall: Der Benutzer war bislang noch nicht eingelogged. 
                         Wir legen daher ein neues User-Objekt an, um dieses ggf. später
                         nutzen zu können.
                         """
-                        user = adm.create_user(name, firstname, mail, google_id)
 
-                    print(request.method, request.path, "angefragt durch:", name, firstname, mail, google_id)
+                        user = adm.create_user(name, mail, google_id)
+
+
+                    print(request.method, request.path, "angefragt durch:", name, mail, google_id)
 
                     objects = function(*args, **kwargs)
                     return objects
                 else:
-                    return '', 401  # UNAUTHORIZED !!!
+                    return print('Fall 1'), '', 401  # UNAUTHORIZED !!!
             except ValueError as exc:
                 # This will be raised if the token is expired or any other
                 # verification checks fail.
                 error_message = str(exc)
-                return exc, 401  # UNAUTHORIZED !!!
+                return print('Fall 2'), exc, 401  # UNAUTHORIZED !!!
 
-        return '', 401  # UNAUTHORIZED !!!
+        return print('Fall 3'), 401  # UNAUTHORIZED !!!
 
     return wrapper
 
