@@ -13,6 +13,15 @@
 .git
 .gitignore
 
+# Ignore Markdown Files
+*.md
+
+# Ignore some development specific directories
+.idea/
+mysql/
+postman/
+frontend/
+
 # Python pycache:
 __pycache__/
 # Ignored by the build system
