@@ -24,12 +24,12 @@ class App extends React.Component {
 
 
   #firebaseConfig = {
-    apiKey: "AIzaSyBeTsPibRQo3o-F_zKCrazT_d0D_wmxrrE",
-    authDomain: "hdmanagement05.firebaseapp.com",
-    projectId: "hdmanagement05",
-    storageBucket: "hdmanagement05.appspot.com",
-    messagingSenderId: "307273714192",
-    appId: "1:307273714192:web:ce93c3862be12bb3191895"
+    apiKey: "AIzaSyDNxp-mqUYTb94jxEZGJW9VY1F7t4pTZDA",
+    authDomain: "hdmanagement06.firebaseapp.com",
+    projectId: "hdmanagement06",
+    storageBucket: "hdmanagement06.appspot.com",
+    messagingSenderId: "682681201192",
+    appId: "1:682681201192:web:fb5f16a11bf7893c2f7b1d"
     
       };
 
