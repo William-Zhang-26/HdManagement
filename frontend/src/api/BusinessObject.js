@@ -6,7 +6,7 @@ export default class BusinessObject {
 
     constructor() {
         this.id = 0;
-        this.create_time = Date //wird hier der Datentyp "Date" gesetzt, oder eine Variable wie "aCreationTime" o.Ä.
+        this.create_time = new Date() //wird hier der Datentyp "Date" gesetzt, oder eine Variable wie "aCreationTime" o.Ä.
     }
 
     getID() {

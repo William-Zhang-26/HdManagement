@@ -1,12 +1,13 @@
-//import NamedBusinessObject from './NamedBusinessObject';
+import NamedBusinessObject from './NamedBusinessObject';
 
 
-export default class ProjectTypeBO /*extends NamedBusinessObject*/ {
+export default class ProjectTypeBO extends NamedBusinessObject {
 
     //Konstruktorklasse, welche ein Projekttypen BO erstellt mit den abgebildeten Attributen
-    constructor(aEcts, aSws) {
+    constructor(aName, aEcts, aSws) {
 
-        //super();
+        super();
+        this.name = aName;
         this.ects = aEcts;
         this.sws = aSws;
 

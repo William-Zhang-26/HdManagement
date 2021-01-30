@@ -432,7 +432,7 @@ class ProjectRelatedParticipationOperations(Resource):
 class Project_typeOperations(Resource):
     @projectmanager.marshal_with(project_type, code=200)
     @projectmanager.expect(project_type)
-    @secured
+    #@secured
     def post(self):
         """Project Typen erstellen"""
         adm = ProjectAdministration()

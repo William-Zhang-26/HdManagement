@@ -8,6 +8,7 @@ import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import LecturerProjectListEntry from './LecturerProjectListEntry';
 import ProjectForm from './dialogs/ProjectForm';
+import ProjectTypeForm from './dialogs/ProjectTypeForm';
 
 /**  
  * Hier wird die Liste aus Dozentensicht angezeigt. Dozenten sehen die eigenen Projekte (Neue und genehmigte)
@@ -69,25 +70,8 @@ class LecturerProjectList extends Component {
       error: null
     });
   }
-
-  /*getProjectStateName = () => {
-    ProjectAPI.getAPI().getStateByName()
-      .then(projectBOs =>
-        this.setState({              
-          projects: projectBOs,
-          loadingInProgress: false,   
-          error: null
-        })).catch(e =>
-          this.setState({            
-            projects: [],
-            loadingInProgress: false, 
-            error: e
-          })
-        );
-      }*/
     
   
-
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
@@ -126,10 +110,29 @@ class LecturerProjectList extends Component {
 
 
 
+  /** Handles the onClick event of the add project button */
+  addProjectTypeButtonClicked = event => {
+    event.stopPropagation();
+    this.setState({
+      showProjectTypeForm: true
+    });
+  }
+
+
+  projectTypeFormClosed = project => {
+    // project is not null and therefore created
+      this.setState({
+        showProjectTypeForm: false
+      });
+  }
+
+
+
+
   /** Renders the component */
   render() {
     const { classes } = this.props;
-    const { projects, expandedProjectID, loadingInProgress, error, showProjectForm } = this.state;
+    const { projects, expandedProjectID, loadingInProgress, error, showProjectForm, showProjectTypeForm } = this.state;
 
     return (
       <div className={classes.root}>
@@ -137,6 +140,12 @@ class LecturerProjectList extends Component {
         <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addProjectButtonClicked}>
               Projekt erstellen
           </Button>
+
+
+        <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addProjectTypeButtonClicked}>
+            Typ erstellen
+        </Button>
+
         { 
           // Show the list of ProjectListEntry components
           // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
@@ -148,6 +157,7 @@ class LecturerProjectList extends Component {
             <LoadingProgress show={loadingInProgress} />
             <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjects} />
             <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} />
+            <ProjectTypeForm show={showProjectTypeForm} onClose={this.projectTypeFormClosed} />
           </ListItem>
 
         </List>

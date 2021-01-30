@@ -1,4 +1,5 @@
 import ProjectBO from './ProjectBO';
+import ProjectTypeBO from './ProjectTypeBO';
 import StudentBO from './StudentBO';
 import StateBO from './StateBO';
 import ParticipationBO from './ParticipationBO';
@@ -26,6 +27,9 @@ export default class ProjectAPI {
     #getAttributesForProjectURL = (id) => `${this.#projectServerBaseURL}/projects/${id}/attributes`;
     #addProjectURL = () => `${this.#projectServerBaseURL}/project`;
     #deleteProjectURL = (id) => `${this.#projectServerBaseURL}/project/${id}`;
+
+    //Projecttype related
+    #addProjectTypeURL = () => `${this.#projectServerBaseURL}/project_type`;
 
     //Student related
     #getStudentByIdURL = (id) => `${this.#projectServerBaseURL}/student/${id}`;
@@ -130,6 +134,31 @@ export default class ProjectAPI {
         let responseProjectBO = ProjectBO.fromJSON(responseJSON)[0];
         return new Promise(function (resolve) {
           resolve(responseProjectBO);
+        })
+      })
+    }
+
+
+    //Projecttype related
+
+    addProjectType(projecttypeBO) {
+      console.log('Ich bin hier.')
+      console.log(projecttypeBO)
+      console.info(projecttypeBO)
+      return this.#fetchAdvanced(this.#addProjectTypeURL(), {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json, text/plain',
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(projecttypeBO) 
+      }).then((responseJSON) => {
+        // We always get an array of ProjectBOs.fromJSON, but only need one object
+        let responseProjectTypeBO = ProjectTypeBO.fromJSON(responseJSON)[0];
+        console.info(responseProjectTypeBO)
+        return new Promise(function (resolve) {
+          resolve(responseProjectTypeBO);
+          console.log('Ich bin zum Schluss hier.')
         })
       })
     }
