@@ -32,6 +32,7 @@ class ParticipantList extends Component {
         showValidationForm: false,
         error: null,
         loadingInProgress: false,
+
     };
   }
 
@@ -43,9 +44,33 @@ class ParticipantList extends Component {
         })
       }
 
+ /* getValidationbyId = () => {
+    ProjectAPI.getAPI().getValidationbyId(this.state.participation.getValidationID())   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
+    //ProjectAPI.getAPI().getStudentById()
+        .then(validationBO => 
+          this.setState({ validation: validationBO }))
+        .catch(e =>
+          this.setState({
+            validation:[],
+            error: e
+          })
+        };*/
+
+
+        getValidationbyId = () => {
+          ProjectAPI.getAPI().getValidationbyId(this.state.participation.getValidationID())   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
+              .then(validationBO => 
+                this.setState({ validation: validationBO }))
+              .catch(e =>
+                this.setState({ 
+                  error: e
+              })
+              )}
+
 
   componentDidMount() {
     this.getParticipant();
+    this.getValidationbyId();
   }
 
   /** Handles the onClick event of the delete project button */
@@ -70,7 +95,7 @@ class ParticipantList extends Component {
   }
 
 
-  /** Handles the onClick event of the validate button */
+  /** Handles the onClick event of the validate button 
   validateParticipantButtonClicked = event => {
     // Do not toggle the expanded state
     event.stopPropagation();
@@ -79,7 +104,7 @@ class ParticipantList extends Component {
     });
   }
 
-  /** Handles the onClose event of the ValidationForm */
+  /** Handles the onClose event of the ValidationForm 
   validationFormClosed = grade => {
     // customer is not null and therefore created
     if (grade) {
@@ -93,22 +118,21 @@ class ParticipantList extends Component {
         showValidationForm: false
       });
     }
-  }
+  }*/
 
 
 
   /** Renders the component */
   render() {
     const { classes } = this.props;
-    const { loadingInProgress, student, participation, error, showParticipationDeleteDialog } = this.state;
+    const { loadingInProgress, student, participation, error, showParticipationDeleteDialog, validation } = this.state;
     console.log(this.state);
 
     return (
       <div className={classes.root}>
-        { student && participation ?
+        { student && participation && validation?
         
         <Grid className = {classes.root} container spacing={1} justify='flex-start' alignItems='center'>
-          
 
             <Grid item>
                 <Typography className = {classes.font} >{student.getFirstName()} {student.getName()} 
@@ -123,6 +147,10 @@ class ParticipantList extends Component {
                   Entfernen
                 </Button>
               </ButtonGroup>
+              <Grid item xs = {8} />
+                <Grid item alignItems='right'>
+                  <ListItem>{validation.getGrade()}</ListItem>  
+                </Grid>
               <LoadingProgress show={loadingInProgress} />
             <ContextErrorMessage error={error} contextErrorMsg={`The list of participations could not be loaded.`} onReload={this.getParticipant} />
             </Grid>
