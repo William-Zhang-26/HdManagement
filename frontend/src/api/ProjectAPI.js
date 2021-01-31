@@ -28,8 +28,8 @@ export default class ProjectAPI {
     #addProjectURL = () => `${this.#projectServerBaseURL}/project`;
     #deleteProjectURL = (id) => `${this.#projectServerBaseURL}/project/${id}`;
 
-    //Projecttype related
-    #addProjectTypeURL = () => `${this.#projectServerBaseURL}/project_type`;
+    //Participation related
+    #addValidationURL = () => `${this.#projectServerBaseURL}/participation`;
 
     //Student related
     #getStudentByIdURL = (id) => `${this.#projectServerBaseURL}/student/${id}`;
@@ -139,26 +139,23 @@ export default class ProjectAPI {
     }
 
 
-    //Projecttype related
+    //Participation related
 
-    addProjectType(projecttypeBO) {
-      console.log('Ich bin hier.')
-      console.log(projecttypeBO)
-      console.info(projecttypeBO)
-      return this.#fetchAdvanced(this.#addProjectTypeURL(), {
+    addValidation(participationBO) {
+    console.log(this.state);
+      return this.#fetchAdvanced(this.#addValidationURL(), {
         method: 'POST',
         headers: {
           'Accept': 'application/json, text/plain',
           'Content-type': 'application/json',
         },
-        body: JSON.stringify(projecttypeBO) 
+        body: JSON.stringify(participationBO) 
       }).then((responseJSON) => {
         // We always get an array of ProjectBOs.fromJSON, but only need one object
-        let responseProjectTypeBO = ProjectTypeBO.fromJSON(responseJSON)[0];
-        console.info(responseProjectTypeBO)
+        let responseParticipationBO = ParticipationBO.fromJSON(responseJSON)[0];
+
         return new Promise(function (resolve) {
-          resolve(responseProjectTypeBO);
-          console.log('Ich bin zum Schluss hier.')
+          resolve(responseParticipationBO);
         })
       })
     }

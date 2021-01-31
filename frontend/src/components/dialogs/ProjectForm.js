@@ -3,11 +3,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
-import { MenuItem, FormControl, InputLabel, Select, Typography} from '@material-ui/core';
+import { MenuItem, FormControl, InputLabel, Select, Typography, Grid} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import ProjectAPI  from '../../api/ProjectAPI';
 import ProjectBO  from '../../api/ProjectBO';
-import ProjectTypeBO  from '../../api/ProjectTypeBO';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
@@ -34,62 +33,49 @@ class ProjectForm extends Component {
   constructor(props) {
     super(props);
 
-    let name = '';
-    let as = '';
-    let ep = '';
-    let pd = '';
-    let pc = '';
-    let weekly = '';
-    let cap = '';
-    let bdps = '';
-    let bdf = '';
-    let bds = '';
-    let pbd = '';
-    let rp = '';
-    let pr = '';
+    let pn = '';
+    let uid = 0;
 
-    let typeName = '';
-    let ects = '';
-    let sws = '';
+    if (props.project) {
+      pn = props.project.getName();
+      uid = props.project.getUserID();
+
+    }
 
 
     // Init the state
     this.state = {
       //Project spezifische Attribute
-      projectName: name,
+      projectName: pn,
       projectNameValidationFailed: false,
-      additionalSupervisor: as,
-      additionalSupervisorValidationFailed: false,
-      externalPartners: ep,
-      externalPartnersValidationFailed: false,
-      projectDescription: pd,
-      projectDescriptionValidationFailed: false,
-      projectCategory: pc,
-      projectCategoryValidationFailed: false,
-      weekly: weekly,
-      weeklyValidationFailed: false,
-      capacity: cap,
-      capacityValidationFailed: false,
-      bDaysPreSchedule: bdps,
-      bDaysPreScheduleValidationFailed: false,
-      bDaysFinale: bdf,
-      bDaysFinaleValidationFailed: false,
-      bDaysSaturdays: bds,
-      bDaysSaturdaysValidationFailed: false,
-      preferredBDays: pbd,
-      preferredBDaysValidationFailed: false,
-      roomPreference: rp,
-      roomPreferenceValidationFailed: false,
-      preferredRoom: pr,
-      preferredRoomValidationFailed: false,
 
-      // ProjectType spezifische Attribute
-      projectTypeName: typeName,
-      projectTypeNameValidationFailed: false,
-      ects: ects,
-      //ectsValidationFailed: false,
-      sws: sws,
-      //swsValidationFailed: false,
+      userID: uid, //hier wird stattdessen noch die current user Id durch eine API geholt
+
+      projectTypeID: 0,
+
+      stateID: 1,
+
+      projectDescription: '',
+      projectDescriptionValidationFailed: false,
+
+      partners: '',
+
+      capacity: 0,
+
+      preferredRoom: '',
+
+      bDaysPreSchedule: '',
+      
+      bDaysFinale: '',
+      
+      bDaysSaturdays: '',
+      
+      preferredBDays: '',
+      
+      additionalLecturer: '',
+
+      weekly: '',
+      
 
       // Ladebalken und Error
       addingInProgress: false,
@@ -104,12 +90,11 @@ class ProjectForm extends Component {
 
   /** Adds the Project */
   addProject = () => {
-    let newProject = new ProjectBO(this.state.projectName, this.state.additionalSupervisor, this.state.externalPartners, 
-      this.state.projectDescription, this.state.projectCategory, this.state.weekly, this.state.capacity, 
-      this.state.bDaysPreSchedule, this.state.bDaysFinale, this.state.bDaysSaturdays, this.state.preferredBDays, 
-      this.state.roomPreference, this.state.preferredRoom); 
-    let newProjectType = new ProjectTypeBO(this.state.projectTypeName, this.state.ects, this.state.sws);
-    ProjectAPI.getAPI().addProject(newProject, newProjectType).then(project => {
+    let newProject = new ProjectBO(this.state.projectName, this.state.userID, this.state.projectTypeID, this.state.stateID, 
+      this.state.projectDescription, this.state.partners, this.state.capacity, this.state.preferredRoom, this.state.bDaysPreSchedule, 
+      this.state.bDaysFinale, this.state.bDaysSaturdays, this.state.preferredBDays, this.state.additionalLecturer, this.state.weekly); 
+   
+    ProjectAPI.getAPI().addProject(newProject).then(project => {
       // Backend call sucessfull
       // reinit the dialogs state for a new empty project
       this.setState(this.baseState);
@@ -166,31 +151,32 @@ class ProjectForm extends Component {
 
   handleChange2 = (event) => {
     this.setState({
-        value2: event.target.value
+      projectTypeID: event.target.value
     });}
 
 
   /** Renders the component */
   render() {
-    const { classes, show } = this.props;
+    const { classes, show, project } = this.props;
     const { projectName, projectNameValidationFailed } = this.state;
-    const { additionalSupervisor, additionalSupervisorValidationFailed } = this.state;
-    const { externalPartners, externalPartnersValidationFailed } = this.state;
+    const { userID } = this.state;
+    const { projectTypeID } = this.state;
     const { projectDescription, projectDescriptionValidationFailed } = this.state;
-    const { projectCategory, value, value2 } = this.state;
-    const { weekly, weeklyValidationFailed } = this.state;
-    const { capacity, capacityValidationFailed } = this.state;
-    const { bDaysPreSchedule, bDaysPreScheduleValidationFailed } = this.state;
-    const { bDaysFinale, bDaysFinaleValidationFailed } = this.state;
-    const { bDaysSaturdays, bDaysSaturdaysValidationFailed } = this.state;
-    const { preferredBDays, preferredBDaysValidationFailed } = this.state;
-    const { roomPreference, roomPreferenceValidationFailed } = this.state;
-    const { preferredRoom, preferredRoomValidationFailed } = this.state;
-    const { projectTypeName, projectTypeNameValidationFailed } = this.state;
-    const { ects } = this.state;
-    const { sws } = this.state;
-    //const {  } = this.state;
+    const { partners } = this.state;
+    const { capacity } = this.state;
+    const { preferredRoom } = this.state;
+    const { bDaysPreSchedule } = this.state;
+    const { bDaysFinale, } = this.state;
+    const { bDaysSaturdays } = this.state;
+    const { preferredBDays } = this.state;
+    const { additionalLecturer } = this.state;
+    const { weekly } = this.state;
     const { addingInProgress, addingError } = this.state;
+
+    const { value } = this.state;
+
+    console.log(this.state);
+
 
     let title = 'Neues Projekt erstellen';
     let header = 'Füllen Sie das Formuler aus';
@@ -212,20 +198,89 @@ class ProjectForm extends Component {
                 onChange={this.textFieldValueChange} error={projectNameValidationFailed} 
                 helperText={projectNameValidationFailed ? 'Der Projekttitel muss mindestens ein Zeichen besitzen' : ' '} />
 
-            <TextField type='text' required fullWidth margin='normal' id='additionalSupervisor' label='Betreuende(r) ProfessorInnen:' value={additionalSupervisor} 
+
+            <TextField type='number' required fullWidth margin='normal' id='userID' label='User ID:' value={userID} 
                 onChange={this.textFieldValueChange} />
 
-            <TextField type='text' required fullWidth margin='normal' id='externalPartners' label='Externe Partner:' value={externalPartners} 
-                onChange={this.textFieldValueChange} />
+
+            <Typography>Projektart</Typography>
+            <FormControl className={classes.formControl}>
+                <InputLabel id="open-select-label">Bitte auswählen</InputLabel>
+                <Select
+                  value={projectTypeID}
+                  onChange={this.handleChange2}
+                >
+                  <MenuItem value={1}>Fachspezifisches Projekt</MenuItem>
+                  <MenuItem value={2}>Interdisziplinäres Projekt</MenuItem>
+                  <MenuItem value={3}>Transdisziplinäres Projekt</MenuItem>
+                </Select>
+              </FormControl>
+              { projectTypeID === 1 ?
+              <Grid>
+                <Typography> ECTS: 5 </Typography>
+                <Typography>SWS: 3</Typography>
+              </Grid>
+
+              : projectTypeID === 2 ?
+              <Grid>
+                <Typography> ECTS: 10 </Typography>
+                <Typography>SWS: 5</Typography>
+              </Grid> 
+              
+              : projectTypeID === 3 ?
+              <Grid>
+                <Typography> ECTS: 20 </Typography>
+                <Typography>SWS: 10</Typography>
+              </Grid> 
+              
+              : null }
+
 
             <TextField type='text' required fullWidth margin='normal' id='projectDescription' label='Projektbeschreibung (Inhalt):' value={projectDescription} 
                 onChange={this.textFieldValueChange} error={projectDescriptionValidationFailed} 
                 helperText={projectDescriptionValidationFailed ? 'Die Projektbeschreibung muss mindestens ein Zeichen besitzen' : ' '} />
 
-            {/*<TextField autoFocus type='text' required fullWidth margin='normal' id='projectCategory' label='Kategorie des Projektes:' value={projectCategory} 
-                onChange={this.textFieldValueChange} error={projectCategoryValidationFailed} 
-    helperText={projectCategoryValidationFailed ? 'Die Projektkategorie muss mindestens ein Zeichen besitzen' : ' '} />*/}
-            <Typography>Projektkategorie</Typography>
+
+            <TextField type='text' required fullWidth margin='normal' id='partners' label='Partners' value={partners} 
+                onChange={this.textFieldValueChange} />
+
+
+            <TextField type='number' required fullWidth margin='normal' id='capacity' label='Kapazität:' value={capacity} 
+                onChange={this.textFieldValueChange} />
+
+
+            <TextField type='text' required fullWidth margin='normal' id='preferredRoom' label='Besonderer Raum notwendig:' value={preferredRoom} 
+                onChange={this.textFieldValueChange} />
+
+
+            <TextField type='text' required fullWidth margin='normal' id='bDaysPreSchedule' label='Blocktage vor Beginn der Vorlesungszeit:' value={bDaysPreSchedule} 
+                onChange={this.textFieldValueChange} />
+
+
+            <TextField type='text' required fullWidth margin='normal' id='bDaysFinale' label='Blocktage in der Prüfungszeit (nur inter-/trans. Projekte!!!):' value={bDaysFinale} 
+                onChange={this.textFieldValueChange} />
+
+
+            <TextField type='text' required fullWidth margin='normal' id='bDaysSaturdays' label='Blocktage (Samstage) in der Vorlesungszeit:' value={bDaysSaturdays} 
+                onChange={this.textFieldValueChange} />
+
+
+            <TextField type='text' required fullWidth margin='normal' id='preferredBDays' label='Präferierte Tage:' value={preferredBDays} 
+                onChange={this.textFieldValueChange} />
+
+
+            <TextField type='text' required fullWidth margin='normal' id='additionalSupervisor' label='Betreuende(r) ProfessorInnen:' value={additionalLecturer} 
+                onChange={this.textFieldValueChange} />
+
+
+            <TextField type='text' required fullWidth margin='normal' id='weekly' label='Wöchentlich?' value={weekly} 
+                onChange={this.textFieldValueChange} />
+
+
+            <Typography>Raum- und Ressourcenplanung</Typography>
+
+          
+            {/*<Typography>Projektkategorie</Typography>
             <FormControl className={classes.formControl}>
                 <InputLabel id="open-select-label">Bitte auswählen</InputLabel>
                 <Select
@@ -238,68 +293,8 @@ class ProjectForm extends Component {
                   <MenuItem value={'Medien/Kultur 338020-338024'}>Medien/Kultur 338020-338024</MenuItem>
                 </Select>
               </FormControl>
-              <p>Ausgewählte Projektkategorie: {value} </p>
+            <p>Ausgewählte Projektkategorie: {value} </p>*/}
 
-            <TextField type='text' required fullWidth margin='normal' id='capacity' label='Kapazität:' value={capacity} 
-                onChange={this.textFieldValueChange} error={capacityValidationFailed} 
-                helperText={capacityValidationFailed ? 'Die Kapazität muss mindestens ein Zeichen besitzen' : ' '} />
-            
-            
-            {// Checkbox für Fachspezifisch / Inter-/ Transdisziplinär
-            //ECTS und SWS werden automatisch angegeben je nach Auswahl
-            }
-            <TextField type='text' required fullWidth margin='normal' id='projectTypeName' label='Projektart:' value={projectTypeName} 
-                onChange={this.textFieldValueChange} error={projectTypeNameValidationFailed} 
-                helperText={projectTypeNameValidationFailed ? 'Es muss eine Projektart angegeben werden' : ' '} />
-            
-            <Typography>Projektart</Typography>
-            <FormControl className={classes.formControl}>
-                <InputLabel id="open-select-label">Bitte auswählen</InputLabel>
-                <Select
-                  value={value2}
-                  onChange={this.handleChange2}
-                >
-                  <MenuItem value={'Fachspezifisches Projekt'}>Fachspezifisches Projekt</MenuItem>
-                  <MenuItem value={'Interdisziplinäres Projekt'}>Interdisziplinäres Projekt</MenuItem>
-                  <MenuItem value={'Transdisziplinäres Projekt'}>Transdisziplinäres Projekt</MenuItem>
-                </Select>
-              </FormControl>
-              <p>Ausgewählte Projektart: {value2} </p>
-
-            <TextField type='text' required fullWidth margin='normal' id='ects' label='ECTS:' value={ects} 
-                onChange={this.textFieldValueChange} />
-
-            <TextField type='text' required fullWidth margin='normal' id='sws' label='SWS:' value={sws} 
-                onChange={this.textFieldValueChange} />
-
-            <Typography>Raum- und Ressourcenplanung</Typography>
-
-            {// Wöchentlich bool muss Ja Nein Knöpfe / Ausgabe haben
-            }
-            <TextField type='text' required fullWidth margin='normal' id='weekly' label='Wöchentlich?' value={weekly} 
-                onChange={this.textFieldValueChange} error={weeklyValidationFailed} 
-                helperText={weeklyValidationFailed ? 'Es muss eine Checkbox gewählt werden' : ' '} />
-
-            <TextField type='text' required fullWidth margin='normal' id='bDaysPreSchedule' label='Blocktage vor Beginn der Vorlesungszeit:' value={bDaysPreSchedule} 
-                onChange={this.textFieldValueChange} />
-
-            <TextField type='text' required fullWidth margin='normal' id='bDaysFinale' label='Blocktage in der Prüfungszeit (nur inter-/trans. Projekte!!!):' value={bDaysFinale} 
-                onChange={this.textFieldValueChange} />
-
-            <TextField type='text' required fullWidth margin='normal' id='bDaysSaturdays' label='Blocktage (Samstage) in der Vorlesungszeit:' value={bDaysSaturdays} 
-                onChange={this.textFieldValueChange} />
-
-            <TextField type='text' required fullWidth margin='normal' id='preferredBDays' label='Präferierte Tage:' value={preferredBDays} 
-                onChange={this.textFieldValueChange} />
-
-            {// roomPreference bool muss Ja Nein Knöpfe / Ausgabe haben
-            }
-            <TextField type='text' required fullWidth margin='normal' id='roomPreference' label='Besonderer Raum notwendig? y/n' value={roomPreference} 
-                onChange={this.textFieldValueChange} error={roomPreferenceValidationFailed} 
-                helperText={roomPreferenceValidationFailed ? 'Es muss eine Checkbox gewählt werden' : ' '} />
-
-            <TextField type='text' required fullWidth margin='normal' id='preferredRoom' label='Besonderer Raum notwendig:' value={preferredRoom} 
-                onChange={this.textFieldValueChange} />
             </form>
 
             <LoadingProgress show={addingInProgress} />
@@ -311,7 +306,7 @@ class ProjectForm extends Component {
               Abbrechen
             </Button>
 
-            <Button disabled={projectNameValidationFailed | projectDescriptionValidationFailed | capacityValidationFailed | weeklyValidationFailed | roomPreferenceValidationFailed | projectTypeNameValidationFailed } variant='contained' onClick={this.addProject} color='primary'>
+            <Button disabled={projectNameValidationFailed | projectDescriptionValidationFailed } variant='contained' onClick={this.addProject} color='primary'>
               Einsenden
             </Button>
           </DialogActions>

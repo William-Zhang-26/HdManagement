@@ -11,6 +11,7 @@ import StudentReportListEntry from './StudentReportListEntry';
 import StudentBO from '../api/StudentBO';
 import indigo from '@material-ui/core/colors/indigo';
 import red from '@material-ui/core/colors/red';
+import ValidationForm from './dialogs/ValidationForm';
 
 
 /**  
@@ -28,6 +29,7 @@ class ParticipantList extends Component {
         participation: props.participation,
         student: null,
         showParticipationDeleteDialog: false,
+        showValidationForm: false,
         error: null,
         loadingInProgress: false,
     };
@@ -68,6 +70,32 @@ class ParticipantList extends Component {
   }
 
 
+  /** Handles the onClick event of the validate button */
+  validateParticipantButtonClicked = event => {
+    // Do not toggle the expanded state
+    event.stopPropagation();
+    this.setState({
+      showValidationForm: true
+    });
+  }
+
+  /** Handles the onClose event of the ValidationForm */
+  validationFormClosed = grade => {
+    // customer is not null and therefore created
+    if (grade) {
+      const newValidation = [grade];
+      this.setState({
+        grade: newValidation,
+        showValidationForm: false
+      });
+    } else {
+      this.setState({
+        showValidationForm: false
+      });
+    }
+  }
+
+
 
   /** Renders the component */
   render() {
@@ -88,7 +116,7 @@ class ParticipantList extends Component {
             </Grid>
             <Grid item>
               <ButtonGroup variant='text' size='small'>
-                <Button size='small' className={classes.validate} >
+                <Button size='small' className={classes.validate} onClick = {this.validateParticipantButtonClicked}>
                   Bewerten
                 </Button>
                 <Button size='small' className={classes.delete} onClick = {this.deleteParticipationButtonClicked}>

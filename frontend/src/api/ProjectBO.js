@@ -19,11 +19,11 @@ export default class ProjectBO extends NamedBusinessObject {
     static s_reviewed = "Bewertung abgeschlossen"*/
 
     //Konstruktorklasse, welche ein Projekttypen BO erstellt mit den abgebildeten Attributen
-    constructor(aUserID, aProjectTypeID, aStateID,  aProjectDescription, aPartners, aCapacity, aPreferredRoom, aBDaysPreSchedule,
-        aBDaysFinale, aBDaysSaturdays, aPreferredBDays,  
-        aProjectCategory, aAdditionalLecturer, aWeekly) {
+    constructor(aName, aUserID, aProjectTypeID, aStateID,  aProjectDescription, aPartners, aCapacity, aPreferredRoom, aBDaysPreSchedule,
+        aBDaysFinale, aBDaysSaturdays, aPreferredBDays, aAdditionalLecturer, aWeekly) {
 
         super();
+        this.name = aName;
         this.user_id = aUserID;
         this.project_type_id = aProjectTypeID;
         this.state_id = aStateID;
@@ -35,81 +35,10 @@ export default class ProjectBO extends NamedBusinessObject {
         this.b_days_finale = aBDaysFinale;
         this.b_days_saturdays = aBDaysSaturdays;
         this.preferred_b_days = aPreferredBDays;
-        this.project_category = aProjectCategory;
         this.additional_lecturer = aAdditionalLecturer;
         this.weekly = aWeekly;
     }
-
-    /**setFirstEvent(first_event) {
-        this.current_state = this.current_state.first_event(first_event)
-    }
-
-    setSecEvent(sec_event) {
-        this.current_state = this.current_state.sec_event(sec_event)
-    }
-
-    setThirdEvent(third_event) {
-        this.current_state = this.current_state.third_event(third_event)
-    }
-
-    setFourthEvent(fourth_event) {
-        this.current_state = this.current_state.fourth_event(fourth_event)
-    }
-
-    setFifthEvent(fifth_event) {
-        this.current_state = this.current_state.fifth_event(fifth_event)
-    }
-
-
-    getFirstEvent(first_event) {
-        let result
-        if (first_event === "neu") {
-            result = "neu";
-        } else {
-            //pass
-        }
-        return result;
-    }
-
-    getSecEvent(sec_event) {
-        let result
-        if (sec_event === "genehmigt") {
-            result = "genehmigt";
-        } else {
-            //pass
-        }
-        return result;
-    }
-
-    getThirdEvent(third_event) {
-        let result
-        if (third_event === "abgelehnt") {
-            result = "abgelehnt";
-        } else {
-            //pass
-        }
-        return result;
-    }
-
-    getFourthEvent(fourth_event) {
-        let result
-        if (fourth_event === "in Bewertung") {
-            result = "in Bewertung";
-        } else {
-            //pass
-        }
-        return result;    
-    }
-
-    getFifthEvent(fifth_event) {
-        let result
-        if (fifth_event === "Bewertung abgeschlossen") {
-            result = "Bewertung abgeschlossen";
-        } else {
-            //pass
-        }
-        return result;
-    }*/
+    
 
     //AutomatID
     getUserID() {
@@ -229,15 +158,6 @@ export default class ProjectBO extends NamedBusinessObject {
 
     setPreferredRoom (aPreferredRoom) {
         this.preferred_room = aPreferredRoom;
-    }
-
-    //Projektkategorie
-    getProjectCategory () {
-        return this.project_category;
-    }
-
-    setProjectCategory (aProjectCategory) {
-        this.project_category = aProjectCategory;
     }
 
     //Externer Kooperationspartner 

@@ -5,6 +5,8 @@ import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, 
 import { List, ListItem } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ProjectAPI  from '../api/ProjectAPI';
+import ProjectForm from './dialogs/ProjectForm';
+
 
 /** Fehlende Inhalte:
  *  
@@ -25,7 +27,8 @@ class LecturerProjectListEntry extends Component {
       // Init the state
       this.state = {
         project: props.project,
-        state: null,
+        //state: null,
+        showProjectForm: false,
       };
     }
 
@@ -35,7 +38,7 @@ class LecturerProjectListEntry extends Component {
   }
 
 
-  getStatebyID = () => {
+  /*getStatebyID = () => {
     ProjectAPI.getAPI().getStatebyId(this.state.project.getStateID())   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
     //ProjectAPI.getAPI().getStudentById()
         .then (projectBO => {
@@ -46,19 +49,44 @@ class LecturerProjectListEntry extends Component {
   
   componentDidMount() {
     this.getStatebyID();
+  }*/
+
+  /** Handles the onClose event of the ProjectForm 
+  projectFormClosed = (project) => {
+    // customer is not null and therefor changed
+    if (project) {
+      this.setState({
+        project: project,
+        showProjectForm: false
+      });
+    }
+  }*/
+
+  /** Handles the onClose event of the ProjectDeleteDialog 
+  projectFormClosed = (project) => {
+    // if project is not null, delete it
+    if (project) {
+      this.props.onProjectAdded(project);
+    };
+
+    // Don´t show the dialog
+    this.setState({
+      showProjectForm: false
+    });
   }
+*/ 
 
 
   /** Renders the component */
   render() {
     const { classes, expandedState } = this.props;
     // Use the states project
-    const { project, state } = this.state;
+    const { project, state, showProjectForm } = this.state;
 
     // console.log(this.state);
     return (
       <div>
-      { state ?
+      
       <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -71,7 +99,7 @@ class LecturerProjectListEntry extends Component {
               </Grid>
               <Grid item xs />
               <Grid item>
-                <Typography variant='body2' color={'textSecondary'}>{state.getName()}</Typography> {/**Ergänzend steht hier die aktuelle Condition des Projektes */}
+                <Typography variant='body2' color={'textSecondary'}>test</Typography> {/**Ergänzend steht hier die aktuelle Condition des Projektes */}
               </Grid>
             </Grid>
           </AccordionSummary>
@@ -89,7 +117,10 @@ class LecturerProjectListEntry extends Component {
           </List>
           </AccordionDetails>
         </Accordion>
-      : null }
+
+
+        
+
       </div>
     );
   }
@@ -109,7 +140,7 @@ LecturerProjectListEntry.propTypes = {
     /** @ignore */
     classes: PropTypes.object.isRequired,
     project: PropTypes.object.isRequired,
-    state: PropTypes.object.isRequired,
+    //state: PropTypes.object.isRequired,
     expandedState: PropTypes.bool.isRequired,
     onExpandedStateChange: PropTypes.func.isRequired
     }

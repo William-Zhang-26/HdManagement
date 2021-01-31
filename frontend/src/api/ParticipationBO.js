@@ -4,13 +4,12 @@ export default class  ParticipationBO extends BusinessObject {
 
 
     //Konstruktorklasse, welche ein Teilnahme BO erstellt mit den abgebildeten Attributen
-    constructor(aModuleID, aProjectID, aStudentID, aValidationID, aStatus) {
+    constructor(aModuleID, aProjectID, aStudentID, aValidationID) {
         super();
         this.module_id = aModuleID;
         this.project_id = aProjectID;
         this.student_id = aStudentID;
         this.validation_id = aValidationID;
-        this.status = aStatus;
     }
 
     //Modul ID
@@ -50,16 +49,6 @@ export default class  ParticipationBO extends BusinessObject {
     
     setValidationID(aValidationID) {
         this.validation_id = aValidationID;
-    }
-
-
-    //Teilnahme Status
-    getStatus() {
-        return this.status
-    }
-    
-    setStatus(aStatus) {
-        this.status = aStatus;
     }
 
 

@@ -8,7 +8,6 @@ import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import LecturerProjectListEntry from './LecturerProjectListEntry';
 import ProjectForm from './dialogs/ProjectForm';
-import ProjectTypeForm from './dialogs/ProjectTypeForm';
 
 /**  
  * Hier wird die Liste aus Dozentensicht angezeigt. Dozenten sehen die eigenen Projekte (Neue und genehmigte)
@@ -33,6 +32,7 @@ class LecturerProjectList extends Component {
         error: null,
         loadingInProgress: false,
         expandedProjectID: expandedID,
+        showProjectForm: false,
     };
   }
 
@@ -90,15 +90,15 @@ class LecturerProjectList extends Component {
     this.setState({
       showProjectForm: true
     });
+    console.log(this.state); 
   }
 
-  /** Handles the onClose event of the ProjectForm */
+  /** Handles the onClose event of the ProjectForm*/
   projectFormClosed = project => {
     // project is not null and therefore created
     if (project) {
-      const newProjectList = [...this.state.projects, project];
       this.setState({
-        projects: newProjectList,
+        projects: [...this.state.projects, project],
         showProjectForm: false
       });
     } else {
@@ -106,58 +106,37 @@ class LecturerProjectList extends Component {
         showProjectForm: false
       });
     }
+    console.log(this.state); 
   }
-
-
-
-  /** Handles the onClick event of the add project button */
-  addProjectTypeButtonClicked = event => {
-    event.stopPropagation();
-    this.setState({
-      showProjectTypeForm: true
-    });
-  }
-
-
-  projectTypeFormClosed = project => {
-    // project is not null and therefore created
-      this.setState({
-        showProjectTypeForm: false
-      });
-  }
-
 
 
 
   /** Renders the component */
   render() {
     const { classes } = this.props;
-    const { projects, expandedProjectID, loadingInProgress, error, showProjectForm, showProjectTypeForm } = this.state;
+    const { projects, expandedProjectID, loadingInProgress, error, showProjectForm } = this.state;
 
     return (
       <div className={classes.root}>
         <List className={classes.projectList}>
         <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addProjectButtonClicked}>
               Projekt erstellen
-          </Button>
-
-
-        <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addProjectTypeButtonClicked}>
-            Typ erstellen
         </Button>
+
 
         { 
           // Show the list of ProjectListEntry components
           // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
           projects.map(project => <LecturerProjectListEntry key={project.getID()} project={project}
-          show={this.props.show}  onExpandedStateChange={this.onExpandedStateChange}/>)
+          show={this.props.show}  
+          onExpandedStateChange={this.onExpandedStateChange} />)
         }
 
           <ListItem>
             <LoadingProgress show={loadingInProgress} />
             <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjects} />
             <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} />
-            <ProjectTypeForm show={showProjectTypeForm} onClose={this.projectTypeFormClosed} />
+          
           </ListItem>
 
         </List>

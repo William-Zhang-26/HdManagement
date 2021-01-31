@@ -7,6 +7,7 @@ import  ProjectAPI  from '../api/ProjectAPI';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import ProjectListEntryParticipants from './ProjectListEntryParticipants';
+import ProjectForm from './dialogs/ProjectForm';
 
 
 /**  
