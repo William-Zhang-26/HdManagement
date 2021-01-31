@@ -136,7 +136,7 @@ state = api.inherit('State', nbo, {
 @projectmanager.param('id', 'Die ID des Zustand-Objekts')
 class StateOperations(Resource):
     @projectmanager.marshal_with(state)
-    @secured
+    #@secured
     def get(self, id):
         """Auslesen eines Zustandes aus der DB"""
         adm = ProjectAdministration()
@@ -191,7 +191,7 @@ class StateOperations(Resource):
 @projectmanager.param('id', 'Die ID des Modul-Objekts')
 class ModuleOperations(Resource):
     @projectmanager.marshal_with(module)
-    @secured
+    #@secured
     def get(self, id):
         """Auslesen eines Moduls aus der DB"""
         adm = ProjectAdministration()
@@ -231,7 +231,7 @@ class ModuleOperations(Resource):
 class ParticipationOperationen(Resource):
     @projectmanager.marshal_with(participation, code=200)
     @projectmanager.expect(participation)
-    @secured
+    #@secured
     def post(self):
         """Teilnahme erstellen"""
         adm = ProjectAdministration()
@@ -247,14 +247,14 @@ class ParticipationOperationen(Resource):
 @projectmanager.param('id', 'Die ID des Teilnahme-Objekts')
 class ParticipationOperationen(Resource):
     @projectmanager.marshal_with(participation)
-    @secured
+    #@secured
     def get(self,id):
         """Auslesen einer Teilnahme aus der DB """
         adm = ProjectAdministration()
         participation = adm.get_participation_by_id(id)
         return participation
 
-    @secured
+    #@secured
     def delete(self,id):
         """Löschen einer Teilnahme aus der DB"""
         adm = ProjectAdministration()
@@ -266,7 +266,7 @@ class ParticipationOperationen(Resource):
             return 'Teilnahme wurde erfolgreich aus der DB gelöscht', 200
 
     @projectmanager.expect(participation)
-    @secured
+    #@secured
     def put(self, id):
         """Teilnahme wird aktualisiert"""
         adm = ProjectAdministration()
@@ -284,7 +284,7 @@ class ParticipationOperationen(Resource):
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class AllParticipationsOperations(Resource):
     @projectmanager.marshal_with(participation)
-    @secured
+    #@secured
     def get(self):
         """Auslesen aller vorhandenen Teilnahmen"""
         adm = ProjectAdministration()
@@ -297,7 +297,7 @@ class AllParticipationsOperations(Resource):
 class ProjectOperations(Resource):
     @projectmanager.marshal_with(project, code=200)
     @projectmanager.expect(project)
-    @secured
+    #@secured
     def post(self):
         """Ein neues Projekt in der DB anlegen"""
         adm = ProjectAdministration()
@@ -318,14 +318,14 @@ class ProjectOperations(Resource):
 @projectmanager.param('id', 'Die ID des Projekt-Objekts')
 class ProjectOperations(Resource):
     @projectmanager.marshal_with(project)
-    @secured
+    #@secured
     def get(self, id):
         """Auslesen eines Projektes aus der DB"""
         adm = ProjectAdministration()
         project = adm.get_project_by_id(id)
         return project
 
-    @secured
+    #@secured
     def delete(self, id):
         """Löschen eines Projektes aus der DB"""
         adm = ProjectAdministration()
@@ -337,7 +337,7 @@ class ProjectOperations(Resource):
             return 'Projekt wurde erfolgreich aus der DB gelöscht', 200
 
     @projectmanager.expect(project)
-    @secured
+    #@secured
     def put(self, id):
         """Projekt wird aktualisiert"""
         adm = ProjectAdministration()
@@ -355,7 +355,7 @@ class ProjectOperations(Resource):
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class ProjectOperationss(Resource):
     @projectmanager.marshal_with(project)
-    @secured
+    #@secured
     def get(self):
         """Auslesen aller Projekte aus der DB"""
         adm = ProjectAdministration()
@@ -367,7 +367,7 @@ class ProjectOperationss(Resource):
 @projectmanager.param('id', 'Die ID des Dozent-Objekts')
 class ProjectRelatedUserOperations(Resource):
     @projectmanager.marshal_with(project)
-    @secured
+    #@secured
     def get(self, id):
         """Auslesen aller Projekt-Objekte bzgl. eines bestimmten Dozenten-Objekts.
 
@@ -387,7 +387,7 @@ class ProjectRelatedUserOperations(Resource):
 @projectmanager.param('id', 'Die ID des Projekt_type-Objekts')
 class ProjectRelatedProject_typeOperations(Resource):
     @projectmanager.marshal_with(project)
-    @secured
+    #@secured
     def get(self, id):
         """Auslesen aller Projekt-Objekte bzgl. eines bestimmten Projekttypen-Objekts.
 
@@ -410,7 +410,7 @@ class ProjectRelatedProject_typeOperations(Resource):
 @projectmanager.param('id', 'Die ID des Projekt-Objekts')
 class ProjectRelatedParticipationOperations(Resource):
     @projectmanager.marshal_with(participation)
-    @secured
+    #@secured
     def get(self, id):
         """Auslesen aller Teilnahme-Objekte bzgl. eines bestimmten Projekt-Objekts.
         """
@@ -448,14 +448,14 @@ class Project_typeOperations(Resource):
 @projectmanager.param('id', 'Die ID des Project_typen-Objekts')
 class Project_typeOperations(Resource):
     @projectmanager.marshal_with(project_type)
-    @secured
+    #@secured
     def get(self, id):
         """Auslesen eines Projekt Typen aus der DB"""
         adm = ProjectAdministration()
         project_type = adm.get_project_type_by_id(id)
         return project_type
 
-    @secured
+    #@secured
     def delete(self, id):
         """Löschen eines Projekt Typen aus der DB"""
         adm = ProjectAdministration()
@@ -467,7 +467,7 @@ class Project_typeOperations(Resource):
             return 'Projekt Typ wurde erfolgreich aus der DB gelöscht', 200
 
     @projectmanager.expect(project_type)
-    @secured
+    #@secured
     def put(self, id):
         """Projekt Typ wird aktualisiert"""
         adm = ProjectAdministration()
@@ -502,7 +502,7 @@ class Project_typeOperations(Resource):
 @projectmanager.param('id', 'Die ID des Rollen-Objekts')
 class RoleOperations(Resource):
     @projectmanager.marshal_with(role)
-    @secured
+    #@secured
     def get(self, id):
         """Auslesen einer Rolle aus der DB"""
         adm = ProjectAdministration()
@@ -541,7 +541,7 @@ class RoleOperations(Resource):
 class SemesterOperations(Resource):
     @projectmanager.marshal_with(semester, code=200)
     @projectmanager.expect(semester)
-    @secured
+    #@secured
     def post(self):
         """Semester erstellen"""
         adm = ProjectAdministration()
@@ -557,14 +557,14 @@ class SemesterOperations(Resource):
 @projectmanager.param('id', 'Die ID des Semester-Objekts')
 class SemesterOperations(Resource):
     @projectmanager.marshal_with(semester)
-    @secured
+    #@secured
     def get(self, id):
         """Auslesen eines Semester aus der DB"""
         adm = ProjectAdministration()
         semester = adm.get_semester_by_id(id)
         return semester
 
-    @secured
+    #@secured
     def delete(self, id):
         """Löschen eines Semester aus der DB"""
         adm = ProjectAdministration()
@@ -576,7 +576,7 @@ class SemesterOperations(Resource):
             return 'Semester wurde erfolgreich aus der DB gelöscht', 200
 
     @projectmanager.expect(semester)
-    @secured
+    #@secured
     def put(self, id):
         """Semester wird aktualisiert"""
         adm = ProjectAdministration()
@@ -595,7 +595,7 @@ class SemesterOperations(Resource):
 class StudentOperations(Resource):
     @projectmanager.marshal_with(student, code=200)
     @projectmanager.expect(student)
-    @secured
+    #@secured
     def post(self):
         """Student erstellen"""
         adm = ProjectAdministration()
@@ -614,7 +614,7 @@ class StudentOperations(Resource):
 @projectmanager.param('id', 'Die ID des Studenten-Objekts')
 class StudentOperations(Resource):
     @projectmanager.marshal_with(student)
-    @secured
+    #@secured
     def get(self, id):
         """Auslesen eines Studenten aus der Datenbank"""
         adm = ProjectAdministration()
@@ -633,7 +633,7 @@ class StudentOperations(Resource):
 #            return 'Student wurde erfolgreich aus der DB gelöscht', 200
 
     @projectmanager.expect(student)
-    @secured
+    #@secured
     def put(self, id):
         """Student werden aktualisiert"""
         adm = ProjectAdministration()
@@ -652,7 +652,7 @@ class StudentOperations(Resource):
 @projectmanager.param('string', 'Die Google_id des Studenten-Objekts')
 class StudentGoogleOperations(Resource):
     @projectmanager.marshal_with(student)
-    @secured
+    #@secured
     def get(self, google_id):
         """Auslesen eines Studenten aus der Datenbank mit der Google_id"""
         adm = ProjectAdministration()
@@ -664,7 +664,7 @@ class StudentGoogleOperations(Resource):
 @projectmanager.param('google_id', 'Die Google_ID des Studenten-Objekts')
 class StudentOperationswithGoogle_id(Resource):
     @projectmanager.marshal_with(student)
-    @secured
+    #@secured
     def get(self, google_id):
         """Auslesen eines Studenten aus der Datenbank"""
         adm = ProjectAdministration()
@@ -676,7 +676,7 @@ class StudentOperationswithGoogle_id(Resource):
 @projectmanager.param('id', 'Die ID des Studenten-Objekts')
 class StudentOperationss(Resource):
     @projectmanager.marshal_with(student)
-    @secured
+    #@secured
     def get(self, user_id):
         """Auslesen eines Studenten aus der Datenbank mit der User_id"""
         adm = ProjectAdministration()
@@ -690,7 +690,7 @@ class StudentOperationss(Resource):
 @projectmanager.param('id', 'Die ID des Student-Objekts')
 class StudentRelatedParticipationOperations(Resource):
     @projectmanager.marshal_with(participation)
-    @secured
+    #@secured
     def get(self, id):
         """Auslesen aller Teilnahme-Objekte bzgl. eines bestimmten Student-Objekts.
         """
@@ -732,7 +732,7 @@ class StudentRelatedParticipationOperations(Resource):
 class UserOperations(Resource):
     @projectmanager.marshal_with(user, code=200)
     @projectmanager.expect(user)
-    @secured
+    #@secured
     def post(self):
         """User erstellen"""
         adm = ProjectAdministration()
@@ -748,7 +748,7 @@ class UserOperations(Resource):
 @projectmanager.param('id', 'Die ID des User-Objekts')
 class UserOperations(Resource):
     @projectmanager.marshal_with(user)
-    @secured
+    #@secured
     def get(self, id):
         """Auslesen eines Users aus der Datenbank"""
         adm = ProjectAdministration()
@@ -767,7 +767,7 @@ class UserOperations(Resource):
 #            return 'User wurde erfolgreich aus der DB gelöscht', 200
 
     @projectmanager.expect(user)
-    @secured
+    #@secured
     def put(self, id):
         """User wird aktualisiert"""
         adm = ProjectAdministration()
@@ -786,7 +786,7 @@ class UserOperations(Resource):
 @projectmanager.param('string', 'Die Google_id des Users-Objekts')
 class UserGoogleOperations(Resource):
     @projectmanager.marshal_with(user)
-    @secured
+    #@secured
     def get(self, google_id):
         """Auslesen eines Users aus der Datenbank mit der Google_id"""
         adm = ProjectAdministration()
@@ -848,7 +848,7 @@ class UserGoogleOperations(Resource):
 @projectmanager.param('id', 'Die ID des Bewertungs-Objekts')
 class ValidationOperations(Resource):
     @projectmanager.marshal_with(validation)
-    @secured
+    #@secured
     def get(self, id):
         """Auslesen einer Bewertung aus der DB"""
         adm = ProjectAdministration()
