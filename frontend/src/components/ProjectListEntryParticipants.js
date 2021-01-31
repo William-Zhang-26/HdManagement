@@ -81,7 +81,7 @@ class ProjectListEntryParticipants extends Component {
             </Grid>
           </AccordionSummary>
           <AccordionDetails>
-              <List>
+              <Grid item xs = {10}>
               
               <ListItem className={classes.heading}>Teilnehmer</ListItem>
               { 
@@ -90,7 +90,7 @@ class ProjectListEntryParticipants extends Component {
                 onExpandedStateChange={this.onExpandedStateChange}
                 onParticipationDeleted={this.participationDeleted}/>)
               }
-              </List>
+              </Grid>
           </AccordionDetails>
         </Accordion>
         {/**<CustomerDeleteDialog show={showCustomerDeleteDialog} customer={customer} onClose={this.deleteCustomerDialogClosed} />   Admin Funktionen*/} 

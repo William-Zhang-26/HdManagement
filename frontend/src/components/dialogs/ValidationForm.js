@@ -34,22 +34,19 @@ class ValidationForm extends Component {
     super(props);
 
     let v = 0;
-    /*if (props.participation) {
+
+    if (props.participation) {
         v = props.participation.getValidation();
-      }*/
+      }
 
     // Init the state
     this.state = {
-      module: 0,
-      project: 0,
-      student: 0,
       validation: v,
+      module: 0,
+      student: 0,
+      project: 0,
       
-
       // Ladebalken und Error
-      addingInProgress: false,
-      addingError: null,
-
       updatingInProgress: false,
       updatingError: null
     };
@@ -58,29 +55,37 @@ class ValidationForm extends Component {
     this.baseState = this.state;
   }
 
-  /** Adds the Project */
-  addValidation = () => {
-    let newValidation = new ParticipationBO(this.state.module, this.state.project, this.state.student, this.state.validation); 
-   
-    ProjectAPI.getAPI().addValidation(newValidation).then(participation => {
-      // Backend call sucessfull
-      // reinit the dialogs state for a new empty project
-      this.props.onClose(participation); // call the parent with the customer object from backend
+  /** Updates the customer */
+  updateValidation = () => {
+    // clone the original cutomer, in case the backend call fails
+    let updatedValidation = Object.assign(new ParticipationBO(), this.props.participation);
+    // set the new attributes from our dialog
+    updatedValidation.setModuleID(this.state.module);
+    updatedValidation.setProjectID(this.state.project);
+    updatedValidation.setStudentID(this.state.student);
+    updatedValidation.setValidationID(this.state.validation);
+    ProjectAPI.getAPI().updateValidation(updatedValidation).then(participation => {
+      this.setState({
+        updatingInProgress: false,              // disable loading indicator  
+        updatingError: null                     // no error message
+      });
+      // keep the new state as base state
+      this.baseState.validation = this.state.validation;
+      this.props.onClose(updatedValidation);      // call the parent with the new customer
     }).catch(e =>
       this.setState({
-        addingInProgress: false,    // disable loading indicator 
-        addingError: e              // show error message
+        updatingInProgress: false,              // disable loading indicator 
+        updatingError: e                        // show error message
       })
     );
 
     // set loading to true
     this.setState({
-        addingInProgress: true,       // show loading indicator
-        addingError: null             // disable error message
+      updatingInProgress: true,                 // show loading indicator
+      updatingError: null                       // disable error message
     });
-  }
+  } 
 
-// Update ergänzen 
 
 
   /** Handles the close / cancel button click event*/
@@ -89,7 +94,6 @@ class ValidationForm extends Component {
     this.setState(this.baseState);
     this.props.onClose(null);
   }
-
 
 
   /*handleSubmit(event) {
@@ -106,10 +110,8 @@ class ValidationForm extends Component {
 
   /** Renders the component */
   render() {
-    const { classes, show } = this.props;
+    const { classes, show, participation } = this.props;
     const { validation } = this.state;
-    
-    const { addingInProgress, addingError } = this.state;
     const { updatingInProgress, updatingError } = this.state;
 
     console.log(this.state);
@@ -162,8 +164,8 @@ class ValidationForm extends Component {
           
             </form>
 
-            <LoadingProgress show={addingInProgress} />
-            <ContextErrorMessage error={addingError} contextErrorMsg={`Das Projekt konnte nicht erstellt werden`} onReload={this.addProject} />
+            <LoadingProgress show={updatingInProgress} />
+            <ContextErrorMessage error={updatingError} contextErrorMsg={`Es ist ein Fehler aufgetreten, lol.`} onReload={this.updateValidation} />
           </DialogContent>
 
           <DialogActions>
@@ -171,8 +173,8 @@ class ValidationForm extends Component {
               Abbrechen
             </Button>
 
-            <Button variant='contained' onClick={this.addValidation} color='primary'>
-              Einsenden
+            <Button variant='contained' onClick={this.updateValidation} color='primary'>
+              Speichern
             </Button>
           </DialogActions>
         </Dialog>

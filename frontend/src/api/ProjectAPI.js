@@ -30,6 +30,7 @@ export default class ProjectAPI {
 
     //Participation related
     #addValidationURL = () => `${this.#projectServerBaseURL}/participation`;
+    #updateValidationURL = (id) => `${this.#projectServerBaseURL}/participation/${id}`;
 
     //Student related
     #getStudentByIdURL = (id) => `${this.#projectServerBaseURL}/student/${id}`;
@@ -156,6 +157,24 @@ export default class ProjectAPI {
 
         return new Promise(function (resolve) {
           resolve(responseParticipationBO);
+        })
+      })
+    }
+
+    updateValidation(participationBO) {
+      return this.#fetchAdvanced(this.#updateValidationURL(participationBO.getID()), {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json, text/plain',
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(participationBO)
+      }).then((responseJSON) => {
+        // We always get an array of ParticipationBOs.fromJSON
+        let responseValidationBO = ParticipationBO.fromJSON(responseJSON)[0];
+        // console.info(accountBOs);
+        return new Promise(function (resolve) {
+          resolve(responseValidationBO);
         })
       })
     }

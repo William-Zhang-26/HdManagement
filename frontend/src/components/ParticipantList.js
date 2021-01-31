@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, List, ListItem, Button, Typography, Grid, Paper, ButtonGroup } from '@material-ui/core';
+import { withStyles, List, ListItem, Button, Typography, Grid, Box, ButtonGroup } from '@material-ui/core';
 //import AddIcon from '@material-ui/icons/Add';
 import { withRouter } from 'react-router-dom';
 import  ProjectAPI  from '../api/ProjectAPI';
@@ -8,7 +8,7 @@ import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import ParticipantDeleteDialog from './dialogs/ParticipantDeleteDialog';
 import StudentReportListEntry from './StudentReportListEntry';
-import StudentBO from '../api/StudentBO';
+import ParticipationBO from '../api/ParticipationBO';
 import indigo from '@material-ui/core/colors/indigo';
 import red from '@material-ui/core/colors/red';
 import ValidationForm from './dialogs/ValidationForm';
@@ -57,15 +57,15 @@ class ParticipantList extends Component {
         };*/
 
 
-        getValidationbyId = () => {
-          ProjectAPI.getAPI().getValidationbyId(this.state.participation.getValidationID())   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
-              .then(validationBO => 
-                this.setState({ validation: validationBO }))
-              .catch(e =>
-                this.setState({ 
-                  error: e
-              })
-              )}
+  getValidationbyId = () => {
+    ProjectAPI.getAPI().getValidationbyId(this.state.participation.getValidationID())   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
+        .then(validationBO => 
+          this.setState({ validation: validationBO }))
+        .catch(e =>
+          this.setState({ 
+            error: e
+        })
+        )}
 
 
   componentDidMount() {
@@ -95,7 +95,7 @@ class ParticipantList extends Component {
   }
 
 
-  /** Handles the onClick event of the validate button 
+  /** Handles the onClick event of the validate button */
   validateParticipantButtonClicked = event => {
     // Do not toggle the expanded state
     event.stopPropagation();
@@ -104,13 +104,12 @@ class ParticipantList extends Component {
     });
   }
 
-  /** Handles the onClose event of the ValidationForm 
-  validationFormClosed = grade => {
-    // customer is not null and therefore created
-    if (grade) {
-      const newValidation = [grade];
+  /** Handles the onClose event of the ValidationForm */
+  validationFormClosed = (validation) => {
+    // validation is not null and therefor changed
+    if (validation) {
       this.setState({
-        grade: newValidation,
+        validation: validation,
         showValidationForm: false
       });
     } else {
@@ -118,25 +117,23 @@ class ParticipantList extends Component {
         showValidationForm: false
       });
     }
-  }*/
-
+  }
 
 
   /** Renders the component */
   render() {
     const { classes } = this.props;
-    const { loadingInProgress, student, participation, error, showParticipationDeleteDialog, validation } = this.state;
+    const { loadingInProgress, student, participation, error, showParticipationDeleteDialog, validation, showValidationForm } = this.state;
     console.log(this.state);
 
     return (
       <div className={classes.root}>
-        { student && participation && validation?
+        { student && participation && validation ?
         
-        <Grid className = {classes.root} container spacing={1} justify='flex-start' alignItems='center'>
+        <Grid className = {classes.root} container spacing={1} justify='flex-start'>
 
             <Grid item>
-                <Typography className = {classes.font} >{student.getFirstName()} {student.getName()} 
-                </Typography>
+                <Typography className = {classes.font} > {student.getName()} </Typography>
             </Grid>
             <Grid item>
               <ButtonGroup variant='text' size='small'>
@@ -147,20 +144,20 @@ class ParticipantList extends Component {
                   Entfernen
                 </Button>
               </ButtonGroup>
-              <Grid item xs = {8} />
-                <Grid item alignItems='right'>
-                  <ListItem>{validation.getGrade()}</ListItem>  
-                </Grid>
+                
               <LoadingProgress show={loadingInProgress} />
             <ContextErrorMessage error={error} contextErrorMsg={`The list of participations could not be loaded.`} onReload={this.getParticipant} />
             </Grid>
-
+            
+            <Grid>
+                <Button display="flex" justifyContent="flex-end" className = {classes.box} size='small' variant="outlined" >{validation.getGrade()}
+                </Button>  
+            </Grid>
         </Grid>
 
-
-
-
         : null}
+
+      <ValidationForm show={showValidationForm} validation={validation} onClose={this.validationFormClosed} />
       <ParticipantDeleteDialog show={showParticipationDeleteDialog} participation={participation} onClose={this.deleteParticipationDialogClosed} />
       </div>
     );
@@ -170,7 +167,7 @@ class ParticipantList extends Component {
 /** Component specific styles */
 const styles = theme => ({
   root: {
-    //width: '90%',
+    width: '90%',
     marginTop: theme.spacing(3),
     //marginRight: theme.spacing(10),
     marginLeft: theme.spacing(1),
@@ -187,6 +184,12 @@ const styles = theme => ({
     width: '100%',
     color: red[500],
     fontSize: 10,
+  },
+  box: {
+    width: '100%',
+    color: indigo[500],
+    borderColor: indigo[500],
+    
   }
 });
 
