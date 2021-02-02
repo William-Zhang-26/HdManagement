@@ -6,6 +6,8 @@ import { List, ListItem } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ProjectAPI  from '../api/ProjectAPI';
 import ProjectForm from './dialogs/ProjectForm';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 
 /** Fehlende Inhalte:
@@ -37,7 +39,18 @@ class LecturerProjectListEntry extends Component {
     this.props.onExpandedStateChange(this.props.project);
   }
 
+  getLecturer = () => {
+    ProjectAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid)   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
+    //ProjectAPI.getAPI().getStudentById()
+        .then (UserBO => {
+            this.setState({ user: UserBO });
+        })
 
+}
+  componentDidMount() {
+    this.getLecturer();
+    console.log(this.state);
+  }
   /*getStatebyID = () => {
     ProjectAPI.getAPI().getStatebyId(this.state.project.getStateID())   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
     //ProjectAPI.getAPI().getStudentById()
@@ -81,11 +94,12 @@ class LecturerProjectListEntry extends Component {
   render() {
     const { classes, expandedState } = this.props;
     // Use the states project
-    const { project, state, showProjectForm } = this.state;
+    const { project, state, showProjectForm, user } = this.state;
 
-    // console.log(this.state);
+    console.log(this.state);
     return (
       <div>
+        { user && project.getUserID()=== user.getID()? 
       
       <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary
@@ -120,7 +134,7 @@ class LecturerProjectListEntry extends Component {
 
 
         
-
+      :null }
       </div>
     );
   }
