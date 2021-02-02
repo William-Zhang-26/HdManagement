@@ -4,6 +4,9 @@ import { withStyles, Typography, Grid } from '@material-ui/core';
 import { List, ListItem, Paper } from '@material-ui/core';
 import indigo from '@material-ui/core/colors/indigo';
 import  ProjectAPI  from '../api/ProjectAPI';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+
 
 /** Fehlende Inhalte:
  *  
@@ -26,6 +29,7 @@ class StudentReportListEntry extends Component {
         project: null,
         module: null,
         validation: null,
+        googleUID: firebase.auth().currentUser.uid
       };
     }
 
@@ -53,18 +57,26 @@ class StudentReportListEntry extends Component {
           })
         }
 
+    getStudent = () => {
+      ProjectAPI.getAPI().getStudentbyId(firebase.auth().currentUser.uid)   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
+      //ProjectAPI.getAPI().getStudentById()
+          .then (studentBO => {
+              this.setState({ student: studentBO });
+          })
 
+  }
     componentDidMount() {
       this.getProjectbyID();
       this.getModulebyID();
       this.getValidationbyID();
+      this.getStudent();
     }
 
 
   /** Renders the component */
   render() {
     const { classes, expandedState } = this.props;
-    const { participation, project, module, validation } = this.state;
+    const { participation, project, module, validation, student} = this.state;
     //const { project, module, validation } = this.state;
 
     console.log(this.state);
@@ -72,7 +84,7 @@ class StudentReportListEntry extends Component {
     return (
       <div>
 
-      { project && module && validation ? 
+      { project && module && validation && participation.getStudentID()=== student.getID()? 
 
       <Grid>
           <Paper elevation={3} >

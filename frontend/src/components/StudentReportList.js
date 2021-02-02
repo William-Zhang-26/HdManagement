@@ -76,10 +76,13 @@ class StudentReportList extends Component {
       error: null
     });
   }
+  
+
+
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
-    this.getParticipations();
+    this.getParticipations(); 
   }
 
 
@@ -107,7 +110,7 @@ class StudentReportList extends Component {
   /** Renders the component */
   render() {
     const { classes } = this.props;
-    const { participations, loadingInProgress, error } = this.state;
+    const { participations, loadingInProgress, error} = this.state;
     console.log(this.state);
 
     return (
@@ -127,7 +130,6 @@ class StudentReportList extends Component {
           </ListItem>
 
         </List>
-
 
       </div>
     );
