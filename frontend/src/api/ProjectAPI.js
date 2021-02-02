@@ -34,6 +34,7 @@ export default class ProjectAPI {
 
     //Student related
     #getStudentByIdURL = (id) => `${this.#projectServerBaseURL}/student/${id}`;
+    #getLecturerByIdURL = (google_id) => `${this.#projectServerBaseURL}/user/${google_id}`;
     #deleteStudentURL = (id) => `${this.#projectServerBaseURL}/students/${id}`;
     #addStudentsForProjectURL = (id) => `${this.#projectServerBaseURL}/project/${id}/student`;
     #getStudentByGoogleIdURL= (google_id) => `${this.#projectServerBaseURL}/student/${google_id}`;
@@ -193,6 +194,20 @@ export default class ProjectAPI {
           })
         })
       }
+
+    getLecturerById(userID) { 
+        return this.#fetchAdvanced(this.#getLecturerByIdURL(userID)).then((responseJSON) => {
+          // We always get an array of StudentBOs.fromJSON, but only need one object
+          let responseUserBO = UserBO.fromJSON(responseJSON)[0];
+        
+          return new Promise(function (resolve) {
+            resolve(responseUserBO);
+          })
+        })
+      }
+
+
+         
 
     addStudentForProject(projectID) {
         return this.#fetchAdvanced(this.#addStudentsForProjectURL(projectID), {
