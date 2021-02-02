@@ -105,11 +105,11 @@ class ParticipantList extends Component {
   }
 
   /** Handles the onClose event of the ValidationForm */
-  validationFormClosed = (validation) => {
+  validationFormClosed = (participation) => {
     // validation is not null and therefor changed
-    if (validation) {
+    if (participation) {
       this.setState({
-        validation: validation,
+        participation: participation,
         showValidationForm: false
       });
     } else {
@@ -124,6 +124,7 @@ class ParticipantList extends Component {
   render() {
     const { classes } = this.props;
     const { loadingInProgress, student, participation, error, showParticipationDeleteDialog, validation, showValidationForm } = this.state;
+    console.log('Inhalt ParticipantList');
     console.log(this.state);
 
     return (
@@ -157,7 +158,7 @@ class ParticipantList extends Component {
 
         : null}
 
-      <ValidationForm show={showValidationForm} validation={validation} onClose={this.validationFormClosed} />
+      <ValidationForm show={showValidationForm} participation={participation} onClose={this.validationFormClosed} />
       <ParticipantDeleteDialog show={showParticipationDeleteDialog} participation={participation} onClose={this.deleteParticipationDialogClosed} />
       </div>
     );
