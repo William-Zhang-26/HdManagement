@@ -34,17 +34,28 @@ class ValidationForm extends Component {
     super(props);
 
     let v = 0;
+    let m = 0;
+    let s = 0;
+    let p = 0;
+    
 
+    
     if (props.participation) {
-        v = props.participation.getValidation();
+        v = props.participation.getValidationID();
+        m = props.participation.getModuleID();
+        s = props.participation.getStudentID();
+        p = props.participation.getProjectID();
       }
 
     // Init the state
     this.state = {
       validation: v,
-      module: 0,
-      student: 0,
-      project: 0,
+      module: m,
+      student: s,
+      project: p,
+      participation: this.props.participation,
+      updatedValidation: '',
+
       
       // Ladebalken und Error
       updatingInProgress: false,
@@ -55,7 +66,7 @@ class ValidationForm extends Component {
     this.baseState = this.state;
   }
 
-  /** Updates the customer */
+  /** Updates the customer 
   updateValidation = () => {
     // clone the original cutomer, in case the backend call fails
     let updatedValidation = Object.assign(new ParticipationBO(), this.props.participation);
@@ -84,7 +95,56 @@ class ValidationForm extends Component {
       updatingInProgress: true,                 // show loading indicator
       updatingError: null                       // disable error message
     });
+  } */
+
+
+  /** Updates the customer */
+  updateValidation = () => {
+    // clone the original cutomer, in case the backend call fails
+    let updatedValidation = Object.assign(new ParticipationBO(), this.props.participation);
+    // set the new attributes from our dialog
+    updatedValidation.setModuleID(this.state.module);
+    updatedValidation.setProjectID(this.state.project);
+    updatedValidation.setStudentID(this.state.student);
+    updatedValidation.setValidationID(this.state.validation);
+    ProjectAPI.getAPI().updateValidation(updatedValidation).then(participation => {
+      this.setState({
+        updatingInProgress: false,              // disable loading indicator  
+        updatingError: null                     // no error message
+      });
+      // keep the new state as base state
+      this.baseState.validation = this.state.validation;
+      this.baseState.module = this.state.module;
+      this.baseState.student = this.state.student;
+      this.baseState.project = this.state.project;
+      this.props.onClose(updatedValidation);      // call the parent with the new customer
+    }).catch(e =>
+      this.setState({
+        updatingInProgress: false,              // disable loading indicator 
+        updatingError: e                        // show error message
+      })
+    );
+
+    // set loading to true
+    this.setState({
+      updatingInProgress: true,                 // show loading indicator
+      updatingError: null                       // disable error message
+    });
   } 
+
+  
+  /** Update List und prop Übergabe von UserParties 
+  updateList = () => {
+    var list = this.state.listBO
+    list.setName(this.state.newName)
+    ShoppingAPI.getAPI().updateList(list)
+        .then(this.handleClose(), this.props.replaceNewList(list))
+
+} */
+
+
+  
+
 
 
 
@@ -114,6 +174,8 @@ class ValidationForm extends Component {
     const { validation } = this.state;
     const { updatingInProgress, updatingError } = this.state;
 
+
+    console.log("Inhalt der Form:")
     console.log(this.state);
 
 
