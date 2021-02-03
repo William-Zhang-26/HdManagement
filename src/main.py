@@ -68,6 +68,7 @@ project = api.inherit('Project', nbo, {
     'project_type_id': fields.Integer(attribute='_project_type_id', description='Die ID des zugehörigen Projekttypen'),
     'state_id': fields.Integer(attribute='_state_id', description='Die ID des zugehörigen Zustandes'),
     'semester_id': fields.Integer(attribute='_semester_id', description='Die ID des zugehörigen Semesters'),
+    'assignment_id': fields.Integer(attribute='_assignment_id', description='Die ID des zugehörigen Assignments'),
     'project_description': fields.String(attribute='_project_description', description='Die Beschreibung des Projektes'),
     'partners': fields.String(attribute='_partners', description='Die Partner die das Projekt mit gestalten'),
     'capacity': fields.Integer(attribute='_capacity', description='Die Anzahl der Personen die in dem Projekt teilnehmen können'),
@@ -350,7 +351,7 @@ class ProjectOperations(Resource):
 
         if pan is not None:
             project_list = adm.create_project(pan.get_name(),pan.get_user_id(),pan.get_project_type_id(), pan.get_semester_id(),
-                                                pan.get_project_description(), pan.get_partners(),
+                                                pan.get_assignment_id(), pan.get_project_description(), pan.get_partners(),
                                                 pan.get_capacity (), pan.get_preferred_room(), pan.get_b_days_pre_schedule(),
                                                 pan.get_b_days_finale(), pan.get_b_days_saturdays(), pan.get_preferred_b_days(),
                                                 pan.get_additional_lecturer(), pan.get_weekly())

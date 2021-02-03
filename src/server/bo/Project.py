@@ -18,6 +18,7 @@ class Project(Automat):
         self._project_type_id = 0
         self._state_id = 1
         self._semester_id = 0
+        self._assignment_id = 0
         self._project_description = ""
         self._partners = ""
         self._capacity = 0
@@ -61,6 +62,14 @@ class Project(Automat):
     def set_semester_id(self, new_semester_id):
         """Setzen des Semesters-ID"""
         self._semester_id = new_semester_id
+
+    def get_assignment_id(self):
+        """Auslesen der Assignment-ID"""
+        return self._assignment_id
+
+    def set_assignment_id(self, new_assignment_id):
+        """Setzen des Assignments-ID"""
+        self._assignment_id = new_assignment_id
 
     def get_project_description(self):
         """Auslesen der Projektbeschreibung"""
@@ -155,6 +164,7 @@ class Project(Automat):
         new_project.set_project_type_id(dict["project_type_id"])
         new_project.set_state_id(dict["state_id"])
         new_project.set_semester_id(dict["semester_id"])
+        new_project.set_assignment_id(dict["assignment_id"])
         new_project.set_project_description(dict["project_description"])
         new_project.set_partners(dict["partners"])
         new_project.set_capacity(dict["capacity"])
