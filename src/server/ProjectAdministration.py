@@ -1,3 +1,4 @@
+from server.bo.Assignment import Assignment
 from server.bo.State import State
 from server.bo.Module import Module
 from server.bo.Participation import Participation
@@ -10,6 +11,7 @@ from server.bo.User import User
 from server.bo.Validation import Validation
 
 
+from server.db.AssignmentMapper import AssignmentMapper
 from server.db.StateMapper import StateMapper
 from server.db.ModuleMapper import ModuleMapper
 from server.db.ParticipationMapper import ParticipationMapper
@@ -27,6 +29,37 @@ class ProjectAdministration (object):
 
     def __init__(self):
         pass
+
+#Assignment
+
+    def create_assignment(self, name):
+
+        assignment = Assignment()
+        assignment.set_name(name)
+        assignment.set_id(1)
+
+        with AssignmentMapper() as mapper:
+            return mapper.insert(assignment)
+
+    def get_all_assignment(self):
+        with AssignmentMapper() as mapper:
+            return mapper.find_all()
+
+    def get_assignment_by_id(self, id):
+        with AssignmentMapper() as mapper:
+            return mapper.find_by_key(id)
+
+    def get_assignment_by_name(self, name):
+        with AssignmentMapper() as mapper:
+            return mapper.find_by_name(name)
+
+    def save_assignment(self, assignment):
+        with AssignmentMapper() as mapper:
+            mapper.update(assignment)
+
+    def delete_assignment(self, assignment):
+        with AssignmentMapper() as mapper:
+            mapper.delete(assignment)
 
 # Module
 
