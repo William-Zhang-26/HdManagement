@@ -17,6 +17,11 @@ import AdminProjectList from './components/AdminProjectList';
 import ProjectListParticipants from './components/ProjectListParticipants';
 import Header from './components/layout/Header';
 import RoleChoice from './components/pages/RoleChoice';
+import ProjectAPI from './api/ProjectAPI';
+import StudentReportIndividualTitle from './components/StudentReportIndividualTitle';
+import StudentReportList from './components/StudentReportList';
+
+
 
 
 class App extends React.Component {
@@ -65,8 +70,9 @@ class App extends React.Component {
         this.setState({
           currentUser: user,
           authError: null,
-          authLoading: false
+          authLoading: false,
         });
+        this.getCurrentUser();
       }).catch(e => {
         this.setState({
           authError: e,
@@ -100,12 +106,23 @@ class App extends React.Component {
     firebase.initializeApp(this.#firebaseConfig);
     firebase.auth().languageCode = 'en';
     firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
+
   }
+
+
+  getCurrentUser = () => {
+    ProjectAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid)   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
+    //ProjectAPI.getAPI().getStudentById()
+        .then (UserBO => {
+            this.setState({ currUser: UserBO });
+        })
+
+}
 
 
   render() {
     
-    const { currentUser, appError, authError, authLoading } = this.state;
+    const { currentUser, appError, authError, authLoading, currUser } = this.state;
 
     return (
       <ThemeProvider theme={Theme}>
@@ -115,7 +132,7 @@ class App extends React.Component {
           <Header user={currentUser}/>
             {
 
-              currentUser ?
+              currentUser && currUser && currUser.getRoleId() === 4 ?
                   <>
                     <Redirect from = '/' to = '/rolechoice' />
                     <Route exact path="/rolechoice">
@@ -123,6 +140,62 @@ class App extends React.Component {
                     </Route>
                   </>
                   :
+                  currentUser && currUser && currUser.getRoleId() === 3 ?
+                        <>
+                            <Router>
+                                <Redirect exact from='/' to='projects' />
+                                <StudentHeader/> 
+    
+                                <Route exact path='/projects'>
+                                    <StudentProjectList />
+                                </Route>
+    
+                                <Route exact path = '/report'>
+                                    <StudentReportIndividualTitle />
+                                    <StudentReportList />
+                                </Route>
+    
+                                <Route path='/impressum' component={Impressum} />
+                            </Router>                      
+                        </>
+                        : 
+                        currentUser && currUser && currUser.getRoleId() === 1 ?
+                        <>
+                            <Router>
+                                <Redirect from='/' to='projects' />
+                                <LecturerAdminHeader/> 
+                                
+                                <Route exact path='/projects'>
+                                    <LecturerProjectList/>
+                                </Route>
+    
+                                <Route path = '/grade'>
+                                    <ProjectListParticipants/>
+                                </Route>
+    
+                                <Route path='/impressum' component={Impressum} />
+                            </Router>
+                        </>
+                        :
+                        currentUser && currUser && currUser.getRoleId() === 2 ?
+                        <>
+                            <Router>
+                                <Redirect from='/' to='projects' />
+                                <LecturerAdminHeader/>
+                                
+                                <Route exact path='/projects'>
+                                    <AdminProjectList/>
+                                </Route>
+    
+                                <Route path = '/grade'>
+                                    <ProjectListParticipants/>
+                                </Route>
+    
+                                <Route path='/impressum' component={Impressum} />
+    
+                            </Router>
+                        </>
+                        :
                   <>
                     <Redirect to='/index.html' />
                     <SignIn onSignIn={this.handleSignIn} />
