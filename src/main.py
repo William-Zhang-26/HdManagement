@@ -3,6 +3,7 @@ from flask_restx import Api, Resource, fields
 from flask_cors import CORS
 
 
+from server.bo.Assignment import Assignment
 #from server.bo.State import State
 from server.bo.Module import Module
 from server.bo.Participation import Participation
@@ -53,6 +54,10 @@ nbo = api.inherit('NamedBusinessObject', bo, {
 """Darauffolgend werden analog zu unseren NamedBusinessObject-Klassen wie bei den BusinessObjects transferierbare Strukturen angelegt.
 
 NamedBusinessObject dient als Basisklasse, auf der die weiteren Strukturen Module, Project, Semester, Role und Project_type aufsetzen."""
+
+assignment = api.inherit('Assignment', nbo, {
+
+})
 
 module = api.inherit('Module', nbo, {
     'assignment_id': fields.Integer(attribute='_assignment_id', description='Die Assignment_id von dem Modul')
@@ -113,6 +118,45 @@ state = api.inherit('State', nbo, {
 #class HelloWorld(Resource):
 #    def get(self):
 #        return jsonify({'hello': 'world'})
+
+"""Assignment"""
+#@projectmanager.route("/assignment")
+#@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+#class AssignmentOperations(Resource):
+#    def post(self):
+#        """Zuteilung erstellen"""
+
+#        adm = ProjectAdministration()
+#        assign = Assignment.from_dict(api.payload)
+#        if assign is not None:
+#            c = adm.create_assignment(assign.get_name())
+#            return c, 200
+#        else:
+#            return '', 500
+
+@projectmanager.route("/assignment")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@projectmanager.param('id', 'Die ID des Zustand-Objekts')
+class AssignmentsOperations(Resource):
+    @projectmanager.marshal_with(assignment)
+    #@secured
+    def get(self, id):
+        """Zuteilung auslesen"""
+
+        adm = ProjectAdministration()
+        assign = adm.get_assignment_by_id(id)
+        return assign
+
+@projectmanager.route("/assignment/")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class AssignmentsOperationss(Resource):
+    @projectmanager.marshal_with(assignment)
+    #@secured
+    def get(self):
+        """Auslesen aller Zuteilungen aus der DB"""
+        adm = ProjectAdministration()
+        assign = adm.get_all_assignment()
+        return assign
 
 """State"""
 #@projectmanager.route("/state")
