@@ -1,13 +1,15 @@
 import ProjectDeleteDialog from './dialogs/ProjectDeleteDialog';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
+import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid, Button } from '@material-ui/core';
 import { List, ListItem } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ProjectAPI  from '../api/ProjectAPI';
 import ProjectForm from './dialogs/ProjectForm';
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import ReplayIcon from '@material-ui/icons/Replay';
+import indigo from '@material-ui/core/colors/indigo';
 
 
 /** Fehlende Inhalte:
@@ -31,6 +33,7 @@ class LecturerProjectListEntry extends Component {
         project: props.project,
         //state: null,
         showProjectForm: false,
+        error: null,
       };
     }
 
@@ -47,22 +50,25 @@ class LecturerProjectListEntry extends Component {
         })
 
 }
-  componentDidMount() {
-    this.getLecturer();
-    console.log(this.state);
-  }
-  /*getStatebyID = () => {
+
+  getStatebyID = () => {
     ProjectAPI.getAPI().getStatebyId(this.state.project.getStateID())   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
     //ProjectAPI.getAPI().getStudentById()
         .then (projectBO => {
             this.setState({ state: projectBO });
+        }).catch(e =>
+          this.setState({ 
+            error: e
         })
+        )
   }
+
 
   
   componentDidMount() {
     this.getStatebyID();
-  }*/
+    this.getLecturer();
+  }
 
   /** Handles the onClose event of the ProjectForm 
   projectFormClosed = (project) => {
@@ -113,7 +119,7 @@ class LecturerProjectListEntry extends Component {
               </Grid>
               <Grid item xs />
               <Grid item>
-                <Typography variant='body2' color={'textSecondary'}>test</Typography> {/**Ergänzend steht hier die aktuelle Condition des Projektes */}
+                <Typography variant='body2' color={'textSecondary'}>{state.getName()}</Typography> {/**Ergänzend steht hier die aktuelle Condition des Projektes */}
               </Grid>
             </Grid>
           </AccordionSummary>

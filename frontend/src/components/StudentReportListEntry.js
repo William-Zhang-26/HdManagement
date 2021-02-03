@@ -84,7 +84,7 @@ class StudentReportListEntry extends Component {
     return (
       <div>
 
-      { project && module && validation && participation.getStudentID()=== student.getID()? 
+      { project && module && validation && student && participation.getStudentID()=== student.getID()? 
 
       <Grid>
           <Paper elevation={3} >

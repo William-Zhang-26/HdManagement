@@ -12,6 +12,7 @@ import ParticipationBO from '../api/ParticipationBO';
 import indigo from '@material-ui/core/colors/indigo';
 import red from '@material-ui/core/colors/red';
 import ValidationForm from './dialogs/ValidationForm';
+import ReplayIcon from '@material-ui/icons/Replay';
 
 
 /**  
@@ -144,14 +145,16 @@ class ParticipantList extends Component {
                 <Button size='small' className={classes.delete} onClick = {this.deleteParticipationButtonClicked}>
                   Entfernen
                 </Button>
+                <Button className={classes.replay} startIcon={<ReplayIcon />} onClick = {this.getValidationbyId}/>
               </ButtonGroup>
                 
               <LoadingProgress show={loadingInProgress} />
             <ContextErrorMessage error={error} contextErrorMsg={`The list of participations could not be loaded.`} onReload={this.getParticipant} />
             </Grid>
-            
+            <Grid item = {3} />
             <Grid>
-                <Button display="flex" justifyContent="flex-end" className = {classes.box} size='small' variant="outlined" >{validation.getGrade()}
+                <Button display="flex" justifyContent="flex-end" className = {classes.box} size='small' variant="outlined"  >
+                {validation.getGrade()}
                 </Button>  
             </Grid>
         </Grid>
@@ -185,6 +188,10 @@ const styles = theme => ({
     width: '100%',
     color: red[500],
     fontSize: 10,
+  },
+  replay: {
+    //width: '100%',
+    color: indigo[500],
   },
   box: {
     width: '100%',

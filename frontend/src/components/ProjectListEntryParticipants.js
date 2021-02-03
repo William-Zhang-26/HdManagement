@@ -9,6 +9,8 @@ import ProjectAPI  from '../api/ProjectAPI';
 import ParticipantList from './ParticipantList';
 import ParticipantDeleteDialog from './dialogs/ParticipantDeleteDialog';
 import indigo from '@material-ui/core/colors/indigo';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 /** Fehlende Inhalte:
  * 
@@ -41,9 +43,19 @@ class ProjectListEntryParticipants extends Component {
             this.setState({ participations: participationBOs });
         })
       }
+
+  getLecturer = () => {
+    ProjectAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid)   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
+    //ProjectAPI.getAPI().getStudentById()
+        .then (UserBO => {
+            this.setState({ user: UserBO });
+        })
+
+    }
   
   componentDidMount() {
     this.getParticipations();
+    this.getLecturer();
   }
 
 
@@ -60,13 +72,13 @@ class ProjectListEntryParticipants extends Component {
   render() {
     const { classes, expandedState } = this.props;
     // Use the states customer
-    const { project, participations } = this.state;
+    const { project, participations, user } = this.state;
 
     console.log(this.state);
     return (
 
       <div>
-      { participations ?
+      { participations && user && project.getUserID() === user.getID()?
       <Grid>
       <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary
@@ -101,7 +113,32 @@ class ProjectListEntryParticipants extends Component {
   }
 }
 
+/* Vorarbeit um evtl. verschiedene Teilnehmeransichten (Je nach State) zu erstellen. Bspw. wird hier eine reine Ansicht der Noten möglich sein,
+ohnr die Möglichkeit weitere Änderungen vorzunehmen (das fehlt noch)
 
+: project.getStateID() === 5 && user && project.getUserID() === user.getID() ?
+      <Grid>
+      <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            id={`project${project.getID()}projectpanel-header`} //Wozu wird hier die Project ID benötigt
+          >
+            <Grid container spacing={1} justify='flex-start' alignItems='center'>
+              <Grid item>
+                <Typography variant='body1' className={classes.font}>{project.getName()} 
+              </Grid>
+            </Grid>
+          </AccordionSummary>
+          <AccordionDetails>
+              <Grid item xs = {10}>
+              
+              <Typography className={classes.heading}>Sie haben die Notenliste bestätigt. Die Bewertung ist abgeschlossen.</Typography>
+             
+              </Grid>
+          </AccordionDetails>
+        </Accordion>
+        
+            </Grid>*/
 
 /** Component specific styles */
 const styles = theme => ({

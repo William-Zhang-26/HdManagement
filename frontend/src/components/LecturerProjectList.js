@@ -9,6 +9,7 @@ import LoadingProgress from './dialogs/LoadingProgress';
 import LecturerProjectListEntry from './LecturerProjectListEntry';
 import ProjectForm from './dialogs/ProjectForm';
 
+
 /**  
  * Hier wird die Liste aus Dozentensicht angezeigt. Dozenten sehen die eigenen Projekte (Neue und genehmigte)
  * und können weitere Projekte erstellen.
@@ -122,6 +123,7 @@ class LecturerProjectList extends Component {
         <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addProjectButtonClicked}>
               Projekt erstellen
         </Button>
+        
 
 
         { 
@@ -155,6 +157,7 @@ const styles = theme => ({
     //marginRight: theme.spacing(10),
     marginLeft: theme.spacing(10),
   },
+  
 
 });
 
