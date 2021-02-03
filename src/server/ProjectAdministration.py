@@ -336,11 +336,11 @@ class ProjectAdministration (object):
             mapper.delete(role)
 
 # Semester
-    def create_semester(self, name, semester_number):
+    def create_semester(self, name, current_semester):
         """Einen Semester anlegen"""
         semester = Semester()
         semester.set_name(name)
-        semester.set_semester_number(semester_number)
+        semester.set_current_semester(current_semester)
         semester.set_id(1)
 
         with SemesterMapper() as mapper:
@@ -361,10 +361,10 @@ class ProjectAdministration (object):
         with SemesterMapper() as mapper:
             return mapper.find_by_name(name)
 
-    def get_semester_by_semester_number(self, semester_number):
-        """Das Semester mit der gegebenen Semester Zahl auslesen."""
-        with SemesterMapper() as mapper:
-            return mapper.find_by_semester_number(semester_number)
+    #def get_semester_by_current_semester(self, current_semester):
+        #"""Das Semester mit der gegebenen Semester Zahl auslesen."""
+        #with SemesterMapper() as mapper:
+            #return mapper.find_by_current_semester(current_semester)
 
     def save_semester(self, semester):
         """Den gegebenen Semester speichern."""
