@@ -26,11 +26,11 @@ class SemesterMapper (Mapper):
         tuples = cursor.fetchall()
 
 
-        for (id, name, semester_number, create_time) in tuples:
+        for (id, name, current_semester, create_time) in tuples:
             semester = Semester()
             semester.set_id(id)
             semester.set_name(name)
-            semester.set_semester_number(semester_number)
+            semester.set_current_semester(current_semester)
             semester.set_create_time(create_time)
             result.append(semester)
 
@@ -56,11 +56,11 @@ class SemesterMapper (Mapper):
 
         if len(tuples) != 0:
 
-            for (id, name, semester_number, create_time) in tuples:
+            for (id, name, current_semester, create_time) in tuples:
                 semester = Semester()
                 semester.set_id(id)
                 semester.set_name(name)
-                semester.set_semester_number(semester_number)
+                semester.set_current_semester(current_semester)
                 semester.set_create_time(create_time)
                 result.append(semester)
 
@@ -82,11 +82,11 @@ class SemesterMapper (Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, semester_number, create_time) in tuples:
+        for (id, name, current_semester, create_time) in tuples:
             semester = Semester()
             semester.set_id(id)
             semester.set_name(name)
-            semester.set_semester_number(semester_number)
+            semester.set_current_semester(current_semester)
             semester.set_create_time(create_time)
             result.append(semester)
 
@@ -106,8 +106,8 @@ class SemesterMapper (Mapper):
         for (MaxID) in tuples:
             semester.set_id(MaxID[0] + 1)
 
-        command = "INSERT INTO semester (id, name, semester_number, create_time) VALUES ('{}','{}','{}', '{}')" \
-            .format(semester.get_id(), semester.get_name(), semester.get_semester_number(), semester.get_create_time())
+        command = "INSERT INTO semester (id, name, current_semester, create_time) VALUES ('{}','{}','{}', '{}')" \
+            .format(semester.get_id(), semester.get_name(), semester.get_current_semester(), semester.get_create_time())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -118,8 +118,8 @@ class SemesterMapper (Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "UPDATE semester SET name = ('{}'), semester_number = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
-                    .format(semester.get_name(), semester.get_semester_number(), semester.get_create_time(), semester.get_id())
+        command = "UPDATE semester SET name = ('{}'), current_semester = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
+                    .format(semester.get_name(), semester.get_current_semester(), semester.get_create_time(), semester.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -146,7 +146,7 @@ if __name__ == "__main__":
     with SemesterMapper() as mapper:
         result = mapper.find_all()
         for p in result:
-            print(p.get_semester_number())
+            print(p.get_current_semester())
 """
 """
 if __name__ == "__main__":
@@ -157,33 +157,32 @@ if __name__ == "__main__":
 """
 if __name__ == "__main__":
    with SemesterMapper() as mapper:
-       p = mapper.find_by_name("hauptstudium")
+       p = mapper.find_by_name("WS 20/21")
        for i in p:
-           print(i.get_semester_number())
+           print(i.get_current_semester())
 """
 """
 if __name__ == "__main__":
    p = Semester()
-   p.set_id(5)
-   p.set_name("Haupstudium")
-   p.set_semester_number(6)
+   p.set_name("SS 25")
+   p.set_current_semester(0)
    p.set_create_time("2020-12-03")
    with SemesterMapper() as mapper:
        mapper.insert(p)
 """
-
+"""
 if __name__ == "__main__":
    with SemesterMapper() as mapper:
-       semester = mapper.find_by_key(2)
-       semester.set_name("WS 21")
+       semester = mapper.find_by_key(11)
+       semester.set_current_semester(1)
        mapper.update(semester)
-
 """
+
 if __name__ == "__main__":
    with SemesterMapper() as mapper:
-       test = mapper.find_by_key(3)
+       test = mapper.find_by_key(11)
        mapper.delete(test)
-"""
+
 
 
 

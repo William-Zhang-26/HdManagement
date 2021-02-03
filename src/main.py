@@ -75,7 +75,7 @@ project = api.inherit('Project', nbo, {
 })
 
 semester = api.inherit('Semester', nbo, {
-    'semester_number': fields.Integer(attribute='_semester_number', description='Die Anzahl des Semesters')
+    'current_semester': fields.Boolean(attribute='_current_semester', description='Gibt an ob es das akutelle Semester ist')
 })
 
 """Rolle"""
@@ -547,7 +547,7 @@ class SemesterOperations(Resource):
         adm = ProjectAdministration()
         proposal = Semester.from_dict(api.payload)
         if proposal is not None:
-            c = adm.create_semester(proposal.get_name(), proposal.get_semester_number())
+            c = adm.create_semester(proposal.get_name(), proposal.get_current_semester())
             return c, 200
         else:
             return '', 500
