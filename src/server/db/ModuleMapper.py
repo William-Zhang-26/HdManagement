@@ -23,11 +23,11 @@ class ModuleMapper (Mapper):
         tuples = cursor.fetchall()
 
 
-        for (id, name, edv_number, create_time) in tuples:
+        for (id, name, assignment_id, create_time) in tuples:
             module = Module()
             module.set_id(id)
             module.set_name(name)
-            module.set_edv_number(edv_number)
+            module.set_assignment_id(assignment_id)
             module.set_create_time(create_time)
             result.append(module)
 
@@ -47,11 +47,11 @@ class ModuleMapper (Mapper):
 
         if len(tuples) != 0:
 
-            for (id, name, edv_number, create_time) in tuples:
+            for (id, name, assignment_id, create_time) in tuples:
                 module = Module()
                 module.set_id(id)
                 module.set_name(name)
-                module.set_edv_number(edv_number)
+                module.set_assignment_id(assignment_id)
                 module.set_create_time(create_time)
                 result.append(module)
                 result = module
@@ -73,11 +73,11 @@ class ModuleMapper (Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, edv_number, create_time) in tuples:
+        for (id, name, assignment_id, create_time) in tuples:
             module = Module()
             module.set_id(id)
             module.set_name(name)
-            module.set_edv_number(edv_number)
+            module.set_assignment_id(assignment_id)
             module.set_create_time(create_time)
             result.append(module)
 
@@ -86,20 +86,20 @@ class ModuleMapper (Mapper):
 
         return result
 
-    def find_by_edv_number(self, edv_number):
+    def find_by_assignment_id(self, assignment_id):
         """Suchen eines Moduls anhand desen Namen"""
 
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM module WHERE edv_number like '{}'".format(edv_number)
+        command = "SELECT * FROM module WHERE assignment_id like '{}'".format(assignment_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, edv_number, create_time) in tuples:
+        for (id, name, assignment_id, create_time) in tuples:
             module = Module()
             module.set_id(id)
             module.set_name(name)
-            module.set_edv_number(edv_number)
+            module.set_assignment_id(assignment_id)
             module.set_create_time(create_time)
             result.append(module)
 
@@ -118,8 +118,8 @@ class ModuleMapper (Mapper):
         for (MaxID) in tuples:
             module.set_id(MaxID[0] + 1)
 
-        command = "INSERT INTO module (id, name, edv_number, create_time) VALUES ('{}','{}','{}','{}')" \
-            .format(module.get_id(), module.get_name(), module.get_edv_number(), module.get_create_time())
+        command = "INSERT INTO module (id, name, assignment_id, create_time) VALUES ('{}','{}','{}','{}')" \
+            .format(module.get_id(), module.get_name(), module.get_assignment_id(), module.get_create_time())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -130,8 +130,8 @@ class ModuleMapper (Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "UPDATE module SET name = ('{}'), edv_number = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
-                    .format(module.get_name(), module.get_edv_number(), module.get_create_time(), module.get_id())
+        command = "UPDATE module SET name = ('{}'), assignment_id = ('{}'), create_time = ('{}')" "WHERE id = ('{}')"\
+                    .format(module.get_name(), module.get_assignment_id(), module.get_create_time(), module.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -174,10 +174,10 @@ if __name__ == "__main__":
        for i in m:
            print(i.get_id())
 
-#find_by_edv_number
+#find_by_assignment_id
 if __name__ == "__main__":
    with ModuleMapper() as mapper:
-       m = mapper.find_by_edv_number("338015")
+       m = mapper.find_by_assignment_id("1")
        for i in m:
            print(i.get_id())
 
@@ -185,7 +185,7 @@ if __name__ == "__main__":
 if __name__ == "__main__":
    m = Module()
    m.set_name("Management")
-   m.set_edv_number("338006")
+   m.set_assignment_id("2")
    with ModuleMapper() as mapper:
        mapper.insert(m)
 
