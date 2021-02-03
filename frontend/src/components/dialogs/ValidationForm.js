@@ -54,7 +54,6 @@ class ValidationForm extends Component {
       student: s,
       project: p,
       participation: this.props.participation,
-      updatedValidation: '',
 
       
       // Ladebalken und Error

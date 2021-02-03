@@ -27,6 +27,7 @@ export default class ProjectAPI {
     #getAttributesForProjectURL = (id) => `${this.#projectServerBaseURL}/projects/${id}/attributes`;
     #addProjectURL = () => `${this.#projectServerBaseURL}/project`;
     #deleteProjectURL = (id) => `${this.#projectServerBaseURL}/project/${id}`;
+    #updateProjectURL = (id) => `${this.#projectServerBaseURL}/project/${id}`;
 
     //Participation related
     #addValidationURL = () => `${this.#projectServerBaseURL}/participation`;
@@ -141,6 +142,22 @@ export default class ProjectAPI {
       })
     }
 
+    updateProject(projectBO) {
+      return this.#fetchAdvanced(this.#updateProjectURL(projectBO.getID()), {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json, text/plain',
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(projectBO)
+      }).then((responseJSON) => {
+        // We always get an array of ProjectBOs.fromJSON
+        let responseProjectBO = ProjectBO.fromJSON(responseJSON)[0];
+        return new Promise(function (resolve) {
+          resolve(responseProjectBO);
+        })
+      })
+    }
 
     //Participation related
 

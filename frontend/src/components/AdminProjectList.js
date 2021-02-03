@@ -104,7 +104,7 @@ class AdminProjectList extends Component {
           projects.map(project => <AdminProjectListEntry key={project.getID()} project={project} 
           show={this.props.show}  
           onExpandedStateChange={this.onExpandedStateChange}
-          onProjectDeleted={this.projectDeleted}/>)
+          onProjectDeleted={this.projectDeleted} show={this.props.show}/>)
         }
 
           <ListItem>
