@@ -3,23 +3,11 @@ import NamedBusinessObject from './NamedBusinessObject';
 export default class UserBO extends NamedBusinessObject {
 
     //Konstruktorklasse, welche ein User BO erstellt mit den abgebildeten Attributen
-    constructor(aFirstname, aMail, aGoogleId, aRoleId) {
+    constructor(aMail, aGoogleId, aRoleId) {
         super();
-        this.firstname = aFirstname;
         this.google_id = aGoogleId;
         this.role_id = aRoleId;
         this.mail = aMail;
-    }
-
-
-
-    //Vorname
-    setFirstName(aFirstname) {
-        this.firstname = aFirstname;
-    }
-
-    getFirstName() {
-        return this.firstname;
     }
 
 

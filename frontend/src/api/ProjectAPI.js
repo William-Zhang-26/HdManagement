@@ -56,6 +56,7 @@ export default class ProjectAPI {
     //User related
     #addUser = () => `${this.#projectServerBaseURL}/user`;
     #getUserByGoogleIdURL= (google_id) => `${this.#projectServerBaseURL}/user/${google_id}`;
+    #updateUserURL = (id) => `${this.#projectServerBaseURL}/user/${id}`;
 
 
     static getAPI() {
@@ -352,6 +353,23 @@ export default class ProjectAPI {
         // We always get an array of ProjectBOs.fromJSON, but only need one object
         let responseUserBO = UserBO.fromJSON(responseJSON)[0];
         // console.info(responsePtojectBO);
+        return new Promise(function (resolve) {
+          resolve(responseUserBO);
+        })
+      })
+    }
+
+    updateUser(userBO) {
+      return this.#fetchAdvanced(this.#updateUserURL(userBO.getID()), {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json, text/plain',
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(userBO)
+      }).then((responseJSON) => {
+        // We always get an array of UserBOs.fromJSON
+        let responseUserBO = UserBO.fromJSON(responseJSON)[0];
         return new Promise(function (resolve) {
           resolve(responseUserBO);
         })

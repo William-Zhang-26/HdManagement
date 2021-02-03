@@ -66,39 +66,9 @@ class ValidationForm extends Component {
     this.baseState = this.state;
   }
 
-  /** Updates the customer 
-  updateValidation = () => {
-    // clone the original cutomer, in case the backend call fails
-    let updatedValidation = Object.assign(new ParticipationBO(), this.props.participation);
-    // set the new attributes from our dialog
-    updatedValidation.setModuleID(this.state.module);
-    updatedValidation.setProjectID(this.state.project);
-    updatedValidation.setStudentID(this.state.student);
-    updatedValidation.setValidationID(this.state.validation);
-    ProjectAPI.getAPI().updateValidation(updatedValidation).then(participation => {
-      this.setState({
-        updatingInProgress: false,              // disable loading indicator  
-        updatingError: null                     // no error message
-      });
-      // keep the new state as base state
-      this.baseState.validation = this.state.validation;
-      this.props.onClose(updatedValidation);      // call the parent with the new customer
-    }).catch(e =>
-      this.setState({
-        updatingInProgress: false,              // disable loading indicator 
-        updatingError: e                        // show error message
-      })
-    );
-
-    // set loading to true
-    this.setState({
-      updatingInProgress: true,                 // show loading indicator
-      updatingError: null                       // disable error message
-    });
-  } */
 
 
-  /** Updates the customer */
+  /** Updates the Grade */
   updateValidation = () => {
     // clone the original cutomer, in case the backend call fails
     let updatedValidation = Object.assign(new ParticipationBO(), this.props.participation);
