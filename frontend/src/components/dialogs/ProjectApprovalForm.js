@@ -166,6 +166,7 @@ updateStateApproved= () => {
               Soll das folgende Projekt genehmigt werden: '{project.getName()}' (ID: {project.getID()})?
             </DialogContentText>
             <LoadingProgress show={updatingInProgress} />
+            <ContextErrorMessage error={updatingError} contextErrorMsg={`Das Projekt ${project.getID()} konnte nicht genehmigt werden.`} onReload={this.updateStateApproved} />
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color='secondary'>
