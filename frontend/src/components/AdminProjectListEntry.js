@@ -4,7 +4,7 @@ import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, 
 import { Button, List, ListItem } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 //import CustomerForm from './dialogs/CustomerForm';
-//import ApproveValidationForm from './dialogs/ApproveValidationForm';
+import ProjectApprovalForm from './dialogs/ProjectApprovalForm';
 //import RejectValidationForm from './dialogs/RejectValidationForm';
 import AddIcon from '@material-ui/icons/Add';
 import { ButtonGroup } from '@material-ui/core';
@@ -34,7 +34,7 @@ class AdminProjectListEntry extends Component {
         project: props.project,
         showProjectDeleteDialog: false,
         state: null,
-        //showApproveValidationForm: false,
+        showApprovedForm: false,
         //showRejectValidationForm: false,
         
         //Admin Attribute für Funktionen
@@ -48,26 +48,29 @@ class AdminProjectListEntry extends Component {
 
  
 // Projekt genehmigen
-  /** Handles the onClick event of the delete customer button 
+   // Handles the onClick event of the delete customer button 
   ApproveProjectClicked = (event) => {
     event.stopPropagation();
     this.setState({
-      showApproveValidationForm : true
+      showApprovedForm : true
     });
-  } */
+  }
 
-  /** Handles the onClose event of the CustomerDeleteDialog 
-  ApproveValidationFormClosed = (project) => {
-    // if customer is not null, delete it
+
+  /** Handles the onClose event of the CustomerDeleteDialog */
+  ApprovedFormClosed = (project) => {
+    //if customer is not null, delete it
     if (project) {
-      this.props.onApproveProject(project);
-    };
-
-    // Don´t show the dialog
-    this.setState({
-      showApproveValidationForm: false
-    });
-  } */
+      this.setState ({
+        project:project,
+        showApprovedForm: false
+      });
+    } else {
+      this.setState({
+        showApprovedForm:false
+      });
+    }
+    }
 
 
 // Projekt ablehnen  
@@ -132,7 +135,7 @@ class AdminProjectListEntry extends Component {
   render() {
     const { classes, expandedState } = this.props;
     // Use the states project
-    const { project, state, showProjectDeleteDialog } = this.state;
+    const { project, state, showProjectDeleteDialog, showApprovedForm } = this.state;
 
     // console.log(this.state);
     return (
@@ -175,7 +178,7 @@ class AdminProjectListEntry extends Component {
             <ListItem>Anzahl der Blocktage in der Vorlesungszeit (Samstage): {project.getBDaysSaturdays()} </ListItem>
             <ListItem>Raum: {project.getPreferredRoom()} </ListItem> 
             <ListItem>
-                <Button  color='success' startIcon={<AddIcon />}>
+                <Button  color='success' startIcon={<AddIcon  />}onClick = {this.ApproveProjectClicked}>
                   Genehmigen
                 </Button>
                 <Button  color='error' startIcon={<AddIcon />}>
@@ -187,8 +190,8 @@ class AdminProjectListEntry extends Component {
         </Accordion>
         : null }
         <ProjectDeleteDialog show={showProjectDeleteDialog} project={project} onClose={this.deleteProjectDialogClosed} />
-        {/**<ApproveValidationForm show={showApproveValidationForm} project={project} onClose={this.ApproveValidationFormClosed} />
-        <RejectValidationForm show={showRejectValidationForm} project={project} onClose={this.RejectValidationFormClosed} /> 
+        <ProjectApprovalForm show={showApprovedForm} project={project} onClose={this.ApprovedFormClosed} />
+        {/*<RejectValidationForm show={showRejectValidationForm} project={project} onClose={this.RejectValidationFormClosed} /> 
         <StudentProjectSignOut show={showRejectProject} project={project} onClose={this.StudentProjectSignOutClosed} /> 
         <CustomerDeleteDialog show={showCustomerDeleteDialog} customer={customer} onClose={this.deleteCustomerDialogClosed} />   Admin Funktionen*/}
       </div>
