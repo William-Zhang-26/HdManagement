@@ -55,7 +55,7 @@ nbo = api.inherit('NamedBusinessObject', bo, {
 NamedBusinessObject dient als Basisklasse, auf der die weiteren Strukturen Module, Project, Semester, Role und Project_type aufsetzen."""
 
 module = api.inherit('Module', nbo, {
-    'edv_number': fields.Integer(attribute='_edv_number', description='Die EDV-Nummer von dem Modul')
+    'assignment_id': fields.Integer(attribute='_assignment_id', description='Die Assignment_id von dem Modul')
 })
 
 project = api.inherit('Project', nbo, {
@@ -181,7 +181,7 @@ class StateOperations(Resource):
         #adm = ProjectAdministration()
         #proposal = Module.from_dict(api.payload)
         #if proposal is not None:
-            #c = adm.create_module(proposal.get_name(), proposal.get_edv_number())
+            #c = adm.create_module(proposal.get_name(), proposal.get_assignment_id())
             #return c, 200
         #else:
             #return '', 500

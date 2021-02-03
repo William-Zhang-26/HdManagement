@@ -30,11 +30,11 @@ class ProjectAdministration (object):
 
 # Module
 
-    def create_module(self, name, edv_number):
+    def create_module(self, name, assignment_id):
 
         module = Module()
         module.set_name(name)
-        module.set_edv_number(edv_number)
+        module.set_assignment_id(assignment_id)
         module.set_id(1)
 
         with ModuleMapper() as mapper:
@@ -52,9 +52,9 @@ class ProjectAdministration (object):
         with ModuleMapper() as mapper:
             return mapper.find_by_name(name)
 
-    def get_module_by_edv_number(self, edv_number):
+    def get_module_by_assignment_id(self, assignment_id):
         with ModuleMapper() as mapper:
-            return mapper.find_by_edv_number(edv_number)
+            return mapper.find_by_assignment_id(assignment_id)
 
     def save_module(self, module):
         with ModuleMapper() as mapper:
