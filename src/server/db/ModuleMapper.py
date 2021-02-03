@@ -153,7 +153,7 @@ class ModuleMapper (Mapper):
 um die grundsätzliche Funktion zu überprüfen.
 
 Anmerkung: Nicht professionell aber hilfreich..."""
-""" 
+"""
 #find_by_all:
 if __name__ == "__main__":
     with ModuleMapper() as mapper:
@@ -164,13 +164,13 @@ if __name__ == "__main__":
 #find_by_key
 if __name__ == "__main__":
    with ModuleMapper() as mapper:
-       m = mapper.find_by_key(2).get_name()
+       m = mapper.find_by_key(10).get_name()
        print(m)
 
 #find_by_name
 if __name__ == "__main__":
    with ModuleMapper() as mapper:
-       m = mapper.find_by_name("Informationstechnologie")
+       m = mapper.find_by_name("338005")
        for i in m:
            print(i.get_id())
 
@@ -184,24 +184,23 @@ if __name__ == "__main__":
 #insert
 if __name__ == "__main__":
    m = Module()
-   m.set_name("Management")
-   m.set_assignment_id("2")
+   m.set_name("338047")
+   m.set_assignment_id("11")
    with ModuleMapper() as mapper:
        mapper.insert(m)
-
 
 #update
 if __name__ == "__main__":
    with ModuleMapper() as mapper:
-       module = mapper.find_by_key(2)
-       module.set_name("Management")
+       module = mapper.find_by_key(41)
+       module.set_name("338045")
        mapper.update(module)
 
 
 #delete
 if __name__ == "__main__":
    with ModuleMapper() as mapper:
-       test = mapper.find_by_key(4)
+       test = mapper.find_by_key(43)
        mapper.delete(test)
-"""
 
+"""
