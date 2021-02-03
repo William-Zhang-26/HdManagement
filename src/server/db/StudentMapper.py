@@ -218,7 +218,7 @@ class StudentMapper(Mapper):
             student.set_id(MaxID[0] + 1)
 
         command = "INSERT INTO student (id, user_id, name, course, matriculation_number, mail, " \
-                  "google_id, student_create_time)" \
+                  "google_id, create_time)" \
                 "VALUES ('{}','{}','{}','{}','{}','{}','{}','{}')" \
             .format(student.get_id(), student.get_user_id(), student.get_name(), student.get_course(),
                     student.get_matriculation_number(),
@@ -235,7 +235,7 @@ class StudentMapper(Mapper):
 
         command = "UPDATE student SET user_id = ('{}'), name = ('{}'), course = ('{}')," \
                 "matriculation_number = ('{}')," \
-                "mail = ('{}'), google_id = ('{}'), student_create_time = ('{}')" \
+                "mail = ('{}'), google_id = ('{}'), create_time = ('{}')" \
                 "WHERE id = ('{}')"\
             .format(student.get_user_id(), student.get_name(), student.get_course(),
                     student.get_matriculation_number(), student.get_mail(), student.get_google_id(),
