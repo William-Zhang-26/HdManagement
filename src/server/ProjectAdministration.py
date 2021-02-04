@@ -261,17 +261,17 @@ class ProjectAdministration (object):
         with ProjectMapper() as mapper:
             return mapper.find_by_project_type_id(project_type.get_id())
 
-    def get_project_by_state_id(self, state_id):
+    def get_project_by_state_id(self, state):
         with ProjectMapper() as mapper:
-            return mapper.find_by_state_id(state_id)
+            return mapper.find_by_state_id(state.get_id())
 
-    def get_project_by_semester_id(self, semester_id):
+    def get_project_by_semester_id(self, semester):
         with ProjectMapper() as mapper:
-            return mapper.find_by_semester_id(semester_id)
+            return mapper.find_by_semester_id(semester.get_id())
 
-    def get_project_by_assignment_id(self, assignment_id):
+    def get_project_by_assignment_id(self, assignment):
         with ProjectMapper() as mapper:
-            return mapper.find_by_assignment_id(assignment_id)
+            return mapper.find_by_assignment_id(assignment.get_id())
 
     def get_project_by_name(self, name):
         with ProjectMapper() as mapper:
