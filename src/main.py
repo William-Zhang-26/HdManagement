@@ -270,6 +270,26 @@ class ModuleOperations(Resource):
             #adm.save_module(module)
             #return "Modul wurde erfolgreich geändert", 200
 
+@projectmanager.route("/module/<int:id>/assignment")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@projectmanager.param('id', 'Die ID des Assignments-Objekts')
+class ModuleRelatedAssignmentOperations(Resource):
+    @projectmanager.marshal_with(module)
+    # @secured
+    def get(self, id):
+        """Auslesen aller Module-Objekte bzgl. eines bestimmten Assignment-Objekts.
+
+        Das Module-Objekt dessen Assignment wir lesen möchten, wird durch die id in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        mdl = adm.get_assignment_by_id(id)
+
+        if mdl is not None:
+            module_list = adm.get_module_by_assignment_id(mdl)
+            return module_list
+        else:
+            return "", 500
+
 """Participation"""
 
 @projectmanager.route("/participation")
