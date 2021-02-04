@@ -11,6 +11,8 @@ import ParticipantDeleteDialog from './dialogs/ParticipantDeleteDialog';
 import indigo from '@material-ui/core/colors/indigo';
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import ProjectEvaluatedForm from './dialogs/ProjectEvaluatedForm';
+import SendIcon from '@material-ui/icons/Send';
 
 /** Fehlende Inhalte:
  * 
@@ -28,6 +30,8 @@ class ProjectListEntryParticipants extends Component {
       this.state = {
         project: props.project,
         participations: [],
+        showEvaluatedProject: false,
+        disabled: true,
       };
     }
 
@@ -67,18 +71,60 @@ class ProjectListEntryParticipants extends Component {
   }
 
 
+     /** Handles the onClick event of the safe evaluation button */
+     evaluatedProjectButtonClicked = event => {
+      // Do not toggle the expanded state
+      event.stopPropagation();
+      this.setState({
+        showEvaluatedProject: true
+      });
+    }
+  
+    /** Handles the onClose event of the ProjectEvaluationForm */
+    evaluatedProjectFormClosed = (participation) => {
+      if (participation) {
+        this.setState({
+          participation: participation,
+          showEvaluatedProject: false,
+          disabled: false,
+        });
+      } else {
+        this.setState({
+          showEvaluatedProject: false
+        });
+      }
+    }
+
+
 
   /** Renders the component */
   render() {
     const { classes, expandedState } = this.props;
     // Use the states customer
-    const { project, participations, user } = this.state;
+    const { project, participations, user, showEvaluatedProject } = this.state;
 
     console.log(this.state);
     return (
 
       <div>
-      { participations && user && project.getUserID() === user.getID()?
+      { participations && user && project.getUserID() === user.getID() && project.getStateID() === 1 ?
+      <Grid>
+      <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Grid container spacing={1} justify='flex-start' alignItems='center'>
+                <Typography variant='body1' className={classes.font}>{project.getName()} {/** Angabe des Dozenten (UserBO?)*/}
+                </Typography>
+            </Grid>
+          </AccordionSummary>
+          <AccordionDetails>
+              <Grid item xs = {10}>
+              <ListItem className={classes.heading}>Sie müssen auf eine Rückmeldung vom Admin warten.</ListItem>
+              </Grid>
+          </AccordionDetails>
+        </Accordion>
+        </Grid>
+
+      : participations && user && project.getUserID() === user.getID() && project.getStateID() >= 3 ?
       <Grid>
       <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary
@@ -97,48 +143,32 @@ class ProjectListEntryParticipants extends Component {
               
               <ListItem className={classes.heading}>Teilnehmer</ListItem>
               { 
-                participations.map(participation => <ParticipantList key={participation.getID()} participation={participation} 
+                participations.map(participation => <ParticipantList key={participation.getID()} 
+                project = {project}
+                participation={participation} 
                 show={this.props.show}  
                 onExpandedStateChange={this.onExpandedStateChange}
                 onParticipationDeleted={this.participationDeleted}/>)
               }
+
+            {this.state.disabled && project.getStateID() === 4 ?
+              <ListItem className={classes.button}>
+                <Button variant='outlined' color='primary' startIcon={<SendIcon />} onClick = {this.evaluatedProjectButtonClicked} >
+                  Bewertung abschließen
+                </Button>
+              </ListItem> 
+            : null }
+
               </Grid>
           </AccordionDetails>
         </Accordion>
-        {/**<CustomerDeleteDialog show={showCustomerDeleteDialog} customer={customer} onClose={this.deleteCustomerDialogClosed} />   Admin Funktionen*/} 
         </Grid>
       : null }
+      <ProjectEvaluatedForm show={showEvaluatedProject} project={project} onClose={this.evaluatedProjectFormClosed} />
       </div>
     );
   }
 }
-
-/* Vorarbeit um evtl. verschiedene Teilnehmeransichten (Je nach State) zu erstellen. Bspw. wird hier eine reine Ansicht der Noten möglich sein,
-ohnr die Möglichkeit weitere Änderungen vorzunehmen (das fehlt noch)
-
-: project.getStateID() === 5 && user && project.getUserID() === user.getID() ?
-      <Grid>
-      <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            id={`project${project.getID()}projectpanel-header`} //Wozu wird hier die Project ID benötigt
-          >
-            <Grid container spacing={1} justify='flex-start' alignItems='center'>
-              <Grid item>
-                <Typography variant='body1' className={classes.font}>{project.getName()} 
-              </Grid>
-            </Grid>
-          </AccordionSummary>
-          <AccordionDetails>
-              <Grid item xs = {10}>
-              
-              <Typography className={classes.heading}>Sie haben die Notenliste bestätigt. Die Bewertung ist abgeschlossen.</Typography>
-             
-              </Grid>
-          </AccordionDetails>
-        </Accordion>
-        
-            </Grid>*/
 
 /** Component specific styles */
 const styles = theme => ({
@@ -153,6 +183,9 @@ const styles = theme => ({
     heading: {
       fontSize: 17,
       color: indigo[500],
+    },
+    button: {
+      marginTop: theme.spacing(3),
     }
   });
   

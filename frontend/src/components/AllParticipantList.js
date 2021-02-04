@@ -22,7 +22,7 @@ import ReplayIcon from '@material-ui/icons/Replay';
  * und können sich dafür An- und Abmelden.
  */
 
-class ParticipantList extends Component {
+class AllParticipantList extends Component {
 
   constructor(props) {
     super(props);
@@ -128,7 +128,7 @@ class ParticipantList extends Component {
                 <Typography className = {classes.font} > {student.getName()} </Typography>
             </Grid>
             <Grid item>
-              { project.getStateID() === 4 ?
+              { project.getStateID() >= 4 ?
               <ButtonGroup variant='text' size='small'>
                 <Button size='small' className={classes.validate} onClick = {this.validateParticipantButtonClicked}>
                   Bewerten
@@ -196,7 +196,7 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-ParticipantList.propTypes = {
+AllParticipantList.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** @ignore */
@@ -208,4 +208,4 @@ ParticipantList.propTypes = {
   onParticipationDeleted: PropTypes.func.isRequired
 }
 
-export default withRouter(withStyles(styles)(ParticipantList));
+export default withRouter(withStyles(styles)(AllParticipantList));

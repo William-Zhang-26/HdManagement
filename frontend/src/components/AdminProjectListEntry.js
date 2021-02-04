@@ -14,6 +14,8 @@ import red from '@material-ui/core/colors/red';
 import ProjectAPI from '../api/ProjectAPI';
 import ReplayIcon from '@material-ui/icons/Replay';
 import indigo from '@material-ui/core/colors/indigo';
+import ProjectInEvaluationForm from './dialogs/ProjectInEvaluationForm';
+import SendIcon from '@material-ui/icons/Send';
 
 /** Fehlende Inhalte:
  *  
@@ -38,6 +40,7 @@ class AdminProjectListEntry extends Component {
         state: null,
         showApprovedForm: false,
         showRejectedForm: false,
+        showProjectInEvaluation: false,
         disabled: true,
         
         //Admin Attribute für Funktionen
@@ -65,7 +68,7 @@ class AdminProjectListEntry extends Component {
     //if customer is not null, delete it
     if (project) {
       this.setState ({
-        project:project,
+        project: project,
         showApprovedForm: false,
         disabled: false,
       });
@@ -128,6 +131,33 @@ class AdminProjectListEntry extends Component {
   }
 
 
+    // Projekt in Bewertung senden
+  // Handles the onClick event of the state change button 
+  sendProjectInEvaluationClicked = (event) => {
+    event.stopPropagation();
+    this.setState({
+      showProjectInEvaluation: true,
+    });
+  }
+
+
+  /** Handles the onClose event of the ProjectInEvaluationForm */
+  ProjectInEvaluationFormClosed = (project) => {
+    //if customer is not null, delete it
+    if (project) {
+      this.setState ({
+        project: project,
+        showProjectInEvaluation: false,
+        disabled: false,
+      });
+    } else {
+      this.setState({
+        showProjectInEvaluation: false,
+      });
+    }
+    }
+
+
   getStatebyID = () => {
     ProjectAPI.getAPI().getStatebyId(this.state.project.getStateID())   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
     //ProjectAPI.getAPI().getStudentById()
@@ -146,7 +176,7 @@ class AdminProjectListEntry extends Component {
   render() {
     const { classes, expandedState, disabled } = this.props;
     // Use the states project
-    const { project, state, showProjectDeleteDialog, showApprovedForm, showRejectedForm } = this.state;
+    const { project, state, showProjectDeleteDialog, showApprovedForm, showRejectedForm, showProjectInEvaluation } = this.state;
 
     // console.log(this.state);
     return (
@@ -201,6 +231,16 @@ class AdminProjectListEntry extends Component {
 
             : null } 
 
+            { this.state.disabled && project.getStateID() === 3 ? 
+
+            <ListItem>
+              <Button variant='outlined' color='primary' startIcon={<SendIcon />} onClick = {this.sendProjectInEvaluationClicked} >
+                In Bewertung senden
+              </Button>
+            </ListItem> 
+
+            : null } 
+
           </List>
           </AccordionDetails>
         </Accordion>
@@ -208,8 +248,8 @@ class AdminProjectListEntry extends Component {
         <ProjectDeleteDialog show={showProjectDeleteDialog} project={project} onClose={this.deleteProjectDialogClosed} />
         <ProjectApprovalForm show={showApprovedForm} project={project} onClose={this.ApprovedFormClosed} />
         <ProjectRejectionForm show={showRejectedForm} project={project} onClose={this.RejectFormClosed} /> 
-        {/*<StudentProjectSignOut show={showRejectProject} project={project} onClose={this.StudentProjectSignOutClosed} /> 
-        <CustomerDeleteDialog show={showCustomerDeleteDialog} customer={customer} onClose={this.deleteCustomerDialogClosed} />   Admin Funktionen*/}
+        <ProjectInEvaluationForm show={showProjectInEvaluation} project={project} onClose={this.ProjectInEvaluationFormClosed} />
+        
       </div>
     );
   }

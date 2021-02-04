@@ -20,6 +20,7 @@ import 'firebase/auth';
 import ProjectAPI from '../../api/ProjectAPI';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
+import AllProjectListParticipants from '../AllProjectListParticipants';
 
 
 class RoleChoice extends Component {
@@ -234,7 +235,7 @@ class RoleChoice extends Component {
                             </Route>
 
                             <Route path = '/grade'>
-                                <ProjectListParticipants/>
+                                <AllProjectListParticipants/>
                             </Route>
 
                             <Route path='/impressum' component={Impressum} />
