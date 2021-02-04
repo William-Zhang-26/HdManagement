@@ -89,7 +89,7 @@ class RoleChoice extends Component {
 
         updatedRole.setMail(this.state.mail);
         updatedRole.setGoogleId(this.state.googleid);
-        updatedRole.setRoleId(1);
+        updatedRole.setRoleId(2);
 
         ProjectAPI.getAPI().updateUser(updatedRole).then(user => {
             this.setState({
@@ -109,7 +109,7 @@ class RoleChoice extends Component {
 
         updatedRole.setMail(this.state.mail);
         updatedRole.setGoogleId(this.state.googleid);
-        updatedRole.setRoleId(2);
+        updatedRole.setRoleId(3);
 
         ProjectAPI.getAPI().updateUser(updatedRole).then(user => {
             this.setState({
@@ -129,7 +129,7 @@ class RoleChoice extends Component {
 
         updatedRole.setMail(this.state.mail);
         updatedRole.setGoogleId(this.state.googleid);
-        updatedRole.setRoleId(3);
+        updatedRole.setRoleId(1);
 
         ProjectAPI.getAPI().updateUser(updatedRole).then(user => {
             this.setState({
