@@ -14,7 +14,6 @@ class StudentReportIndividualTitle extends Component{
 
       this.state = {
           student: null,
-          //studentId: this.props.match.params.studentid,
           studentId: this.props.studentId,
           currentDate: date,
           googleUID: firebase.auth().currentUser.uid
@@ -72,34 +71,6 @@ class StudentReportIndividualTitle extends Component{
         </div>
     );
   }
-  
-
-
-/*
-    getStudent = () => {
-        ProjectAPI.getAPI().getStudent(this.props.student.getID()).then(studentBO => {
-          // console.log(accountBO)
-          this.setState({  // Set new state when AccountBOs have been fetched
-            accounts: [...this.state.accounts, accountBO],
-            loadingInProgress: false, // loading indicator 
-            addingAccountError: null
-          })
-        }).catch(e =>
-          this.setState({ // Reset state with error from catch 
-            accounts: [],
-            loadingInProgress: false,
-            addingAccountError: e
-          })
-        );
-    
-        // set loading to true
-        this.setState({
-          loadingInProgress: true,
-          addingAccountError: null
-        });
-      }
-*/
-
 }
 
 

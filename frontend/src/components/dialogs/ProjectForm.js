@@ -33,27 +33,21 @@ class ProjectForm extends Component {
   constructor(props) {
     super(props);
 
-    let pn = '';
-    let uid = 0;
-
-    if (props.project) {
-      pn = props.project.getName();
-      uid = props.project.getUserID();
-
-    }
-
-
     // Init the state
     this.state = {
       //Project spezifische Attribute
-      projectName: pn,
+      projectName: '',
       projectNameValidationFailed: false,
 
-      userID: uid, //hier wird stattdessen noch die current user Id durch eine API geholt
+      userID: 0, //hier wird stattdessen noch die current user Id durch eine API geholt
 
       projectTypeID: 0,
 
       stateID: 1,
+
+      semesterID: 0,
+
+      assignmentID: 0,
 
       projectDescription: '',
       projectDescriptionValidationFailed: false,
