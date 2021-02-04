@@ -85,9 +85,9 @@ class ProjectAdministration (object):
         with ModuleMapper() as mapper:
             return mapper.find_by_name(name)
 
-    def get_module_by_assignment_id(self, assignment_id):
+    def get_module_by_assignment_id(self, assignment):
         with ModuleMapper() as mapper:
-            return mapper.find_by_assignment_id(assignment_id)
+            return mapper.find_by_assignment_id(assignment.get_id())
 
     def save_module(self, module):
         with ModuleMapper() as mapper:
