@@ -12,6 +12,8 @@ import ProjectDeleteDialog from './dialogs/ProjectDeleteDialog';
 import DeleteIcon from '@material-ui/icons/Delete';
 import red from '@material-ui/core/colors/red';
 import ProjectAPI from '../api/ProjectAPI';
+import ReplayIcon from '@material-ui/icons/Replay';
+import indigo from '@material-ui/core/colors/indigo';
 
 /** Fehlende Inhalte:
  *  
@@ -36,6 +38,7 @@ class AdminProjectListEntry extends Component {
         state: null,
         showApprovedForm: false,
         showRejectedForm: false,
+        disabled: true,
         
         //Admin Attribute für Funktionen
       };
@@ -63,7 +66,8 @@ class AdminProjectListEntry extends Component {
     if (project) {
       this.setState ({
         project:project,
-        showApprovedForm: false
+        showApprovedForm: false,
+        disabled: false,
       });
     } else {
       this.setState({
@@ -90,7 +94,8 @@ class AdminProjectListEntry extends Component {
     if (project) {
       this.setState ({
         project: project,
-        showRejectedForm: false
+        showRejectedForm: false,
+        disabled: false,
       });
     } else {
       this.setState({
@@ -139,7 +144,7 @@ class AdminProjectListEntry extends Component {
 
   /** Renders the component */
   render() {
-    const { classes, expandedState } = this.props;
+    const { classes, expandedState, disabled } = this.props;
     // Use the states project
     const { project, state, showProjectDeleteDialog, showApprovedForm, showRejectedForm } = this.state;
 
@@ -159,11 +164,10 @@ class AdminProjectListEntry extends Component {
                 </Typography>
               </Grid>
               <Grid item>
-                <ButtonGroup size='small'>
+                <ButtonGroup variant='text' size='small'>
                 <Button className={classes.root} startIcon={<DeleteIcon />}
-                onClick = {this.deleteProjectButtonClicked}>
-                  Löschen
-                </Button>
+                onClick = {this.deleteProjectButtonClicked} />
+                <Button className={classes.replay} startIcon={<ReplayIcon />} onClick = {this.getStatebyID}/>
                 </ButtonGroup>
               </Grid>
               <Grid item xs />
@@ -183,14 +187,20 @@ class AdminProjectListEntry extends Component {
             <ListItem>Anzahl der Blocktage in der Prüfungszeit: {project.getBDaysFinale()} </ListItem>            
             <ListItem>Anzahl der Blocktage in der Vorlesungszeit (Samstage): {project.getBDaysSaturdays()} </ListItem>
             <ListItem>Raum: {project.getPreferredRoom()} </ListItem> 
+
+            { this.state.disabled && project.getStateID() === 1 ? 
+
             <ListItem>
-                <Button  color='primary' startIcon={<AddIcon />} onClick = {this.ApproveProjectClicked}>
+                <Button  color='primary' startIcon={<AddIcon />} onClick = {this.ApproveProjectClicked} >
                   Genehmigen
                 </Button>
-                <Button  color='secondary' startIcon={<AddIcon />} >onClick = {this.RejectProjectClicked}
+                <Button  color='secondary' startIcon={<AddIcon />} onClick = {this.RejectProjectClicked}>
                   Ablehnen
                 </Button>
-            </ListItem>  
+            </ListItem> 
+
+            : null } 
+
           </List>
           </AccordionDetails>
         </Accordion>
@@ -211,8 +221,11 @@ const styles = theme => ({
     root: {
       width: '100%',
       color: red[500],
-      borderColor: red[500],
-    }
+    },
+    replay: {
+      //width: '100%',
+      color: indigo[500],
+    },
   });
   
   /** PropTypes */

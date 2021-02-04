@@ -15,6 +15,7 @@ import StudentProjectList from './components/StudentProjectList';
 import LecturerProjectList from './components/LecturerProjectList';
 import AdminProjectList from './components/AdminProjectList';
 import ProjectListParticipants from './components/ProjectListParticipants';
+import AllProjectListParticipants from './components/AllProjectListParticipants';
 import Header from './components/layout/Header';
 import RoleChoice from './components/pages/RoleChoice';
 import ProjectAPI from './api/ProjectAPI';
@@ -188,7 +189,7 @@ class App extends React.Component {
                                 </Route>
     
                                 <Route path = '/grade'>
-                                    <ProjectListParticipants/>
+                                    <AllProjectListParticipants/>
                                 </Route>
     
                                 <Route path='/impressum' component={Impressum} />

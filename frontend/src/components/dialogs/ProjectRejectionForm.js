@@ -10,7 +10,7 @@ import LoadingProgress from './LoadingProgress';
 import ProjectBO from '../../api/ProjectBO';
 
 
-class ProjectApprovalForm extends Component {
+class ProjectRejectionForm extends Component {
 
     constructor(props) {
       super(props);
@@ -18,8 +18,8 @@ class ProjectApprovalForm extends Component {
       let u = 0;
       let p = 0;
       let s = 0;
-      // let sid = 0;
-      // let aid = 0;
+      let sid = 0;
+      let aid = 0;
       let pd = "";
       let ps = "";
       let c = 0;
@@ -32,12 +32,12 @@ class ProjectApprovalForm extends Component {
       let w = "";
 
       if (props.project) {
-        n= props.project.getName();
+        n = props.project.getName();
         u = props.project.getUserID();
         p = props.project.getProjectTypeID();
         s = props.project.getStateID();
-        // sid = props.project.getSemesterID();
-        // aid = props.project.getAssignmentID();
+        sid = props.project.getSemesterID();
+        aid = props.project.getAssignmentID();
         pd = props.project.getProjectDescription();
         ps = props.project.getPartners();
         c = props.project.getCapacity();
@@ -58,8 +58,8 @@ class ProjectApprovalForm extends Component {
         user_id: u,
         project_type_id: p,
         state_id: s,
-        //semester_id: sid
-        //assignment_id: aid
+        semester_id: sid,
+        assignment_id: aid,
         project_description: pd,
         partners: ps,
         capacity: c,
@@ -70,7 +70,9 @@ class ProjectApprovalForm extends Component {
         preferred_b_days: pb,
         additional_lecturer: a,
         weekly:w,
+
         project: this.props.project,
+
         // Ladebalken und Error
         updatingInProgress: false,
         updatingError: null
@@ -88,8 +90,8 @@ updateStateRejected= () => {
   updatedState.setUserID(this.state.user_id);
   updatedState.setProjectTypeID(this.state.project_type_id);
   updatedState.setStateID(2);
-  //updatedState.setSemesterID(this.state.semester_id);
-  //updatedState.setAssignmentID(this.state.assignment_id);
+  updatedState.setSemesterID(this.state.semester_id);
+  updatedState.setAssignmentID(this.state.assignment_id);
   updatedState.setProjectDescription(this.state.project_description);
   updatedState.setPartners(this.state.partners);
   updatedState.setCapacity(this.state.capacity);
@@ -123,6 +125,7 @@ updateStateRejected= () => {
     this.baseState.preferred_b_days = this.state.preferred_b_days;
     this.baseState.additional_lecturer = this.state.additional_lecturer;
     this.baseState.weekly = this.state.weekly;
+    
     this.props.onClose(updatedState);      // call the parent with the new customer
   }).catch(e =>
     this.setState({
@@ -155,14 +158,14 @@ updateStateRejected= () => {
     return ( 
        show ? 
         <Dialog open={show} onClose={this.handleClose}>
-          <DialogTitle id='ProjectApproval-Title'>Projekt genehmigen
+          <DialogTitle id='ProjectRejection-Title'>Projekt ablehnen
             <IconButton className={classes.closeButton} onClick={this.handleClose}>
               <CloseIcon />
             </IconButton>
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Soll das folgende Projekt genehmigt werden: '{project.getName()}' (ID: {project.getID()})?
+              Soll das folgende Projekt abgelehnt werden: '{project.getName()}' (ID: {project.getID()})?
             </DialogContentText>
             <LoadingProgress show={updatingInProgress} />
             <ContextErrorMessage error={updatingError} contextErrorMsg={`Das Projekt ${project.getID()} konnte nicht abgelehnt werden.`} onReload={this.updateStateRejected} />
@@ -172,7 +175,7 @@ updateStateRejected= () => {
               Abbrechen
             </Button>
             <Button variant='contained' onClick={this.updateStateRejected} color='primary'>
-              Genehmigen
+              Ablehnen
             </Button> 
           </DialogActions>
         </Dialog> 
@@ -192,7 +195,7 @@ const styles = theme => ({
   });
   
   /** PropTypes */
-  ProjectApprovalForm.propTypes = {
+  ProjectRejectionForm.propTypes = {
     /** @ignore */
     classes: PropTypes.object.isRequired,
     /** The CustomerBO to be deleted */
@@ -208,4 +211,4 @@ const styles = theme => ({
     onClose: PropTypes.func.isRequired,
   }
   
-  export default withStyles(styles)(ProjectApprovalForm);
+  export default withStyles(styles)(ProjectRejectionForm);

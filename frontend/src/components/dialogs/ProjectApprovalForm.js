@@ -18,8 +18,8 @@ class ProjectApprovalForm extends Component {
       let u = 0;
       let p = 0;
       let s = 0;
-      // let sid = 0;
-      // let aid = 0;
+      let sid = 0;
+      let aid = 0;
       let pd = "";
       let ps = "";
       let c = 0;
@@ -36,8 +36,8 @@ class ProjectApprovalForm extends Component {
         u = props.project.getUserID();
         p = props.project.getProjectTypeID();
         s = props.project.getStateID();
-        // sid = props.project.get
-        // aid = props.project.get
+        sid = props.project.getSemesterID();
+        aid = props.project.getAssignmentID();
         pd = props.project.getProjectDescription();
         ps = props.project.getPartners();
         c = props.project.getCapacity();
@@ -58,8 +58,8 @@ class ProjectApprovalForm extends Component {
         user_id: u,
         project_type_id: p,
         state_id: s,
-        //semesterId: sid
-        //assignment_id: aid
+        semester_id: sid,
+        assignment_id: aid,
         project_description: pd,
         partners: ps,
         capacity: c,
@@ -70,7 +70,9 @@ class ProjectApprovalForm extends Component {
         preferred_b_days: pb,
         additional_lecturer: a,
         weekly:w,
+
         project: this.props.project,
+
         // Ladebalken und Error
         updatingInProgress: false,
         updatingError: null
@@ -88,8 +90,8 @@ updateStateApproved= () => {
   updatedState.setUserID(this.state.user_id);
   updatedState.setProjectTypeID(this.state.project_type_id);
   updatedState.setStateID(3);
-  //updatedState.setSemesterID(this.state.semester_id);
-  //updatedState.setAssignmentID(this.state.assignment_id);
+  updatedState.setSemesterID(this.state.semester_id);
+  updatedState.setAssignmentID(this.state.assignment_id);
   updatedState.setProjectDescription(this.state.project_description);
   updatedState.setPartners(this.state.partners);
   updatedState.setCapacity(this.state.capacity);
