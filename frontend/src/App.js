@@ -141,7 +141,7 @@ class App extends React.Component {
                     </Route>
                   </>
                   :
-                  currentUser && currUser && currUser.getRoleId() === 3 ?
+                  currentUser && currUser && currUser.getRoleId() === 1 ?
                         <>
                             <Router>
                                 <Redirect exact from='/' to='projects' />
@@ -160,7 +160,7 @@ class App extends React.Component {
                             </Router>                      
                         </>
                         : 
-                        currentUser && currUser && currUser.getRoleId() === 1 ?
+                        currentUser && currUser && currUser.getRoleId() === 2 ?
                         <>
                             <Router>
                                 <Redirect from='/' to='projects' />
@@ -178,7 +178,7 @@ class App extends React.Component {
                             </Router>
                         </>
                         :
-                        currentUser && currUser && currUser.getRoleId() === 2 ?
+                        currentUser && currUser && currUser.getRoleId() === 3 ?
                         <>
                             <Router>
                                 <Redirect from='/' to='projects' />
