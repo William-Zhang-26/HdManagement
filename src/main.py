@@ -469,6 +469,26 @@ class ProjectRelatedProject_typeOperations(Resource):
         else:
             return "", 500
 
+@projectmanager.route("/project/<int:id>/assignment")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@projectmanager.param('id', 'Die ID des Assignment-Objekts')
+class ProjectRelatedAssignmentOperations(Resource):
+    @projectmanager.marshal_with(project)
+    #@secured
+    def get(self, id):
+        """Auslesen aller Projekt-Objekte bzgl. eines bestimmten Assignment-Objekts.
+
+        Das Assignment-Objekt dessen Projekt wir lesen möchten, wird durch die id in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        assign = adm.get_assignment_by_id(id)
+
+        if assign is not None:
+            project_liste = adm.get_project_by_assignment_id(assign)
+            return project_liste
+        else:
+            return "", 500
+
 
 "Projec&Participation"
 
