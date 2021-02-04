@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
-import { Button, List, ListItem, Box } from '@material-ui/core';
+import { Button, List, ListItem } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-//import CustomerForm from './dialogs/CustomerForm';
-import AddIcon from '@material-ui/icons/Add';
 import ProjectAPI  from '../api/ProjectAPI';
 import ParticipantList from './ParticipantList';
-import ParticipantDeleteDialog from './dialogs/ParticipantDeleteDialog';
 import indigo from '@material-ui/core/colors/indigo';
 import firebase from 'firebase/app';
 import 'firebase/auth';

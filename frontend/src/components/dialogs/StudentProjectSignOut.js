@@ -16,44 +16,36 @@ class StudentProjectSignOut extends Component {
   
       // Init the state
       this.state = {
-        SignOutInProgress: false,
-        SignOutError: null
+        deletingInProgress: false,
+        deletingError: null,
       };
     }
 
-//get Project ID
 
-//Folgendes in der API ergänzen:
-//get Student ID
-//project get ID
-
-  /** Adds an account for the current customer */
-  SignOutStudent = () => {
-    ProjectAPI.getAPI().deleteStudentFromProject(this.props.project.getID()).then(studentBO => {
-      // console.log(accountBO)
-      this.setState({  // Set new state when StudentBOs have been fetched
-        students: [...this.state.students, studentBO],
-        SignOutInProgress: false, // loading indicator 
-        SignOutError: null
-      })
+  /** Log Out */
+  deleteParticipation = () => {
+    ProjectAPI.getAPI().deleteParticipation(this.props.participation.getID()).then(participation => {
+      this.setState({
+        deletingInProgress: false,              // disable loading indicator  
+        deletingError: null                     // no error message
+      });
+      this.props.onClose(this.props.participation);  // call the parent with the deleted customer
     }).catch(e =>
-      this.setState({ // Reset state with error from catch 
-        students: [],
-        SignOutInProgress: false,
-        SignOutError: e
+      this.setState({
+        deletingInProgress: false,              // disable loading indicator 
+        deletingError: e                        // show error message
       })
     );
 
     // set loading to true
     this.setState({
-      SignOutInProgress: true,
-      SignOutError: null
+      deletingInProgress: true,                 // show loading indicator
+      deletingError: null                       // disable error message
     });
   }
 
-
   /** Handles the close / cancel button click event */
-    handleClose = () => {
+  handleClose = () => {
     // console.log(event);
     this.props.onClose(null);
   }
@@ -61,11 +53,12 @@ class StudentProjectSignOut extends Component {
 
   /** Renders the component */
   render() {
-    const { classes, project, show } = this.props;
-    const { SignOutError, SignOutInProgress } = this.state;
+    const { classes, participation, show } = this.props;
+    const { deletingInProgress, deletingError } = this.state;
 
     return (
-      show ?
+      <div>
+      { show ?
         <Dialog open={show} onClose={this.handleClose}>
           <DialogTitle id='StudentSignOut-Title'>Aus Projekt ausschreiben
             <IconButton className={classes.closeButton} onClick={this.handleClose}>
@@ -74,22 +67,23 @@ class StudentProjectSignOut extends Component {
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Möchten Sie sich aus folgendem Projekt ausschreiben: '{project.getName()}' (ID: {project.getID()})?
+              Möchten Sie sich aus dem Projekt ausschreiben?
             </DialogContentText>
-            <LoadingProgress show={SignOutInProgress} />
-            <ContextErrorMessage error={SignOutError} contextErrorMsg={`The student could not be deleted from the project '${project.getName()}' with the ID: '${project.getID()}'`}
-              onReload={this.deleteStudentFromProject} />
+            <LoadingProgress show={deletingInProgress} />
+            <ContextErrorMessage error={deletingError} contextErrorMsg={`The student could not be deleted from the project`}
+              onReload={this.deleteParticipation} />
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color='secondary'>
               Abbrechen
             </Button>
-            <Button variant='contained' onClick={this.deleteStudentFromProject} color='primary'>
+            <Button variant='contained' onClick={this.deleteParticipation} color='primary'>
               Ausschreiben
             </Button> 
           </DialogActions>
         </Dialog>
-        : null
+      : null }
+      </div>
     );
   }
 }

@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
 import { Button, List, ListItem } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-//import CustomerForm from './dialogs/CustomerForm';
-import StudentProjectSignIn from './dialogs/StudentProjectSignIn';
-import StudentProjectSignOut from './dialogs/StudentProjectSignOut';
-import AddIcon from '@material-ui/icons/Add';
+import  ProjectAPI  from '../api/ProjectAPI';
+import StudentButtons from './StudentButtons';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+
 
 /** Fehlende Inhalte:
  *  
@@ -14,10 +15,6 @@ import AddIcon from '@material-ui/icons/Add';
  * - Aus ModuleBO: EDV-Nummer
  * 
  */
-
-//Condition für alle ergänzen
-//Admin Funktionen ergänzen
-
 
 class StudentProjectListEntry extends Component {
 
@@ -27,11 +24,8 @@ class StudentProjectListEntry extends Component {
       // Init the state
       this.state = {
         project: props.project,
-        state: props.state,
-        showStudentProjectSignOut: false,
-        showStudentProjectSignIn: false,
+        participations: [],
 
-        //Admin Attribute für Funktionen
       };
     }
 
@@ -40,54 +34,32 @@ class StudentProjectListEntry extends Component {
     this.props.onExpandedStateChange(this.props.project);
   }
 
+  getParticipations = () => {
+    ProjectAPI.getAPI().getParticipationForProject(this.state.project.getID())
+        .then (participationBOs => {
+            this.setState({ participations: participationBOs });
+        })
+    }
 
 
-  StudentProjectSignInClicked = (event) => {
-    event.stopPropagation();
-    this.setState({
-      showStudentProjectSignIn : true
-    });
-  }
-
-  StudentProjectSignInClosed = (project) => {
-    if (project) {
-      this.props.onStudentProjectSignIn(project);
-    };
-
-    // Don´t show the dialog
-    this.setState({
-      showStudentProjectSignIn: false
-    });
+  componentDidMount() {
+    this.getParticipations();
   }
 
 
+  participationDeleted = participant => {
+    const newParticipationList = this.state.participations.filter(participationFromState => participationFromState.getID() !== participant.getID());
+    this.setState({
+      participations: newParticipationList,
+    });
+  }
   
-  StudentProjectSignOutClicked = (event) => {
-    event.stopPropagation();
-    this.setState({
-      showStudentProjectSignOut : true
-    });
-  }
-
-  StudentProjectSignOutClosed = (project) => {
-    if (project) {
-      this.props.onStudentProjectSignOut(project);
-    };
-
-    // Don´t show the dialog
-    this.setState({
-      showStudentProjectSignOut: false
-    });
-  }
-
-
 
   /** Renders the component */
   render() {
     const { classes, expandedState } = this.props;
-    const { project, state, showStudentProjectSignIn, showStudentProjectSignOut } = this.state;
+    const { project, participations } = this.state;
 
-    // console.log(this.state);
     return (
       <div>
       { project.getStateID() === 3 ?
@@ -117,19 +89,20 @@ class StudentProjectListEntry extends Component {
             <ListItem>Raum: {project.getPreferredRoom()} </ListItem> 
             <ListItem>StateID: {project.getStateID()} </ListItem> 
             <ListItem>
-              <Button  color='secondary' startIcon={<AddIcon />} onClick={this.StudentProjectSignInClicked}>
-                Anmelden
-              </Button>
-              <Button  color='primary' startIcon={<AddIcon />} onClick={this.StudentProjectSignOutClicked}>
-                Abmelden
-              </Button>
-            </ListItem>  
+            { 
+                participations.map(participation => <StudentButtons key={participation.getID()} 
+                participation={participation} 
+                show={this.props.show}  
+                onParticipationDeleted={this.participationDeleted}/>)
+              }
+              
+            </ListItem> 
+            <ListItem>
+              <Button>Anmelden</Button>
+            </ListItem> 
           </List>
           </AccordionDetails>
         </Accordion>
-        <StudentProjectSignIn show={showStudentProjectSignIn} project={project} onClose={this.StudentProjectSignInClosed} /> 
-        <StudentProjectSignOut show={showStudentProjectSignOut} project={project} onClose={this.StudentProjectSignOutClosed} /> 
-        {/**<CustomerDeleteDialog show={showCustomerDeleteDialog} customer={customer} onClose={this.deleteCustomerDialogClosed} />   Admin Funktionen*/} 
         </Grid>
       : null }
       </div>
