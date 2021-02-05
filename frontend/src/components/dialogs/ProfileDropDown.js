@@ -62,10 +62,9 @@ class ProfileDropDown extends Component {
                 <Paper className={classes.profileBox}>
                   <Typography align='center'>Hallo</Typography>
                   <Divider className={classes.divider} />
-                  {
-                  //<Typography align='center' variant='body2'>{user.displayName}</Typography>
-                  //<Typography align='center' variant='body2'>{user.email}</Typography>
-                  }
+                  <Typography align='center' variant='body2'>{user.displayName}</Typography>
+                  <Divider className={classes.divider} />
+                  <Typography align='center' variant='body2'>{user.email}</Typography>
                   <Divider className={classes.divider} />
                   <Grid container justify='center'>
                     <Grid item>

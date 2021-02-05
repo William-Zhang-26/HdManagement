@@ -94,6 +94,7 @@ class AdminProjectList extends Component {
   render() {
     const { classes } = this.props;
     const { projects, expandedProjectID, loadingInProgress, error } = this.state;
+    console.log(this.state);
 
     return (
       <div className={classes.root}>
@@ -104,7 +105,8 @@ class AdminProjectList extends Component {
           projects.map(project => <AdminProjectListEntry key={project.getID()} project={project} 
           show={this.props.show}  
           onExpandedStateChange={this.onExpandedStateChange}
-          onProjectDeleted={this.projectDeleted} show={this.props.show}/>)
+          onProjectDeleted={this.projectDeleted} 
+          show={this.props.show}/>)
         }
 
           <ListItem>
