@@ -9,6 +9,8 @@ import ProjectAPI  from '../../api/ProjectAPI';
 import ProjectBO  from '../../api/ProjectBO';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 
 /**
@@ -39,15 +41,15 @@ class ProjectForm extends Component {
       projectName: '',
       projectNameValidationFailed: false,
 
-      userID: 0, //hier wird stattdessen noch die current user Id durch eine API geholt
+      userID: null, //hier wird stattdessen noch die current user Id durch eine API geholt
 
       projectTypeID: 0,
 
       stateID: 1,
 
-      semesterID: 0,
+      semesterID: 1,
 
-      assignmentID: 0,
+      assignmentID: 1,
 
       projectDescription: '',
       projectDescriptionValidationFailed: false,
@@ -82,9 +84,26 @@ class ProjectForm extends Component {
     this.baseState = this.state;
   }
 
+
+  componentDidMount() {
+    this.getLecturer();
+  }
+
+
+  getLecturer = () => {
+      ProjectAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid)   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
+      //ProjectAPI.getAPI().getStudentById()
+          .then (userBO => {
+              this.setState({ userID: userBO.getID() });
+          })
+
+  }
+
+
+
   /** Adds the Project */
   addProject = () => {
-    let newProject = new ProjectBO(this.state.projectName, this.state.userID, this.state.projectTypeID, this.state.stateID, 
+    let newProject = new ProjectBO(this.state.projectName, this.state.userID, this.state.projectTypeID, this.state.stateID, this.state.semesterID, this.state.assignmentID,
       this.state.projectDescription, this.state.partners, this.state.capacity, this.state.preferredRoom, this.state.bDaysPreSchedule, 
       this.state.bDaysFinale, this.state.bDaysSaturdays, this.state.preferredBDays, this.state.additionalLecturer, this.state.weekly); 
    
@@ -104,8 +123,12 @@ class ProjectForm extends Component {
     this.setState({
         addingInProgress: true,       // show loading indicator
         addingError: null             // disable error message
-    });
+    }
+    );
+    console.log("erstelltes Projekt:")
+    console.log(newProject)
   }
+  
 
 // Update gegebenenfalls ergänzen um Projekte zu ändern
 
@@ -129,6 +152,7 @@ class ProjectForm extends Component {
   handleClose = () => {
     // Reset the state
     this.setState(this.baseState);
+    this.getLecturer();
     this.props.onClose(null);
   }
 
@@ -169,6 +193,7 @@ class ProjectForm extends Component {
 
     const { value } = this.state;
 
+    console.log("Projektbereich Log:")
     console.log(this.state);
 
 
@@ -177,7 +202,7 @@ class ProjectForm extends Component {
 
     return (
       show ?
-        <Dialog open={show} onClose={this.handleClose} maxWidth='xs'>
+        <Dialog open={show} open={this.getLecturer} onClose={this.handleClose} maxWidth='xs'>
           <DialogTitle id='form-dialog-title'>{title}
             <IconButton className={classes.closeButton} onClick={this.handleClose}>
               <CloseIcon />
@@ -191,10 +216,6 @@ class ProjectForm extends Component {
             <TextField autoFocus type='text' required fullWidth margin='normal' id='projectName' label='Projekttitel:' value={projectName} 
                 onChange={this.textFieldValueChange} error={projectNameValidationFailed} 
                 helperText={projectNameValidationFailed ? 'Der Projekttitel muss mindestens ein Zeichen besitzen' : ' '} />
-
-
-            <TextField type='number' required fullWidth margin='normal' id='userID' label='User ID:' value={userID} 
-                onChange={this.textFieldValueChange} />
 
 
             <Typography>Projektart</Typography>
@@ -263,7 +284,7 @@ class ProjectForm extends Component {
                 onChange={this.textFieldValueChange} />
 
 
-            <TextField type='text' required fullWidth margin='normal' id='additionalSupervisor' label='Betreuende(r) ProfessorInnen:' value={additionalLecturer} 
+            <TextField type='text' required fullWidth margin='normal' id='additionalLecturer' label='Betreuende(r) ProfessorInnen:' value={additionalLecturer} 
                 onChange={this.textFieldValueChange} />
 
 
