@@ -770,6 +770,17 @@ class StudentOperationss(Resource):
         student = adm.get_student_by_user_id(user_id)
         return student
 
+@projectmanager.route("/student/")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class StudentAllOperationsss(Resource):
+    @projectmanager.marshal_with(student)
+    #@secured
+    def get(self):
+        """Auslesen aller Studenten"""
+        adm = ProjectAdministration()
+        study = adm.get_all_student()
+        return study
+
 "Student&Participation"
 
 @projectmanager.route('/student/<int:id>/participation')
