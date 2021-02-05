@@ -187,12 +187,13 @@ class ValidationForm extends Component {
                   <MenuItem value={15}>nicht bestanden</MenuItem>
                 </Select>
               </FormControl>
-            
-
-            <Typography>Infotext bzgl. Noten</Typography>
+          
 
           
             </form>
+
+            <Typography>Dozenten müssen je nach Kurs (1) eine Benotung (gängig) (2) bestanden / nicht bestanden (z. B. in den Schlüsselkompetenzen) angeben
+            </Typography>
 
             <LoadingProgress show={updatingInProgress} />
             <ContextErrorMessage error={updatingError} contextErrorMsg={`Es ist ein Fehler aufgetreten, lol.`} onReload={this.updateValidation} />
