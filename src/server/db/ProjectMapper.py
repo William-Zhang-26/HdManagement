@@ -379,8 +379,8 @@ class ProjectMapper(Mapper):
                   "weekly, create_time)" \
                   "VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}', '{}')" \
             .format(project.get_id(), project.get_name(), project.get_user_id(), project.get_project_type_id(), project.get_state_id(),
-                    project.get_assignment_id(),
                     project.get_semester_id(),
+                    project.get_assignment_id(),
                     project.get_project_description(),
                     project.get_partners(), project.get_capacity(), project.get_preferred_room(),
                     project.get_b_days_pre_schedule(), project.get_b_days_finale(), project.get_b_days_saturdays(),

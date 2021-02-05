@@ -5,10 +5,13 @@ import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
 import { MenuItem, FormControl, InputLabel, Select, Typography, Grid} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import Checkbox from '@material-ui/core/Checkbox';
 import ProjectAPI  from '../../api/ProjectAPI';
 import ProjectBO  from '../../api/ProjectBO';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 
 /**
@@ -39,15 +42,15 @@ class ProjectForm extends Component {
       projectName: '',
       projectNameValidationFailed: false,
 
-      userID: 0, //hier wird stattdessen noch die current user Id durch eine API geholt
+      userID: null, //hier wird stattdessen noch die current user Id durch eine API geholt
 
       projectTypeID: 0,
 
       stateID: 1,
 
-      semesterID: 0,
+      semesterID: 1,
 
-      assignmentID: 0,
+      assignmentID: 1,
 
       projectDescription: '',
       projectDescriptionValidationFailed: false,
@@ -68,7 +71,7 @@ class ProjectForm extends Component {
       
       additionalLecturer: '',
 
-      weekly: '',
+      weekly: 0,
       
 
       // Ladebalken und Error
@@ -82,9 +85,26 @@ class ProjectForm extends Component {
     this.baseState = this.state;
   }
 
+
+  componentDidMount() {
+    this.getLecturer();
+  }
+
+
+  getLecturer = () => {
+      ProjectAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid)   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
+      //ProjectAPI.getAPI().getStudentById()
+          .then (userBO => {
+              this.setState({ userID: userBO.getID() });
+          })
+
+  }
+
+
+
   /** Adds the Project */
   addProject = () => {
-    let newProject = new ProjectBO(this.state.projectName, this.state.userID, this.state.projectTypeID, this.state.stateID, 
+    let newProject = new ProjectBO(this.state.projectName, this.state.userID, this.state.projectTypeID, this.state.stateID, this.state.semesterID, this.state.assignmentID,
       this.state.projectDescription, this.state.partners, this.state.capacity, this.state.preferredRoom, this.state.bDaysPreSchedule, 
       this.state.bDaysFinale, this.state.bDaysSaturdays, this.state.preferredBDays, this.state.additionalLecturer, this.state.weekly); 
    
@@ -104,8 +124,12 @@ class ProjectForm extends Component {
     this.setState({
         addingInProgress: true,       // show loading indicator
         addingError: null             // disable error message
-    });
+    }
+    );
+    console.log("erstelltes Projekt:")
+    console.log(newProject)
   }
+  
 
 // Update gegebenenfalls ergänzen um Projekte zu ändern
 
@@ -129,6 +153,7 @@ class ProjectForm extends Component {
   handleClose = () => {
     // Reset the state
     this.setState(this.baseState);
+    this.getLecturer();
     this.props.onClose(null);
   }
 
@@ -148,6 +173,14 @@ class ProjectForm extends Component {
       projectTypeID: event.target.value
     });}
 
+  handleChange3 = (event) => {
+    this.setState({
+      assignmentID: event.target.value
+    });}
+
+
+
+
 
   /** Renders the component */
   render() {
@@ -155,6 +188,7 @@ class ProjectForm extends Component {
     const { projectName, projectNameValidationFailed } = this.state;
     const { userID } = this.state;
     const { projectTypeID } = this.state;
+    const { assignmentID } = this.state;
     const { projectDescription, projectDescriptionValidationFailed } = this.state;
     const { partners } = this.state;
     const { capacity } = this.state;
@@ -169,6 +203,7 @@ class ProjectForm extends Component {
 
     const { value } = this.state;
 
+    console.log("Projektbereich Log:")
     console.log(this.state);
 
 
@@ -177,7 +212,7 @@ class ProjectForm extends Component {
 
     return (
       show ?
-        <Dialog open={show} onClose={this.handleClose} maxWidth='xs'>
+        <Dialog open={show} open={this.getLecturer} onClose={this.handleClose} maxWidth='xs'>
           <DialogTitle id='form-dialog-title'>{title}
             <IconButton className={classes.closeButton} onClick={this.handleClose}>
               <CloseIcon />
@@ -191,10 +226,6 @@ class ProjectForm extends Component {
             <TextField autoFocus type='text' required fullWidth margin='normal' id='projectName' label='Projekttitel:' value={projectName} 
                 onChange={this.textFieldValueChange} error={projectNameValidationFailed} 
                 helperText={projectNameValidationFailed ? 'Der Projekttitel muss mindestens ein Zeichen besitzen' : ' '} />
-
-
-            <TextField type='number' required fullWidth margin='normal' id='userID' label='User ID:' value={userID} 
-                onChange={this.textFieldValueChange} />
 
 
             <Typography>Projektart</Typography>
@@ -213,18 +244,65 @@ class ProjectForm extends Component {
               <Grid>
                 <Typography> ECTS: 5 </Typography>
                 <Typography>SWS: 3</Typography>
+                  <FormControl className={classes.formControl}>
+                      <InputLabel id="open-select-label">Projekt Kategorie</InputLabel>
+                      <Select
+                        value={assignmentID}
+                        onChange={this.handleChange3}
+                      >
+                        <MenuItem value={1}>Management</MenuItem>
+                        <MenuItem value={2}>IT</MenuItem>
+                        <MenuItem value={3}>Medienproduktion</MenuItem>
+                        <MenuItem value={4}>Medien/Kultur</MenuItem>
+                        <MenuItem value={5}>Management und IT</MenuItem>
+                        <MenuItem value={6}>Management und Medienproduktion</MenuItem>
+                        <MenuItem value={7}>Management und Medien/Kultur</MenuItem>
+                        <MenuItem value={8}>IT und Medienproduktion</MenuItem>
+                        <MenuItem value={9}>IT und Medien/Kultur</MenuItem>
+                        <MenuItem value={10}>Medienproduktion und Medien/Kultur</MenuItem>
+                        <MenuItem value={11}>Transdisziplinäres Projekt</MenuItem>
+                      </Select>
+                    </FormControl>
               </Grid>
 
               : projectTypeID === 2 ?
               <Grid>
                 <Typography> ECTS: 10 </Typography>
                 <Typography>SWS: 5</Typography>
+                  <FormControl className={classes.formControl}>
+                      <InputLabel id="open-select-label">Projekt Kategorie</InputLabel>
+                      <Select
+                        value={assignmentID}
+                        onChange={this.handleChange3}
+                      >
+                        <MenuItem value={1}>Management</MenuItem>
+                        <MenuItem value={2}>IT</MenuItem>
+                        <MenuItem value={3}>Medienproduktion</MenuItem>
+                        <MenuItem value={4}>Medien/Kultur</MenuItem>
+                        <MenuItem value={5}>Management und IT</MenuItem>
+                        <MenuItem value={6}>Management und Medienproduktion</MenuItem>
+                        <MenuItem value={7}>Management und Medien/Kultur</MenuItem>
+                        <MenuItem value={8}>IT und Medienproduktion</MenuItem>
+                        <MenuItem value={9}>IT und Medien/Kultur</MenuItem>
+                        <MenuItem value={10}>Medienproduktion und Medien/Kultur</MenuItem>
+                        <MenuItem value={11}>Transdisziplinäres Projekt</MenuItem>
+                      </Select>
+                    </FormControl>
               </Grid> 
               
               : projectTypeID === 3 ?
               <Grid>
                 <Typography> ECTS: 20 </Typography>
                 <Typography>SWS: 10</Typography>
+                  <FormControl className={classes.formControl}>
+                      <InputLabel id="open-select-label">Projekt Kategorie</InputLabel>
+                      <Select
+                        value={assignmentID}
+                        onChange={this.handleChange3}
+                      >
+                        <MenuItem value={11}>Transdisziplinäres Projekt</MenuItem>
+                      </Select>
+                    </FormControl>
               </Grid> 
               
               : null }
@@ -263,12 +341,13 @@ class ProjectForm extends Component {
                 onChange={this.textFieldValueChange} />
 
 
-            <TextField type='text' required fullWidth margin='normal' id='additionalSupervisor' label='Betreuende(r) ProfessorInnen:' value={additionalLecturer} 
+            <TextField type='text' required fullWidth margin='normal' id='additionalLecturer' label='Betreuende(r) ProfessorInnen:' value={additionalLecturer} 
                 onChange={this.textFieldValueChange} />
 
 
             <TextField type='text' required fullWidth margin='normal' id='weekly' label='Wöchentlich?' value={weekly} 
                 onChange={this.textFieldValueChange} />
+
 
 
             <Typography>Raum- und Ressourcenplanung</Typography>
