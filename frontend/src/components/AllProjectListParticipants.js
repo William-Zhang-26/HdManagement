@@ -19,7 +19,6 @@ class AllProjectListParticipants extends Component {
   constructor(props) {
     super(props);
 
-    // console.log(props);
     let expandedID = null;
 
     if (this.props.location.expandProject) {
@@ -36,7 +35,6 @@ class AllProjectListParticipants extends Component {
   }
 
   onExpandedStateChange = project => {
-    // console.log(projectID);
     // Set expandend project entry to null by default
     let newID = null;
 
@@ -45,7 +43,6 @@ class AllProjectListParticipants extends Component {
       // Expand the project entry with customerID
       newID = project.getID();
     }
-    // console.log(newID);
     this.setState({
       expandedProjectID: newID,
     });
@@ -73,17 +70,17 @@ class AllProjectListParticipants extends Component {
     });
   }
 
+  /** Lifecycle-Methode, die aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird */
   componentDidMount() {
     this.getProjects();
   }
 
 
-  /** Renders the component */
+  /** Rendern der Komponente */
   render() {
     const { classes } = this.props;
     const { projects, expandedProjectID, loadingInProgress, error } = this.state;
 
-    //console.log(this.state)
 
     return (
       <div className={classes.root}>
@@ -107,7 +104,7 @@ class AllProjectListParticipants extends Component {
   }
 }
 
-/** Component specific styles */
+/** Komponentenspezifisches Styeling */
 const styles = theme => ({
   root: {
     width: '100%',

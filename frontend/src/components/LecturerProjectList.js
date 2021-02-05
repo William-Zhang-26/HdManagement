@@ -20,7 +20,6 @@ class LecturerProjectList extends Component {
   constructor(props) {
     super(props);
 
-    // console.log(props);
     let expandedID = null;
 
     if (this.props.location.expandCustomer) {
@@ -65,7 +64,7 @@ class LecturerProjectList extends Component {
         );
       
 
-    // set loading to true
+    // setzen des Ladens auf ture
     this.setState({
       loadingInProgress: true,
       error: null
@@ -74,7 +73,7 @@ class LecturerProjectList extends Component {
     
   
 
-  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
+  /** Lifecycle-Methode, die aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird */
   componentDidMount() {
     this.getProjects();
   }
@@ -112,7 +111,7 @@ class LecturerProjectList extends Component {
 
 
 
-  /** Renders the component */
+  /** Rendern der Komponente */
   render() {
     const { classes } = this.props;
     const { projects, expandedProjectID, loadingInProgress, error, showProjectForm } = this.state;
@@ -149,7 +148,7 @@ class LecturerProjectList extends Component {
   }
 }
 
-/** Component specific styles */
+/** Komponentenspezifisches Styeling */
 const styles = theme => ({
   root: {
     width: '90%',

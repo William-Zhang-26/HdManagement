@@ -26,18 +26,19 @@ class ProfileDropDown extends Component {
       });
     }
 
+  /** Auszuführende Anweisung beim Schließen des Dialogs */
     handleClose = () => {
       this.setState({
         open: false
       });
     }
   
-    
+    /** User kann sich über den Button abmelden*/
     handleSignOutButtonClicked = () => {
       firebase.auth().signOut();
     }
   
-
+  /** Rendern der Komponente*/
     render() {
       const { classes, user } = this.props;
       const { open } = this.state;
@@ -80,7 +81,7 @@ class ProfileDropDown extends Component {
       )
     }
   }
-  
+  /** Komponentenspezifisches Styeling */
   const styles = theme => ({
     avatarButton: {
       float: 'right'
@@ -98,7 +99,8 @@ class ProfileDropDown extends Component {
   ProfileDropDown.propTypes = {
     /** @ignore */
     classes: PropTypes.object.isRequired,
-    /** The logged in firesbase user */
+
+    /** Der angemeldete User in firesbase */
     user: PropTypes.object,
   }
   

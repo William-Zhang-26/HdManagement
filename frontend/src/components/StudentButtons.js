@@ -41,7 +41,7 @@ class StudentButtons extends Component {
         })
   }
 
-
+  /** Lifecycle-Methode, die aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird */
   componentDidMount() {
     this.getStudent();
   }
@@ -60,14 +60,15 @@ class StudentButtons extends Component {
     if (participation) {
       this.props.onParticipationDeleted(participation);
     };
-    // Don´t show the dialog
+    
+    // Das Dialog-Fenster nicht anzeigen
     this.setState({
       showParticipationDeleteDialog: false
     });
   }
 
 
-  /** Renders the component */
+  /** Rendern der Komponente */
   render() {
     const { classes } = this.props;
     const { loadingInProgress, student, participation, showParticipationDeleteDialog } = this.state;
@@ -92,7 +93,7 @@ class StudentButtons extends Component {
   }
 }
 
-/** Component specific styles */
+/** Komponentenspezifisches Styeling */
 const styles = theme => ({
   root: {
     width: '90%',

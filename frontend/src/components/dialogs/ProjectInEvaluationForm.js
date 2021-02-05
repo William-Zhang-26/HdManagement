@@ -14,6 +14,7 @@ class ProjectInEvaluationForm extends Component {
 
     constructor(props) {
       super(props);
+      //Typzuweisung der Variablen
       let n = "";
       let u = 0;
       let p = 0;
@@ -32,6 +33,7 @@ class ProjectInEvaluationForm extends Component {
       let w = "";
 
       if (props.project) {
+      //Abruf der Variablen aus dem ProjectBO
         n = props.project.getName();
         u = props.project.getUserID();
         p = props.project.getProjectTypeID();
@@ -79,14 +81,15 @@ class ProjectInEvaluationForm extends Component {
         updatingError: null
 
       };
+      //der State wird als Basiszustand gespeichert
       this.baseState = this.state;
     }
 
-/** Updates the Grade */
+/** Setzen des Projekts auf in Bewertung*/
 sendProjectInEvaluation= () => {
-  // clone the original cutomer, in case the backend call fails
+  // Duplizieren des ProjectBOs im Falle eines Fehlerhaften API-Calls
   let updatedState = Object.assign(new ProjectBO(), this.props.project);
-  // set the new attributes from our dialog
+  // setzen der neuen Attribute vom Dialog
   updatedState.setName(this.state.name);
   updatedState.setUserID(this.state.user_id);
   updatedState.setProjectTypeID(this.state.project_type_id);
@@ -106,10 +109,10 @@ sendProjectInEvaluation= () => {
 
   ProjectAPI.getAPI().updateProject(updatedState).then(project => {
     this.setState({
-      updatingInProgress: false,              // disable loading indicator  
-      updatingError: null                     // no error message
+      updatingInProgress: false,                                                          // Ladeanzeige deaktivieren  
+      updatingError: null                                                                 // Keine Fehlermeldung
     });
-    // keep the new state as base state
+                                                                                          // Den neuen Zustand als Basiszustand beibehalten
     this.baseState.name = this.state.name;
     this.baseState.user_id = this.state.user_id;
     this.baseState.project_type_id = this.state.project_type_id;
@@ -127,31 +130,30 @@ sendProjectInEvaluation= () => {
     this.baseState.additional_lecturer = this.state.additional_lecturer;
     this.baseState.weekly = this.state.weekly;
     
-    this.props.onClose(updatedState);      // call the parent with the new customer
+    this.props.onClose(updatedState);                                                     // Die übergeordnete Komponente mit dem State aufrufen
   }).catch(e =>
     this.setState({
-      updatingInProgress: false,              // disable loading indicator 
-      updatingError: e                        // show error message
+      updatingInProgress: false,                                                          // Ladeanzeige deaktivieren 
+      updatingError: e                                                                    //Anzeigen der Fehlermeldung
     })
   );
 
-  // set loading to true
+  // setzen des Ladens auf true
   this.setState({
-    updatingInProgress: true,                 // show loading indicator
-    updatingError: null                       // disable error message
+    updatingInProgress: true,                                                           // Ladeanzeige anzeigen
+    updatingError: null                                                                 // Fehlermeldung deaktivieren
   });
 } 
 
 
 
-  /** Handles the close / cancel button click event */
-    handleClose = () => {
-    // console.log(event);
+  /** Auszuführende Anweisung beim Schließen des Dialogs */
+  handleClose = () => {
     this.props.onClose(null);
   }
 
 
-  /** Renders the component */
+  /** Rendern der Komponente */
   render() {
     const { classes, project, show } = this.props;
     const { updatingError, updatingInProgress } = this.state;
@@ -185,7 +187,7 @@ sendProjectInEvaluation= () => {
   }
 }
 
-/** Component specific styles */
+/** Komponentenspezifisches Styeling */
 const styles = theme => ({
     closeButton: {
       position: 'absolute',
@@ -198,8 +200,14 @@ const styles = theme => ({
   /** PropTypes */
   ProjectInEvaluationForm.propTypes = {
     classes: PropTypes.object.isRequired,
+
+    /** Projekt welches für den Zustand geändert werden soll*/
     project: PropTypes.object.isRequired,
+
+    /** Wenn true, wird der Dialog gerendert */
     show: PropTypes.bool.isRequired,
+
+    /** Handler Funktion welche aufgerufen wird, wenn der Dialog geschlossen ist.*/
     onClose: PropTypes.func.isRequired,
   }
   

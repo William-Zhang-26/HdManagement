@@ -1,5 +1,3 @@
-//Wenn ein Dozent alle Teilnehmer bewertet hat, muss er die Bewertung abschließen
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, ListItemText } from '@material-ui/core';
@@ -9,11 +7,13 @@ import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 import ProjectBO from '../../api/ProjectBO';
 
+//Wenn ein Dozent alle Teilnehmer bewertet hat, muss er die Bewertung abschließen
 
 class ProjectEvaluatedForm extends Component {
 
     constructor(props) {
       super(props);
+      //Typzuweisung der Variablen
       let n = "";
       let u = 0;
       let p = 0;
@@ -31,6 +31,7 @@ class ProjectEvaluatedForm extends Component {
       let a = "";
       let w = "";
 
+      //Abruf der Variablen aus dem ProjectBO
       if (props.project) {
         n = props.project.getName();
         u = props.project.getUserID();
@@ -78,14 +79,16 @@ class ProjectEvaluatedForm extends Component {
         updatingError: null
 
       };
+      //der State wird als Basiszustand gespeichert
       this.baseState = this.state;
     }
 
-/** Updates the Grade */
+/** Setzen des Zustands auf Bewertung abgeschlossen*/
 saveProjectEvaluation= () => {
-  // clone the original cutomer, in case the backend call fails
+  // Duplizieren des ProjectBOs im Falle eines Fehlerhaften API-Calls
   let updatedState = Object.assign(new ProjectBO(), this.props.project);
-  // set the new attributes from our dialog
+
+  // setzen der neuen Attribute vom Dialog
   updatedState.setName(this.state.name);
   updatedState.setUserID(this.state.user_id);
   updatedState.setProjectTypeID(this.state.project_type_id);
@@ -105,10 +108,10 @@ saveProjectEvaluation= () => {
 
   ProjectAPI.getAPI().updateProject(updatedState).then(project => {
     this.setState({
-      updatingInProgress: false,              // disable loading indicator  
-      updatingError: null                     // no error message
+      updatingInProgress: false,                                        //Ladeanzeige deaktivieren 
+      updatingError: null                                               //Keine Fehlermeldung
     });
-    // keep the new state as base state
+                                                                        //Den neuen Zustand als Basiszustand beibehalten
     this.baseState.name = this.state.name;
     this.baseState.user_id = this.state.user_id;
     this.baseState.project_type_id = this.state.project_type_id;
@@ -126,31 +129,30 @@ saveProjectEvaluation= () => {
     this.baseState.additional_lecturer = this.state.additional_lecturer;
     this.baseState.weekly = this.state.weekly;
     
-    this.props.onClose(updatedState);      // call the parent with the new customer
+    this.props.onClose(updatedState);                                     // Die übergeordnete Komponente mit dem State aufrufen
   }).catch(e =>
     this.setState({
-      updatingInProgress: false,              // disable loading indicator 
-      updatingError: e                        // show error message
+      updatingInProgress: false,                                          //Ladeanzeige deaktivieren 
+      updatingError: e                                                    // Anzeigen der Fehlermeldung 
     })
   );
 
-  // set loading to true
+  // Setzen des Ladens auf true
   this.setState({
-    updatingInProgress: true,                 // show loading indicator
-    updatingError: null                       // disable error message
+    updatingInProgress: true,                                           //Ladeanzeige anzeigen
+    updatingError: null                                                 //Fehlermeldung deaktivieren 
   });
 } 
 
 
 
-  /** Handles the close / cancel button click event */
-    handleClose = () => {
-    // console.log(event);
+  /** Auszuführende Anweisung beim Schließen des Dialogs */
+  handleClose = () => {
     this.props.onClose(null);
   }
 
 
-  /** Renders the component */
+  /** Rendern der Komponente */
   render() {
     const { classes, project, show } = this.props;
     const { updatingError, updatingInProgress } = this.state;
@@ -185,7 +187,7 @@ saveProjectEvaluation= () => {
   }
 }
 
-/** Component specific styles */
+/** Komponentenspezifisches Styeling */
 const styles = theme => ({
     closeButton: {
       position: 'absolute',
@@ -199,16 +201,13 @@ const styles = theme => ({
   ProjectEvaluatedForm.propTypes = {
     /** @ignore */
     classes: PropTypes.object.isRequired,
-    /** The CustomerBO to be deleted */
+
+    /** Projekt welches für den Zustand geändert werden soll*/
     project: PropTypes.object.isRequired,
-    /** If true, the dialog is rendered */
+    /** Wenn true, wird der Dialog gerendert */
+
     show: PropTypes.bool.isRequired,
-    /**  
-     * Handler function which is called, when the dialog is closed.
-     * Sends the deleted CustomerBO as parameter or null, if cancel was pressed.
-     *  
-     * Signature: onClose(CustomerBO customer);
-     */
+    /** Handler Funktion welche aufgerufen wird, wenn der Dialog geschlossen ist.*/
     onClose: PropTypes.func.isRequired,
   }
   

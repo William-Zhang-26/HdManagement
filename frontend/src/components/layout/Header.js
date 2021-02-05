@@ -3,7 +3,7 @@ import { Paper, Typography, Tabs, Tab } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import ProfileDropDown from '../dialogs/ProfileDropDown';    // Zeile 30: <ProfileDropDown user={user} />
 
-
+//Erstellt den Titel und ein Verweis zur Rolechoice 
 class Header extends Component {
 
   constructor(props) {
@@ -14,14 +14,14 @@ class Header extends Component {
     };
   }
 
-
+//Behandelt oneChange
   handleTabChange = (e, newIndex) => {
     this.setState({
       tabindex: newIndex
     })
   };
 
-
+  /** Rendern der Komponente */
   render() {
     const { user } = this.props;
 

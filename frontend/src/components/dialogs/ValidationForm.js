@@ -32,14 +32,14 @@ class ValidationForm extends Component {
 
   constructor(props) {
     super(props);
-
+    //Typzuweisung der Variablen
     let v = 0;
     let m = 0;
     let s = 0;
     let p = 0;
     
 
-    
+    //Abruf der Variablen aus dem ProjectBO
     if (props.participation) {
         v = props.participation.getValidationID();
         m = props.participation.getModuleID();
@@ -67,37 +67,36 @@ class ValidationForm extends Component {
 
 
 
-  /** Updates the Grade */
+  /** Änderung der Bewertung */
   updateValidation = () => {
-    // clone the original cutomer, in case the backend call fails
     let updatedValidation = Object.assign(new ParticipationBO(), this.props.participation);
-    // set the new attributes from our dialog
-    updatedValidation.setModuleID(this.state.module);
+  // setzen der neuen Attribute vom Dialog
+  updatedValidation.setModuleID(this.state.module);
     updatedValidation.setProjectID(this.state.project);
     updatedValidation.setStudentID(this.state.student);
     updatedValidation.setValidationID(this.state.validation);
     ProjectAPI.getAPI().updateValidation(updatedValidation).then(participation => {
       this.setState({
-        updatingInProgress: false,              // disable loading indicator  
-        updatingError: null                     // no error message
+        updatingInProgress: false,                                  // Ladeanzeige deaktivieren   
+        updatingError: null                                         // Keine Fehlermeldung
       });
-      // keep the new state as base state
+      // den neuen Zustand als Basiszustand beibehalten
       this.baseState.validation = this.state.validation;
       this.baseState.module = this.state.module;
       this.baseState.student = this.state.student;
       this.baseState.project = this.state.project;
-      this.props.onClose(updatedValidation);      // call the parent with the new customer
+      this.props.onClose(updatedValidation);                        // Die übergeordnete Komponente mit dem State aufrufen
     }).catch(e =>
       this.setState({
-        updatingInProgress: false,              // disable loading indicator 
-        updatingError: e                        // show error message
+        updatingInProgress: false,                                  // Ladeanzeige deaktivieren 
+        updatingError: e                                            // Fehlermeldung anzeigen
       })
     );
 
     // set loading to true
     this.setState({
-      updatingInProgress: true,                 // show loading indicator
-      updatingError: null                       // disable error message
+      updatingInProgress: true,                                   // Ladeanzeige anzeigen
+      updatingError: null                                         // Fehlermeldung deaktivieren
     });
   } 
 
@@ -117,7 +116,7 @@ class ValidationForm extends Component {
 
 
 
-  /** Handles the close / cancel button click event*/
+  /** Auszuführende Anweisung beim Schließen des Dialogs */
   handleClose = () => {
     // Reset the state
     this.setState(this.baseState);
@@ -137,7 +136,7 @@ class ValidationForm extends Component {
   
 
 
-  /** Renders the component */
+  /** Rendern der Komponente */
   render() {
     const { classes, show, participation } = this.props;
     const { validation } = this.state;
@@ -214,7 +213,7 @@ class ValidationForm extends Component {
   }
 }
 
-/** Component specific styles */
+/** Komponentenspezifisches Styeling */
 const styles = theme => ({
   root: {
     width: '100%',

@@ -20,7 +20,6 @@ class AdminProjectList extends Component {
   constructor(props) {
     super(props);
 
-    // console.log(props);
     let expandedID = null;
 
     if (this.props.location.expandProject) {
@@ -37,15 +36,14 @@ class AdminProjectList extends Component {
   }
 
   onExpandedStateChange = project => {
-    // console.log(projectID);
-    // Set expandend project entry to null by default
+    //Expandierenden Projekteintrag standardmäßig auf Null setzen
     let newID = null;
 
-    // If same project entry is clicked, collapse it else expand a new one
+    //Wenn derselbe Projekteintrag angeklickt wird, wird er zugeklappt, andernfalls wird ein neuer Eintrag expandiert
     if (project.getID() !== this.state.expandedProjectID) {
       newID = project.getID();
     }
-    // console.log(newID);
+
     this.setState({
       expandedProjectID: newID,
     });
@@ -54,26 +52,26 @@ class AdminProjectList extends Component {
   getProjects = () => {
     ProjectAPI.getAPI().getProjects()
       .then(projectBOs =>
-        this.setState({               // Set new state when ProjectBOs have been fetched
+        this.setState({                                                          //Neuen Zustand setzen, wenn ProjectBOs fetched wurde
           projects: projectBOs,
-          loadingInProgress: false,   // disable loading indicator 
+          loadingInProgress: false,                                             //Ladeanzeige deaktivieren 
           error: null
         })).catch(e =>
-          this.setState({             // Reset state with error from catch 
+          this.setState({                                                      // Zustand zurücksetzen nach dem Fehlercatch 
             projects: [],
-            loadingInProgress: false, // disable loading indicator 
+            loadingInProgress: false,                                         //Ladeanzeige deaktivieren 
             error: e
           })
         );
 
-    // set loading to true
+    // setzen des Ladens auf true
     this.setState({
       loadingInProgress: true,
       error: null
     });
   }
 
-  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
+  /** Lifecycle-Methode, die aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird */
   componentDidMount() {
     this.getProjects();
   }
@@ -90,7 +88,7 @@ class AdminProjectList extends Component {
 
 
 
-  /** Renders the component */
+    /** Rendern der Komponente */
   render() {
     const { classes } = this.props;
     const { projects, expandedProjectID, loadingInProgress, error } = this.state;
@@ -120,7 +118,7 @@ class AdminProjectList extends Component {
   }
 }
 
-/** Component specific styles */
+/** Komponentenspezifisches Styeling */
 const styles = theme => ({
   root: {
     width: '90%',

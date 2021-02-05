@@ -1,5 +1,5 @@
 /**
- * Base class for all BusinessObjects, which has an ID field by default.
+ * Basisklasse für alle BusinessObjects mit ID und aktuellem Zeitpunkt
  */
 
 export default class BusinessObject {

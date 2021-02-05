@@ -80,7 +80,7 @@ class StudentReportList extends Component {
 
 
 
-  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
+  /** Lifecycle-Methode, die aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird */
   componentDidMount() {
     this.getParticipations(); 
   }
@@ -107,7 +107,7 @@ class StudentReportList extends Component {
 
 
 
-  /** Renders the component */
+  /** Rendern der Komponente */
   render() {
     const { classes } = this.props;
     const { participations, loadingInProgress, error} = this.state;
@@ -136,7 +136,7 @@ class StudentReportList extends Component {
   }
 }
 
-/** Component specific styles */
+/** Komponentenspezifisches Styeling */
 const styles = theme => ({
   root: {
     width: '90%',

@@ -65,6 +65,8 @@ class StudentReportListEntry extends Component {
           })
 
   }
+  
+    /** Lifecycle-Methode, die aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird */
     componentDidMount() {
       this.getProjectbyID();
       this.getModulebyID();
@@ -73,7 +75,7 @@ class StudentReportListEntry extends Component {
     }
 
 
-  /** Renders the component */
+  /** Rendern der Komponente*/
   render() {
     const { classes, expandedState } = this.props;
     const { participation, project, module, validation, student} = this.state;
@@ -125,7 +127,7 @@ class StudentReportListEntry extends Component {
 
 
 
-/** Component specific styles */
+/** Komponentenspezifisches Styeling */
 const styles = theme => ({
     root: {
       width: '100%',

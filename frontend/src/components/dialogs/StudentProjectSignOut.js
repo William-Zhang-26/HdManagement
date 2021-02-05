@@ -22,36 +22,35 @@ class StudentProjectSignOut extends Component {
     }
 
 
-  /** Log Out */
+  /** Abmelden */
   deleteParticipation = () => {
     ProjectAPI.getAPI().deleteParticipation(this.props.participation.getID()).then(participation => {
       this.setState({
-        deletingInProgress: false,              // disable loading indicator  
-        deletingError: null                     // no error message
+        deletingInProgress: false,                                          // Ladeanzeige deaktivieren  
+        deletingError: null                                                 // Keine Fehlermeldung 
       });
-      this.props.onClose(this.props.participation);  // call the parent with the deleted customer
+      this.props.onClose(this.props.participation);                         // Die übergeordnete Komponente mit dem abgemeldeten Studenten aufrufen
     }).catch(e =>
       this.setState({
-        deletingInProgress: false,              // disable loading indicator 
-        deletingError: e                        // show error message
+        deletingInProgress: false,                                          // Ladeanzeige deaktivieren 
+        deletingError: e                                                    // Anzeigen der Fehlermeldung 
       })
     );
 
-    // set loading to true
+    // setzen des Ladens auf true
     this.setState({
-      deletingInProgress: true,                 // show loading indicator
-      deletingError: null                       // disable error message
+      deletingInProgress: true,                                           // Ladeanzeige anzeigen
+      deletingError: null                                                 // Fehlermeldung deaktivieren
     });
   }
 
-  /** Handles the close / cancel button click event */
+  /** Auszuführende Anweisung beim Schließen des Dialogs */
   handleClose = () => {
-    // console.log(event);
     this.props.onClose(null);
   }
 
 
-  /** Renders the component */
+  /** Rendern der Komponente */
   render() {
     const { classes, participation, show } = this.props;
     const { deletingInProgress, deletingError } = this.state;
@@ -88,7 +87,7 @@ class StudentProjectSignOut extends Component {
   }
 }
 
-/** Component specific styles */
+/** Komponentenspezifisches Styeling */
 const styles = theme => ({
     closeButton: {
       position: 'absolute',
@@ -102,16 +101,13 @@ const styles = theme => ({
 StudentProjectSignOut.propTypes = {
     /** @ignore */
     classes: PropTypes.object.isRequired,
-    /** The CustomerBO to be deleted */
+    /** Student welcher für ein Projekt abgemeldet werden soll*/
     project: PropTypes.object.isRequired,
-    /** If true, the dialog is rendered */
-    show: PropTypes.bool.isRequired,
-    /**  
-     * Handler function which is called, when the dialog is closed.
-     * Sends the deleted CustomerBO as parameter or null, if cancel was pressed.
-     *  
-     * Signature: onClose(CustomerBO customer);
-     */
+
+    /** Wenn true, wird der Dialog gerendert */
+     show: PropTypes.bool.isRequired,
+
+    /** Handler Funktion welche aufgerufen wird, wenn der Dialog geschlossen ist.*/
     onClose: PropTypes.func.isRequired,
   }
   

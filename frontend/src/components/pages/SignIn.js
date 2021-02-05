@@ -4,12 +4,13 @@ import {Button, Grid, Typography, withStyles}from '@material-ui/core';
  
 class SignIn extends Component {
   
-  
+  /** SignIn Funktion */
   handleSignInButtonClicked = () => {
 		this.props.onSignIn();
   }
 
-  
+
+  /** Rendern der Komponente */
   render() {
     const { classes } = this.props;
     

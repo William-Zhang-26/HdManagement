@@ -41,12 +41,12 @@ class StudentButtons extends Component {
         })
   }
 
-
+  /** Lifecycle-Methode, die aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird */
   componentDidMount() {
     this.getStudent();
   }
 
-  /** Handles the onClick event of the delete project button */
+  /** Handler Funktion für das Click-Event wenn eine Teilnahme gelöscht wird */
   deleteParticipationButtonClicked = (event) => {
     event.stopPropagation();
     this.setState({
@@ -54,20 +54,19 @@ class StudentButtons extends Component {
     });
   }
 
-  /** Handles the onClose event of the ProjectDeleteDialog */
+  /** Schließt den Delete-Dialog und übergibt das gelöschte Teilnahme-Objekt*/
   StudentProjectSignOutClosed = (participation) => {
-    // if project is not null, delete it
     if (participation) {
       this.props.onParticipationDeleted(participation);
     };
-    // Don´t show the dialog
+    // Das Dialog-Fenster nicht anzeigen
     this.setState({
       showParticipationDeleteDialog: false
     });
   }
 
 
-  /** Renders the component */
+  /** Render der Komponente */
   render() {
     const { classes } = this.props;
     const { loadingInProgress, student, participation, showParticipationDeleteDialog } = this.state;
@@ -92,12 +91,11 @@ class StudentButtons extends Component {
   }
 }
 
-/** Component specific styles */
+/** Komponentenspezifisches Styeling */
 const styles = theme => ({
   root: {
     width: '90%',
     marginTop: theme.spacing(3),
-    //marginRight: theme.spacing(10),
     marginLeft: theme.spacing(1),
   },
   font: {
@@ -124,8 +122,6 @@ const styles = theme => ({
     
   }
 });
-
-//<Button className={classes.replay} startIcon={<ReplayIcon />} onClick = {this.getValidationbyId}/>
 
 /** PropTypes */
 StudentButtons.propTypes = {

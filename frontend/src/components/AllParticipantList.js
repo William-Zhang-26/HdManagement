@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, List, ListItem, Button, Typography, Grid, Box, ButtonGroup } from '@material-ui/core';
-//import AddIcon from '@material-ui/icons/Add';
 import { withRouter } from 'react-router-dom';
 import  ProjectAPI  from '../api/ProjectAPI';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
@@ -59,7 +58,7 @@ class AllParticipantList extends Component {
         })
         )}
 
-
+  /** Lifecycle-Methode, die aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird */
   componentDidMount() {
     this.getParticipant();
     this.getValidationbyId();
@@ -80,7 +79,7 @@ class AllParticipantList extends Component {
       this.props.onParticipationDeleted(participation);
     };
 
-    // Don´t show the dialog
+    // Der Dialog soll nicht angezeigt werden
     this.setState({
       showParticipationDeleteDialog: false
     });
@@ -112,7 +111,7 @@ class AllParticipantList extends Component {
   }
 
 
-  /** Renders the component */
+  /** Rendern der Komponente */
   render() {
     const { classes } = this.props;
     const { loadingInProgress, student, participation, error, showParticipationDeleteDialog, validation, showValidationForm, project } = this.state;
@@ -162,12 +161,11 @@ class AllParticipantList extends Component {
   }
 }
 
-/** Component specific styles */
+/** Komponentenspezifisches Styeling */
 const styles = theme => ({
   root: {
     width: '90%',
     marginTop: theme.spacing(3),
-    //marginRight: theme.spacing(10),
     marginLeft: theme.spacing(1),
   },
   font: {
