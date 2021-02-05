@@ -1,118 +1,374 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
+import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
+import { MenuItem, FormControl, InputLabel, Select, Typography, Grid } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import ProjectAPI from '../../api/ProjectAPI';
+import ProjectAPI  from '../../api/ProjectAPI';
+import ParticipationBO  from '../../api/ParticipationBO';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
-//Button für einen Studenten, um sich in einem Projekt anzumelden
+
+//Das Fenster um Teilnehmer einem Projekt hinzuzufügen 
+
+
+
 class StudentProjectSignIn extends Component {
 
     constructor(props) {
       super(props);
-  
+
+      let pid = 0;
+
+      //Abruf der Variablen aus dem ProjectBO
+      if (props.project) {
+        pid = props.project.getID();
+      }
+        
       // Init the state
-      this.state = {
-        SignInInProgress: false,
-        SignInError: null
-      };
+        this.state = {
+            module_id: 0,
+            student_id: null,
+            //project: this.props.project,
+            project_id: pid,
+
+      // Ladebalken und Error
+            addingInProgress: false,
+            addingError: null
+
+        };
+        
+        this.baseState = this.state;
     }
 
-//get Project ID
 
-//Folgendes in der API ergänzen:
-//get Student ID
-//project get ID
 
-  /** Hinzufügen eines Studentens für ein Projekt */
-  addStudent = () => {
-    ProjectAPI.getAPI().addStudentForProject(this.props.project.getID()).then(studentBO => {
-      this.setState({  // Set new state when StudentBOs have been fetched
-        students: [...this.state.students, studentBO],
-        SignInInProgress: false, // loading indicator 
-        SignInError: null
+    
+getStudent = () => {
+  ProjectAPI.getAPI().getStudentbyId(firebase.auth().currentUser.uid)  
+      .then (studentBO => {
+          this.setState({ student_id: studentBO.getID() });
       })
+}
+
+/** Lifecycle-Methode, die aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird */
+componentDidMount() {
+  this.getStudent();
+}
+
+
+/** Adds the Project */
+addParticipation = () => {
+    let newParticipation = new ParticipationBO( this.state.module_id, this.state.project_id, this.state.student_id, 1 ); 
+   
+    ProjectAPI.getAPI().addParticipation(newParticipation).then(participation => {
+      // Backend call sucessfull
+      // reinit the dialogs state for a new empty project
+      this.setState(this.baseState);
+      this.props.onClose(participation); // call the parent with the customer object from backend
     }).catch(e =>
-      this.setState({ // Reset state with error from catch 
-        students: [],
-        SignInInProgress: false,
-        SignInError: e
+      this.setState({
+        addingInProgress: false,    // disable loading indicator 
+        addingError: e              // show error message
       })
     );
 
-    // setzen des Ladens auf true
+    // set loading to true
     this.setState({
-      SignInInProgress: true,
-      SignInError: null
-    });
+        addingInProgress: true,       // show loading indicator
+        addingError: null             // disable error message
+    }
+    );
   }
 
-
-  /** Auszuführende Anweisung beim Schließen des Dialogs */
+  /** Handles the close / cancel button click event*/
   handleClose = () => {
+    // Reset the state
+    this.setState(this.baseState);
     this.props.onClose(null);
   }
 
+  /** Handles value changes of the forms textfields and validates them */
+  textFieldValueChange = (event) => {
+    const value = event.target.value;
 
-  /** Rendern der Komponente */
-  render() {
-    const { classes, project, show } = this.props;
-    const { SignInError, SignInInProgress } = this.state;
+    let error = false;
+    if (value.trim().length === 0) {
+      error = true;
+    }
 
-    return (
-      show ?
-        <Dialog open={show} onClose={this.handleClose}>
-          <DialogTitle id='StudentSignin-Title'>In Projekt einschreiben
-            <IconButton className={classes.closeButton} onClick={this.handleClose}>
-              <CloseIcon />
-            </IconButton>
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Möchten Sie sich in folgendes Projekt einschreiben: '{project.getName()}' (ID: {project.getID()})?
-            </DialogContentText>
-            <LoadingProgress show={SignInInProgress} />
-            <ContextErrorMessage error={SignInError} contextErrorMsg={`The student could not be added to the project '${project.getName()}' with the ID: '${project.getID()}'`}
-              onReload={this.addStudentForProject} />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} color='secondary'>
-              Abbrechen
-            </Button>
-            <Button variant='contained' onClick={this.addStudent} color='primary'>
-              Einschreiben
-            </Button> 
-          </DialogActions>
-        </Dialog>
-        : null
-    );
-  }
+    this.setState({
+      [event.target.id]: event.target.value,
+      [event.target.id + 'ValidationFailed']: error,
+      [event.target.id + 'Edited']: true
+    });
+  } 
+
+
+  handleChange = (event) => {
+    this.setState({
+        module_id: event.target.value
+    });}
+
+
+
+/** Renders the component */
+render() {
+  const { classes, show, project } = this.props;
+  const { module_id, student_id } = this.state;
+
+  const { addingInProgress, addingError } = this.state;
+
+  const { value } = this.state;
+
+  console.log("Projektbereich Log:")
+  console.log(this.state);
+
+
+  let title = 'In das Projekt einschreiben';
+  let header = 'Füllen Sie das Formular aus';
+
+  return (
+    show && project ?
+      <Dialog open={show} onClose={this.handleClose} maxWidth='xs'>
+        <DialogTitle id='form-dialog-title'>{title}
+          <IconButton className={classes.closeButton} onClick={this.handleClose}>
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {header}
+          </DialogContentText>
+          <form className={classes.root} noValidate autoComplete='off'>
+          
+          { project.getAssignmentID() === 1 ?
+          <Grid>
+            <Typography>Modul</Typography>
+              <FormControl className={classes.formControl}>
+                  <InputLabel id="open-select-label">Bitte auswählen</InputLabel>
+                  <Select
+                    value={module_id}
+                    onChange={this.handleChange}
+                  > 
+                    <MenuItem value={1}>338005</MenuItem>
+                    <MenuItem value={2}>338006</MenuItem>
+                    <MenuItem value={3}>338007</MenuItem>
+                    <MenuItem value={4}>338008</MenuItem>
+                    <MenuItem value={5}>338009</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+            : project.getAssignmentID() === 2 ?
+            <Grid>
+            <Typography>Modul</Typography>
+              <FormControl className={classes.formControl}>
+                  <InputLabel id="open-select-label">Bitte auswählen</InputLabel>
+                  <Select
+                    value={module_id}
+                    onChange={this.handleChange}
+                  > 
+                    <MenuItem value={6}>338010</MenuItem>
+                    <MenuItem value={7}>338011</MenuItem>
+                    <MenuItem value={8}>338012</MenuItem>
+                    <MenuItem value={9}>338013</MenuItem>
+                    <MenuItem value={10}>338014</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              : project.getAssignmentID() === 3 ?
+              <Grid>
+              <Typography>Modul</Typography>
+                <FormControl className={classes.formControl}>
+                    <InputLabel id="open-select-label">Bitte auswählen</InputLabel>
+                    <Select
+                      value={module_id}
+                      onChange={this.handleChange}
+                    > 
+                      <MenuItem value={11}>338015</MenuItem>
+                      <MenuItem value={12}>338016</MenuItem>
+                      <MenuItem value={13}>338017</MenuItem>
+                      <MenuItem value={14}>338018</MenuItem>
+                      <MenuItem value={15}>338019</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                : project.getAssignmentID() === 4 ?
+                <Grid>
+                <Typography>Modul</Typography>
+                  <FormControl className={classes.formControl}>
+                      <InputLabel id="open-select-label">Bitte auswählen</InputLabel>
+                      <Select
+                        value={module_id}
+                        onChange={this.handleChange}
+                      > 
+                        <MenuItem value={16}>338020</MenuItem>
+                        <MenuItem value={17}>338021</MenuItem>
+                        <MenuItem value={18}>338022</MenuItem>
+                        <MenuItem value={19}>338023</MenuItem>
+                        <MenuItem value={20}>338024</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  : project.getAssignmentID() === 5 ?
+                  <Grid>
+                  <Typography>Modul</Typography>
+                    <FormControl className={classes.formControl}>
+                        <InputLabel id="open-select-label">Bitte auswählen</InputLabel>
+                        <Select
+                          value={module_id}
+                          onChange={this.handleChange}
+                        > 
+                          <MenuItem value={21}>338025</MenuItem>
+                          <MenuItem value={22}>338026</MenuItem>
+                          <MenuItem value={23}>338027</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    : project.getAssignmentID() === 6 ?
+                    <Grid>
+                    <Typography>Modul</Typography>
+                      <FormControl className={classes.formControl}>
+                          <InputLabel id="open-select-label">Bitte auswählen</InputLabel>
+                          <Select
+                            value={module_id}
+                            onChange={this.handleChange}
+                          > 
+                            <MenuItem value={24}>338028</MenuItem>
+                            <MenuItem value={25}>338029</MenuItem>
+                            <MenuItem value={26}>338030</MenuItem>
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                      : project.getAssignmentID() === 7 ?
+                      <Grid>
+                      <Typography>Modul</Typography>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel id="open-select-label">Bitte auswählen</InputLabel>
+                            <Select
+                              value={module_id}
+                              onChange={this.handleChange}
+                            > 
+                              <MenuItem value={27}>338031</MenuItem>
+                              <MenuItem value={28}>338032</MenuItem>
+                              <MenuItem value={29}>338033</MenuItem>
+                            </Select>
+                          </FormControl>
+                        </Grid>
+                        : project.getAssignmentID() === 8 ?
+                        <Grid>
+                        <Typography>Modul</Typography>
+                          <FormControl className={classes.formControl}>
+                              <InputLabel id="open-select-label">Bitte auswählen</InputLabel>
+                              <Select
+                                value={module_id}
+                                onChange={this.handleChange}
+                              > 
+                                <MenuItem value={30}>338034</MenuItem>
+                                <MenuItem value={31}>338035</MenuItem>
+                                <MenuItem value={32}>338036</MenuItem>
+                              </Select>
+                            </FormControl>
+                          </Grid>
+                          : project.getAssignmentID() === 9 ?
+                          <Grid>
+                          <Typography>Modul</Typography>
+                            <FormControl className={classes.formControl}>
+                                <InputLabel id="open-select-label">Bitte auswählen</InputLabel>
+                                <Select
+                                  value={module_id}
+                                  onChange={this.handleChange}
+                                > 
+                                  <MenuItem value={33}>338037</MenuItem>
+                                  <MenuItem value={34}>338038</MenuItem>
+                                  <MenuItem value={35}>338039</MenuItem>
+                                </Select>
+                              </FormControl>
+                            </Grid>
+                            : project.getAssignmentID() === 10 ?
+                            <Grid>
+                            <Typography>Modul</Typography>
+                              <FormControl className={classes.formControl}>
+                                  <InputLabel id="open-select-label">Bitte auswählen</InputLabel>
+                                  <Select
+                                    value={module_id}
+                                    onChange={this.handleChange}
+                                  > 
+                                    <MenuItem value={36}>338040</MenuItem>
+                                    <MenuItem value={37}>338041</MenuItem>
+                                    <MenuItem value={38}>338042</MenuItem>
+                                  </Select>
+                                </FormControl>
+                              </Grid>
+                              : project.getAssignmentID() === 11 ?
+                              <Grid>
+                              <Typography>Modul</Typography>
+                                <FormControl className={classes.formControl}>
+                                    <InputLabel id="open-select-label">Bitte auswählen</InputLabel>
+                                    <Select
+                                      value={module_id}
+                                      onChange={this.handleChange}
+                                    > 
+                                      <MenuItem value={39}>338043</MenuItem>
+                                      <MenuItem value={40}>338044</MenuItem>
+                                      <MenuItem value={41}>338045</MenuItem>
+                                      <MenuItem value={42}>338046</MenuItem>
+                                    </Select>
+                                  </FormControl>
+                                </Grid>
+                                : null }
+          </form>
+
+          <LoadingProgress show={addingInProgress} />
+          <ContextErrorMessage error={addingError} contextErrorMsg={`Sie konnten sich nicht einschreiben`} onReload={this.addParticipation} />
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={this.handleClose} color='secondary'>
+            Abbrechen
+          </Button>
+
+          <Button variant='contained' onClick={this.addParticipation} color='primary'>
+            Einschreiben
+          </Button>
+        </DialogActions>
+      </Dialog>
+      : null
+  );
 }
+}
+  
+
+
+
 
 /** Komponentenspezifisches Styeling */
 const styles = theme => ({
-    closeButton: {
-      position: 'absolute',
-      right: theme.spacing(1),
-      top: theme.spacing(1),
-      color: theme.palette.grey[500],
-    }
-  });
-  
-  /** PropTypes */
+  root: {
+    width: '100%',
+  },
+  closeButton: {
+    position: 'absolute',
+    right: theme.spacing(1),
+    top: theme.spacing(1),
+    color: theme.palette.grey[500],
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 300,
+  },
+});
+
+/** PropTypes */
 StudentProjectSignIn.propTypes = {
-    /** @ignore */
-    classes: PropTypes.object.isRequired,
+  /** @ignore */
+  classes: PropTypes.object.isRequired,
+  //participation: PropTypes.object,
+  project: PropTypes.object.isRequired,
+  show: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+}
 
-    /** Student welcher für ein Projekt angemeldet werden soll*/
-    project: PropTypes.object.isRequired,
-
-     /** Wenn true, wird der Dialog gerendert */
-    show: PropTypes.bool.isRequired,
-
-    /** Handler Funktion welche aufgerufen wird, wenn der Dialog geschlossen ist.*/
-    onClose: PropTypes.func.isRequired,
-  }
-  
-  export default withStyles(styles)(StudentProjectSignIn);
+export default withStyles(styles)(StudentProjectSignIn);
