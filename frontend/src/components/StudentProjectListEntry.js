@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
-import { Button, List, ListItem } from '@material-ui/core';
+import { Button, List, ListItem, ButtonGroup } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import AddIcon from '@material-ui/icons/Add';
 import  ProjectAPI  from '../api/ProjectAPI';
 import StudentButtons from './StudentButtons';
+import StudentProjectSignIn from './dialogs/StudentProjectSignIn';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
@@ -25,6 +27,7 @@ class StudentProjectListEntry extends Component {
       this.state = {
         project: props.project,
         participations: [],
+        showStudentProjectSignin: false,
 
       };
     }
@@ -53,12 +56,41 @@ class StudentProjectListEntry extends Component {
       participations: newParticipationList,
     });
   }
+
+
+  
+  /** Handles the onClick event of the add project button */
+  addSignInClicked = event => {
+    // Do not toggle the expanded state
+    event.stopPropagation();
+    //Show the ProjectForm
+    this.setState({
+      showStudentProjectSignin: true
+    });
+    console.log(this.state); 
+  }
+
+  /** Handles the onClose event of the ProjectForm*/
+  SignInClosed = participation => {
+    // project is not null and therefore created
+    if (participation) {
+      this.setState({
+        showStudentProjectSignin: false
+      });
+    } else {
+      this.setState({
+        showStudentProjectSignin: false
+      });
+    }
+    console.log(this.state); 
+  }
+
   
 
   /** Rendern der Komponente */
   render() {
     const { classes, expandedState } = this.props;
-    const { project, participations } = this.state;
+    const { project, participations, showStudentProjectSignin } = this.state;
 
     return (
       <div>
@@ -98,13 +130,22 @@ class StudentProjectListEntry extends Component {
               
             </ListItem> 
             <ListItem>
-              <Button>Anmelden</Button>
+
+              <Grid item>
+                <ButtonGroup variant='text' size='small'>
+                  <Button color='primary' startIcon={<AddIcon />} onClick={this.addSignInClicked}>
+                    Anmelden
+                  </Button>
+                </ButtonGroup>
+              </Grid>
+
             </ListItem> 
           </List>
           </AccordionDetails>
         </Accordion>
         </Grid>
       : null }
+      <StudentProjectSignIn show={showStudentProjectSignin} project={project} onClose={this.SignInClosed} />
       </div>
     );
   }
