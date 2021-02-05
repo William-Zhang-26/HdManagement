@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
 import { MenuItem, FormControl, InputLabel, Select, Typography, Grid} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import Checkbox from '@material-ui/core/Checkbox';
 import ProjectAPI  from '../../api/ProjectAPI';
 import ProjectBO  from '../../api/ProjectBO';
 import ContextErrorMessage from './ContextErrorMessage';
@@ -70,7 +71,7 @@ class ProjectForm extends Component {
       
       additionalLecturer: '',
 
-      weekly: '',
+      weekly: 0,
       
 
       // Ladebalken und Error
@@ -172,6 +173,14 @@ class ProjectForm extends Component {
       projectTypeID: event.target.value
     });}
 
+  handleChange3 = (event) => {
+    this.setState({
+      assignmentID: event.target.value
+    });}
+
+
+
+
 
   /** Renders the component */
   render() {
@@ -179,6 +188,7 @@ class ProjectForm extends Component {
     const { projectName, projectNameValidationFailed } = this.state;
     const { userID } = this.state;
     const { projectTypeID } = this.state;
+    const { assignmentID } = this.state;
     const { projectDescription, projectDescriptionValidationFailed } = this.state;
     const { partners } = this.state;
     const { capacity } = this.state;
@@ -234,18 +244,65 @@ class ProjectForm extends Component {
               <Grid>
                 <Typography> ECTS: 5 </Typography>
                 <Typography>SWS: 3</Typography>
+                  <FormControl className={classes.formControl}>
+                      <InputLabel id="open-select-label">Projekt Kategorie</InputLabel>
+                      <Select
+                        value={assignmentID}
+                        onChange={this.handleChange3}
+                      >
+                        <MenuItem value={1}>Management</MenuItem>
+                        <MenuItem value={2}>IT</MenuItem>
+                        <MenuItem value={3}>Medienproduktion</MenuItem>
+                        <MenuItem value={4}>Medien/Kultur</MenuItem>
+                        <MenuItem value={5}>Management und IT</MenuItem>
+                        <MenuItem value={6}>Management und Medienproduktion</MenuItem>
+                        <MenuItem value={7}>Management und Medien/Kultur</MenuItem>
+                        <MenuItem value={8}>IT und Medienproduktion</MenuItem>
+                        <MenuItem value={9}>IT und Medien/Kultur</MenuItem>
+                        <MenuItem value={10}>Medienproduktion und Medien/Kultur</MenuItem>
+                        <MenuItem value={11}>Transdisziplinäres Projekt</MenuItem>
+                      </Select>
+                    </FormControl>
               </Grid>
 
               : projectTypeID === 2 ?
               <Grid>
                 <Typography> ECTS: 10 </Typography>
                 <Typography>SWS: 5</Typography>
+                  <FormControl className={classes.formControl}>
+                      <InputLabel id="open-select-label">Projekt Kategorie</InputLabel>
+                      <Select
+                        value={assignmentID}
+                        onChange={this.handleChange3}
+                      >
+                        <MenuItem value={1}>Management</MenuItem>
+                        <MenuItem value={2}>IT</MenuItem>
+                        <MenuItem value={3}>Medienproduktion</MenuItem>
+                        <MenuItem value={4}>Medien/Kultur</MenuItem>
+                        <MenuItem value={5}>Management und IT</MenuItem>
+                        <MenuItem value={6}>Management und Medienproduktion</MenuItem>
+                        <MenuItem value={7}>Management und Medien/Kultur</MenuItem>
+                        <MenuItem value={8}>IT und Medienproduktion</MenuItem>
+                        <MenuItem value={9}>IT und Medien/Kultur</MenuItem>
+                        <MenuItem value={10}>Medienproduktion und Medien/Kultur</MenuItem>
+                        <MenuItem value={11}>Transdisziplinäres Projekt</MenuItem>
+                      </Select>
+                    </FormControl>
               </Grid> 
               
               : projectTypeID === 3 ?
               <Grid>
                 <Typography> ECTS: 20 </Typography>
                 <Typography>SWS: 10</Typography>
+                  <FormControl className={classes.formControl}>
+                      <InputLabel id="open-select-label">Projekt Kategorie</InputLabel>
+                      <Select
+                        value={assignmentID}
+                        onChange={this.handleChange3}
+                      >
+                        <MenuItem value={11}>Transdisziplinäres Projekt</MenuItem>
+                      </Select>
+                    </FormControl>
               </Grid> 
               
               : null }
@@ -290,6 +347,7 @@ class ProjectForm extends Component {
 
             <TextField type='text' required fullWidth margin='normal' id='weekly' label='Wöchentlich?' value={weekly} 
                 onChange={this.textFieldValueChange} />
+
 
 
             <Typography>Raum- und Ressourcenplanung</Typography>
