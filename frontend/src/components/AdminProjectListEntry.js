@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
 import { Button, List, ListItem } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-//import CustomerForm from './dialogs/CustomerForm';
 import ProjectApprovalForm from './dialogs/ProjectApprovalForm';
 import ProjectRejectionForm from './dialogs/ProjectRejectionForm';
 import AddIcon from '@material-ui/icons/Add';
@@ -47,14 +46,13 @@ class AdminProjectListEntry extends Component {
       };
     }
 
-  /** Handles onChange events of the underlying ExpansionPanel */
+  /** Handler Funktion für das untergeordnete Aufklappprojekt */
   expansionPanelStateChanged = () => {
     this.props.onExpandedStateChange(this.props.project);
   }
 
  
 // Projekt genehmigen
-  // Handles the onClick event of the delete customer button 
   ApproveProjectClicked = (event) => {
     event.stopPropagation();
     this.setState({
@@ -62,10 +60,8 @@ class AdminProjectListEntry extends Component {
     });
   }
 
-
-  /** Handles the onClose event of the CustomerDeleteDialog */
+//Dialog-Fenster schließen
   ApprovedFormClosed = (project) => {
-    //if customer is not null, delete it
     if (project) {
       this.setState ({
         project: project,
@@ -93,7 +89,6 @@ class AdminProjectListEntry extends Component {
 
   /** Handles the onClose event of the Reject Button */
   RejectFormClosed = (project) => {
-    //if customer is not null, delete it
     if (project) {
       this.setState ({
         project: project,
@@ -119,12 +114,11 @@ class AdminProjectListEntry extends Component {
 
   /** Handles the onClose event of the ProjectDeleteDialog */
   deleteProjectDialogClosed = (project) => {
-    // if project is not null, delete it
     if (project) {
       this.props.onProjectDeleted(project);
     };
 
-    // Don´t show the dialog
+    // Das Dialog-Fenster nicht anzeigen
     this.setState({
       showProjectDeleteDialog: false
     });
@@ -143,7 +137,6 @@ class AdminProjectListEntry extends Component {
 
   /** Handles the onClose event of the ProjectInEvaluationForm */
   ProjectInEvaluationFormClosed = (project) => {
-    //if customer is not null, delete it
     if (project) {
       this.setState ({
         project: project,
@@ -166,19 +159,19 @@ class AdminProjectListEntry extends Component {
         })
   }
 
-  
+  /** Lifecycle-Methode, die aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird */
   componentDidMount() {
     this.getStatebyID();
   }
 
 
-  /** Renders the component */
+  /** Rendern der Komponente */
   render() {
     const { classes, expandedState, disabled } = this.props;
     // Use the states project
     const { project, state, showProjectDeleteDialog, showApprovedForm, showRejectedForm, showProjectInEvaluation } = this.state;
 
-    // console.log(this.state);
+ 
     return (
       <div>
       { state ?
@@ -256,7 +249,7 @@ class AdminProjectListEntry extends Component {
 }
 
 
-/** Component specific styles */
+/** Komponentenspezifisches Styeling */
 const styles = theme => ({
     root: {
       width: '100%',

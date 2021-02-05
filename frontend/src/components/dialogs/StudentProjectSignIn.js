@@ -1,5 +1,3 @@
-//Button für einen Studenten, um sich in einem Projekt anzumelden
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
@@ -8,7 +6,7 @@ import ProjectAPI from '../../api/ProjectAPI';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
-
+//Button für einen Studenten, um sich in einem Projekt anzumelden
 class StudentProjectSignIn extends Component {
 
     constructor(props) {
@@ -27,10 +25,9 @@ class StudentProjectSignIn extends Component {
 //get Student ID
 //project get ID
 
-  /** Adds an account for the current customer */
+  /** Hinzufügen eines Studentens für ein Projekt */
   addStudent = () => {
     ProjectAPI.getAPI().addStudentForProject(this.props.project.getID()).then(studentBO => {
-      // console.log(accountBO)
       this.setState({  // Set new state when StudentBOs have been fetched
         students: [...this.state.students, studentBO],
         SignInInProgress: false, // loading indicator 
@@ -44,7 +41,7 @@ class StudentProjectSignIn extends Component {
       })
     );
 
-    // set loading to true
+    // setzen des Ladens auf true
     this.setState({
       SignInInProgress: true,
       SignInError: null
@@ -52,14 +49,13 @@ class StudentProjectSignIn extends Component {
   }
 
 
-  /** Handles the close / cancel button click event */
-    handleClose = () => {
-    // console.log(event);
+  /** Auszuführende Anweisung beim Schließen des Dialogs */
+  handleClose = () => {
     this.props.onClose(null);
   }
 
 
-  /** Renders the component */
+  /** Rendern der Komponente */
   render() {
     const { classes, project, show } = this.props;
     const { SignInError, SignInInProgress } = this.state;
@@ -94,7 +90,7 @@ class StudentProjectSignIn extends Component {
   }
 }
 
-/** Component specific styles */
+/** Komponentenspezifisches Styeling */
 const styles = theme => ({
     closeButton: {
       position: 'absolute',
@@ -108,16 +104,14 @@ const styles = theme => ({
 StudentProjectSignIn.propTypes = {
     /** @ignore */
     classes: PropTypes.object.isRequired,
-    /** The CustomerBO to be deleted */
+
+    /** Student welcher für ein Projekt angemeldet werden soll*/
     project: PropTypes.object.isRequired,
-    /** If true, the dialog is rendered */
+
+     /** Wenn true, wird der Dialog gerendert */
     show: PropTypes.bool.isRequired,
-    /**  
-     * Handler function which is called, when the dialog is closed.
-     * Sends the deleted CustomerBO as parameter or null, if cancel was pressed.
-     *  
-     * Signature: onClose(CustomerBO customer);
-     */
+
+    /** Handler Funktion welche aufgerufen wird, wenn der Dialog geschlossen ist.*/
     onClose: PropTypes.func.isRequired,
   }
   

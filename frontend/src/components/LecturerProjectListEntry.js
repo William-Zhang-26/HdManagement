@@ -59,7 +59,6 @@ class LecturerProjectListEntry extends Component {
 
   /** Handles the onClose event of the ProjectInEvaluationForm */
   ProjectInEvaluationFormClosed = (project) => {
-    //if customer is not null, delete it
     if (project) {
       this.setState ({
         project: project,
@@ -97,7 +96,7 @@ class LecturerProjectListEntry extends Component {
   }
 
 
-  
+  /** Lifecycle-Methode, die aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird */
   componentDidMount() {
     this.getStatebyID();
     this.getLecturer();
@@ -129,7 +128,7 @@ class LecturerProjectListEntry extends Component {
 */ 
 
 
-  /** Renders the component */
+  /** Rendern der Komponente */
   render() {
     const { classes, expandedState } = this.props;
     // Use the states project
@@ -198,7 +197,7 @@ class LecturerProjectListEntry extends Component {
 
 
 
-/** Component specific styles */
+/** Komponentenspezifisches Styeling */
 const styles = theme => ({
     root: {
       width: '100%',

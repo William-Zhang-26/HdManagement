@@ -1,7 +1,3 @@
-//Das Dialog Fenster um einzelne Studenten aus der Teilnehmerliste zu entfernen
-
-//Entfernen eines Projektes
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
@@ -9,6 +5,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import ProjectAPI  from '../../api/ProjectAPI';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
+
+//Das Dialog Fenster um einzelne Studenten aus der Teilnehmerliste zu entfernen
 
 
 class ParticipantDeleteDialog extends Component {
@@ -23,37 +21,37 @@ class ParticipantDeleteDialog extends Component {
     };
   }
 
-  /** Delete the Participant */
+  /** Löschen der Teilnahme */
   deleteParticipation = () => {
     ProjectAPI.getAPI().deleteParticipation(this.props.participation.getID()).then(participation => {
       this.setState({
-        deletingInProgress: false,              // disable loading indicator  
-        deletingError: null                     // no error message
+        deletingInProgress: false,                              // Ladeanzeige deaktivieren  
+        deletingError: null                                     // keine Fehlermeldung
       });
-      this.props.onClose(this.props.participation);  // call the parent with the deleted customer
+      this.props.onClose(this.props.participation);             // Die übergeordnete Komponente mit der gelöschten Teilnahme aufrufen
     }).catch(e =>
       this.setState({
-        deletingInProgress: false,              // disable loading indicator 
-        deletingError: e                        // show error message
+        deletingInProgress: false,                              // Ladeanzeige deaktivieren 
+        deletingError: e                                        // Anzeigen der Fehlermeldung
       })
     );
 
-    // set loading to true
+    
+    //Laden auf true setzen
     this.setState({
-      deletingInProgress: true,                 // show loading indicator
-      deletingError: null                       // disable error message
+      deletingInProgress: true,                                 // Anzeigen des Ladestates  
+      deletingError: null                                       // Fehlermeldung deaktivieren 
     });
   }
 
-  /** Handles the close / cancel button click event */
+  /** Auszuführende Anweisung beim Schließen des Dialogs */
   handleClose = () => {
-    // console.log(event);
     this.props.onClose(null);
   }
 
 
 
-  /** Renders the component */
+  /** Rendern der Komponente */
   render() {
     const { classes, show, participation } = this.props;
     const { deletingInProgress, deletingError } = this.state;
@@ -90,7 +88,7 @@ class ParticipantDeleteDialog extends Component {
   }
 }
 
-/** Component specific styles */
+/** Komponentenspezifisches Styeling */
 const styles = theme => ({
   closeButton: {
     position: 'absolute',
@@ -104,8 +102,14 @@ const styles = theme => ({
 ParticipantDeleteDialog.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
+
+  /**Ein Teilnahme-Objekt welches entfernt werden soll*/
   participation: PropTypes.object.isRequired,
+
+  /** Anzeigen des Dialog-Fensters */
   show: PropTypes.bool.isRequired,
+
+  /** Schließen des Dialog-Fensters */
   onClose: PropTypes.func.isRequired,
 }
 

@@ -1,11 +1,9 @@
-//Der Studenten spezifische Header (Tabs: Projekte, Bericht, Impressum)
-
 import React, { Component } from 'react';
 import { Paper, Typography, Tabs, Tab, Box } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import ProfileDropDown from '../dialogs/ProfileDropDown';     //Zeile 30:<ProfileDropDown user={user} />
 
-
+//Der Studenten spezifische Header (Tabs: Projekte, Bericht, Impressum)
 class Header extends Component {
 
   constructor(props) {
@@ -16,14 +14,14 @@ class Header extends Component {
     };
   }
 
-
+//Behandelt oneChange
   handleTabChange = (e, newIndex) => {
     this.setState({
       tabindex: newIndex
     })
   };
 
-
+  /** Rendern der Komponente */
   render() {
     const { user } = this.props;
 

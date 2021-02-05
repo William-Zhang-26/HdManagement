@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import { withStyles, Button } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import AlertTitle from '@material-ui/lab/AlertTitle';
@@ -8,9 +7,11 @@ import PropTypes from 'prop-types';
 
 
 class ContextErrorMessage extends Component {
+  /** StandardText welcher ausgegeben wird, wenn der ContextError erscheint */
   #standardText = 'This should not have happend. Soooo sorry...';
 
 
+  /** Rendern der Komponente */
   render() {
     const { classes, error, contextErrorMsg, onReload } = this.props;
 
@@ -45,6 +46,7 @@ class ContextErrorMessage extends Component {
 }
 
 
+/** Komponentenspezifisches Styeling */
 const styles = theme => ({
   margins: {
     marginTop: theme.spacing(2)
@@ -56,16 +58,14 @@ ContextErrorMessage.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** 
-   * The error object, which drives the error message 
-   * If not null, the error message is shown 
-   */
+   * Das Error-Objekt, welches die Fehlermeldung ansteuert; 
+   * Wenn nicht null, wird die Fehlermeldung angezeigt */
   error: PropTypes.object,
-  /**  A contextual error message to be shown */
+  /** Eine kontextbezogene Fehlermeldung, die angezeigt werden soll */
   contextErrorMsg: PropTypes.string,
   /** 
-   * A reload handler for the onReload event, which occurs if the reload button is clicked. 
-   * If given a reload button is shown 
-   */
+   *Ein Reload-Handler für das onReload-Event, das eintritt, wenn der Reload-Button angeklickt wird. 
+   * Bei Übergabe wird ein Reload-Button angezeigt.*/
   onReload: PropTypes.func
 }
 

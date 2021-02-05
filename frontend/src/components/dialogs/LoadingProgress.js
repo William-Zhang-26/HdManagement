@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 class LoadingProgress extends Component {
 
-
+/** Rendern der Komponente */
   render() {
     const { classes, show } = this.props;
 
@@ -19,7 +19,7 @@ class LoadingProgress extends Component {
   }
 }
 
-
+/** Komponentenspezifisches Styeling */
 const styles = theme => ({
   root: {
     width: '100%',
@@ -31,7 +31,8 @@ const styles = theme => ({
 LoadingProgress.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
-  /** If true, the loading progress is rendered */
+  
+  /** Wenn true, wird der Ladefortschritt gerendert*/
   show: PropTypes.bool.isRequired,
 }
 

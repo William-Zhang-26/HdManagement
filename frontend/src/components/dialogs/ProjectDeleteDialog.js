@@ -1,5 +1,3 @@
-//Entfernen eines Projektes
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
@@ -8,7 +6,7 @@ import ProjectAPI  from '../../api/ProjectAPI';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
-
+//Entfernen eines Projektes
 class ProjectDeleteDialog extends Component {
 
   constructor(props) {
@@ -21,35 +19,34 @@ class ProjectDeleteDialog extends Component {
     };
   }
 
-  /** Delete the Project */
+  /** Löschen des Projekts */
   deleteProject = () => {
     ProjectAPI.getAPI().deleteProject(this.props.project.getID()).then(project => {
       this.setState({
-        deletingInProgress: false,              // disable loading indicator  
-        deletingError: null                     // no error message
+        deletingInProgress: false,                      //Ladeanzeige deaktivieren  
+        deletingError: null                             //keine Fehlermeldung
       });
-      this.props.onClose(this.props.project);  // call the parent with the deleted customer
+      this.props.onClose(this.props.project);         // Die übergeordnete Komponente mit dem gelöschten Project aufrufen
     }).catch(e =>
       this.setState({
-        deletingInProgress: false,              // disable loading indicator 
-        deletingError: e                        // show error message
+        deletingInProgress: false,                      //Ladeanzeige deaktivieren 
+        deletingError: e                                //Anzeigen der Fehlermeldung
       })
     );
 
     // set loading to true
     this.setState({
-      deletingInProgress: true,                 // show loading indicator
-      deletingError: null                       // disable error message
+      deletingInProgress: true,                       //Ladeanzeige anzeigen
+      deletingError: null                             //Fehlermeldung deaktivieren
     });
   }
 
-  /** Handles the close / cancel button click event */
+  /** Auszuführende Anweisung beim Schließen des Dialogs */
   handleClose = () => {
-    // console.log(event);
     this.props.onClose(null);
   }
 
-  /** Renders the component */
+  /** Rendern der Komponente */
   render() {
     const { classes, show, project } = this.props;
     const { deletingInProgress, deletingError } = this.state;
@@ -86,7 +83,7 @@ class ProjectDeleteDialog extends Component {
   }
 }
 
-/** Component specific styles */
+/** Komponentenspezifisches Styeling */
 const styles = theme => ({
   closeButton: {
     position: 'absolute',
@@ -101,10 +98,13 @@ ProjectDeleteDialog.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
 
+//Ein Projekt, welches gelöscht werden soll
   project: PropTypes.object.isRequired,
 
+//Anzeigen des Dialog-Fensters
   show: PropTypes.bool.isRequired,
- 
+
+//Schließen des Dialog-Fensters
   onClose: PropTypes.func.isRequired,
 }
 

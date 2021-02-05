@@ -18,7 +18,6 @@ class StudentProjectList extends Component {
   constructor(props) {
     super(props);
 
-    // console.log(props);
     let expandedID = null;
 
     if (this.props.location.expandProject) {
@@ -35,7 +34,6 @@ class StudentProjectList extends Component {
   }
 
   onExpandedStateChange = project => {
-    // console.log(projectID);
     // Set expandend project entry to null by default
     let newID = null;
 
@@ -44,7 +42,6 @@ class StudentProjectList extends Component {
       // Expand the project entry with projectID
       newID = project.getID();
     }
-    // console.log(newID);
     this.setState({
       expandedProjectID: newID,
     });
@@ -65,20 +62,20 @@ class StudentProjectList extends Component {
           })
         );
 
-    // set loading to true
+    // setzen des Ladens auf true
     this.setState({
       loadingInProgress: true,
       error: null
     });
   }
 
-  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
+  /** Lifecycle-Methode, die aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird */
   componentDidMount() {
     this.getProjects();
   }
 
 
-  /** Renders the component */
+  /** Rendern der Komponente*/
   render() {
     const { classes } = this.props;
     const { projects, expandedProjectID, loadingInProgress, error } = this.state;
@@ -106,7 +103,7 @@ class StudentProjectList extends Component {
   }
 }
 
-/** Component specific styles */
+/** Komponentenspezifisches Styeling */
 const styles = theme => ({
   root: {
     width: '90%',

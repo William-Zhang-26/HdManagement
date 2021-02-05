@@ -55,6 +55,7 @@ class AllProjectListEntryParticipants extends Component {
 
     }
   
+  /** Lifecycle-Methode, die aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird */
   componentDidMount() {
     this.getParticipations();
     this.getLecturer();
@@ -95,10 +96,9 @@ class AllProjectListEntryParticipants extends Component {
 
 
 
-  /** Renders the component */
+  /** Rendern der Komponente */
   render() {
     const { classes, expandedState } = this.props;
-    // Use the states customer
     const { project, participations, user, showEvaluatedProject } = this.state;
 
     console.log(this.state);
@@ -168,7 +168,7 @@ class AllProjectListEntryParticipants extends Component {
   }
 }
 
-/** Component specific styles */
+/** Komponentenspezifisches Styeling */
 const styles = theme => ({
     root: {
       width: '100%',

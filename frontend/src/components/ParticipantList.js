@@ -59,7 +59,7 @@ class ParticipantList extends Component {
         })
         )}
 
-
+  /** Lifecycle-Methode, die aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird */
   componentDidMount() {
     this.getParticipant();
     this.getValidationbyId();
@@ -80,7 +80,7 @@ class ParticipantList extends Component {
       this.props.onParticipationDeleted(participation);
     };
 
-    // Don´t show the dialog
+    // Das Dialog-Fenster nicht anzeigen
     this.setState({
       showParticipationDeleteDialog: false
     });
@@ -112,7 +112,7 @@ class ParticipantList extends Component {
   }
 
 
-  /** Renders the component */
+  /** Rendern der Komponente */
   render() {
     const { classes } = this.props;
     const { loadingInProgress, student, participation, error, showParticipationDeleteDialog, validation, showValidationForm, project } = this.state;
@@ -162,7 +162,7 @@ class ParticipantList extends Component {
   }
 }
 
-/** Component specific styles */
+/** Komponentenspezifisches Styeling */
 const styles = theme => ({
   root: {
     width: '90%',

@@ -21,7 +21,7 @@ class StudentReportIndividualTitle extends Component{
       };
   }
 
-    
+  /** Lifecycle-Methode, die aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird */
   componentDidMount() {
     this.getStudent();
   }
@@ -35,7 +35,7 @@ class StudentReportIndividualTitle extends Component{
 
   }
 
-  
+  /** Rendern der Komponente*/
   render() {
     const { classes } = this.props;
     const student = this.state.student;
@@ -74,7 +74,7 @@ class StudentReportIndividualTitle extends Component{
 }
 
 
-/** Component specific styles */
+/** Komponentenspezifisches Styeling */
 const styles = theme => ({
     root: {
       width: '90%',
