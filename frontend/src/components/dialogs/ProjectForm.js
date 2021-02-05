@@ -254,13 +254,6 @@ class ProjectForm extends Component {
                         <MenuItem value={2}>IT</MenuItem>
                         <MenuItem value={3}>Medienproduktion</MenuItem>
                         <MenuItem value={4}>Medien/Kultur</MenuItem>
-                        <MenuItem value={5}>Management und IT</MenuItem>
-                        <MenuItem value={6}>Management und Medienproduktion</MenuItem>
-                        <MenuItem value={7}>Management und Medien/Kultur</MenuItem>
-                        <MenuItem value={8}>IT und Medienproduktion</MenuItem>
-                        <MenuItem value={9}>IT und Medien/Kultur</MenuItem>
-                        <MenuItem value={10}>Medienproduktion und Medien/Kultur</MenuItem>
-                        <MenuItem value={11}>Transdisziplinäres Projekt</MenuItem>
                       </Select>
                     </FormControl>
               </Grid>
@@ -275,17 +268,12 @@ class ProjectForm extends Component {
                         value={assignmentID}
                         onChange={this.handleChange3}
                       >
-                        <MenuItem value={1}>Management</MenuItem>
-                        <MenuItem value={2}>IT</MenuItem>
-                        <MenuItem value={3}>Medienproduktion</MenuItem>
-                        <MenuItem value={4}>Medien/Kultur</MenuItem>
                         <MenuItem value={5}>Management und IT</MenuItem>
                         <MenuItem value={6}>Management und Medienproduktion</MenuItem>
                         <MenuItem value={7}>Management und Medien/Kultur</MenuItem>
                         <MenuItem value={8}>IT und Medienproduktion</MenuItem>
                         <MenuItem value={9}>IT und Medien/Kultur</MenuItem>
                         <MenuItem value={10}>Medienproduktion und Medien/Kultur</MenuItem>
-                        <MenuItem value={11}>Transdisziplinäres Projekt</MenuItem>
                       </Select>
                     </FormControl>
               </Grid> 
