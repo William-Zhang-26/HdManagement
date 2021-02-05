@@ -50,6 +50,7 @@ export default class ProjectAPI {
     #getParticipationsURL = () => `${this.#projectServerBaseURL}/all_participations/`;
     #getParticipationForProjectURL = (id) => `${this.#projectServerBaseURL}/project/${id}/participation`;
     #deleteParticipationURL = (id) => `${this.#projectServerBaseURL}/participation/${id}`;
+    #addParticipationURL = () => `${this.#projectServerBaseURL}/participation`;
     
     //Module related
     #getModulebyIdURL = (id) => `${this.#projectServerBaseURL}/module/${id}`;
@@ -329,6 +330,24 @@ export default class ProjectAPI {
       })
     }
 
+    addParticipation(participationBO) {
+      console.log(this.state);
+        return this.#fetchAdvanced(this.#addParticipationURL(), {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json, text/plain',
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify(participationBO) 
+        }).then((responseJSON) => {
+          // We always get an array of ProjectBOs.fromJSON, but only need one object
+          let responseParticipationBO = ParticipationBO.fromJSON(responseJSON)[0];
+  
+          return new Promise(function (resolve) {
+            resolve(responseParticipationBO);
+          })
+        })
+      }
     
     //Module related
     getModulebyId(moduleID) {

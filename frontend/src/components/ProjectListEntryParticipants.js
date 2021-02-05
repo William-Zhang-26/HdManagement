@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
-import { Button, List, ListItem } from '@material-ui/core';
+import { Button, List, ListItem, ButtonGroup } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ProjectAPI  from '../api/ProjectAPI';
 import ParticipantList from './ParticipantList';
@@ -134,6 +134,12 @@ class ProjectListEntryParticipants extends Component {
                 </Typography>
               </Grid>
             </Grid>
+            <Grid item>
+                <ButtonGroup variant='text' size='small'>
+                  <Button >Teilnehmer hinzufügen </Button>               
+                </ButtonGroup>
+              </Grid>
+
           </AccordionSummary>
           <AccordionDetails>
               <Grid item xs = {10}>

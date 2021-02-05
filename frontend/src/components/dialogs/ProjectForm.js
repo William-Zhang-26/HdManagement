@@ -208,7 +208,7 @@ class ProjectForm extends Component {
 
 
     let title = 'Neues Projekt erstellen';
-    let header = 'Füllen Sie das Formuler aus';
+    let header = 'Füllen Sie das Formular aus';
 
     return (
       show ?
