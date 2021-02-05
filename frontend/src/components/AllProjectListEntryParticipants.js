@@ -12,6 +12,7 @@ import 'firebase/auth';
 import ProjectEvaluatedForm from './dialogs/ProjectEvaluatedForm';
 import ParticipationForm from './dialogs/ParticipationForm';
 import SendIcon from '@material-ui/icons/Send';
+import ReplayIcon from '@material-ui/icons/Replay';
 
 /** Fehlende Inhalte:
  * 
@@ -169,11 +170,10 @@ class AllProjectListEntryParticipants extends Component {
       { project.getStateID() <= 4 ?
             <Grid item>
               <ButtonGroup variant='text' size='small'>
-
-                <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addParticipantButtonClicked}>
+                <Button color='primary' startIcon={<AddIcon />} onClick={this.addParticipantButtonClicked}>
                   Teilnehmer hinzufügen
                 </Button>
-
+                <Button className={classes.replay} startIcon={<ReplayIcon />} onClick = {this.getParticipations}/>
               </ButtonGroup>
             </Grid>
             : null}
@@ -227,7 +227,11 @@ const styles = theme => ({
     },
     button: {
       marginTop: theme.spacing(3),
-    }
+    },
+    replay: {
+      //width: '100%',
+      color: indigo[500],
+    },
   });
   
   /** PropTypes */
