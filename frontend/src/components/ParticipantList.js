@@ -1,25 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, List, ListItem, Button, Typography, Grid, Box, ButtonGroup } from '@material-ui/core';
-//import AddIcon from '@material-ui/icons/Add';
+import { withStyles, Button, Typography, Grid, ButtonGroup } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import  ProjectAPI  from '../api/ProjectAPI';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import ParticipantDeleteDialog from './dialogs/ParticipantDeleteDialog';
-import StudentReportListEntry from './StudentReportListEntry';
-import ParticipationBO from '../api/ParticipationBO';
 import indigo from '@material-ui/core/colors/indigo';
 import red from '@material-ui/core/colors/red';
 import ValidationForm from './dialogs/ValidationForm';
-import ReplayIcon from '@material-ui/icons/Replay';
 
 
 
 
 /**  
- * Hier wird die Liste aus Studentensicht angezeigt. Studenten sehen alle genehmigten Projekte
- * und können sich dafür An- und Abmelden.
+ * Hier wird ein einzelner Student in der Teilnehmerliste eines Projekts angezeigt, um diesen gegebenenfalls Bewerten/ Entfernen zu können
  */
 
 class ParticipantList extends Component {
@@ -50,7 +45,7 @@ class ParticipantList extends Component {
 
 
   getValidationbyId = () => {
-    ProjectAPI.getAPI().getValidationbyId(this.state.participation.getValidationID())   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
+    ProjectAPI.getAPI().getValidationbyId(this.state.participation.getValidationID())
         .then(validationBO => 
           this.setState({ validation: validationBO }))
         .catch(e =>
@@ -65,7 +60,7 @@ class ParticipantList extends Component {
     this.getValidationbyId();
   }
 
-  /** Handles the onClick event of the delete project button */
+  /** Handlerfunktion die aufgerufen wird, wenn der "Teilnehmer entfernen" Knopf gedrückt wird */
   deleteParticipationButtonClicked = (event) => {
     event.stopPropagation();
     this.setState({
@@ -73,9 +68,8 @@ class ParticipantList extends Component {
     });
   }
 
-  /** Handles the onClose event of the ProjectDeleteDialog */
+  /** Handlerfunktion die aufgerufen wird, wenn das "Teilnehmer entfernen" Fenster geschlossen werden soll */
   deleteParticipationDialogClosed = (participation) => {
-    // if project is not null, delete it
     if (participation) {
       this.props.onParticipationDeleted(participation);
     };
@@ -87,7 +81,7 @@ class ParticipantList extends Component {
   }
 
 
-  /** Handles the onClick event of the validate button */
+  /** Handlerfunktion die aufgerufen wird, wenn der "Teilnehmer bewerten" Knopf gedrückt wird */
   validateParticipantButtonClicked = event => {
     // Do not toggle the expanded state
     event.stopPropagation();
@@ -96,7 +90,7 @@ class ParticipantList extends Component {
     });
   }
 
-  /** Handles the onClose event of the ValidationForm */
+  /** Handlerfunktion die aufgerufen wird, wenn das "Teilnehmer bewerten" Fenster geschlossen werden soll */
   validationFormClosed = (participation) => {
     // validation is not null and therefor changed
     if (participation) {
@@ -117,7 +111,6 @@ class ParticipantList extends Component {
   render() {
     const { classes } = this.props;
     const { loadingInProgress, student, participation, error, showParticipationDeleteDialog, validation, showValidationForm, project } = this.state;
-    console.log(this.state);
 
     return (
       <div className={classes.root}>
@@ -162,12 +155,11 @@ class ParticipantList extends Component {
   }
 }
 
-/** Komponentenspezifisches Styeling */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
   root: {
     width: '90%',
     marginTop: theme.spacing(3),
-    //marginRight: theme.spacing(10),
     marginLeft: theme.spacing(1),
   },
   font: {
@@ -184,7 +176,6 @@ const styles = theme => ({
     fontSize: 10,
   },
   replay: {
-    //width: '100%',
     color: indigo[500],
   },
   box: {

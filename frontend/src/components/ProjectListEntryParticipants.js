@@ -29,7 +29,7 @@ class ProjectListEntryParticipants extends Component {
       };
     }
 
-  /** Handles onChange events of the underlying ExpansionPanel */
+  /** Handlerfunktion für Veränderungen des Aufklapp-Panels */
   expansionPanelStateChanged = () => {
     this.props.onExpandedStateChange(this.props.project);
   }
@@ -43,8 +43,7 @@ class ProjectListEntryParticipants extends Component {
       }
 
   getLecturer = () => {
-    ProjectAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid)   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
-    //ProjectAPI.getAPI().getStudentById()
+    ProjectAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid)   
         .then (UserBO => {
             this.setState({ user: UserBO });
         })
@@ -66,16 +65,15 @@ class ProjectListEntryParticipants extends Component {
   }
 
 
-    /** Handles the onClick event of the safe evaluation button */
-    evaluatedProjectButtonClicked = event => {
-    // Do not toggle the expanded state
-    event.stopPropagation();
-    this.setState({
-      showEvaluatedProject: true
-    });
-  }
+  /** Handlerfunktion die aufgerufen wird, wenn der "Bewertung abschließen" Knopf gedrückt wird */
+  evaluatedProjectButtonClicked = event => {
+  event.stopPropagation();
+  this.setState({
+    showEvaluatedProject: true
+  });
+}
 
-  /** Handles the onClose event of the ProjectEvaluationForm */
+  /** Handlerfunktion die aufgerufen wird, wenn das "Bewertung abschließen" Fenster geschlossen werden soll */
   evaluatedProjectFormClosed = (participation) => {
     if (participation) {
       this.setState({
@@ -91,18 +89,15 @@ class ProjectListEntryParticipants extends Component {
   }
 
 
-  /** Handles the onClick event of the add project button */
+  /** Handlerfunktion die aufgerufen wird, wenn der "Teilnehmer hinzufügen" Knopf gedrückt wird */
   addParticipantButtonClicked = event => {
-    // Do not toggle the expanded state
     event.stopPropagation();
-    //Show the ProjectForm
     this.setState({
       showParticipationForm: true
     });
-    console.log(this.state); 
   }
 
-  /** Handles the onClose event of the ProjectForm*/
+  /** Handlerfunktion die aufgerufen wird, wenn das "Teilnehmer hinzufügen" Fenster geschlossen werden soll */
   participationFormClosed = participation => {
     // project is not null and therefore created
     if (participation) {
@@ -115,7 +110,6 @@ class ProjectListEntryParticipants extends Component {
         showParticipationForm: false
       });
     }
-    console.log(this.state); 
   }
 
 
@@ -125,7 +119,6 @@ class ProjectListEntryParticipants extends Component {
     const { classes, expandedState } = this.props;
     const { project, participations, user, showEvaluatedProject, showParticipationForm } = this.state;
 
-    console.log(this.state);
     return (
 
       <div>
@@ -151,11 +144,11 @@ class ProjectListEntryParticipants extends Component {
       <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            id={`project${project.getID()}projectpanel-header`} //** Wozu wird hier die Project ID benötigt*/
+            id={`project${project.getID()}projectpanel-header`}
           >
             <Grid container spacing={1} justify='flex-start' alignItems='center'>
               <Grid item>
-                <Typography variant='body1' className={classes.font}>{project.getName()} {/** Angabe des Dozenten (UserBO?)*/}
+                <Typography variant='body1' className={classes.font}>{project.getName()}
                 </Typography>
               </Grid>
             </Grid>

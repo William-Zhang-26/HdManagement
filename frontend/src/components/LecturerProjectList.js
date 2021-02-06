@@ -84,20 +84,19 @@ class LecturerProjectList extends Component {
 
 
 
-  /** Handles the onClick event of the add project button */
+  /** Handlerfunktion die aufgerufen wird, wenn Projekt erstellen geklickt wurde */
   addProjectButtonClicked = event => {
-    // Do not toggle the expanded state
     event.stopPropagation();
-    //Show the ProjectForm
+    //Anzeigen der ProjectForm
     this.setState({
       showProjectForm: true
     });
-    console.log(this.state); 
+
   }
 
-  /** Handles the onClose event of the ProjectForm*/
+  /**Handlerfunktion die aufgerufen wird, wenn das "Projekt erstellen" Fenster geschlossen werden soll*/
   projectFormClosed = project => {
-    // project is not null and therefore created
+    // das Projekt ist nicht Null/ False und wird daher neu erstellt
     if (project) {
       this.setState({
         projects: [...this.state.projects, project],
@@ -108,7 +107,7 @@ class LecturerProjectList extends Component {
         showProjectForm: false
       });
     }
-    console.log(this.state); 
+ 
   }
 
 
@@ -116,7 +115,7 @@ class LecturerProjectList extends Component {
   /** Rendern der Komponente */
   render() {
     const { classes } = this.props;
-    const { projects, expandedProjectID, loadingInProgress, error, showProjectForm } = this.state;
+    const { projects, loadingInProgress, error, showProjectForm } = this.state;
 
     return (
       <div className={classes.root}>
@@ -128,8 +127,7 @@ class LecturerProjectList extends Component {
 
 
         { 
-          // Show the list of ProjectListEntry components
-          // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
+          // Anzeigen aller Projekte die einem Dozenten angehören
           projects.map(project => <LecturerProjectListEntry key={project.getID()} project={project}
           show={this.props.show}  
           onExpandedStateChange={this.onExpandedStateChange} />)
@@ -150,12 +148,11 @@ class LecturerProjectList extends Component {
   }
 }
 
-/** Komponentenspezifisches Styeling */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
   root: {
     width: '90%',
     marginTop: theme.spacing(3),
-    //marginRight: theme.spacing(10),
     marginLeft: theme.spacing(10),
   },
   

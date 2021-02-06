@@ -13,6 +13,10 @@ import ProjectEvaluatedForm from './dialogs/ProjectEvaluatedForm';
 import ParticipationForm from './dialogs/ParticipationForm';
 import SendIcon from '@material-ui/icons/Send';
 
+/**  
+ * Die Liste aller Projekte aus Admin Sicht. Hier werden in den Projekten deren Teilnehmer entsprechend des Projektstatus eingefügt
+ */
+
 
 class AllProjectListEntryParticipants extends Component {
 
@@ -96,7 +100,6 @@ class AllProjectListEntryParticipants extends Component {
     this.setState({
       showParticipationForm: true
     });
-    console.log(this.state); 
   }
 
     /** Handlerfunktion die aufgerufen wird, wenn das "Teilnehmer hinzufügen" Fenster geschlossen werden soll */
@@ -111,7 +114,6 @@ class AllProjectListEntryParticipants extends Component {
         showParticipationForm: false
       });
     }
-    console.log(this.state); 
   }
 
 
@@ -121,7 +123,6 @@ class AllProjectListEntryParticipants extends Component {
     const { classes, expandedState } = this.props;
     const { project, participations, user, showEvaluatedProject, showParticipationForm } = this.state;
 
-    console.log(this.state);
     return (
 
       <div>
