@@ -679,16 +679,16 @@ class SemesterOperations(Resource):
 
     """Find Semester by Current_Semester"""
 
-    @projectmanager.route("/semester/<int:current_semester>")
-    @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-    class SemesterCurrentSemesterOperations(Resource):
-        @projectmanager.marshal_with(semester)
-        # @secured
-        def get(self, current_semester):
-            """Auslesen eines Semesters aus der Datenbank mit dem Current Semester"""
-            adm = ProjectAdministration()
-            sem = adm.get_semester_by_current_semester(current_semester)
-            return sem
+@projectmanager.route("/semesterr/<int:current_semester>")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class SemesterCurrentSemesterOperations(Resource):
+    @projectmanager.marshal_with(semester)
+    # @secured
+    def get(self, current_semester):
+        """Auslesen eines Semesters aus der Datenbank mit dem Current Semester"""
+        adm = ProjectAdministration()
+        sem = adm.get_semester_by_current_semester(current_semester)
+        return sem
 
 """Student"""
 @projectmanager.route("/student")
