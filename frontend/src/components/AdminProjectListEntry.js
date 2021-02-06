@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
-import { Button, List, ListItem } from '@material-ui/core';
+import { Button, List, ListItem, Box } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ProjectApprovalForm from './dialogs/ProjectApprovalForm';
 import ProjectRejectionForm from './dialogs/ProjectRejectionForm';
@@ -11,20 +11,9 @@ import ProjectDeleteDialog from './dialogs/ProjectDeleteDialog';
 import DeleteIcon from '@material-ui/icons/Delete';
 import red from '@material-ui/core/colors/red';
 import ProjectAPI from '../api/ProjectAPI';
-import ReplayIcon from '@material-ui/icons/Replay';
 import indigo from '@material-ui/core/colors/indigo';
 import ProjectInEvaluationForm from './dialogs/ProjectInEvaluationForm';
 import SendIcon from '@material-ui/icons/Send';
-
-/** Fehlende Inhalte:
- *  
- * - Aus ProjectTypeBO: Name (Fachspezifisch, Inter-, Transdisziplinär), ECTS und SWS
- * - Aus ModuleBO: EDV-Nummer
- * 
- */
-
-//Condition für alle ergänzen
-//Admin Funktionen ergänzen
 
 
 class AdminProjectListEntry extends Component {
@@ -63,11 +52,11 @@ class AdminProjectListEntry extends Component {
 //Dialog-Fenster schließen
   ApprovedFormClosed = (project) => {
     if (project) {
-      this.setState ({
+      return (this.setState ({
         project: project,
         showApprovedForm: false,
         disabled: false,
-      });
+      }), this.getStatebyID())
     } else {
       this.setState({
         showApprovedForm:false
@@ -90,11 +79,11 @@ class AdminProjectListEntry extends Component {
   /** Handles the onClose event of the Reject Button */
   RejectFormClosed = (project) => {
     if (project) {
-      this.setState ({
+      return (this.setState ({
         project: project,
         showRejectedForm: false,
         disabled: false,
-      });
+      }), this.getStatebyID())
     } else {
       this.setState({
         showRejectedForm: false
@@ -138,11 +127,11 @@ class AdminProjectListEntry extends Component {
   /** Handles the onClose event of the ProjectInEvaluationForm */
   ProjectInEvaluationFormClosed = (project) => {
     if (project) {
-      this.setState ({
+      return(this.setState ({
         project: project,
         showProjectInEvaluation: false,
         disabled: false,
-      });
+      }), this.getStatebyID())
     } else {
       this.setState({
         showProjectInEvaluation: false,
@@ -190,7 +179,6 @@ class AdminProjectListEntry extends Component {
                 <ButtonGroup variant='text' size='small'>
                 <Button className={classes.root} startIcon={<DeleteIcon />}
                 onClick = {this.deleteProjectButtonClicked} />
-                <Button className={classes.replay} startIcon={<ReplayIcon />} onClick = {this.getStatebyID}/>
                 </ButtonGroup>
               </Grid>
               <Grid item xs />
@@ -201,11 +189,13 @@ class AdminProjectListEntry extends Component {
           </AccordionSummary>
           <AccordionDetails>
             <List>
-            <ListItem>Kapazität: {project.getCapacity()} </ListItem>
             <ListItem>Projektbeschreibung: {project.getProjectDescription()} </ListItem>
             <ListItem>Betreuuende Dozenten: {project.getAdditionalLecturer()} </ListItem>  
             <ListItem>Externe Partner: {project.getPartners()} </ListItem>
-            <ListItem>Wöchentlicher Kurs: {project.getWeekly()} </ListItem>
+            <ListItem>Kapazität: {project.getCapacity()} </ListItem>
+            <Box p={1}></Box>
+            <ListItem className ={classes.font}>Raum- und Ressourenplanung</ListItem>
+            <ListItem>Wöchentlicher Kurs: {project.getWeekly() === 1 ? 'Ja' : 'Nein'} </ListItem>
             <ListItem>Anzahl der Blocktage vor der Vorlesungszeit: {project.getBDaysPreSchedule()} </ListItem>
             <ListItem>Anzahl der Blocktage in der Prüfungszeit: {project.getBDaysFinale()} </ListItem>            
             <ListItem>Anzahl der Blocktage in der Vorlesungszeit (Samstage): {project.getBDaysSaturdays()} </ListItem>
@@ -255,9 +245,10 @@ const styles = theme => ({
       width: '100%',
       color: red[500],
     },
-    replay: {
-      //width: '100%',
-      color: indigo[500],
+    heading: {
+      fontSize: 20,
+      color: indigo[600],
+      fontFamily: '"Segoe UI"',
     },
   });
   

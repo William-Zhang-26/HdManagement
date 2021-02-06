@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
 import { MenuItem, FormControl, InputLabel, Select, Typography, Grid } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import ProjectAPI  from '../../api/ProjectAPI';
+import ProjectAPI from '../../api/ProjectAPI';
 import ParticipationBO  from '../../api/ParticipationBO';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
@@ -17,71 +17,68 @@ import 'firebase/auth';
 
 class StudentProjectSignIn extends Component {
 
-    constructor(props) {
-      super(props);
+  constructor(props) {
+    super(props);
 
-      let pid = 0;
+    let pid = 0;
 
-      //Abruf der Variablen aus dem ProjectBO
-      if (props.project) {
-        pid = props.project.getID();
-      }
-        
-      // Init the state
-        this.state = {
-            module_id: 0,
-            student_id: null,
-            //project: this.props.project,
-            project_id: pid,
-
-      // Ladebalken und Error
-            addingInProgress: false,
-            addingError: null
-
-        };
-        
-        this.baseState = this.state;
+    //Abruf der Variablen aus dem ProjectBO
+    if (props.project) {
+      pid = props.project.getID();
     }
+      
+    // Init the state
+      this.state = {
+          module_id: 0,
+          student_id: null,
+          project_id: pid,
 
+          // Ladebalken und Error
+          addingInProgress: false,
+          addingError: null
 
-
-    
-getStudent = () => {
-  ProjectAPI.getAPI().getStudentbyId(firebase.auth().currentUser.uid)  
-      .then (studentBO => {
-          this.setState({ student_id: studentBO.getID() });
-      })
-}
-
-/** Lifecycle-Methode, die aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird */
-componentDidMount() {
-  this.getStudent();
-}
-
-
-/** Hinzufügen einer Teilnahme für ein Projekt in dem Dialog-Fenster */
-addParticipation = () => {
-    let newParticipation = new ParticipationBO( this.state.module_id, this.state.project_id, this.state.student_id, 1 ); 
-   
-    ProjectAPI.getAPI().addParticipation(newParticipation).then(participation => {
-      // Backend-Aufruf erfolgreich
-      // reinit the dialogs state for a new empty project
-      this.setState(this.baseState);
-      this.props.onClose(participation); // das übergeordnete Objekt mit der Teilnahme aus dem Backend aufrufen
-    }).catch(e =>
-      this.setState({
-        addingInProgress: false,    // Ladeanzeige deaktivieren 
-        addingError: e              // Fehlermeldung anzeigen
-      })
-    );
-
-    // setzen des Ladens auf true
-    this.setState({
-        addingInProgress: true,       // Ladeanzeige anzeigen
-        addingError: null             // Fehlermeldung deaktivieren
-    }
-    );
+      };
+      
+      this.baseState = this.state;
   }
+
+
+  getStudent = () => {
+    ProjectAPI.getAPI().getStudentbyId(firebase.auth().currentUser.uid)  
+        .then (studentBO => {
+            this.setState({ student_id: studentBO.getID() });
+        })
+  }
+
+  /** Lifecycle-Methode, die aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird */
+  componentDidMount() {
+    this.getStudent();
+  }
+
+
+  /** Hinzufügen einer Teilnahme für ein Projekt in dem Dialog-Fenster */
+  addParticipation = () => {
+      let newParticipation = new ParticipationBO( this.state.module_id, this.state.project_id, this.state.student_id, 1 ); 
+    
+      ProjectAPI.getAPI().addParticipation(newParticipation).then(participation => {
+        // Backend-Aufruf erfolgreich
+        // reinit the dialogs state for a new empty project
+        this.setState(this.baseState);
+        this.props.onClose(participation); // das übergeordnete Objekt mit der Teilnahme aus dem Backend aufrufen
+      }).catch(e =>
+        this.setState({
+          addingInProgress: false,    // Ladeanzeige deaktivieren 
+          addingError: e              // Fehlermeldung anzeigen
+        })
+      );
+
+      // setzen des Ladens auf true
+      this.setState({
+          addingInProgress: true,       // Ladeanzeige anzeigen
+          addingError: null             // Fehlermeldung deaktivieren
+      }
+      );
+    }
 
   /** Auszuführende Anweisung beim Schließen des Dialogs */
   handleClose = () => {

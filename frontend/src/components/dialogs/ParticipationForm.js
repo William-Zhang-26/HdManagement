@@ -307,7 +307,7 @@ render() {
                                 : null }
 
 
-          <TextField autoFocus type='number' required fullWidth margin='normal' id='student_id' label='student_id:' value={student_id} onChange={this.textFieldValueChange} />
+          <TextField autoFocus type='number' required fullWidth margin='normal' id='student_id' label='Studenten ID:' value={student_id} onChange={this.textFieldValueChange} />
           </form>
 
           <LoadingProgress show={addingInProgress} />
