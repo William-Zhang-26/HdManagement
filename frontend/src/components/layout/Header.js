@@ -34,13 +34,7 @@ class Header extends Component {
         <Typography variant='h4' component='h2' align='center'>
           Home
         </Typography>
-        {
-          user ?
-            <Tabs indicatorColor='primary' textColor='primary' centered value={this.state.tabindex} onChange={this.handleTabChange} >
-              <Tab label='' component={RouterLink} to={`/rolechoice`} />
-            </Tabs>
-            : null
-        }
+
       </Paper>
     )
   }

@@ -24,6 +24,7 @@ class LecturerProjectListEntry extends Component {
         showProjectInEvaluation: false,
         disabled: true,
         error: null,
+        assignment: null,
       };
     }
 
@@ -59,6 +60,15 @@ class LecturerProjectListEntry extends Component {
     }
 
 
+  getAssignmentForProject = () => {
+    ProjectAPI.getAPI().getAssignmentbyId(this.props.project.getAssignmentID())
+        .then (assignmentBO => {
+            this.setState({ assignment: assignmentBO });
+        })
+    }
+  
+  
+
 
   getLecturer = () => {
     ProjectAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid)   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
@@ -86,6 +96,7 @@ class LecturerProjectListEntry extends Component {
   componentDidMount() {
     this.getStatebyID();
     this.getLecturer();
+    this.getAssignmentForProject();
   }
 
 
@@ -93,12 +104,12 @@ class LecturerProjectListEntry extends Component {
   render() {
     const { classes, expandedState } = this.props;
     // Use the states project
-    const { project, state, user, showProjectInEvaluation } = this.state;
+    const { project, state, user, showProjectInEvaluation, assignment } = this.state;
 
     console.log(this.state);
     return (
       <div>
-        { state && user && project.getUserID()=== user.getID()? 
+        { assignment && state && user && project.getUserID()=== user.getID()? 
       
       <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary
@@ -123,7 +134,8 @@ class LecturerProjectListEntry extends Component {
           <AccordionDetails>
             <List>
             <ListItem>Projektbeschreibung: {project.getProjectDescription()} </ListItem>
-            <ListItem>Betreuuende Dozenten: {project.getAdditionalLecturer()} </ListItem>  
+            <ListItem>Projektart: {assignment.getName()} </ListItem>
+            <ListItem>Betreuende Dozenten: {project.getAdditionalLecturer()} </ListItem>  
             <ListItem>Externe Partner: {project.getPartners()} </ListItem>
             <ListItem>Kapazität: {project.getCapacity()} </ListItem>
             <Box p={1}></Box>
