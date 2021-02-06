@@ -251,6 +251,7 @@ class ProjectAdministration (object):
     def create_project(self, name, user_id, project_type_id, semester_id, assignment_id, project_description, partners, capacity, preferred_room, b_days_pre_schedule,
              b_days_finale, b_days_saturdays, preferred_b_days, additional_lecturer,
              weekly):
+        """Neues Projekt anlegen"""
 
         project = Project()
         project.set_name(name)
@@ -274,46 +275,57 @@ class ProjectAdministration (object):
             return mapper.insert(project)
 
     def get_all_projects(self):
+        """Alle Projekte auslesen"""
         with ProjectMapper() as mapper:
             return mapper.find_all()
 
     def get_project_by_id(self, id):
+        """Projekte per ID auslesen"""
         with ProjectMapper() as mapper:
             return mapper.find_by_key(id)
 
     def get_project_by_user_id(self, user):
+        """Projekte per User_id ausgeben"""
         with ProjectMapper() as mapper:
             return mapper.find_by_user_id(user.get_id())
 
     def get_project_by_project_type_id(self, project_type):
+        """Projekte per Projekt_type_id ausgeben"""
         with ProjectMapper() as mapper:
             return mapper.find_by_project_type_id(project_type.get_id())
 
     def get_project_by_state_id(self, state):
+        """Projekte per State_id ausgeben"""
         with ProjectMapper() as mapper:
             return mapper.find_by_state_id(state.get_id())
 
     def get_project_by_semester_id(self, semester):
+        """Projekte per Semester_id ausgeben"""
         with ProjectMapper() as mapper:
             return mapper.find_by_semester_id(semester.get_id())
 
     def get_project_by_assignment_id(self, assignment):
+        """Projekte per Zuteilungs_id ausgeben"""
         with ProjectMapper() as mapper:
             return mapper.find_by_assignment_id(assignment.get_id())
 
     def get_project_by_name(self, name):
+        """Projekte per Name ausgeben"""
         with ProjectMapper() as mapper:
             return mapper.find_by_name(name)
 
     def get_project_by_preferred_room(self, preferred_room):
+        """Projekte per präferierten Raum ausgeben"""
         with ProjectMapper() as mapper:
             return mapper.find_by_preferred_room(preferred_room)
 
     def save_project(self, project):
+        """Projekte speichern"""
         with ProjectMapper() as mapper:
             mapper.update(project)
 
     def delete_project(self, project):
+        """Projekte löschen"""
         with ProjectMapper() as mapper:
             mapper.delete(project)
 
@@ -606,23 +618,3 @@ class ProjectAdministration (object):
                     pass
 
             return result
-
-#Add
-
-    def add_member_to_project(self, module_id, project_id, student_id, validation_id):
-
-        d = False
-        p = self.get_all_participations()
-        for i in p:
-            if i == [module_id, student_id, project_id, validation_id]:
-                d = True
-
-            if d is False:
-                self.create_participation(module_id, project_id, student_id)
-
-    def remove_member_from_project(self, module_id, project_id, student_id, validation_id):
-
-        l = self.get_all_participations()
-        for i in l:
-            if i == [module_id, project_id, student_id, validation_id]:
-                self.delete_participation(l)

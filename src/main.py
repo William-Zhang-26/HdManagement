@@ -4,12 +4,12 @@ from flask_cors import CORS
 
 
 from server.bo.Assignment import Assignment
-#from server.bo.State import State
+from server.bo.State import State
 from server.bo.Module import Module
 from server.bo.Participation import Participation
 from server.bo.Project import Project
 from server.bo.Project_type import Project_type
-#from server.bo.Role import Role
+from server.bo.Role import Role
 from server.bo.Semester import Semester
 from server.bo.Student import Student
 from server.bo.User import User
