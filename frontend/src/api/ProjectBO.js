@@ -1,6 +1,4 @@
 import NamedBusinessObject from './NamedBusinessObject';
-import AutomatBO from './AutomatBO';
-import StateBO from './StateBO';
 
 /** Unstimmigkeiten mit dem Backend:
  * 

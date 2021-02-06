@@ -46,14 +46,13 @@ class ProjectForm extends Component {
       userID: null,
 
       projectTypeID: 0,
-      projectTypeIDEdited: false,
 
       stateID: 1,
 
-      semesterID: null,
+      semester_id: null,
+
 
       assignmentID: 0,
-      assignmentIDEdited: false,
 
       projectDescription: '',
       projectDescriptionValidationFailed: false,
@@ -92,6 +91,7 @@ class ProjectForm extends Component {
   componentDidMount() {
     this.getLecturer();
     this.getSemesterbyCurrentSemester();
+    
   }
 
 
@@ -103,19 +103,18 @@ class ProjectForm extends Component {
 
   }
 
+  
   getSemesterbyCurrentSemester = () => {
-    ProjectAPI.getAPI().getSemesterbyCurrentSemester(this.state.semester.getID())
+    ProjectAPI.getAPI().getSemesterbyCurrentSemester()
         .then (semesterBO => {
-            this.setState({ semester_id: semesterBO });
+            this.setState({ semester_id: semesterBO.getID() });
         })
       }
 
 
-
-
   /** Erstellen eines Projekts */
   addProject = () => {
-    let newProject = new ProjectBO(this.state.projectName, this.state.userID, this.state.projectTypeID, this.state.stateID, this.state.semesterID, this.state.assignmentID,
+    let newProject = new ProjectBO(this.state.projectName, this.state.userID, this.state.projectTypeID, this.state.stateID, this.state.semester_id, this.state.assignmentID,
       this.state.projectDescription, this.state.partners, this.state.capacity, this.state.preferredRoom, this.state.bDaysPreSchedule, 
       this.state.bDaysFinale, this.state.bDaysSaturdays, this.state.preferredBDays, this.state.additionalLecturer, this.state.weekly); 
    
@@ -137,8 +136,6 @@ class ProjectForm extends Component {
         addingError: null             // Fehlermeldung deaktivieren
     }
     );
-    console.log("erstelltes Projekt:")
-    console.log(newProject)
   }
   
 
@@ -192,8 +189,8 @@ class ProjectForm extends Component {
   render() {
     const { classes, show } = this.props;
     const { projectName, projectNameValidationFailed, projectNameEdited } = this.state;
-    const { projectTypeID, projectTypeIDEdited } = this.state;
-    const { assignmentID, assignmentIDEdited } = this.state;
+    const { projectTypeID } = this.state;
+    const { assignmentID } = this.state;
     const { projectDescription, projectDescriptionValidationFailed, projectDescriptionEdited } = this.state;
     const { partners } = this.state;
     const { capacity } = this.state;
@@ -203,12 +200,14 @@ class ProjectForm extends Component {
     const { bDaysSaturdays } = this.state;
     const { preferredBDays } = this.state;
     const { additionalLecturer } = this.state;
-    const { weekly, weeklyEdited } = this.state;
+    const { weekly } = this.state;
     const { addingInProgress, addingError } = this.state;
 
 
     let title = 'Neues Projekt erstellen';
     let header = 'Füllen Sie das Formular aus';
+
+    console.log(this.state);
 
     return (
       show ?
@@ -358,7 +357,7 @@ class ProjectForm extends Component {
             </form>
 
             <LoadingProgress show={addingInProgress} />
-            <ContextErrorMessage error={addingError} contextErrorMsg={`Das Projekt konnte nicht erstellt werden`} onReload={this.addProject} />
+            <ContextErrorMessage error={addingError} contextErrorMsg={`Das Projekt konnte nicht erstellt werden. Überprüfen Sie, ob Sie alle Pflichtfelder ausgefüllt haben.`} onReload={this.addProject} />
           </DialogContent>
 
           <DialogActions>
@@ -366,7 +365,7 @@ class ProjectForm extends Component {
               Abbrechen
             </Button>
 
-            <Button disabled={projectNameValidationFailed |!projectNameEdited | projectDescriptionValidationFailed | !projectDescriptionEdited | !weeklyEdited | !projectTypeIDEdited | !assignmentIDEdited } variant='contained' onClick={this.addProject} color='primary'>
+            <Button disabled={projectNameValidationFailed |!projectNameEdited | projectDescriptionValidationFailed | !projectDescriptionEdited   } variant='contained' onClick={this.addProject} color='primary'>
               Einsenden
             </Button>
           </DialogActions>
@@ -401,7 +400,7 @@ ProjectForm.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
 
-  project: PropTypes.object,
+  //project: PropTypes.object,
   /** Wenn dies "true" ist, wird die Komponente gerendert */
   show: PropTypes.bool.isRequired,
   /**  

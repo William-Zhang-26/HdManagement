@@ -64,7 +64,11 @@ class LecturerProjectListEntry extends Component {
     ProjectAPI.getAPI().getAssignmentbyId(this.props.project.getAssignmentID())
         .then (assignmentBO => {
             this.setState({ assignment: assignmentBO });
+        }).catch(e =>
+          this.setState({ 
+            error: e
         })
+        )
     }
   
   
