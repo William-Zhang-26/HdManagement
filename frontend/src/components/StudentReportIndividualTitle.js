@@ -5,6 +5,8 @@ import ProjectAPI from '../api/ProjectAPI';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
+//Student kann Einblick in seine persönliche Daten nehmen
+
 class StudentReportIndividualTitle extends Component{
 
   constructor(props) {
@@ -28,7 +30,6 @@ class StudentReportIndividualTitle extends Component{
 
   getStudent = () => {
       ProjectAPI.getAPI().getStudentbyId(firebase.auth().currentUser.uid)  
-      //ProjectAPI.getAPI().getStudentById()
           .then (studentBO => {
               this.setState({ student: studentBO });
           })
@@ -70,7 +71,7 @@ class StudentReportIndividualTitle extends Component{
   }
 }
 
-/** Komponentenspezifisches Styeling */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
     root: {
       width: '90%',

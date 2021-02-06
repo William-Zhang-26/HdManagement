@@ -54,7 +54,6 @@ class StudentButtons extends Component {
 
   /** Handles the onClose event of the ProjectDeleteDialog */
   StudentProjectSignOutClosed = (participation) => {
-    // if project is not null, delete it
     if (participation) {
       this.props.onParticipationDeleted(participation);
     };
@@ -70,8 +69,7 @@ class StudentButtons extends Component {
   render() {
     const { classes } = this.props;
     const { loadingInProgress, student, participation, showParticipationDeleteDialog } = this.state;
-    console.log('Button:');
-    console.log(this.state);
+    
 
     return (
       <div className={classes.root}>
@@ -94,12 +92,11 @@ class StudentButtons extends Component {
   }
 }
 
-/** Komponentenspezifisches Styeling */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
   root: {
     width: '90%',
     marginTop: theme.spacing(3),
-    //marginRight: theme.spacing(10),
     marginLeft: theme.spacing(1),
   },
   font: {
@@ -116,7 +113,6 @@ const styles = theme => ({
     fontSize: 10,
   },
   replay: {
-    //width: '100%',
     color: indigo[500],
   },
   box: {
@@ -127,7 +123,6 @@ const styles = theme => ({
   }
 });
 
-//<Button className={classes.replay} startIcon={<ReplayIcon />} onClick = {this.getValidationbyId}/>
 
 /** PropTypes */
 StudentButtons.propTypes = {

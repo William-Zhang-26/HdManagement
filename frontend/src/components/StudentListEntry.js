@@ -27,7 +27,6 @@ class StudentListEntry extends Component {
   /** Rendern der Komponente */
   render() {
     const { classes, expandedState } = this.props;
-    // Use the states project
     const { student } = this.state;
 
  

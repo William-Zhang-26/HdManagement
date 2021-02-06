@@ -113,7 +113,6 @@ class App extends React.Component {
 
   getCurrentUser = () => {
     ProjectAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid)   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
-    //ProjectAPI.getAPI().getStudentById()
         .then (UserBO => {
             this.setState({ currUser: UserBO });
         })
