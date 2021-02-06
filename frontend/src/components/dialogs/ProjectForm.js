@@ -313,8 +313,8 @@ class ProjectForm extends Component {
                   value={weekly}
                   onChange={this.handleChange}
                 >
-                  <MenuItem value={0}>Ja</MenuItem>
-                  <MenuItem value={1}>Nein</MenuItem>
+                  <MenuItem value={1}>Ja</MenuItem>
+                  <MenuItem value={0}>Nein</MenuItem>
                 </Select>
               </FormControl>
             
