@@ -90,7 +90,7 @@ class AdminProjectListEntry extends Component {
   } 
 
 
-  /** Hanlerfunktion zum schließen der RejectForm nach Ablehnen/ Abbrechen oder Schließen */
+  /** Handlerfunktion zum schließen der RejectForm nach Ablehnen/ Abbrechen oder Schließen */
   RejectFormClosed = (project) => {
     if (project) {
       return (this.setState ({
@@ -115,7 +115,7 @@ class AdminProjectListEntry extends Component {
     });
   }
 
-  /** Hanlerfunktion zum schließen der deleteForm nach Löschen/ Abbrechen oder Schließen */
+  /** Handlerfunktion zum schließen der deleteForm nach Löschen/ Abbrechen oder Schließen */
   deleteProjectDialogClosed = (project) => {
     if (project) {
       this.props.onProjectDeleted(project);
@@ -138,7 +138,7 @@ class AdminProjectListEntry extends Component {
   }
 
 
-  /** Hanlerfunktion zum Schließen des "Projekt in Bewertung setzen" Fenster nach Klick/ Abbrechen oder Schließen */
+  /** Handlerfunktion zum Schließen des "Projekt in Bewertung setzen" Fenster nach Klick/ Abbrechen oder Schließen */
   ProjectInEvaluationFormClosed = (project) => {
     if (project) {
       return(this.setState ({

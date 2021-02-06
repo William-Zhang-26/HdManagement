@@ -107,7 +107,14 @@ class LecturerProjectList extends Component {
         showProjectForm: false
       });
     }
- 
+   }
+
+
+  projectDeleted = project => {
+    const newProjectList = this.state.projects.filter(projectFromState => projectFromState.getID() !== project.getID());
+    this.setState({
+      projects: newProjectList,
+    });
   }
 
 
@@ -129,6 +136,7 @@ class LecturerProjectList extends Component {
           // Anzeigen aller Projekte die einem Dozenten angehören
           projects.map(project => <LecturerProjectListEntry key={project.getID()} project={project}
           show={this.props.show}  
+          onProjectDeleted={this.projectDeleted} 
           onExpandedStateChange={this.onExpandedStateChange} />)
         }
 

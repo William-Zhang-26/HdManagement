@@ -7,6 +7,9 @@ import ProjectAPI  from '../api/ProjectAPI';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import ProjectInEvaluationForm from './dialogs/ProjectInEvaluationForm';
+import ProjectDeleteDialog from './dialogs/ProjectDeleteDialog';
+import DeleteIcon from '@material-ui/icons/Delete';
+import red from '@material-ui/core/colors/red';
 import SendIcon from '@material-ui/icons/Send';
 import indigo from '@material-ui/core/colors/indigo';
 
@@ -26,6 +29,7 @@ class LecturerProjectListEntry extends Component {
       project: props.project,
       showProjectForm: false,
       showProjectInEvaluation: false,
+      showProjectDeleteDialog: false,
       disabled: true,
       error: null,
       assignment: null,
@@ -102,6 +106,27 @@ class LecturerProjectListEntry extends Component {
       )
   }
 
+  /** Handlerfunktion wenn Projekt löschen geklickt wird */
+  deleteProjectButtonClicked = (event) => {
+    event.stopPropagation();
+    this.setState({
+      showProjectDeleteDialog: true
+    });
+  }
+
+  /** Handlerfunktion zum schließen der deleteForm nach Löschen/ Abbrechen oder Schließen */
+  deleteProjectDialogClosed = (project) => {
+    if (project) {
+      this.props.onProjectDeleted(project);
+    };
+
+    // Das Dialog-Fenster nicht anzeigen
+    this.setState({
+      showProjectDeleteDialog: false
+    });
+  }
+
+
 
   /** Lifecycle-Methode, die aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird */
   componentDidMount() {
@@ -115,7 +140,7 @@ class LecturerProjectListEntry extends Component {
   /** Rendern der Komponente */
   render() {
     const { classes, expandedState } = this.props;
-    const { project, state, user, showProjectInEvaluation, assignment, projecttype } = this.state;
+    const { project, state, user, showProjectInEvaluation, assignment, projecttype, showProjectDeleteDialog } = this.state;
 
     return (
       <div>
@@ -131,10 +156,14 @@ class LecturerProjectListEntry extends Component {
                 <Typography variant='body1' className={classes.heading}>{project.getName()}
                 </Typography>
               </Grid>
+              { state.getID() === 1 ?
               <Grid item>
                 <ButtonGroup variant='text' size='small'>
+                <Button className={classes.root} startIcon={<DeleteIcon />}
+                onClick = {this.deleteProjectButtonClicked} />
                 </ButtonGroup>
               </Grid>
+              : null }
               <Grid item xs />
               <Grid item>
                 <Typography variant='body2' color={'textSecondary'}>{state.getName()}</Typography> 
@@ -173,6 +202,7 @@ class LecturerProjectListEntry extends Component {
         
       :null }
       <ProjectInEvaluationForm show={showProjectInEvaluation} project={project} onClose={this.ProjectInEvaluationFormClosed} />
+      <ProjectDeleteDialog show={showProjectDeleteDialog} project={project} onClose={this.deleteProjectDialogClosed} />
       </div>
     );
   }
@@ -184,6 +214,7 @@ class LecturerProjectListEntry extends Component {
 const styles = theme => ({
     root: {
       width: '100%',
+      color: red[500],
     },
     heading: {
       fontSize: 20,
