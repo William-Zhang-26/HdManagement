@@ -28,6 +28,8 @@ class StudentProjectListEntry extends Component {
         project: props.project,
         participations: [],
         showStudentProjectSignin: false,
+        currStudent: null,
+        studentParticipations: [],
 
       };
     }
@@ -37,17 +39,35 @@ class StudentProjectListEntry extends Component {
     this.props.onExpandedStateChange(this.props.project);
   }
 
+
+  getStudent = () => {
+    ProjectAPI.getAPI().getStudentbyId(firebase.auth().currentUser.uid)  
+        .then (studentBO => {
+          return (this.setState({ currStudent: studentBO }),
+          this.getParticipationForStudent())
+        })
+  }
+
+  /** Lifecycle-Methode, die aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird */
+  componentDidMount() {
+    this.getStudent();
+    this.getParticipations();
+  }
+
+  getParticipationForStudent = () => {
+    ProjectAPI.getAPI().getParticipationForStudent(this.state.currStudent.getID())
+        .then (participationBO => {
+            this.setState({ studentParticipations: participationBO });
+        })
+    }
+
+
   getParticipations = () => {
     ProjectAPI.getAPI().getParticipationForProject(this.state.project.getID())
         .then (participationBOs => {
             this.setState({ participations: participationBOs });
         })
     }
-
-  /** Lifecycle-Methode, die aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird */
-  componentDidMount() {
-    this.getParticipations();
-  }
 
 
   participationDeleted = participant => {
@@ -90,7 +110,12 @@ class StudentProjectListEntry extends Component {
   /** Rendern der Komponente */
   render() {
     const { classes, expandedState } = this.props;
-    const { project, participations, showStudentProjectSignin } = this.state;
+    const { project, participations, showStudentProjectSignin, studentParticipations } = this.state;
+    console.log('Entry:');
+    console.log(this.state);
+
+    const entries = studentParticipations.map(studentParticipation => studentParticipation.getProjectID())
+    console.log(entries);
 
     return (
       <div>
@@ -130,14 +155,16 @@ class StudentProjectListEntry extends Component {
               
             </ListItem> 
             <ListItem>
+              {entries.includes(project.getID())?
 
-              <Grid item>
-                <ButtonGroup variant='text' size='small'>
-                  <Button color='primary' startIcon={<AddIcon />} onClick={this.addSignInClicked}>
-                    Anmelden
-                  </Button>
-                </ButtonGroup>
-              </Grid>
+              null
+              : <Grid item>
+              <ButtonGroup variant='text' size='small'>
+                <Button color='primary' startIcon={<AddIcon />} onClick={this.addSignInClicked}>
+                  Anmelden
+                </Button>
+              </ButtonGroup>
+            </Grid> }
 
             </ListItem> 
           </List>

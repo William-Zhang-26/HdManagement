@@ -72,6 +72,7 @@ class StudentButtons extends Component {
   render() {
     const { classes } = this.props;
     const { loadingInProgress, student, participation, showParticipationDeleteDialog } = this.state;
+    console.log('Button:');
     console.log(this.state);
 
     return (
