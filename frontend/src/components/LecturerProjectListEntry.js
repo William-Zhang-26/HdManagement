@@ -29,6 +29,7 @@ class LecturerProjectListEntry extends Component {
       disabled: true,
       error: null,
       assignment: null,
+      projecttype: null
     };
   }
 
@@ -74,6 +75,13 @@ class LecturerProjectListEntry extends Component {
       })
       )
     }
+
+  getProjecttypeForProject = () => {
+    ProjectAPI.getAPI().getProjecttypebyId(this.props.project.getProjectTypeID())
+          .then (ProjecttypeBO => {
+              this.setState({ projecttype: ProjecttypeBO });
+          })
+      }
   
 
   getLecturer = () => {
@@ -100,17 +108,18 @@ class LecturerProjectListEntry extends Component {
     this.getStatebyID();
     this.getLecturer();
     this.getAssignmentForProject();
+    this.getProjecttypeForProject();
   }
 
 
   /** Rendern der Komponente */
   render() {
     const { classes, expandedState } = this.props;
-    const { project, state, user, showProjectInEvaluation, assignment } = this.state;
+    const { project, state, user, showProjectInEvaluation, assignment, projecttype } = this.state;
 
     return (
       <div>
-        { assignment && state && user && project.getUserID()=== user.getID()? 
+        { assignment && state && user && projecttype && project.getUserID()=== user.getID()? 
       
       <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary
@@ -135,6 +144,7 @@ class LecturerProjectListEntry extends Component {
           <AccordionDetails>
             <List>
             <ListItem>Projektbeschreibung: {project.getProjectDescription()} </ListItem>
+            <ListItem>Projektkategorie: {projecttype.getName()} </ListItem>
             <ListItem>Projektart: {assignment.getName()} </ListItem>
             <ListItem>Betreuende Dozenten: {project.getAdditionalLecturer()} </ListItem>  
             <ListItem>Externe Partner: {project.getPartners()} </ListItem>

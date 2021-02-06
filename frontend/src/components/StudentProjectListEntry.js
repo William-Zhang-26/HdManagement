@@ -27,6 +27,7 @@ class StudentProjectListEntry extends Component {
         studentParticipations: [],
         disabled: true,
         assignment: null,
+        projecttype: null
 
       };
     }
@@ -44,6 +45,13 @@ class StudentProjectListEntry extends Component {
         })
     }
 
+  getProjecttypeForProject = () => {
+    ProjectAPI.getAPI().getProjecttypebyId(this.props.project.getProjectTypeID())
+          .then (ProjecttypeBO => {
+              this.setState({ projecttype: ProjecttypeBO });
+          })
+      }
+  
 
   getStudent = () => {
     ProjectAPI.getAPI().getStudentbyId(firebase.auth().currentUser.uid)  
@@ -58,6 +66,7 @@ class StudentProjectListEntry extends Component {
     this.getStudent();
     this.getParticipations();
     this.getAssignmentForProject();
+    this.getProjecttypeForProject();
   }
 
   getParticipationForStudent = () => {
@@ -112,14 +121,14 @@ class StudentProjectListEntry extends Component {
   /** Rendern der Komponente */
   render() {
     const { classes, expandedState } = this.props;
-    const { project, participations, showStudentProjectSignin, studentParticipations, assignment } = this.state;
+    const { project, participations, showStudentProjectSignin, studentParticipations, assignment, projecttype } = this.state;
    
     const entries = studentParticipations.map(studentParticipation => studentParticipation.getProjectID())
  
 
     return (
       <div>
-      { assignment && project && project.getStateID() === 3 ?
+      { assignment && project && projecttype && project.getStateID() === 3 ?
       <Grid>
       <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary
@@ -136,12 +145,13 @@ class StudentProjectListEntry extends Component {
           <AccordionDetails>
             <List>
             <ListItem>Projektbeschreibung: {project.getProjectDescription()} </ListItem>
+            <ListItem>Projektkategorie: {projecttype.getName()} </ListItem>
             <ListItem>Projektart: {assignment.getName()} </ListItem>
             <ListItem>Betreuende Dozenten: {project.getAdditionalLecturer()} </ListItem>  
             <ListItem>Externe Partner: {project.getPartners()} </ListItem>
             <Box p={1}></Box>
             <ListItem className ={classes.font}>Raum- und Ressourenplanung</ListItem>
-            <ListItem>Wöchentlicher Kurs: {project.getWeekly() === 1 ? 'Ja' : 'Nein'} </ListItem>
+            <ListItem>Wöchentlicher Kurs: {project.getWeekly() === "1" ? 'Ja' : 'Nein'} </ListItem>
             <ListItem>Anzahl der Blocktage vor der Vorlesungszeit: {project.getBDaysPreSchedule()} </ListItem>
             <ListItem>Anzahl der Blocktage in der Prüfungszeit: {project.getBDaysFinale()} </ListItem>            
             <ListItem>Anzahl der Blocktage in der Vorlesungszeit (Samstage): {project.getBDaysSaturdays()} </ListItem>

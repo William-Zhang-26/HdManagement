@@ -82,12 +82,10 @@ class AdminProjectList extends Component {
   }
 
 
-
     /** Rendern der Komponente */
   render() {
     const { classes } = this.props;
-    const { projects, expandedProjectID, loadingInProgress, error } = this.state;
-    console.log(this.state);
+    const { projects, loadingInProgress, error, } = this.state;
 
     return (
       <div className={classes.root}>
@@ -113,7 +111,7 @@ class AdminProjectList extends Component {
   }
 }
 
-/** Komponentenspezifisches Styeling */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
   root: {
     width: '90%',
