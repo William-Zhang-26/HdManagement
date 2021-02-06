@@ -33,6 +33,7 @@ class ProjectAdministration (object):
 #Assignment
 
     def create_assignment(self, name):
+        """Zuteilung erstellen"""
 
         assignment = Assignment()
         assignment.set_name(name)
@@ -42,22 +43,27 @@ class ProjectAdministration (object):
             return mapper.insert(assignment)
 
     def get_all_assignment(self):
+        """Alle Zuteilungen ausgeben"""
         with AssignmentMapper() as mapper:
             return mapper.find_all()
 
     def get_assignment_by_id(self, id):
+        """Zuteilung per ID ausgeben"""
         with AssignmentMapper() as mapper:
             return mapper.find_by_key(id)
 
     def get_assignment_by_name(self, name):
+        """Zuteilung per Name ausgeben lassen"""
         with AssignmentMapper() as mapper:
             return mapper.find_by_name(name)
 
     def save_assignment(self, assignment):
+        """Zuteilung speichern"""
         with AssignmentMapper() as mapper:
             mapper.update(assignment)
 
     def delete_assignment(self, assignment):
+        """Zuteilung aus der DB löschen"""
         with AssignmentMapper() as mapper:
             mapper.delete(assignment)
 
@@ -297,6 +303,7 @@ class ProjectAdministration (object):
             return mapper.find_by_project(participation.get_id())
 
 # Project_type
+
     def create_project_type(self, name, ects, sws):
         """Einen Projekttyp anlegen"""
         project_type = Project_type()
@@ -344,6 +351,7 @@ class ProjectAdministration (object):
             mapper.delete(project_type)
 
 # Role
+
     def create_role(self, name):
         """Eine Rolle anlegen"""
         role = Role()
@@ -379,6 +387,7 @@ class ProjectAdministration (object):
             mapper.delete(role)
 
 # Semester
+
     def create_semester(self, name, current_semester):
         """Einen Semester anlegen"""
         semester = Semester()
@@ -420,7 +429,9 @@ class ProjectAdministration (object):
             mapper.delete(semester)
 
 # Student
+
     def create_student(self, user_id, name, course, matriculation_number, mail, google_id):
+        """Erstellen des Studenten"""
 
         student = Student()
         student.set_user_id(user_id)
@@ -435,40 +446,47 @@ class ProjectAdministration (object):
             return mapper.insert(student)
 
     def get_all_student(self):
+        """ALle Studenten ausgeben"""
         with StudentMapper() as mapper:
             return mapper.find_all()
 
     def get_student_by_id(self, id):
+        """Studenten per ID ausgeben"""
         with StudentMapper() as mapper:
             return mapper.find_by_key(id)
 
     def get_student_by_user_id(self, user_id):
+        """Studenten per User_id ausgeben"""
         with StudentMapper() as mapper:
             return mapper.find_by_user_id(user_id)
 
     def get_student_by_name(self, name):
+        """Studenten per Name ausgeben"""
         with StudentMapper() as mapper:
             return mapper.find_by_name(name)
 
     def get_student_by_course(self, course):
+        """Studenten per Kurs ausgeben"""
         with StudentMapper() as mapper:
             return mapper.find_by_course(course)
 
     def get_student_by_google_id(self, google_id):
+        """Studenten per Google_id ausgeben"""
         with StudentMapper() as mapper:
             return mapper.find_by_google_id(google_id)
 
     def get_student_by_matriculation_number(self, matriculation_number):
+        """Studenten per Matrikelnummer ausgeben"""
         with StudentMapper() as mapper:
             return mapper.find_by_matriculation_number(matriculation_number)
 
     def save_student(self, student):
+        """Studenten speichern"""
         with StudentMapper() as mapper:
             mapper.update(student)
 
-
-#Änderung notwendig
     def delete_student(self, student):
+        """Studenten aus der DB löschen"""
         with StudentMapper() as mapper:
             participation = self.get_participation_by_student_id(student)
             user = self.get_user_by_student(student)
@@ -508,7 +526,9 @@ class ProjectAdministration (object):
             return mapper.find_by_student(user.get_id())
 
 # User
+
     def create_user(self, name, mail, google_id):
+        """User erstellen"""
 
         user = User()
         user.set_name(name)
@@ -520,30 +540,37 @@ class ProjectAdministration (object):
             return mapper.insert(user)
 
     def get_all_user(self):
+        """Alle User ausgeben"""
         with UserMapper() as mapper:
             return mapper.find_all()
 
     def get_user_by_id(self, id):
+        """User per ID ausgeben"""
         with UserMapper() as mapper:
             return mapper.find_by_key(id)
 
     def get_user_by_name(self, name):
+        """User per Name ausgeben"""
         with UserMapper() as mapper:
             return mapper.find_by_name(name)
 
     def get_user_by_role_id(self, role):
+        """User per Rolle ausgeben"""
         with UserMapper() as mapper:
             return mapper.find_by_role_id(role.get_id())
 
     def get_user_by_google_id(self, google_id):
+        """User per Google_id ausgeben"""
         with UserMapper() as mapper:
             return mapper.find_by_google_user_id(google_id)
 
     def save_user(self, user):
+        """User speichern"""
         with UserMapper() as mapper:
             mapper.update(user)
 
     def delete_user(self, user):
+        """User aus der DB löschen"""
         with UserMapper() as mapper:
             mapper.delete(user)
 
@@ -559,6 +586,7 @@ class ProjectAdministration (object):
             return result
 
 #Add
+
     def add_member_to_project(self, module_id, project_id, student_id, validation_id):
 
         d = False
