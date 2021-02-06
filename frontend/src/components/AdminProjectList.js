@@ -76,9 +76,7 @@ class AdminProjectList extends Component {
     this.getProjects();
   }
 
-   /** 
    
-   */
   projectDeleted = project => {
     const newProjectList = this.state.projects.filter(projectFromState => projectFromState.getID() !== project.getID());
     this.setState({

@@ -42,7 +42,7 @@ class StudentReportList extends Component {
           })
         );
 
-    // set loading to true
+    // setzen des Ladens auf true
     this.setState({
       loadingInProgress: true,
       error: null

@@ -34,7 +34,7 @@ class ProjectDeleteDialog extends Component {
       })
     );
 
-    // set loading to true
+    // setzen des Ladens auf true
     this.setState({
       deletingInProgress: true,                       //Ladeanzeige anzeigen
       deletingError: null                             //Fehlermeldung deaktivieren

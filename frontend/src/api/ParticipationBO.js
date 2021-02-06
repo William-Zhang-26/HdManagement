@@ -52,7 +52,7 @@ export default class  ParticipationBO extends BusinessObject {
     }
 
 
-    //Array von ParticipationBOs aus einem JSON herraus mittels der setPrototypeOf fkt
+    //Array von ParticipationBOs aus einem JSON herraus mittels der setPrototypeOf Funktion
     static fromJSON(participations) {
         let result = [];
 
