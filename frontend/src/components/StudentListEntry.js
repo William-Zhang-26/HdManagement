@@ -50,9 +50,9 @@ class StudentListEntry extends Component {
           </AccordionSummary>
           <AccordionDetails>
             <List>
-              <Zoom in={true} style={{ transitionDelay: true ? '900ms' : '0ms' }}><ListItem>ID: {student.getID()} </ListItem></Zoom>
-              <Zoom in={true} style={{ transitionDelay: true ? '1400ms' : '0ms' }}><ListItem>Matrikelnummer: {student.getMatriculationNumber()} </ListItem></Zoom> 
-              <Zoom in={true} style={{ transitionDelay: true ? '1900ms' : '0ms' }}><ListItem>Studiengang: {student.getCourse()} </ListItem></Zoom>
+              <Zoom in={true} style={{ transitionDelay: true ? '1200ms' : '0ms' }}><ListItem>ID: {student.getID()} </ListItem></Zoom>
+              <Zoom in={true} style={{ transitionDelay: true ? '1700ms' : '0ms' }}><ListItem>Matrikelnummer: {student.getMatriculationNumber()} </ListItem></Zoom> 
+              <Zoom in={true} style={{ transitionDelay: true ? '2200ms' : '0ms' }}><ListItem>Studiengang: {student.getCourse()} </ListItem></Zoom>
             </List>
             </AccordionDetails>
          

@@ -58,7 +58,6 @@ export default class ProjectAPI {
     #getModulebyIdURL = (id) => `${this.#projectServerBaseURL}/module/${id}`;
 
     //User bezogen
-    #addUser = () => `${this.#projectServerBaseURL}/user`;
     #getUserByGoogleIdURL= (google_id) => `${this.#projectServerBaseURL}/user/${google_id}`;
     #updateUserURL = (id) => `${this.#projectServerBaseURL}/user/${id}`;
 
@@ -382,25 +381,6 @@ export default class ProjectAPI {
 
 
     //User bezogen
-    addUser(userBO) {
-      return this.#fetchAdvanced(this.#addProjectURL(), {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json, text/plain',
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify(userBO)
-      }).then((responseJSON) => {
-        // Wir erhalten immer ein Array von ProjectBOs.fromJSON, benötigen aber nur ein Objekt
-        let responseUserBO = UserBO.fromJSON(responseJSON)[0];
-        
-        return new Promise(function (resolve) {
-          resolve(responseUserBO);
-        })
-      })
-    }
-
-
     
     getUserByGoogleId(google_id) {
       return this.#fetchAdvanced(this.#getUserByGoogleIdURL(google_id)).then((responseJSON) => {

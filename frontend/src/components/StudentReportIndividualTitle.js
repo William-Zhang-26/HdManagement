@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, List, ListItem, Grid, Typography, Paper } from '@material-ui/core';
-import  ProjectAPI  from '../api/ProjectAPI';
+import { withStyles, List, ListItem, Grid, Paper } from '@material-ui/core';
+import ProjectAPI from '../api/ProjectAPI';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
@@ -13,10 +13,10 @@ class StudentReportIndividualTitle extends Component{
       date = today.getDate() + '.' + (today.getMonth() + 1) + '.' + today.getFullYear();
 
       this.state = {
-          student: null,
-          studentId: this.props.studentId,
-          currentDate: date,
-          googleUID: firebase.auth().currentUser.uid
+        student: null,
+        studentId: this.props.studentId,
+        currentDate: date,
+        googleUID: firebase.auth().currentUser.uid
 
       };
   }
@@ -27,7 +27,7 @@ class StudentReportIndividualTitle extends Component{
   }
 
   getStudent = () => {
-      ProjectAPI.getAPI().getStudentbyId(firebase.auth().currentUser.uid)   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
+      ProjectAPI.getAPI().getStudentbyId(firebase.auth().currentUser.uid)  
       //ProjectAPI.getAPI().getStudentById()
           .then (studentBO => {
               this.setState({ student: studentBO });
@@ -40,9 +40,6 @@ class StudentReportIndividualTitle extends Component{
     const { classes } = this.props;
     const student = this.state.student;
 
-    console.log(this.state);
-
-
     return (
         <div> 
         
@@ -51,7 +48,7 @@ class StudentReportIndividualTitle extends Component{
         <Grid className = {classes.root}>
           <Paper>
             <List>
-            <ListItem>Name: {student.getFirstName()} {student.getName()} </ListItem>
+            <ListItem>Name: {student.getName()} </ListItem>
             <ListItem>Matrikelnummer: {student.getMatriculationNumber()} </ListItem>
             <Grid container spacing={1}> 
                 <Grid item>
@@ -66,13 +63,12 @@ class StudentReportIndividualTitle extends Component{
           </Paper>
         </Grid>
 
-        : <Typography>Klappt nicht</Typography>}
+        : null }
 
         </div>
     );
   }
 }
-
 
 /** Komponentenspezifisches Styeling */
 const styles = theme => ({
@@ -83,12 +79,12 @@ const styles = theme => ({
     }
   });
   
-  /** PropTypes */
-  StudentReportIndividualTitle.propTypes = {
-    /** @ignore */
-    classes: PropTypes.object.isRequired,
-    student: PropTypes.object.isRequired,
-    }
+/** PropTypes */
+StudentReportIndividualTitle.propTypes = {
+  /** @ignore */
+  classes: PropTypes.object.isRequired,
+  student: PropTypes.object.isRequired,
+  }
   
 export default withStyles(styles)(StudentReportIndividualTitle);
 

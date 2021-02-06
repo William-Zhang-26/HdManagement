@@ -4,7 +4,7 @@ import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, 
 import { Button, List, ListItem, ButtonGroup, Box } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import AddIcon from '@material-ui/icons/Add';
-import  ProjectAPI  from '../api/ProjectAPI';
+import ProjectAPI  from '../api/ProjectAPI';
 import StudentButtons from './StudentButtons';
 import StudentProjectSignIn from './dialogs/StudentProjectSignIn';
 import indigo from '@material-ui/core/colors/indigo';
@@ -123,7 +123,7 @@ class StudentProjectListEntry extends Component {
 
     return (
       <div>
-      { project.getStateID() === 3 ?
+      { project && project.getStateID() === 3 ?
       <Grid>
       <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary

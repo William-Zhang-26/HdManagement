@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
-import { Button, List, ListItem, ButtonGroup } from '@material-ui/core';
+import { Button, ListItem, ButtonGroup } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ProjectAPI  from '../api/ProjectAPI';
 import ParticipantList from './ParticipantList';
@@ -13,9 +13,6 @@ import SendIcon from '@material-ui/icons/Send';
 import AddIcon from '@material-ui/icons/Add';
 import ParticipationForm from './dialogs/ParticipationForm';
 
-/** Fehlende Inhalte:
- * 
- */
 
 class ProjectListEntryParticipants extends Component {
 
@@ -162,7 +159,7 @@ class ProjectListEntryParticipants extends Component {
                 </Typography>
               </Grid>
             </Grid>
-            { project.getStateID() <= 4 ?
+            { project.getStateID() <= 4 && this.state.disabled ?
             <Grid item>
               <ButtonGroup variant='text' size='small'>
                 <Button color='secondary' startIcon={<AddIcon />} onClick={this.addParticipantButtonClicked}>
@@ -186,7 +183,7 @@ class ProjectListEntryParticipants extends Component {
                 onParticipationDeleted={this.participationDeleted}/>)
               }
 
-            {this.state.disabled && project.getStateID() === 4 ?
+            { this.state.disabled && project.getStateID() === 4 ?
               <ListItem className={classes.button}>
                 <Button variant='outlined' color='primary' startIcon={<SendIcon />} onClick = {this.evaluatedProjectButtonClicked} >
                   Bewertung abschließen
