@@ -2,7 +2,7 @@ from server.bo.Student import Student
 from server.db.Mapper import Mapper
 
 class StudentMapper(Mapper):
-    """Mapper-Klasse, die Anwender-Objekte auf eine relationale
+    """Mapper-Klasse, die Studenten-Objekte auf eine relationale
     Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung
     gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und
     gelöscht werden können. Das Mapping ist bidirektional. D.h., Objekte können

@@ -11,9 +11,11 @@ class Student(User):
         self._user_id = 0
 
     def get_user_id(self):
+        """Auslesen der User_id"""
         return self._course
 
     def set_user_id(self, new_user_id):
+        """Setzen der User_id"""
         self._user_id = new_user_id
 
     def get_course(self):

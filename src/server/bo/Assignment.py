@@ -1,6 +1,9 @@
 from server.bo.NamedBusinessObject import NamedBusinessObject
 
 class Assignment(NamedBusinessObject):
+    """
+    Realisierung der Zuteilung
+    """
 
     def __init__(self):
         super().__init__()
