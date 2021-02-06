@@ -1,25 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, List, ListItem, Button, Typography, Grid, Box, ButtonGroup } from '@material-ui/core';
+import { withStyles, Button, Typography, Grid, ButtonGroup } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import  ProjectAPI  from '../api/ProjectAPI';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import ParticipantDeleteDialog from './dialogs/ParticipantDeleteDialog';
-import StudentReportListEntry from './StudentReportListEntry';
-import ParticipationBO from '../api/ParticipationBO';
 import indigo from '@material-ui/core/colors/indigo';
 import red from '@material-ui/core/colors/red';
 import ValidationForm from './dialogs/ValidationForm';
-import ReplayIcon from '@material-ui/icons/Replay';
 
-
-
-
-/**  
- * Hier wird die Liste aus Studentensicht angezeigt. Studenten sehen alle genehmigten Projekte
- * und können sich dafür An- und Abmelden.
- */
 
 class AllParticipantList extends Component {
 
@@ -64,7 +54,7 @@ class AllParticipantList extends Component {
     this.getValidationbyId();
   }
 
-  /** Handles the onClick event of the delete project button */
+  /** Handlerfunktion die aufgerufen wird, wenn Teilnehmer Löschen geklickt wird */
   deleteParticipationButtonClicked = (event) => {
     event.stopPropagation();
     this.setState({
@@ -72,9 +62,10 @@ class AllParticipantList extends Component {
     });
   }
 
-  /** Handles the onClose event of the ProjectDeleteDialog */
+
+  /** Handlerfunktion die aufgerufen wird, wenn das Teilnehmer Löschen Fenster geschlossen werden soll */
   deleteParticipationDialogClosed = (participation) => {
-    // if project is not null, delete it
+
     if (participation) {
       this.props.onParticipationDeleted(participation);
     };
@@ -86,18 +77,16 @@ class AllParticipantList extends Component {
   }
 
 
-  /** Handles the onClick event of the validate button */
+  /** Handlerfunktion die aufgerufen wird, wenn Teilnehmer Bewerten geklickt wird */
   validateParticipantButtonClicked = event => {
-    // Do not toggle the expanded state
     event.stopPropagation();
     this.setState({
       showValidationForm: true
     });
   }
 
-  /** Handles the onClose event of the ValidationForm */
+  /** Handlerfunktion die aufgerufen wird, wenn das Teilnehmer Bewerten Fenster geschlossen werden soll */
   validationFormClosed = (participation) => {
-    // validation is not null and therefor changed
     if (participation) {
       return(this.setState({
         participation: participation,
@@ -182,7 +171,6 @@ const styles = theme => ({
     fontSize: 10,
   },
   replay: {
-    //width: '100%',
     color: indigo[500],
   },
   box: {

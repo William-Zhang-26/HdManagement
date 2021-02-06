@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
-import { Button, List, ListItem, Box, ButtonGroup } from '@material-ui/core';
+import { Button, ListItem, ButtonGroup } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import AddIcon from '@material-ui/icons/Add';
 import ProjectAPI  from '../api/ProjectAPI';
@@ -29,7 +29,8 @@ class AllProjectListEntryParticipants extends Component {
       };
     }
 
-  /** Handles onChange events of the underlying ExpansionPanel */
+
+  /** Handlerfunktion für Veränderungen des Aufklapp-Panels */
   expansionPanelStateChanged = () => {
     this.props.onExpandedStateChange(this.props.project);
   }
@@ -65,7 +66,7 @@ class AllProjectListEntryParticipants extends Component {
   }
 
 
-    /** Handles the onClick event of the safe evaluation button */
+    /** Handlerfunktion die aufgerufen wird, wenn Bewertung abschließen geklickt wurde */
     evaluatedProjectButtonClicked = event => {
     event.stopPropagation();
     this.setState({
@@ -73,8 +74,8 @@ class AllProjectListEntryParticipants extends Component {
     });
   }
 
-  /** Handles the onClose event of the ProjectEvaluationForm */
-  evaluatedProjectFormClosed = (participation) => {
+    /** Handlerfunktion die aufgerufen wird, wenn das "Bewertung abschließen" Fenster geschlossen werden soll */
+    evaluatedProjectFormClosed = (participation) => {
     if (participation) {
       this.setState({
         participation: participation,
@@ -89,9 +90,8 @@ class AllProjectListEntryParticipants extends Component {
   }
 
 
-  /** Handles the onClick event of the add project button */
-  addParticipantButtonClicked = event => {
-    // Do not toggle the expanded state
+    /** Handlerfunktion die aufgerufen wird, wenn Teilnehmer hinzufügen geklickt wurde */
+    addParticipantButtonClicked = event => {
     event.stopPropagation();
     this.setState({
       showParticipationForm: true
@@ -99,14 +99,13 @@ class AllProjectListEntryParticipants extends Component {
     console.log(this.state); 
   }
 
-  /** Handles the onClose event of the ProjectForm*/
-  participationFormClosed = participation => {
-    // project is not null and therefore created
+    /** Handlerfunktion die aufgerufen wird, wenn das "Teilnehmer hinzufügen" Fenster geschlossen werden soll */
+    participationFormClosed = participation => {
     if (participation) {
-      this.setState({
+      return(this.setState({
         participations: [...this.state.participations, participation],
         showParticipationForm: false
-      });
+      }), this.getParticipations())
     } else {
       this.setState({
         showParticipationForm: false
@@ -131,7 +130,7 @@ class AllProjectListEntryParticipants extends Component {
       <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Grid container spacing={1} justify='flex-start' alignItems='center'>
-                <Typography variant='body1' className={classes.font}>{project.getName()} {/** Angabe des Dozenten (UserBO?)*/}
+                <Typography variant='body1' className={classes.font}>{project.getName()} 
                 </Typography>
             </Grid>
           </AccordionSummary>
@@ -199,7 +198,7 @@ class AllProjectListEntryParticipants extends Component {
   }
 }
 
-/** Komponentenspezifisches Styeling */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
     root: {
       width: '100%',
@@ -217,7 +216,6 @@ const styles = theme => ({
       marginTop: theme.spacing(3),
     },
     replay: {
-      //width: '100%',
       color: indigo[500],
     },
   });

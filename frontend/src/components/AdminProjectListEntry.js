@@ -31,8 +31,6 @@ class AdminProjectListEntry extends Component {
         showProjectInEvaluation: false,
         disabled: true,
         assignment: null,
-        
-        //Admin Attribute für Funktionen
       };
     }
 
@@ -65,18 +63,18 @@ class AdminProjectListEntry extends Component {
     }
     }
 
-    getAssignmentForProject = () => {
-      ProjectAPI.getAPI().getAssignmentbyId(this.props.project.getAssignmentID())
-          .then (assignmentBO => {
-              this.setState({ assignment: assignmentBO });
-          })
-      }
+  getAssignmentForProject = () => {
+    ProjectAPI.getAPI().getAssignmentbyId(this.props.project.getAssignmentID())
+        .then (assignmentBO => {
+            this.setState({ assignment: assignmentBO });
+        })
+    }
   
   
 
 
 // Projekt ablehnen  
-  /** Handles the onClick event of the reject project button */
+  /** Handlerfunktion wenn Projekt ablehnen geklickt wird */
   RejectProjectClicked = (event) => {
     event.stopPropagation();
     this.setState({
@@ -85,7 +83,7 @@ class AdminProjectListEntry extends Component {
   } 
 
 
-  /** Handles the onClose event of the Reject Button */
+  /** Hanlerfunktion zum schließen der RejectForm nach Ablehnen/ Abbrechen oder Schließen */
   RejectFormClosed = (project) => {
     if (project) {
       return (this.setState ({
@@ -102,7 +100,7 @@ class AdminProjectListEntry extends Component {
   
 
   
-  /** Handles the onClick event of the delete project button */
+  /** Handlerfunktion wenn Projekt löschen geklickt wird */
   deleteProjectButtonClicked = (event) => {
     event.stopPropagation();
     this.setState({
@@ -110,7 +108,7 @@ class AdminProjectListEntry extends Component {
     });
   }
 
-  /** Handles the onClose event of the ProjectDeleteDialog */
+  /** Hanlerfunktion zum schließen der deleteForm nach Löschen/ Abbrechen oder Schließen */
   deleteProjectDialogClosed = (project) => {
     if (project) {
       this.props.onProjectDeleted(project);
@@ -123,8 +121,8 @@ class AdminProjectListEntry extends Component {
   }
 
 
-    // Projekt in Bewertung senden
-  // Handles the onClick event of the state change button 
+  // Projekt in Bewertung senden
+  /** Handlerfunktion wenn Projekt in Bewertung senden geklickt wird */
   sendProjectInEvaluationClicked = (event) => {
     event.stopPropagation();
     this.setState({
@@ -133,7 +131,7 @@ class AdminProjectListEntry extends Component {
   }
 
 
-  /** Handles the onClose event of the ProjectInEvaluationForm */
+  /** Hanlerfunktion zum Schließen des "Projekt in Bewertung setzen" Fenster nach Klick/ Abbrechen oder Schließen */
   ProjectInEvaluationFormClosed = (project) => {
     if (project) {
       return(this.setState ({
@@ -178,11 +176,11 @@ class AdminProjectListEntry extends Component {
       <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            id={`project${project.getID()}projectpanel-header`} //** Wozu wird hier die Project ID benötigt*/
+            id={`project${project.getID()}projectpanel-header`} 
           >
             <Grid container spacing={1} justify='flex-start' alignItems='center'>
               <Grid item>
-                <Typography variant='body1' className={classes.heading}>{project.getName()} {/** Angabe des Dozenten (UserBO?)*/}
+                <Typography variant='body1' className={classes.heading}>{project.getName()} 
                 </Typography>
               </Grid>
               <Grid item>

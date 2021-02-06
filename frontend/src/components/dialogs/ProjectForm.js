@@ -1,4 +1,4 @@
-//Erstellen eines Objektes, nach der erstellung ist kein Update/ Edit möglich
+//Erstellen eines Projekt Objektes, nach der erstellung ist kein Update/ Edit möglich
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -38,19 +38,19 @@ class ProjectForm extends Component {
 
     // Init the state
     this.state = {
-      //Project spezifische Attribute
+      //Projekt spezifische Attribute
       projectName: '',
       projectNameValidationFailed: false,
       projectNameEdited: false,
 
-      userID: null, //hier wird stattdessen noch die current user Id durch eine API geholt
+      userID: null,
 
       projectTypeID: 0,
       projectTypeIDEdited: false,
 
       stateID: 1,
 
-      semesterID: 1,
+      semesterID: null,
 
       assignmentID: 0,
       assignmentIDEdited: false,
@@ -91,21 +91,29 @@ class ProjectForm extends Component {
 
   componentDidMount() {
     this.getLecturer();
+    this.getSemesterbyCurrentSemester();
   }
 
 
   getLecturer = () => {
-      ProjectAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid)   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
-      //ProjectAPI.getAPI().getStudentById()
+      ProjectAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid)
           .then (userBO => {
               this.setState({ userID: userBO.getID() });
           })
 
   }
 
+  getSemesterbyCurrentSemester = () => {
+    ProjectAPI.getAPI().getSemesterbyCurrentSemester(this.state.semester.getID())
+        .then (semesterBO => {
+            this.setState({ semester_id: semesterBO });
+        })
+      }
 
 
-  /** Adds the Project */
+
+
+  /** Erstellen eines Projekts */
   addProject = () => {
     let newProject = new ProjectBO(this.state.projectName, this.state.userID, this.state.projectTypeID, this.state.stateID, this.state.semesterID, this.state.assignmentID,
       this.state.projectDescription, this.state.partners, this.state.capacity, this.state.preferredRoom, this.state.bDaysPreSchedule, 
@@ -113,7 +121,7 @@ class ProjectForm extends Component {
    
     ProjectAPI.getAPI().addProject(newProject).then(project => {
       // Backend-Aufruf erfolgreich
-      // reinit the dialogs state for a new empty project
+      // Leeren des Zustandes des Dialogs für das neue leere Projekt
       this.setState(this.baseState);
       this.props.onClose(project); // das übergeordnete Objekt mit dem Project-Objekt aus dem Backend aufrufen
     }).catch(e =>
@@ -134,9 +142,9 @@ class ProjectForm extends Component {
   }
   
 
-// Update gegebenenfalls ergänzen um Projekte zu ändern
 
-  /** Handles value changes of the forms textfields and validates them */
+
+  /**  Handlerfunktion für Wertänderungen und deren Validierung in Formulartextfeldern */
   textFieldValueChange = (event) => {
     const value = event.target.value;
 
@@ -161,11 +169,6 @@ class ProjectForm extends Component {
   }
 
 
-
-  /*handleSubmit(event) {
-    event.preventDefault();
-  }*/
-
   handleChange = (event) => {
     this.setState({
         weekly: event.target.value
@@ -187,7 +190,7 @@ class ProjectForm extends Component {
 
   /** Rendern der Komponente */
   render() {
-    const { classes, show, project } = this.props;
+    const { classes, show } = this.props;
     const { projectName, projectNameValidationFailed, projectNameEdited } = this.state;
     const { projectTypeID, projectTypeIDEdited } = this.state;
     const { assignmentID, assignmentIDEdited } = this.state;
@@ -196,7 +199,7 @@ class ProjectForm extends Component {
     const { capacity } = this.state;
     const { preferredRoom } = this.state;
     const { bDaysPreSchedule } = this.state;
-    const { bDaysFinale, } = this.state;
+    const { bDaysFinale } = this.state;
     const { bDaysSaturdays } = this.state;
     const { preferredBDays } = this.state;
     const { additionalLecturer } = this.state;
@@ -399,10 +402,10 @@ ProjectForm.propTypes = {
   classes: PropTypes.object.isRequired,
 
   project: PropTypes.object,
-  /** If true, the form is rendered */
+  /** Wenn dies "true" ist, wird die Komponente gerendert */
   show: PropTypes.bool.isRequired,
   /**  
-   * Handler function which is called, when the dialog is closed.
+   * Handlerfunktion die aufgerufen wird, wenn das Dialogfenster geschlossen wird
    */
   onClose: PropTypes.func.isRequired,
 }
