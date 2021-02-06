@@ -1,13 +1,10 @@
-//Erstellen eines Projekt Objektes, nach der erstellung ist kein Update/ Edit möglich
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ProjectAPI  from '../../api/ProjectAPI';
+import ProjectBO  from '../../api/ProjectBO';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
 import { MenuItem, FormControl, InputLabel, Select, Typography, Grid, Box} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import Checkbox from '@material-ui/core/Checkbox';
-import ProjectAPI  from '../../api/ProjectAPI';
-import ProjectBO  from '../../api/ProjectBO';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 import firebase from 'firebase/app';
@@ -27,7 +24,7 @@ import 'firebase/auth';
  * 
  * Wenn hingegen das Projekt abgelehnt wird, wird das Projekt nicht weiter angezeigt.
  * Das Projekt wird dabei aber nicht gelöscht, sondern besteht weiterhin mit dem Zustand "abgelehnt".
- * Es sind dann keine weiteren Interaktionen mehr mit dem Projekt möglich.
+ * Es sind dann keine weiteren Interaktionen mehr mit dem Projekt möglich. Änderungen sind im Anschluss nicht mehr möglich.
  * 
  */
 
@@ -90,26 +87,24 @@ class ProjectForm extends Component {
 
   componentDidMount() {
     this.getLecturer();
-    this.getSemesterbyCurrentSemester();
-    
+    this.getSemesterbyCurrentSemester();  
   }
 
 
   getLecturer = () => {
-      ProjectAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid)
-          .then (userBO => {
-              this.setState({ userID: userBO.getID() });
-          })
-
+    ProjectAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid)
+      .then (userBO => {
+          this.setState({ userID: userBO.getID() });
+      })
   }
 
   
   getSemesterbyCurrentSemester = () => {
     ProjectAPI.getAPI().getSemesterbyCurrentSemester()
-        .then (semesterBO => {
-            this.setState({ semester_id: semesterBO.getID() });
-        })
-      }
+      .then (semesterBO => {
+          this.setState({ semester_id: semesterBO.getID() });
+      })
+  }
 
 
   /** Erstellen eines Projekts */
@@ -138,8 +133,6 @@ class ProjectForm extends Component {
     );
   }
   
-
-
 
   /**  Handlerfunktion für Wertänderungen und deren Validierung in Formulartextfeldern */
   textFieldValueChange = (event) => {
@@ -183,8 +176,6 @@ class ProjectForm extends Component {
 
 
 
-
-
   /** Rendern der Komponente */
   render() {
     const { classes, show } = this.props;
@@ -203,11 +194,9 @@ class ProjectForm extends Component {
     const { weekly } = this.state;
     const { addingInProgress, addingError } = this.state;
 
-
     let title = 'Neues Projekt erstellen';
     let header = 'Füllen Sie das Formular aus';
 
-    console.log(this.state);
 
     return (
       show ?
@@ -225,7 +214,6 @@ class ProjectForm extends Component {
             <TextField autoFocus type='text' required fullWidth margin='normal' id='projectName' label='Projekttitel:' value={projectName} 
                 onChange={this.textFieldValueChange} error={projectNameValidationFailed} 
                 helperText={projectNameValidationFailed ? 'Der Projekttitel muss mindestens ein Zeichen besitzen' : ' '} />
-
 
             <Typography variant="h6">Projektart</Typography>
             <FormControl className={classes.formControl}>
@@ -353,7 +341,6 @@ class ProjectForm extends Component {
                 onChange={this.textFieldValueChange} />
 
 
-
             </form>
 
             <LoadingProgress show={addingInProgress} />
@@ -375,7 +362,7 @@ class ProjectForm extends Component {
   }
 }
 
-/** Komponentenspezifisches Styeling */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
   root: {
     width: '100%',
@@ -399,8 +386,6 @@ const styles = theme => ({
 ProjectForm.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
-
-  //project: PropTypes.object,
   /** Wenn dies "true" ist, wird die Komponente gerendert */
   show: PropTypes.bool.isRequired,
   /**  

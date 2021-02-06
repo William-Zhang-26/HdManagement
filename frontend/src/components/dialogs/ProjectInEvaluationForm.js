@@ -2,88 +2,88 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ProjectAPI from '../../api/ProjectAPI';
+import ProjectBO from '../../api/ProjectBO';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, ListItemText } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import ProjectAPI from '../../api/ProjectAPI';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
-import ProjectBO from '../../api/ProjectBO';
 
 
 class ProjectInEvaluationForm extends Component {
 
-    constructor(props) {
-      super(props);
-      //Typzuweisung der Variablen
-      let n = "";
-      let u = 0;
-      let p = 0;
-      let s = 0;
-      let sid = 0;
-      let aid = 0;
-      let pd = "";
-      let ps = "";
-      let c = 0;
-      let pr = "";
-      let b = "";
-      let bf = "";
-      let bs = "";
-      let pb = "";
-      let a = "";
-      let w = "";
+  constructor(props) {
+    super(props);
+    //Typzuweisung der Variablen
+    let n = "";
+    let u = 0;
+    let p = 0;
+    let s = 0;
+    let sid = 0;
+    let aid = 0;
+    let pd = "";
+    let ps = "";
+    let c = 0;
+    let pr = "";
+    let b = "";
+    let bf = "";
+    let bs = "";
+    let pb = "";
+    let a = "";
+    let w = "";
 
-      if (props.project) {
-      //Abruf der Variablen aus dem ProjectBO
-        n = props.project.getName();
-        u = props.project.getUserID();
-        p = props.project.getProjectTypeID();
-        s = props.project.getStateID();
-        sid = props.project.getSemesterID();
-        aid = props.project.getAssignmentID();
-        pd = props.project.getProjectDescription();
-        ps = props.project.getPartners();
-        c = props.project.getCapacity();
-        pr = props.project.getPreferredBDays ();
-        b = props.project.getBDaysPreSchedule();
-        bf = props.project.getBDaysFinale();
-        bs = props.project.getBDaysSaturdays();
-        pd = props.project.getPreferredBDays();
-        a = props.project.getAdditionalLecturer();
-        w = props.project.getWeekly();
+    if (props.project) {
+    //Abruf der Variablen aus dem ProjectBO
+      n = props.project.getName();
+      u = props.project.getUserID();
+      p = props.project.getProjectTypeID();
+      s = props.project.getStateID();
+      sid = props.project.getSemesterID();
+      aid = props.project.getAssignmentID();
+      pd = props.project.getProjectDescription();
+      ps = props.project.getPartners();
+      c = props.project.getCapacity();
+      pr = props.project.getPreferredBDays ();
+      b = props.project.getBDaysPreSchedule();
+      bf = props.project.getBDaysFinale();
+      bs = props.project.getBDaysSaturdays();
+      pd = props.project.getPreferredBDays();
+      a = props.project.getAdditionalLecturer();
+      w = props.project.getWeekly();
 
-      }
-    
-  
-      // Init the state
-      this.state = {
-        name: n,
-        user_id: u,
-        project_type_id: p,
-        state_id: s,
-        semester_id: sid,
-        assignment_id: aid,
-        project_description: pd,
-        partners: ps,
-        capacity: c,
-        preferred_room: pr,
-        b_days_pre_schedule: b,
-        b_days_finale: bf,
-        b_days_saturdays: bs,
-        preferred_b_days: pb,
-        additional_lecturer: a,
-        weekly:w,
-
-        project: this.props.project,
-
-
-        // Ladebalken und Error
-        updatingInProgress: false,
-        updatingError: null
-
-      };
-      //der State wird als Basiszustand gespeichert
-      this.baseState = this.state;
     }
+  
+
+    // Init the state
+    this.state = {
+      name: n,
+      user_id: u,
+      project_type_id: p,
+      state_id: s,
+      semester_id: sid,
+      assignment_id: aid,
+      project_description: pd,
+      partners: ps,
+      capacity: c,
+      preferred_room: pr,
+      b_days_pre_schedule: b,
+      b_days_finale: bf,
+      b_days_saturdays: bs,
+      preferred_b_days: pb,
+      additional_lecturer: a,
+      weekly:w,
+
+      project: this.props.project,
+
+
+      // Ladebalken und Error
+      updatingInProgress: false,
+      updatingError: null
+
+    };
+    //der State wird als Basiszustand gespeichert
+    this.baseState = this.state;
+  }
 
 /** Setzen des Projekts auf in Bewertung*/
 sendProjectInEvaluation= () => {
@@ -142,9 +142,8 @@ sendProjectInEvaluation= () => {
   this.setState({
     updatingInProgress: true,                                                           // Ladeanzeige anzeigen
     updatingError: null                                                                 // Fehlermeldung deaktivieren
-  });
-} 
-
+    });
+  } 
 
 
   /** Auszuführende Anweisung beim Schließen des Dialogs */
@@ -187,7 +186,7 @@ sendProjectInEvaluation= () => {
   }
 }
 
-/** Komponentenspezifisches Styeling */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
     closeButton: {
       position: 'absolute',

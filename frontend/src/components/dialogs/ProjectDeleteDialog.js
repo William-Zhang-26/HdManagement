@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ProjectAPI  from '../../api/ProjectAPI';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import ProjectAPI  from '../../api/ProjectAPI';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
-//Entfernen eines Projektes
+//Entfernen eines Projektes aus Adminsicht
+
 class ProjectDeleteDialog extends Component {
 
   constructor(props) {
@@ -26,7 +27,7 @@ class ProjectDeleteDialog extends Component {
         deletingInProgress: false,                      //Ladeanzeige deaktivieren  
         deletingError: null                             //keine Fehlermeldung
       });
-      this.props.onClose(this.props.project);         // Die übergeordnete Komponente mit dem gelöschten Project aufrufen
+      this.props.onClose(this.props.project);           // Die übergeordnete Komponente mit dem gelöschten Project aufrufen
     }).catch(e =>
       this.setState({
         deletingInProgress: false,                      //Ladeanzeige deaktivieren 
@@ -65,7 +66,7 @@ class ProjectDeleteDialog extends Component {
               Sind Sie sicher, dass Sie das Projekt '{project.getName()} ' (ID: {project.getID()}) löschen möchten?
             </DialogContentText>
             <LoadingProgress show={deletingInProgress} />
-            <ContextErrorMessage error={deletingError} contextErrorMsg={`The project '${project.getName()} '(ID: ${project.getID()}) could not be deleted.`}
+            <ContextErrorMessage error={deletingError} contextErrorMsg={`Das Projekt '${project.getName()} '(ID: ${project.getID()}) konnte nicht gelöscht werden.`}
               onReload={this.deleteProject} />
           </DialogContent>
           <DialogActions>
@@ -83,7 +84,7 @@ class ProjectDeleteDialog extends Component {
   }
 }
 
-/** Komponentenspezifisches Styeling */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
   closeButton: {
     position: 'absolute',

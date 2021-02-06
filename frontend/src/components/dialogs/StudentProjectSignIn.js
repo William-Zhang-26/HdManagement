@@ -11,8 +11,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 
 
-//Das Fenster um Teilnehmer einem Projekt hinzuzufügen 
-
+//Das Fenster um sich als Student in ein Projekt einzuschreiben
 
 
 class StudentProjectSignIn extends Component {
@@ -114,14 +113,9 @@ class StudentProjectSignIn extends Component {
 /** Rendern der Komponente */
 render() {
   const { classes, show, project } = this.props;
-  const { module_id, student_id } = this.state;
+  const { module_id } = this.state;
 
   const { addingInProgress, addingError } = this.state;
-
-  const { value } = this.state;
-
-  console.log("Projektbereich Log:")
-  console.log(this.state);
 
 
   let title = 'In das Projekt einschreiben';
@@ -319,7 +313,7 @@ render() {
           </form>
 
           <LoadingProgress show={addingInProgress} />
-          <ContextErrorMessage error={addingError} contextErrorMsg={`Sie konnten sich nicht einschreiben`} onReload={this.addParticipation} />
+          <ContextErrorMessage error={addingError} contextErrorMsg={`Sie konnten sich nicht einschreiben.`} onReload={this.addParticipation} />
         </DialogContent>
 
         <DialogActions>
@@ -339,9 +333,7 @@ render() {
   
 
 
-
-
-/** Komponentenspezifisches Styeling */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
   root: {
     width: '100%',

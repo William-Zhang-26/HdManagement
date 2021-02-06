@@ -1,5 +1,3 @@
-//Button für Studenten, um sich von Projekten abzumelden
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
@@ -8,18 +6,19 @@ import ProjectAPI from '../../api/ProjectAPI';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
+//Das Fenster um sich als Student aus einem Projekt auszuschreiben
 
 class StudentProjectSignOut extends Component {
 
-    constructor(props) {
-      super(props);
-  
-      // Init the state
-      this.state = {
-        deletingInProgress: false,
-        deletingError: null,
-      };
-    }
+  constructor(props) {
+    super(props);
+
+    // Init the state
+    this.state = {
+      deletingInProgress: false,
+      deletingError: null,
+    };
+  }
 
 
   /** Abmelden */
@@ -52,7 +51,7 @@ class StudentProjectSignOut extends Component {
 
   /** Rendern der Komponente */
   render() {
-    const { classes, participation, show } = this.props;
+    const { classes, show } = this.props;
     const { deletingInProgress, deletingError } = this.state;
 
     return (
@@ -69,7 +68,7 @@ class StudentProjectSignOut extends Component {
               Möchten Sie sich aus dem Projekt ausschreiben?
             </DialogContentText>
             <LoadingProgress show={deletingInProgress} />
-            <ContextErrorMessage error={deletingError} contextErrorMsg={`The student could not be deleted from the project`}
+            <ContextErrorMessage error={deletingError} contextErrorMsg={`Sie konnten sich nicht abmelden.`}
               onReload={this.deleteParticipation} />
           </DialogContent>
           <DialogActions>
@@ -87,7 +86,7 @@ class StudentProjectSignOut extends Component {
   }
 }
 
-/** Komponentenspezifisches Styeling */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
     closeButton: {
       position: 'absolute',

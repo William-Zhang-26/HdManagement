@@ -6,7 +6,10 @@ import ProjectAPI  from '../../api/ProjectAPI';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
-//Das Dialog Fenster um einzelne Studenten aus der Teilnehmerliste zu entfernen
+/*Das Dialog Fenster um einzelne Studenten aus der Teilnehmerliste zu entfernen
+
+Diese Funktion ist möglich, solange das Projekt die State ID 3 (genehmigt), 4 (in Bewertung) 
+und gegebenenfalls 5 (Bewertung abgeschlossen) hat.*/
 
 
 class ParticipantDeleteDialog extends Component {
@@ -88,7 +91,7 @@ class ParticipantDeleteDialog extends Component {
   }
 }
 
-/** Komponentenspezifisches Styeling */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
   closeButton: {
     position: 'absolute',

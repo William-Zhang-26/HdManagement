@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withStyles, LinearProgress } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
+/*Hier wird der Ladebalken erstellt.*/
 
 class LoadingProgress extends Component {
 
@@ -19,7 +20,7 @@ class LoadingProgress extends Component {
   }
 }
 
-/** Komponentenspezifisches Styeling */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
   root: {
     width: '100%',

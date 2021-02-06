@@ -103,13 +103,9 @@ class ValidationForm extends Component {
 
   /** Rendern der Komponente */
   render() {
-    const { classes, show, participation } = this.props;
+    const { classes, show } = this.props;
     const { validation } = this.state;
     const { updatingInProgress, updatingError } = this.state;
-
-
-    console.log("Inhalt der Form:")
-    console.log(this.state);
 
 
     let title = 'Notenvergabe';
@@ -161,7 +157,7 @@ class ValidationForm extends Component {
             </Typography>
 
             <LoadingProgress show={updatingInProgress} />
-            <ContextErrorMessage error={updatingError} contextErrorMsg={`Es ist ein Fehler aufgetreten, lol.`} onReload={this.updateValidation} />
+            <ContextErrorMessage error={updatingError} contextErrorMsg={`Es ist ein Fehler aufgetreten.`} onReload={this.updateValidation} />
           </DialogContent>
 
           <DialogActions>
@@ -179,7 +175,7 @@ class ValidationForm extends Component {
   }
 }
 
-/** Komponentenspezifisches Styeling */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
   root: {
     width: '100%',

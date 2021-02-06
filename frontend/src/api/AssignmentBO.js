@@ -6,7 +6,7 @@ export default class AssignmentBO extends NamedBusinessObject{
         super();
     }
 
-    //Array von AssignmentBOs aus einem JSON herraus mittels der setPrototypeOf Funktion
+    //Array von AssignmentBOs aus einem JSON heraus mittels der setPrototypeOf Funktion
     static fromJSON(assignment) {
       let result = [];
 

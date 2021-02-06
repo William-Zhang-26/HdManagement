@@ -1,50 +1,49 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
-import { MenuItem, FormControl, InputLabel, Select, Typography, Grid } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
 import ProjectAPI  from '../../api/ProjectAPI';
 import ParticipationBO  from '../../api/ParticipationBO';
+import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
+import { MenuItem, FormControl, InputLabel, Select, Typography, Grid, TextField } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
-
-//Das Fenster um Teilnehmer einem Projekt hinzuzufügen 
-
+/*Das Fenster um Teilnehmer einem Projekt hinzuzufügen.
+Dabei werden Studenten ID und Modul ID erfordert. */
 
 
 class ParticipationForm extends Component {
 
-    constructor(props) {
-      super(props);
+  constructor(props) {
+    super(props);
 
-      let pid = 0;
+    let pid = 0;
 
-      //Abruf der Variablen aus dem ProjectBO
-      if (props.project) {
-        pid = props.project.getID();
-      }
-        
-      // Init the state
-        this.state = {
-            module_id: 0,
-            student_id: 0,
-            project_id: pid,
-
-      // Ladebalken und Error
-            addingInProgress: false,
-            addingError: null
-
-        };
-        
-        this.baseState = this.state;
+    //Abruf der Variablen aus dem ProjectBO
+    if (props.project) {
+      pid = props.project.getID();
     }
+      
+    // Init the state
+      this.state = {
+          module_id: 0,
+
+          student_id: 0,
+          studentIDValidationFailed: false,
+
+          project_id: pid,
+
+          // Ladebalken und Error
+          addingInProgress: false,
+          addingError: null
+      };
+      
+      this.baseState = this.state;
+  }
 
 
-
-
-/** Hinzufügen einer Teilnahme für ein Projekt */
-addParticipation = () => {
+  /** Hinzufügen einer Teilnahme für ein Projekt */
+  addParticipation = () => {
     let newParticipation = new ParticipationBO( this.state.module_id, this.state.project_id, this.state.student_id, 1 ); 
    
     ProjectAPI.getAPI().addParticipation(newParticipation).then(participation => {
@@ -65,8 +64,6 @@ addParticipation = () => {
         addingError: null             // Fehlermeldung deaktivieren
     }
     );
-    console.log("erstelltes Projekt:")
-    console.log(newParticipation)
   }
 
   /** Auszuführende Anweisung beim Schließen des Dialogs */
@@ -99,19 +96,11 @@ addParticipation = () => {
     });}
 
 
-
 /** Rendern der Komponente */
 render() {
   const { classes, show, project } = this.props;
-  const { module_id, student_id } = this.state;
-
+  const { module_id, student_id, studentIDValidationFailed } = this.state;
   const { addingInProgress, addingError } = this.state;
-
-  const { value } = this.state;
-
-  console.log("Projektbereich Log:")
-  console.log(this.state);
-
 
   let title = 'Neuen Teilnehmer hinzufügen';
   let header = 'Füllen Sie das Formular aus';
@@ -307,11 +296,14 @@ render() {
                                 : null }
 
 
-          <TextField autoFocus type='number' required fullWidth margin='normal' id='student_id' label='Studenten ID:' value={student_id} onChange={this.textFieldValueChange} />
+          <TextField autoFocus type='number' required fullWidth margin='normal' id='student_id' label='Studenten ID:' value={student_id}
+          onChange={this.textFieldValueChange} error={studentIDValidationFailed} 
+          helperText={studentIDValidationFailed ? 'Es muss eine Studenten ID eingegeben werden' : ' '} />
+
           </form>
 
           <LoadingProgress show={addingInProgress} />
-          <ContextErrorMessage error={addingError} contextErrorMsg={`Der Teilnehmer konnte nicht hinzugefügt werden`} onReload={this.addParticipation} />
+          <ContextErrorMessage error={addingError} contextErrorMsg={`Der Teilnehmer konnte nicht hinzugefügt werden. Überprüfen Sie, ob Sie alle Pflichtfelder ausgefüllt haben.`} onReload={this.addParticipation} />
         </DialogContent>
 
         <DialogActions>
@@ -319,7 +311,7 @@ render() {
             Abbrechen
           </Button>
 
-          <Button variant='contained' onClick={this.addParticipation} color='primary'>
+          <Button disabled={studentIDValidationFailed} variant='contained' onClick={this.addParticipation} color='primary'>
             Hinzufügen
           </Button>
         </DialogActions>
@@ -330,10 +322,7 @@ render() {
 }
   
 
-
-
-
-/** Komponentenspezifisches Styeling */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
   root: {
     width: '100%',

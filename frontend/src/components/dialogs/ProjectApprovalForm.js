@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, ListItemText } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
 import ProjectAPI from '../../api/ProjectAPI';
+import ProjectBO from '../../api/ProjectBO';
+import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
-import ProjectBO from '../../api/ProjectBO';
 
-//Genehmigen eines Kurses aus Admin Sicht --> Ändern des Status
+//Genehmigen eines Kurses aus Admin Sicht --> Ändern des Status zu "Genehmigt"
 
 class ProjectApprovalForm extends Component {
 
@@ -82,66 +82,65 @@ class ProjectApprovalForm extends Component {
       this.baseState = this.state;
     }
 
-/** Ändern des States */
-updateStateApproved= () => {
-  // Duplizieren des ProjectBOs im Falle eines Fehlerhaften API-Calls
-  let updatedState = Object.assign(new ProjectBO(), this.props.project);
-  
-  // setzen der neuen Attribute vom Dialog
-  updatedState.setName(this.state.name);
-  updatedState.setUserID(this.state.user_id);
-  updatedState.setProjectTypeID(this.state.project_type_id);
-  updatedState.setStateID(3);
-  updatedState.setSemesterID(this.state.semester_id);
-  updatedState.setAssignmentID(this.state.assignment_id);
-  updatedState.setProjectDescription(this.state.project_description);
-  updatedState.setPartners(this.state.partners);
-  updatedState.setCapacity(this.state.capacity);
-  updatedState.setPreferredBDays(this.state.preferred_b_days);
-  updatedState.setBDaysPreSchedule(this.state.b_days_pre_schedule);
-  updatedState.setBDaysFinale(this.state.b_days_finale);
-  updatedState.setBDaysSaturdays(this.state.b_days_saturdays);
-  updatedState.setPreferredBDays(this.state.preferred_b_days);
-  updatedState.setAdditionalLecturer(this.state.additional_lecturer);
-  updatedState.setWeekly(this.state.weekly);
+  /** Ändern des States */
+  updateStateApproved = () => {
+    // Duplizieren des ProjectBOs im Falle eines Fehlerhaften API-Calls
+    let updatedState = Object.assign(new ProjectBO(), this.props.project);
+    
+    // setzen der neuen Attribute vom Dialog
+    updatedState.setName(this.state.name);
+    updatedState.setUserID(this.state.user_id);
+    updatedState.setProjectTypeID(this.state.project_type_id);
+    updatedState.setStateID(3);
+    updatedState.setSemesterID(this.state.semester_id);
+    updatedState.setAssignmentID(this.state.assignment_id);
+    updatedState.setProjectDescription(this.state.project_description);
+    updatedState.setPartners(this.state.partners);
+    updatedState.setCapacity(this.state.capacity);
+    updatedState.setPreferredBDays(this.state.preferred_b_days);
+    updatedState.setBDaysPreSchedule(this.state.b_days_pre_schedule);
+    updatedState.setBDaysFinale(this.state.b_days_finale);
+    updatedState.setBDaysSaturdays(this.state.b_days_saturdays);
+    updatedState.setPreferredBDays(this.state.preferred_b_days);
+    updatedState.setAdditionalLecturer(this.state.additional_lecturer);
+    updatedState.setWeekly(this.state.weekly);
 
-  ProjectAPI.getAPI().updateProject(updatedState).then(project => {
+    ProjectAPI.getAPI().updateProject(updatedState).then(project => {
+      this.setState({
+        updatingInProgress: false,                        //Ladeanzeige deaktivieren 
+        updatingError: null                               //keine Fehlermeldung
+      });
+                                                          // den neuen Zustand als Basiszustand beibehalten
+      this.baseState.name = this.state.name;
+      this.baseState.user_id = this.state.user_id;
+      this.baseState.project_type_id = this.state.project_type_id;
+      this.baseState.state_id = this.state.state_id;
+      this.baseState.semester_id = this.state.semester_id;
+      this.baseState.assignment_id = this.state.assignment_id;
+      this.baseState.project_description = this.state.project_description;
+      this.baseState.partners = this.state.partners;
+      this.baseState.capacity = this.state.capacity;
+      this.baseState.preferred_b_days = this.state.preferred_b_days;
+      this.baseState.b_days_pre_schedule = this.state.b_days_pre_schedule;
+      this.baseState.b_days_finale = this.state.b_days_finale;
+      this.baseState.b_days_saturdays = this.state.b_days_saturdays;
+      this.baseState.preferred_b_days = this.state.preferred_b_days;
+      this.baseState.additional_lecturer = this.state.additional_lecturer;
+      this.baseState.weekly = this.state.weekly;
+      this.props.onClose(updatedState);                     // Die übergeordnete Komponente mit dem State aufrufen
+    }).catch(e =>
+      this.setState({
+        updatingInProgress: false,                          //Ladeanzeige deaktivieren
+        updatingError: e                                    // Anzeigen Fehlermeldung
+      })
+    );
+
+    // Setzen des Laden auf true
     this.setState({
-      updatingInProgress: false,                        //Ladeanzeige deaktivieren 
-      updatingError: null                               //keine Fehlermeldung
+      updatingInProgress: true,                           // Ladeanzeige anzeigen
+      updatingError: null                                 //Fehlermeldung deaktivieren
     });
-                                                        // den neuen Zustand als Basiszustand beibehalten
-    this.baseState.name = this.state.name;
-    this.baseState.user_id = this.state.user_id;
-    this.baseState.project_type_id = this.state.project_type_id;
-    this.baseState.state_id = this.state.state_id;
-    this.baseState.semester_id = this.state.semester_id;
-    this.baseState.assignment_id = this.state.assignment_id;
-    this.baseState.project_description = this.state.project_description;
-    this.baseState.partners = this.state.partners;
-    this.baseState.capacity = this.state.capacity;
-    this.baseState.preferred_b_days = this.state.preferred_b_days;
-    this.baseState.b_days_pre_schedule = this.state.b_days_pre_schedule;
-    this.baseState.b_days_finale = this.state.b_days_finale;
-    this.baseState.b_days_saturdays = this.state.b_days_saturdays;
-    this.baseState.preferred_b_days = this.state.preferred_b_days;
-    this.baseState.additional_lecturer = this.state.additional_lecturer;
-    this.baseState.weekly = this.state.weekly;
-    this.props.onClose(updatedState);                     // Die übergeordnete Komponente mit dem State aufrufen
-  }).catch(e =>
-    this.setState({
-      updatingInProgress: false,                          //Ladeanzeige deaktivieren
-      updatingError: e                                    // Anzeigen Fehlermeldung
-    })
-  );
-
-  // Setzen des Laden auf true
-  this.setState({
-    updatingInProgress: true,                           // Ladeanzeige anzeigen
-    updatingError: null                                 //Fehlermeldung deaktivieren
-  });
-} 
-
+  } 
 
 
   /** Auszuführende Anweisung beim Schließen des Dialogs */
@@ -184,29 +183,29 @@ updateStateApproved= () => {
   }
 }
 
-/** Komponentenspezifisches Styeling */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
-    closeButton: {
-      position: 'absolute',
-      right: theme.spacing(1),
-      top: theme.spacing(1),
-      color: theme.palette.grey[500],
-    }
-  });
-  
-  /** PropTypes */
-  ProjectApprovalForm.propTypes = {
-    /** @ignore */
-    classes: PropTypes.object.isRequired,
-  
-    // Das ProjectBO zum Ändern des States
-    project: PropTypes.object.isRequired,
-  
-    /** Wenn true, wird der Dialog gerendert */
-    show: PropTypes.bool.isRequired,
-    
-    /** Handler-Funktion, die aufgerufen wird, wenn der Dialog geschlossen wird. */
-    onClose: PropTypes.func.isRequired,
+  closeButton: {
+    position: 'absolute',
+    right: theme.spacing(1),
+    top: theme.spacing(1),
+    color: theme.palette.grey[500],
   }
+});
   
-  export default withStyles(styles)(ProjectApprovalForm);
+/** PropTypes */
+ProjectApprovalForm.propTypes = {
+  /** @ignore */
+  classes: PropTypes.object.isRequired,
+
+  // Das ProjectBO zum Ändern des States
+  project: PropTypes.object.isRequired,
+
+  /** Wenn true, wird der Dialog gerendert */
+  show: PropTypes.bool.isRequired,
+  
+  /** Handler-Funktion, die aufgerufen wird, wenn der Dialog geschlossen wird. */
+  onClose: PropTypes.func.isRequired,
+}
+
+export default withStyles(styles)(ProjectApprovalForm);

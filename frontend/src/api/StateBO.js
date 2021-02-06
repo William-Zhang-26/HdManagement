@@ -9,10 +9,6 @@ export default class StateBO extends NamedBusinessObject /*extends NamedBusiness
         this.state = aState;
     }
 
-    // dundermethod übetragen: Wie geht das?
-
-
-
 
     //Array von StudentBOs aus einem JSON herraus mittels der setPrototypeOf fkt
     static fromJSON(states) {

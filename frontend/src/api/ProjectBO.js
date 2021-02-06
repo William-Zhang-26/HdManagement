@@ -1,20 +1,7 @@
-import NamedBusinessObject from './NamedBusinessObject';
+import AutomatBO from './AutomatBO';
 
-/** Unstimmigkeiten mit dem Backend:
- * 
- * - weekly muss ein bool sein
- * - preferred room muss ein bool sein
- * - Project_category gibt es gar nicht?
- * 
- */
 
-export default class ProjectBO extends NamedBusinessObject {
-
-    /*static s_new = "neu"
-    static s_approved = "genehmigt"
-    static s_dismissed = "abgelehnt"
-    static s_inreview = "in Bewertung"
-    static s_reviewed = "Bewertung abgeschlossen"*/
+export default class ProjectBO extends AutomatBO {
 
     //Konstruktorklasse, welche ein Projekttypen BO erstellt mit den abgebildeten Attributen
     constructor(aName, aUserID, aProjectTypeID, aStateID,  aSemesterID, aAssignmentID, aProjectDescription, aPartners, aCapacity, aPreferredRoom, aBDaysPreSchedule,

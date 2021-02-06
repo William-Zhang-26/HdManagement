@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, ListItemText } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
 import ProjectAPI from '../../api/ProjectAPI';
+import ProjectBO from '../../api/ProjectBO';
+import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
-import ProjectBO from '../../api/ProjectBO';
 
-//Wenn ein Dozent alle Teilnehmer bewertet hat, muss er die Bewertung abschließen
+//Wenn ein Dozent alle Teilnehmer bewertet hat, muss er die Bewertung abschließen. Dies kann auch der Admin machen.
 
 class ProjectEvaluatedForm extends Component {
 
     constructor(props) {
       super(props);
+
       //Typzuweisung der Variablen
       let n = "";
       let u = 0;
@@ -144,13 +145,10 @@ saveProjectEvaluation= () => {
   });
 } 
 
-
-
   /** Auszuführende Anweisung beim Schließen des Dialogs */
   handleClose = () => {
     this.props.onClose(null);
   }
-
 
   /** Rendern der Komponente */
   render() {
@@ -187,7 +185,7 @@ saveProjectEvaluation= () => {
   }
 }
 
-/** Komponentenspezifisches Styeling */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
     closeButton: {
       position: 'absolute',

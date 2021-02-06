@@ -5,10 +5,11 @@ import AlertTitle from '@material-ui/lab/AlertTitle';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 import PropTypes from 'prop-types';
 
+/*Hier wird die Error Message erstellt.*/
 
 class ContextErrorMessage extends Component {
   /** StandardText welcher ausgegeben wird, wenn der ContextError erscheint */
-  #standardText = 'This should not have happend. Soooo sorry...';
+  #standardText = 'Da ist was schief gelaufen...';
 
 
   /** Rendern der Komponente */
@@ -46,7 +47,7 @@ class ContextErrorMessage extends Component {
 }
 
 
-/** Komponentenspezifisches Styeling */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
   margins: {
     marginTop: theme.spacing(2)
