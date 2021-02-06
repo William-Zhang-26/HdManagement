@@ -52,6 +52,7 @@ export default class ProjectAPI {
 
     //User bezogen
     #getUserByGoogleIdURL= (google_id) => `${this.#projectServerBaseURL}/user/${google_id}`;
+    #updateUserURL = (id) => `${this.#projectServerBaseURL}/user/${id}`;
 
     //Assignment bezogen
     #getAssignmentbyIdURL = (id) => `${this.#projectServerBaseURL}/assignment/${id}`
@@ -300,6 +301,25 @@ export default class ProjectAPI {
         })
       })
     }
+
+
+    updateUser(userBO) {
+      return this.#fetchAdvanced(this.#updateUserURL(userBO.getID()), {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json, text/plain',
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(userBO)
+      }).then((responseJSON) => {
+        // Wir erhalten immer ein Array von UserBOs.fromJSON, benötigen aber nur ein Objekt
+        let responseUserBO = UserBO.fromJSON(responseJSON)[0];
+        return new Promise(function (resolve) {
+          resolve(responseUserBO);
+        })
+      })
+    }
+    
 
 
     //Assignment bezogen

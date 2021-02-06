@@ -98,10 +98,10 @@ class LecturerProjectList extends Component {
   projectFormClosed = project => {
     // das Projekt ist nicht Null/ False und wird daher neu erstellt
     if (project) {
-      this.setState({
+      return(this.setState({
         projects: [...this.state.projects, project],
         showProjectForm: false
-      });
+      }), this.getProjects())
     } else {
       this.setState({
         showProjectForm: false
