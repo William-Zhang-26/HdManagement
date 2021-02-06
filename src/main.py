@@ -734,17 +734,17 @@ class StudentOperations(Resource):
             adm.save_student(student)
             return "Student wurde erfolgreich geändert", 200
 
-@projectmanager.route("/student/<string:google_id>")
-@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@projectmanager.param('string', 'Die Google_id des Studenten-Objekts')
-class StudentGoogleOperations(Resource):
-    @projectmanager.marshal_with(student)
+#@projectmanager.route("/student/<string:google_id>")
+#@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+#@projectmanager.param('string', 'Die Google_id des Studenten-Objekts')
+#class StudentGoogleOperations(Resource):
+#    @projectmanager.marshal_with(student)
     #@secured
-    def get(self, google_id):
-        """Auslesen eines Studenten aus der Datenbank mit der Google_id"""
-        adm = ProjectAdministration()
-        stud = adm.get_student_by_google_id(google_id)
-        return stud
+#    def get(self, google_id):
+#        """Auslesen eines Studenten aus der Datenbank mit der Google_id"""
+#        adm = ProjectAdministration()
+#        stud = adm.get_student_by_google_id(google_id)
+#        return stud
 
 @projectmanager.route("/student/<string:google_id>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
