@@ -14,11 +14,7 @@ class SemesterMapper (Mapper):
         super().__init__()
 
     def find_all(self):
-        """Auslesen aller Semesters.
-
-        :return Eine Sammlung mit Semester-Objekten, die sämtliche Semester
-                repräsentieren.
-        """
+        """Auslesen aller Semesters."""
         result = []
         cursor = self._cnx.cursor()
         command = "SELECT * FROM semester"
@@ -40,13 +36,7 @@ class SemesterMapper (Mapper):
         return result
 
     def find_by_key(self, id):
-        """Suchen eines Semesters mit vorgegebener ID-Nummer. Da diese eindeutig ist,
-        wird genau ein Objekt zurückgegeben.
-
-        :param id Primärschlüsselattribut (->DB)
-        :return Semester-Objekt, das dem übergebenen Schlüssel entspricht, None bei
-            nicht vorhandenem DB-Tupel.
-        """
+        """Suchen eines Semesters mit vorgegebener ID-Nummer."""
 
         result = []
         cursor = self._cnx.cursor()
@@ -164,10 +154,7 @@ class SemesterMapper (Mapper):
         cursor.close()
 
 
-"""Zu Testzwecken können wir diese Datei bei Bedarf auch ausführen, 
-um die grundsätzliche Funktion zu überprüfen.
 
-Anmerkung: Nicht professionell aber hilfreich..."""
 """
 if __name__ == "__main__":
     with SemesterMapper() as mapper:
