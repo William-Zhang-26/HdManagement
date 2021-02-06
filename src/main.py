@@ -20,6 +20,7 @@ from server.ProjectAdministration import ProjectAdministration
 from SecurityDecorator import secured
 
 """App und API Konfiguration"""
+
 app = Flask(__name__)
 CORS(app, resources=r'/hdmanagement/*')
 api = Api(app, version='0.1 pre-alpha', title='Hdmanagement API',
@@ -29,6 +30,7 @@ projectmanager = api.namespace('projectmanager', description='Funktionen des SSL
 """Nachfolgend werden analog zu unseren BusinessObject-Klassen transferierbare Strukturen angelegt.
 
 BusinessObject dient als Basisklasse, auf der die weiteren Strukturen Participation, Validation und NamedBusinessObject aufsetzen."""
+
 bo = api.model('BusinessObject', {
     'id': fields.Integer(attribute='_id', description='Der Unique Identifier eines Business Object'),
     'create_time': fields.Date(attribute='_create_time', description='Erstellungszeitpunkt eines Business Objects')
@@ -36,6 +38,7 @@ bo = api.model('BusinessObject', {
 
 
 """Participation, Validation und NamedBusinessObject sind BusinessObjects..."""
+
 participation = api.inherit('Participation', bo, {
     'module_id': fields.Integer(attribute='_module_id', description='Die ID des zugehörigen Moduls'),
     'project_id': fields.Integer(attribute='_project_id', description='Die ID des zugehörigen Projektes'),
@@ -55,13 +58,19 @@ nbo = api.inherit('NamedBusinessObject', bo, {
 
 NamedBusinessObject dient als Basisklasse, auf der die weiteren Strukturen Module, Project, Semester, Role und Project_type aufsetzen."""
 
+"""Zuteilung"""
+
 assignment = api.inherit('Assignment', nbo, {
 
 })
 
+"""Modul"""
+
 module = api.inherit('Module', nbo, {
     'assignment_id': fields.Integer(attribute='_assignment_id', description='Die Assignment_id von dem Modul')
 })
+
+"""Projekt"""
 
 project = api.inherit('Project', nbo, {
     'user_id': fields.Integer(attribute='_user_id', description='Die ID des zugehörigen Dozenten'),
@@ -81,6 +90,8 @@ project = api.inherit('Project', nbo, {
     'weekly': fields.String(attribute='_weekly', description='Angabe ob das Projekt wöchentlich stattfindet'),
 })
 
+"""Semester"""
+
 semester = api.inherit('Semester', nbo, {
     'current_semester': fields.Integer(attribute='_current_semester', description='Gibt an ob es das akutelle Semester ist')
 })
@@ -91,13 +102,14 @@ role = api.inherit('Role', nbo, {
     
 })
 
+"""Projekt_Txp"""
 
 project_type = api.inherit('Project_type', nbo, {
     'ects': fields.String(attribute='_ects', description='Die ECTS Punkte von dem Projekt'),
     'sws': fields.String(attribute='_sws', description='Die SWS Punkte von dem Projekt')
 })
 
-"""User&Student"""
+"""User"""
 
 user = api.inherit('User', nbo, {
     'mail': fields.String(attribute='_mail', description='Die E-Mail eines Users'),
@@ -105,23 +117,23 @@ user = api.inherit('User', nbo, {
     'role_id': fields.Integer(attribute='_role_id', description='Die ID der zugehörigen Rolle')
 })
 
+"""Student"""
+
 student = api.inherit('Student', user, {
     'user_id': fields.Integer(attribute='_user_id', description='Die ID der zugehörigen Users'),
     'course': fields.String(attribute='_course', description='Der zugehörige Kurs'),
     'matriculation_number': fields.Integer(attribute='_matriculation_number', description='Die Matrikelnummer des Studenten')
 })
 
+"""Zustand"""
+
 state = api.inherit('State', nbo, {
 
 })
 
 
-#@api.route('/hello')
-#class HelloWorld(Resource):
-#    def get(self):
-#        return jsonify({'hello': 'world'})
-
 """Assignment"""
+
 #@projectmanager.route("/assignment")
 #@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 #class AssignmentOperations(Resource):
@@ -141,7 +153,7 @@ state = api.inherit('State', nbo, {
 @projectmanager.param('id', 'Die ID des Zustand-Objekts')
 class AssignmentsOperations(Resource):
     @projectmanager.marshal_with(assignment)
-    #@secured
+    @secured
     def get(self, id):
         """Zuteilung auslesen"""
 
@@ -153,14 +165,16 @@ class AssignmentsOperations(Resource):
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class AssignmentsOperationss(Resource):
     @projectmanager.marshal_with(assignment)
-    #@secured
+    @secured
     def get(self):
         """Auslesen aller Zuteilungen aus der DB"""
         adm = ProjectAdministration()
         assign = adm.get_all_assignment()
         return assign
 
+
 """State"""
+
 #@projectmanager.route("/state")
 #@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 #class StateOperations(Resource):
@@ -182,7 +196,7 @@ class AssignmentsOperationss(Resource):
 @projectmanager.param('id', 'Die ID des Zustand-Objekts')
 class StateOperations(Resource):
     @projectmanager.marshal_with(state)
-    #@secured
+    @secured
     def get(self, id):
         """Auslesen eines Zustandes aus der DB"""
         adm = ProjectAdministration()
@@ -215,7 +229,9 @@ class StateOperations(Resource):
 #            adm.save_state(state)
 #            return "Zustand wurde erfolgreich geändert", 200
 
+
 """Module"""
+
 #@projectmanager.route("/module")
 #@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 #class ModuleOperations(Resource):
@@ -237,7 +253,7 @@ class StateOperations(Resource):
 @projectmanager.param('id', 'Die ID des Modul-Objekts')
 class ModuleOperations(Resource):
     @projectmanager.marshal_with(module)
-    #@secured
+    @secured
     def get(self, id):
         """Auslesen eines Moduls aus der DB"""
         adm = ProjectAdministration()
@@ -270,16 +286,17 @@ class ModuleOperations(Resource):
             #adm.save_module(module)
             #return "Modul wurde erfolgreich geändert", 200
 
+
+"""Modul&Zuteilung"""
+
 @projectmanager.route("/module/<int:id>/assignment")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @projectmanager.param('id', 'Die ID des Assignments-Objekts')
 class ModuleRelatedAssignmentOperations(Resource):
     @projectmanager.marshal_with(module)
-    # @secured
+    @secured
     def get(self, id):
-        """Auslesen aller Module-Objekte bzgl. eines bestimmten Assignment-Objekts.
-
-        Das Module-Objekt dessen Assignment wir lesen möchten, wird durch die id in dem URI bestimmt.
+        """Auslesen aller Module-Objekte per Zuteilungs_id
         """
         adm = ProjectAdministration()
         mdl = adm.get_assignment_by_id(id)
@@ -290,6 +307,7 @@ class ModuleRelatedAssignmentOperations(Resource):
         else:
             return "", 500
 
+
 """Participation"""
 
 @projectmanager.route("/participation")
@@ -297,7 +315,7 @@ class ModuleRelatedAssignmentOperations(Resource):
 class ParticipationOperationen(Resource):
     @projectmanager.marshal_with(participation, code=200)
     @projectmanager.expect(participation)
-    #@secured
+    @secured
     def post(self):
         """Teilnahme erstellen"""
         adm = ProjectAdministration()
@@ -313,7 +331,7 @@ class ParticipationOperationen(Resource):
 @projectmanager.param('id', 'Die ID des Teilnahme-Objekts')
 class ParticipationOperationen(Resource):
     @projectmanager.marshal_with(participation)
-    #@secured
+    @secured
     def get(self,id):
         """Auslesen einer Teilnahme aus der DB """
         adm = ProjectAdministration()
@@ -332,7 +350,7 @@ class ParticipationOperationen(Resource):
             return 'Teilnahme wurde erfolgreich aus der DB gelöscht', 200
 
     @projectmanager.expect(participation)
-    #@secured
+    @secured
     def put(self, id):
         """Teilnahme wird aktualisiert"""
         adm = ProjectAdministration()
@@ -346,24 +364,29 @@ class ParticipationOperationen(Resource):
             adm.save_participation(participation)
             return "Teilnahme wurde erfolgreich geändert", 200
 
+
+"""Alle Teilnahmen"""
+
 @projectmanager.route("/all_participations/")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class AllParticipationsOperations(Resource):
     @projectmanager.marshal_with(participation)
-    #@secured
+    @secured
     def get(self):
         """Auslesen aller vorhandenen Teilnahmen"""
         adm = ProjectAdministration()
         participations = adm.get_all_participations()
         return participations
 
+
 """Project"""
+
 @projectmanager.route('/project')
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class ProjectOperations(Resource):
     @projectmanager.marshal_with(project, code=200)
     @projectmanager.expect(project)
-    #@secured
+    @secured
     def post(self):
         """Ein neues Projekt in der DB anlegen"""
         adm = ProjectAdministration()
@@ -385,14 +408,14 @@ class ProjectOperations(Resource):
 @projectmanager.param('id', 'Die ID des Projekt-Objekts')
 class ProjectOperations(Resource):
     @projectmanager.marshal_with(project)
-    #@secured
+    @secured
     def get(self, id):
         """Auslesen eines Projektes aus der DB per ID"""
         adm = ProjectAdministration()
         project = adm.get_project_by_id(id)
         return project
 
-    #@secured
+    @secured
     def delete(self, id):
         """Löschen eines Projektes aus der DB"""
         adm = ProjectAdministration()
@@ -404,7 +427,7 @@ class ProjectOperations(Resource):
             return 'Projekt wurde erfolgreich aus der DB gelöscht', 200
 
     @projectmanager.expect(project)
-    #@secured
+    @secured
     def put(self, id):
         """Projekt wird aktualisiert"""
         adm = ProjectAdministration()
@@ -418,23 +441,29 @@ class ProjectOperations(Resource):
             adm.save_project(project)
             return "Projekt wurde erfolgreich geändert", 200
 
+
+"""Alle Projekte"""
+
 @projectmanager.route("/project/")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class ProjectOperationss(Resource):
     @projectmanager.marshal_with(project)
-    #@secured
+    @secured
     def get(self):
         """Auslesen aller Projekte aus der DB"""
         adm = ProjectAdministration()
         project = adm.get_all_projects()
         return project
 
+
+"""Projekt&User"""
+
 @projectmanager.route("/project/<int:id>/user")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @projectmanager.param('id', 'Die ID des Dozent-Objekts')
 class ProjectRelatedUserOperations(Resource):
     @projectmanager.marshal_with(project)
-    #@secured
+    @secured
     def get(self, id):
         """Auslesen aller Projekt per User_id
         """
@@ -447,12 +476,15 @@ class ProjectRelatedUserOperations(Resource):
         else:
             return "", 500
 
+
+"""Projekt&Projekt_Typ"""
+
 @projectmanager.route("/project/<int:id>/project_type")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @projectmanager.param('id', 'Die ID des Projekt_type-Objekts')
 class ProjectRelatedProject_typeOperations(Resource):
     @projectmanager.marshal_with(project)
-    #@secured
+    @secured
     def get(self, id):
         """Auslesen aller Projekt per Projekt_Typ_id
         """
@@ -465,12 +497,15 @@ class ProjectRelatedProject_typeOperations(Resource):
         else:
             return "", 500
 
+
+"""Projekt&Zuteilung"""
+
 @projectmanager.route("/project/<int:id>/assignment")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @projectmanager.param('id', 'Die ID des Assignment-Objekts')
 class ProjectRelatedAssignmentOperations(Resource):
     @projectmanager.marshal_with(project)
-    #@secured
+    @secured
     def get(self, id):
         """Auslesen aller Projekte per assignement_id
         """
@@ -484,14 +519,14 @@ class ProjectRelatedAssignmentOperations(Resource):
             return "", 500
 
 
-"Projec&Participation"
+"""Projec&Participation"""
 
 @projectmanager.route('/project/<int:id>/participation')
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @projectmanager.param('id', 'Die ID des Projekt-Objekts')
 class ProjectRelatedParticipationOperations(Resource):
     @projectmanager.marshal_with(participation)
-    #@secured
+    @secured
     def get(self, id):
         """Auslesen aller Projekte per Teilnahme_id
         """
@@ -507,13 +542,15 @@ class ProjectRelatedParticipationOperations(Resource):
         else:
             return "Project not found", 500
 
+
 """Project_type"""
+
 @projectmanager.route("/project_type")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class Project_typeOperations(Resource):
     @projectmanager.marshal_with(project_type, code=200)
     @projectmanager.expect(project_type)
-    #@secured
+    @secured
     def post(self):
         """Project Typen erstellen"""
         adm = ProjectAdministration()
@@ -529,14 +566,14 @@ class Project_typeOperations(Resource):
 @projectmanager.param('id', 'Die ID des Project_typen-Objekts')
 class Project_typeOperations(Resource):
     @projectmanager.marshal_with(project_type)
-    #@secured
+    @secured
     def get(self, id):
         """Auslesen eines Projekt Typen aus der DB"""
         adm = ProjectAdministration()
         project_type = adm.get_project_type_by_id(id)
         return project_type
 
-    #@secured
+    @secured
     def delete(self, id):
         """Löschen eines Projekt Typen aus der DB"""
         adm = ProjectAdministration()
@@ -548,7 +585,7 @@ class Project_typeOperations(Resource):
             return 'Projekt Typ wurde erfolgreich aus der DB gelöscht', 200
 
     @projectmanager.expect(project_type)
-    #@secured
+    @secured
     def put(self, id):
         """Projekt Typ wird aktualisiert"""
         adm = ProjectAdministration()
@@ -562,7 +599,9 @@ class Project_typeOperations(Resource):
             adm.save_project_type(project_type)
             return "Projekt Typ wurde erfolgreich geändert", 200
 
+
 """Role"""
+
 #@projectmanager.route("/role")
 #class RoleOperations(Resource):
 #    @projectmanager.marshal_with(role, code=200)
@@ -583,7 +622,7 @@ class Project_typeOperations(Resource):
 @projectmanager.param('id', 'Die ID des Rollen-Objekts')
 class RoleOperations(Resource):
     @projectmanager.marshal_with(role)
-    #@secured
+    @secured
     def get(self, id):
         """Auslesen einer Rolle aus der DB"""
         adm = ProjectAdministration()
@@ -616,13 +655,15 @@ class RoleOperations(Resource):
 #            adm.save_role(role)
 #            return "Rolle wurde erfolgreich geändert", 200
 
+
 """Semester"""
+
 @projectmanager.route("/semester")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class SemesterOperations(Resource):
     @projectmanager.marshal_with(semester, code=200)
     @projectmanager.expect(semester)
-    #@secured
+    @secured
     def post(self):
         """Semester erstellen"""
         adm = ProjectAdministration()
@@ -638,14 +679,14 @@ class SemesterOperations(Resource):
 @projectmanager.param('id', 'Die ID des Semester-Objekts')
 class SemesterOperations(Resource):
     @projectmanager.marshal_with(semester)
-    #@secured
+    @secured
     def get(self, id):
         """Auslesen eines Semester aus der DB"""
         adm = ProjectAdministration()
         semester = adm.get_semester_by_id(id)
         return semester
 
-    #@secured
+    @secured
     def delete(self, id):
         """Löschen eines Semester aus der DB"""
         adm = ProjectAdministration()
@@ -657,7 +698,7 @@ class SemesterOperations(Resource):
             return 'Semester wurde erfolgreich aus der DB gelöscht', 200
 
     @projectmanager.expect(semester)
-    #@secured
+    @secured
     def put(self, id):
         """Semester wird aktualisiert"""
         adm = ProjectAdministration()
@@ -671,25 +712,28 @@ class SemesterOperations(Resource):
             adm.save_semester(semester)
             return "Semester wurde erfolgreich geändert", 200
 
-    """Find Semester by Current_Semester"""
+
+"""Semester&AktuellesSemester"""
 
 @projectmanager.route("/semesterr/<int:current_semester>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class SemesterCurrentSemesterOperations(Resource):
     @projectmanager.marshal_with(semester)
-    # @secured
+    @secured
     def get(self, current_semester):
         """Auslesen eines Semesters aus der Datenbank mit dem Current Semester"""
         adm = ProjectAdministration()
         sem = adm.get_semester_by_current_semester(current_semester)
         return sem
 
+
 """Student"""
+
 @projectmanager.route("/student")
 class StudentOperations(Resource):
     @projectmanager.marshal_with(student, code=200)
     @projectmanager.expect(student)
-    #@secured
+    @secured
     def post(self):
         """Student erstellen"""
         adm = ProjectAdministration()
@@ -708,26 +752,26 @@ class StudentOperations(Resource):
 @projectmanager.param('id', 'Die ID des Studenten-Objekts')
 class StudentOperations(Resource):
     @projectmanager.marshal_with(student)
-    #@secured
+    @secured
     def get(self, id):
         """Auslesen eines Studenten aus der Datenbank per ID"""
         adm = ProjectAdministration()
         student = adm.get_student_by_id(id)
         return student
 
-#    @secured
-#    def delete(self,id):
-#        """Löschen eines Studenten aus der DB"""
-#        adm = ProjectAdministration()
-#        student = adm.get_student_by_id(id)
-#        if student is None:
-#            return 'Student konnte nicht aus der DB gelöscht werden', 500
-#        else:
-#            adm.delete_student(student)
-#            return 'Student wurde erfolgreich aus der DB gelöscht', 200
+    @secured
+    def delete(self,id):
+        """Löschen eines Studenten aus der DB"""
+        adm = ProjectAdministration()
+        student = adm.get_student_by_id(id)
+        if student is None:
+            return 'Student konnte nicht aus der DB gelöscht werden', 500
+        else:
+            adm.delete_student(student)
+            return 'Student wurde erfolgreich aus der DB gelöscht', 200
 
     @projectmanager.expect(student)
-    #@secured
+    @secured
     def put(self, id):
         """Student werden aktualisiert"""
         adm = ProjectAdministration()
@@ -741,52 +785,50 @@ class StudentOperations(Resource):
             adm.save_student(student)
             return "Student wurde erfolgreich geändert", 200
 
-#@projectmanager.route("/student/<string:google_id>")
-#@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-#@projectmanager.param('string', 'Die Google_id des Studenten-Objekts')
-#class StudentGoogleOperations(Resource):
-#    @projectmanager.marshal_with(student)
-    #@secured
-#    def get(self, google_id):
-#        """Auslesen eines Studenten aus der Datenbank mit der Google_id"""
-#        adm = ProjectAdministration()
-#        stud = adm.get_student_by_google_id(google_id)
-#        return stud
+
+"""Student&Google_id"""
 
 @projectmanager.route("/student/<string:google_id>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @projectmanager.param('google_id', 'Die Google_ID des Studenten-Objekts')
 class StudentOperationswithGoogle_id(Resource):
     @projectmanager.marshal_with(student)
-    #@secured
+    @secured
     def get(self, google_id):
         """Auslesen eines Studenten aus der Datenbank mit der Google_id"""
         adm = ProjectAdministration()
         students = adm.get_student_by_google_id(google_id)
         return students
 
+
+"""Student&User_id"""
+
 @projectmanager.route("/student/<int:user_id>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @projectmanager.param('user_id', 'Die User_ID des Studenten-Objekts')
 class StudentOperationss(Resource):
     @projectmanager.marshal_with(student)
-    #@secured
+    @secured
     def get(self, user_id):
         """Auslesen eines Studenten aus der Datenbank mit der User_id"""
         adm = ProjectAdministration()
         student = adm.get_student_by_user_id(user_id)
         return student
 
+
+"""Alle Studenten"""
+
 @projectmanager.route("/student/")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class StudentAllOperationsss(Resource):
     @projectmanager.marshal_with(student)
-    #@secured
+    @secured
     def get(self):
         """Auslesen aller Studenten"""
         adm = ProjectAdministration()
         study = adm.get_all_student()
         return study
+
 
 "Student&Participation"
 
@@ -795,7 +837,7 @@ class StudentAllOperationsss(Resource):
 @projectmanager.param('id', 'Die ID des Student-Objekts')
 class StudentRelatedParticipationOperations(Resource):
     @projectmanager.marshal_with(participation)
-    #@secured
+    @secured
     def get(self, id):
         """Auslesen aller Teilnahme-Objekte bzgl. eines bestimmten Student-Objekts.
         """
@@ -832,7 +874,9 @@ class StudentRelatedParticipationOperations(Resource):
         #else:
             #return "Student unknown", 500
 
+
 """User"""
+
 @projectmanager.route("/user")
 class UserOperations(Resource):
     @projectmanager.marshal_with(user, code=200)
@@ -853,26 +897,26 @@ class UserOperations(Resource):
 @projectmanager.param('id', 'Die ID des User-Objekts')
 class UserOperations(Resource):
     @projectmanager.marshal_with(user)
-    #@secured
+    @secured
     def get(self, id):
         """Auslesen eines Users aus der Datenbank"""
         adm = ProjectAdministration()
         user = adm.get_user_by_id(id)
         return user
 
-#    @secured
-#    def delete(self,id):
-#        """Löschen eines Users aus der DB"""
-#        adm = ProjectAdministration()
-#        user = adm.get_user_by_id(id)
-#        if user is None:
-#            return 'User konnte nicht aus der DB gelöscht werden', 500
-#        else:
-#            adm.delete_user(user)
-#            return 'User wurde erfolgreich aus der DB gelöscht', 200
+    @secured
+    def delete(self,id):
+        """Löschen eines Users aus der DB"""
+        adm = ProjectAdministration()
+        user = adm.get_user_by_id(id)
+        if user is None:
+            return 'User konnte nicht aus der DB gelöscht werden', 500
+        else:
+            adm.delete_user(user)
+            return 'User wurde erfolgreich aus der DB gelöscht', 200
 
     @projectmanager.expect(user)
-    #@secured
+    @secured
     def put(self, id):
         """User wird aktualisiert"""
         adm = ProjectAdministration()
@@ -886,12 +930,15 @@ class UserOperations(Resource):
             adm.save_user(user)
             return "User wurde erfolgreich geändert", 200
 
+
+"""User&Google_id"""
+
 @projectmanager.route("/user/<string:google_id>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @projectmanager.param('string', 'Die Google_id des Users-Objekts')
 class UserGoogleOperations(Resource):
     @projectmanager.marshal_with(user)
-    #@secured
+    @secured
     def get(self, google_id):
         """Auslesen eines Users aus der Datenbank mit der Google_id"""
         adm = ProjectAdministration()
@@ -931,7 +978,9 @@ class UserGoogleOperations(Resource):
 #        else:
 #            return '', 500
 
+
 """Validation"""
+
 #@projectmanager.route("/validation")
 #@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 #class ValidationOperations(Resource):
@@ -953,7 +1002,7 @@ class UserGoogleOperations(Resource):
 @projectmanager.param('id', 'Die ID des Bewertungs-Objekts')
 class ValidationOperations(Resource):
     @projectmanager.marshal_with(validation)
-    #@secured
+    @secured
     def get(self, id):
         """Auslesen einer Bewertung aus der DB"""
         adm = ProjectAdministration()
