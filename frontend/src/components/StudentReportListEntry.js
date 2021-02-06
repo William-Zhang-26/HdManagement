@@ -20,7 +20,8 @@ class StudentReportListEntry extends Component {
         project: null,
         module: null,
         validation: null,
-        googleUID: firebase.auth().currentUser.uid
+        googleUID: firebase.auth().currentUser.uid,
+        projecttype: null
       };
     }
 
@@ -28,9 +29,18 @@ class StudentReportListEntry extends Component {
     getProjectbyID = () => {
       ProjectAPI.getAPI().getProjectbyId(this.state.participation.getProjectID())
           .then (participationBOs => {
-              this.setState({ project: participationBOs });
+              return (this.setState({ project: participationBOs }),
+              this.getProjecttypeForProject())
           })
         }
+
+    getProjecttypeForProject = () => {
+        ProjectAPI.getAPI().getProjecttypebyId(this.state.project.getProjectTypeID())
+            .then (ProjecttypeBO => {
+                this.setState({ projecttype: ProjecttypeBO });
+            })
+        }
+        
 
 
     getModulebyID = () => {
@@ -67,20 +77,21 @@ class StudentReportListEntry extends Component {
 
   /** Rendern der Komponente*/
   render() {
-    const { classes, expandedState } = this.props;
-    const { participation, project, module, validation, student} = this.state;
+    const { classes } = this.props;
+    const { participation, project, module, validation, student, projecttype} = this.state;
 
 
     return (
       <div>
 
-      { project && module && validation && student && participation.getStudentID()=== student.getID()? 
+      { project && projecttype && module && validation && student && participation.getStudentID()=== student.getID()? 
 
       <Grid>
           <Paper elevation={3} >
             <List>
                 <ListItem className = {classes.font}>{project.getName()}</ListItem>
                 <ListItem>Projektbeschreibung: {project.getProjectDescription()}</ListItem> 
+                <ListItem>Projektkategorie: {projecttype.getName()} </ListItem>
                 <ListItem>Modul: {module.getEDV_number()} {module.getName()}</ListItem> 
 
                 { participation.getValidationID() !== 1 && participation.getValidationID() !== 14 && participation.getValidationID() !== 15 ? <ListItem>Note: {validation.getGrade()}</ListItem> : null }

@@ -7,6 +7,8 @@ import StateBO from './StateBO';
 import StudentBO from './StudentBO';
 import UserBO from './UserBO';
 import ValidationBO from './ValidationBO';
+import ProjectTypeBO from './ProjectTypeBO';
+
 
 
 export default class ProjectAPI {
@@ -29,6 +31,9 @@ export default class ProjectAPI {
     #deleteProjectURL = (id) => `${this.#projectServerBaseURL}/project/${id}`;
     #updateProjectURL = (id) => `${this.#projectServerBaseURL}/project/${id}`;
 
+    //Projekttyp bezogen
+    #getProjecttypebyIdURL = (id) => `${this.#projectServerBaseURL}/project_type/${id}`;
+    
     //Teilnahme bezogen
     #updateValidationURL = (id) => `${this.#projectServerBaseURL}/participation/${id}`;
     #getParticipationsURL = () => `${this.#projectServerBaseURL}/all_participations/`;
@@ -147,6 +152,17 @@ export default class ProjectAPI {
       })
     }
 
+    //Projekttyp bezogen
+
+    getProjecttypebyId(projecttypeID) {
+      return this.#fetchAdvanced(this.#getProjecttypebyIdURL(projecttypeID)).then((responseJSON) => {
+        // Wir erhalten immer ein Array von ProjectTypeBOs.fromJSON, benötigen aber nur ein Objekt
+        let responseProjecttypeBO = ProjectTypeBO.fromJSON(responseJSON)[0];
+        return new Promise(function (resolve) {
+          resolve(responseProjecttypeBO);
+        })
+      })
+    }
 
     //Teilnahme bezogen
 

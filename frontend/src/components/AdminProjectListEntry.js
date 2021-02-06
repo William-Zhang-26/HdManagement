@@ -31,6 +31,7 @@ class AdminProjectListEntry extends Component {
         showProjectInEvaluation: false,
         disabled: true,
         assignment: null,
+        projecttype: null
       };
     }
 
@@ -70,6 +71,12 @@ class AdminProjectListEntry extends Component {
         })
     }
   
+  getProjecttypeForProject = () => {
+    ProjectAPI.getAPI().getProjecttypebyId(this.props.project.getProjectTypeID())
+          .then (ProjecttypeBO => {
+              this.setState({ projecttype: ProjecttypeBO });
+          })
+      }
   
 
 
@@ -159,6 +166,7 @@ class AdminProjectListEntry extends Component {
   componentDidMount() {
     this.getStatebyID();
     this.getAssignmentForProject();
+    this.getProjecttypeForProject();
   }
 
 
@@ -166,12 +174,12 @@ class AdminProjectListEntry extends Component {
   render() {
     const { classes, expandedState } = this.props;
     // Use the states project
-    const { project, state, showProjectDeleteDialog, showApprovedForm, showRejectedForm, showProjectInEvaluation, assignment } = this.state;
+    const { project, state, showProjectDeleteDialog, showApprovedForm, showRejectedForm, showProjectInEvaluation, assignment, projecttype } = this.state;
 
  
     return (
       <div>
-      { assignment && state ?
+      { assignment && state && projecttype ?
 
       <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary
@@ -198,13 +206,14 @@ class AdminProjectListEntry extends Component {
           <AccordionDetails>
             <List>
             <ListItem>Projektbeschreibung: {project.getProjectDescription()} </ListItem>
+            <ListItem>Projektkategorie: {projecttype.getName()} </ListItem>
             <ListItem>Projektart: {assignment.getName()} </ListItem>
             <ListItem>Betreuende Dozenten: {project.getAdditionalLecturer()} </ListItem>  
             <ListItem>Externe Partner: {project.getPartners()} </ListItem>
             <ListItem>Kapazität: {project.getCapacity()} </ListItem>
             <Box p={1}></Box>
             <ListItem className ={classes.font}>Raum- und Ressourenplanung</ListItem>
-            <ListItem>Wöchentlicher Kurs: {project.getWeekly() === 1 ? 'Ja' : 'Nein'} </ListItem>
+            <ListItem>Wöchentlicher Kurs: {project.getWeekly() === "1" ? 'Ja' : 'Nein'} </ListItem>
             <ListItem>Anzahl der Blocktage vor der Vorlesungszeit: {project.getBDaysPreSchedule()} </ListItem>
             <ListItem>Anzahl der Blocktage in der Prüfungszeit: {project.getBDaysFinale()} </ListItem>            
             <ListItem>Anzahl der Blocktage in der Vorlesungszeit (Samstage): {project.getBDaysSaturdays()} </ListItem>
