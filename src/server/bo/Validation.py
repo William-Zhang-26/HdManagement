@@ -1,10 +1,9 @@
 from server.bo.BusinessObject import BusinessObject
 
-
 class Validation(BusinessObject):
-    """Realisierung der Bewertung eines Projektes
     """
-
+    Realisierung der Bewertung eines Projektes
+    """
     def __init__(self):
         super().__init__()
         self._grade = float

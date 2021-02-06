@@ -71,6 +71,8 @@ class ParticipationMapper (Mapper):
         return result
 
     def find_by_module(self, id):
+        """Suchen einer Teilnahme anhand der Module_ID.
+        """
 
         result = []
         cursor = self._cnx.cursor()
@@ -97,6 +99,8 @@ class ParticipationMapper (Mapper):
         return result
 
     def find_by_project(self, id):
+        """Suchen einer Teilnahme anhand der Project_ID.
+        """
 
         result = []
         cursor = self._cnx.cursor()
@@ -123,6 +127,8 @@ class ParticipationMapper (Mapper):
         return result
 
     def find_by_student(self, id):
+        """Suchen einer Teilnahme anhand der Student_ID.
+        """
 
         result = []
         cursor = self._cnx.cursor()
@@ -149,6 +155,8 @@ class ParticipationMapper (Mapper):
         return result
 
     def find_by_validation(self, id):
+        """Suchen einer Teilnahme anhand der Validation_ID.
+        """
 
         result = []
         cursor = self._cnx.cursor()

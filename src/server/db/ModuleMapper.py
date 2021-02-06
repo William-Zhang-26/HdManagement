@@ -87,7 +87,7 @@ class ModuleMapper (Mapper):
         return result
 
     def find_by_assignment_id(self, assignment_id):
-        """Suchen eines Moduls anhand desen Namen"""
+        """Suchen eines Moduls anhand desen Assignment_id"""
 
         result = []
         cursor = self._cnx.cursor()

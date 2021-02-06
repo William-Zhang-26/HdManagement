@@ -1,7 +1,8 @@
 from server.bo.BusinessObject import BusinessObject
 
 class Participation(BusinessObject):
-    """Realisierung einer Teilnahme an den Projekten
+    """
+    Realisierung einer Teilnahme an den Projekten
     """
 
     def __init__(self):

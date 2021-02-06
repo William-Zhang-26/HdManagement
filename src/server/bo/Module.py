@@ -1,10 +1,9 @@
 from server.bo.NamedBusinessObject import NamedBusinessObject
 
-
 class Module(NamedBusinessObject):
-    """Realisierung eines Moduls
     """
-
+    Realisierung eines Moduls
+    """
     def __init__(self):
         super().__init__()
         self._assignment_id = 0
