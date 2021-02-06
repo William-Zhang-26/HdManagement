@@ -82,7 +82,7 @@ project = api.inherit('Project', nbo, {
 })
 
 semester = api.inherit('Semester', nbo, {
-    'current_semester': fields.Boolean(attribute='_current_semester', description='Gibt an ob es das akutelle Semester ist')
+    'current_semester': fields.Integer(attribute='_current_semester', description='Gibt an ob es das akutelle Semester ist')
 })
 
 """Rolle"""
@@ -676,6 +676,19 @@ class SemesterOperations(Resource):
             semester.set_id(id)
             adm.save_semester(semester)
             return "Semester wurde erfolgreich geändert", 200
+
+    """Find Semester by Current_Semester"""
+
+    @projectmanager.route("/semester/<int:current_semester>")
+    @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+    class SemesterCurrentSemesterOperations(Resource):
+        @projectmanager.marshal_with(semester)
+        # @secured
+        def get(self, current_semester):
+            """Auslesen eines Semesters aus der Datenbank mit dem Current Semester"""
+            adm = ProjectAdministration()
+            sem = adm.get_semester_by_current_semester(current_semester)
+            return sem
 
 """Student"""
 @projectmanager.route("/student")
