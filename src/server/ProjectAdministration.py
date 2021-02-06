@@ -70,6 +70,7 @@ class ProjectAdministration (object):
 # Module
 
     def create_module(self, name, assignment_id):
+        """Modul erstellen"""
 
         module = Module()
         module.set_name(name)
@@ -80,32 +81,39 @@ class ProjectAdministration (object):
             return mapper.insert(module)
 
     def get_all_modules(self):
+        """Alle Module ausgeben"""
         with ModuleMapper() as mapper:
             return mapper.find_all()
 
     def get_module_by_id(self, id):
+        """Modul per ID ausgeben"""
         with ModuleMapper() as mapper:
             return mapper.find_by_key(id)
 
     def get_module_by_name(self, name):
+        """Modul per Name ausgeben lassen"""
         with ModuleMapper() as mapper:
             return mapper.find_by_name(name)
 
     def get_module_by_assignment_id(self, assignment):
+        """Das Modul mit dem gegebenen Assignment auslesen."""
         with ModuleMapper() as mapper:
             return mapper.find_by_assignment_id(assignment.get_id())
 
     def save_module(self, module):
+        """Modul speichern"""
         with ModuleMapper() as mapper:
             mapper.update(module)
 
     def delete_module(self, module):
+        """Modul aus der DB löschen"""
         with ModuleMapper() as mapper:
             mapper.delete(module)
 
 # Validation
         
     def create_validation(self, grade):
+        """Bewertung erstellen"""
 
         validation = Validation()
         validation.set_grade(grade)
@@ -115,22 +123,27 @@ class ProjectAdministration (object):
             return mapper.insert(validation)
 
     def get_all_validations(self):
+        """Alle Bewertungen ausgeben"""
         with ValidationMapper() as mapper:
             return mapper.find_all()
 
     def get_validation_by_id(self, id):
+        """Bewertung per ID ausgeben"""
         with ValidationMapper() as mapper:
             return mapper.find_by_key(id)
 
     def get_validation_by_grade(self, grade):
+        """Bewertung per Note ausgeben lassen"""
         with ValidationMapper() as mapper:
             return mapper.find_by_grade(grade)
 
     def save_validation(self, validation):
+        """Bewertung speichern"""
         with ValidationMapper() as mapper:
             mapper.update(validation)
 
     def delete_validation(self, validation):
+        """Bewertung aus der DB löschen"""
         with ValidationMapper() as mapper:
             mapper.delete(validation)
 
@@ -138,6 +151,7 @@ class ProjectAdministration (object):
 # Participation
 
     def create_participation(self, module_id, project_id, student_id):
+        """Teilnahme erstellen"""
 
         participation = Participation()
         participation.set_module_id(module_id)
@@ -149,34 +163,42 @@ class ProjectAdministration (object):
             return mapper.insert(participation)
 
     def get_all_participations(self):
+        """Alle Teilnahmen ausgeben"""
         with ParticipationMapper() as mapper:
             return mapper.find_all()
 
     def get_participation_by_id(self, id):
+        """Teilnahme per ID ausgeben"""
         with ParticipationMapper() as mapper:
             return mapper.find_by_key(id)
 
     def get_participation_by_module_id(self, module_id):
+        """Teilnahme mit gegebenen Module_ID ausgeben lassen"""
         with ParticipationMapper() as mapper:
             return mapper.find_by_module(module_id)
 
     def get_participation_by_project_id(self, project_id):
+        """Teilnahme mit gegebenen Project_ID ausgeben lassen"""
         with ParticipationMapper() as mapper:
             return mapper.find_by_project(project_id)
 
     def get_participation_by_student_id(self, student_id):
+        """Teilnahme mit gegebenen Student_ID ausgeben lassen"""
         with ParticipationMapper() as mapper:
             return mapper.find_by_student(student_id)
 
     def get_participation_by_validation_id(self, validation_id):
+        """Teilnahme mit gegebenen Validation_ID ausgeben lassen"""
         with ParticipationMapper() as mapper:
             return mapper.find_by_validation(validation_id)
 
     def save_participation(self, participation):
+        """Teilnahme speichern"""
         with ParticipationMapper() as mapper:
             mapper.update(participation)
 
     def delete_participation(self, participation):
+        """Teilnahme aus der DB löschen"""
         with ParticipationMapper() as mapper:
             mapper.delete(participation)
 
@@ -389,7 +411,7 @@ class ProjectAdministration (object):
 # Semester
 
     def create_semester(self, name, current_semester):
-        """Einen Semester anlegen"""
+        """Ein Semester anlegen"""
         semester = Semester()
         semester.set_name(name)
         semester.set_current_semester(current_semester)
@@ -414,7 +436,7 @@ class ProjectAdministration (object):
             return mapper.find_by_name(name)
 
     def get_semester_by_current_semester(self, current_semester):
-        """Das Semester mit der gegebenen Semester Zahl auslesen."""
+        """Das aktuelle Semester auslesen."""
         with SemesterMapper() as mapper:
             return mapper.find_by_current_semester(current_semester)
 
