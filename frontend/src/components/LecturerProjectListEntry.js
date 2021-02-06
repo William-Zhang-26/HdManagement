@@ -11,6 +11,11 @@ import SendIcon from '@material-ui/icons/Send';
 import indigo from '@material-ui/core/colors/indigo';
 
 
+/**  
+ * Hier wird ein Projekt des angemeldeten Dozenten mit den zugehörigen Projektinhalten angezeigt.
+ */
+
+
 class LecturerProjectListEntry extends Component {
 
     constructor(props) {
@@ -19,7 +24,6 @@ class LecturerProjectListEntry extends Component {
       // Init the state
       this.state = {
         project: props.project,
-        //state: null,
         showProjectForm: false,
         showProjectInEvaluation: false,
         disabled: true,
@@ -28,14 +32,14 @@ class LecturerProjectListEntry extends Component {
       };
     }
 
-  /** Handles onChange events of the underlying ExpansionPanel */
+  /** Handlerfunktion für Veränderungen des Aufklapp-Panels */
   expansionPanelStateChanged = () => {
     this.props.onExpandedStateChange(this.props.project);
   }
 
 
   // Projekt in Bewertung senden
-  // Handles the onClick event of the state change button 
+  /**Handlerfunktion die aufgerufen wird, wenn der "In Bewertung senden" Knopf gedrückt wurde*/
   sendProjectInEvaluationClicked = (event) => {
     event.stopPropagation();
     this.setState({
@@ -44,7 +48,7 @@ class LecturerProjectListEntry extends Component {
   }
 
 
-  /** Handles the onClose event of the ProjectInEvaluationForm */
+  /** Handlerfunktion die aufgerufen wird, wenn das "Projekt in Bewertung senden" Fenster geschlossen werden soll */
   ProjectInEvaluationFormClosed = (project) => {
     if (project) {
       return (this.setState ({
@@ -75,8 +79,7 @@ class LecturerProjectListEntry extends Component {
 
 
   getLecturer = () => {
-    ProjectAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid)   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
-    //ProjectAPI.getAPI().getStudentById()
+    ProjectAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid)   
         .then (UserBO => {
             this.setState({ user: UserBO });
         })
@@ -84,8 +87,7 @@ class LecturerProjectListEntry extends Component {
 }
 
   getStatebyID = () => {
-    ProjectAPI.getAPI().getStatebyId(this.state.project.getStateID())   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
-    //ProjectAPI.getAPI().getStudentById()
+    ProjectAPI.getAPI().getStatebyId(this.state.project.getStateID())   
         .then (projectBO => {
             this.setState({ state: projectBO });
         }).catch(e =>
@@ -107,10 +109,8 @@ class LecturerProjectListEntry extends Component {
   /** Rendern der Komponente */
   render() {
     const { classes, expandedState } = this.props;
-    // Use the states project
     const { project, state, user, showProjectInEvaluation, assignment } = this.state;
 
-    console.log(this.state);
     return (
       <div>
         { assignment && state && user && project.getUserID()=== user.getID()? 
@@ -118,11 +118,11 @@ class LecturerProjectListEntry extends Component {
       <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            id={`project${project.getID()}projectpanel-header`} //** Wozu wird hier die Project ID benötigt*/
+            id={`project${project.getID()}projectpanel-header`}
           >
             <Grid container spacing={1} justify='flex-start' alignItems='center'>
               <Grid item>
-                <Typography variant='body1' className={classes.heading}>{project.getName()} {/** Angabe des Dozenten (UserBO?)*/}
+                <Typography variant='body1' className={classes.heading}>{project.getName()}
                 </Typography>
               </Grid>
               <Grid item>
@@ -131,7 +131,7 @@ class LecturerProjectListEntry extends Component {
               </Grid>
               <Grid item xs />
               <Grid item>
-                <Typography variant='body2' color={'textSecondary'}>{state.getName()}</Typography> {/**Ergänzend steht hier die aktuelle Condition des Projektes */}
+                <Typography variant='body2' color={'textSecondary'}>{state.getName()}</Typography> 
               </Grid>
             </Grid>
           </AccordionSummary>
@@ -173,7 +173,7 @@ class LecturerProjectListEntry extends Component {
 
 
 
-/** Komponentenspezifisches Styeling */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
     root: {
       width: '100%',
@@ -190,7 +190,6 @@ LecturerProjectListEntry.propTypes = {
     /** @ignore */
     classes: PropTypes.object.isRequired,
     project: PropTypes.object.isRequired,
-    //state: PropTypes.object.isRequired,
     expandedState: PropTypes.bool.isRequired,
     onExpandedStateChange: PropTypes.func.isRequired
     }

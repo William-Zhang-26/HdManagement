@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, List, ListItem, Button } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
+import { withStyles, List, ListItem} from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import  ProjectAPI  from '../api/ProjectAPI';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import ProjectListEntryParticipants from './ProjectListEntryParticipants';
-import ProjectForm from './dialogs/ProjectForm';
 
 
 /**  
- * Hier wird die gesamte Liste angezeigt. Man sieht die eigenen Projekte und deren Teilnehmer.
+ * Hier wird die gesamte Liste aus Dozenten Sicht angezeigt. Man sieht die Projekte des angemeldeten Dozenten und deren Teilnehmer.
  */
 
 class ProjectListParticipants extends Component {
@@ -35,12 +33,8 @@ class ProjectListParticipants extends Component {
   }
 
   onExpandedStateChange = project => {
-    // Set expandend project entry to null by default
     let newID = null;
-
-    // If same project entry is clicked, collapse it else expand a new one
     if (project.getID() !== this.state.expandedProjectID) {
-      // Expand the project entry with customerID
       newID = project.getID();
     }
    
@@ -80,7 +74,7 @@ class ProjectListParticipants extends Component {
   /** Rendern der Komponente */
   render() {
     const { classes } = this.props;
-    const { projects, expandedProjectID, loadingInProgress, error } = this.state;
+    const { projects, loadingInProgress, error } = this.state;
 
 
     return (
@@ -105,7 +99,7 @@ class ProjectListParticipants extends Component {
   }
 }
 
-/** Komponentenspezifisches Styeling */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
   root: {
     width: '100%',
