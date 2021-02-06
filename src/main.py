@@ -387,7 +387,7 @@ class ProjectOperations(Resource):
     @projectmanager.marshal_with(project)
     #@secured
     def get(self, id):
-        """Auslesen eines Projektes aus der DB"""
+        """Auslesen eines Projektes aus der DB per ID"""
         adm = ProjectAdministration()
         project = adm.get_project_by_id(id)
         return project
@@ -436,9 +436,7 @@ class ProjectRelatedUserOperations(Resource):
     @projectmanager.marshal_with(project)
     #@secured
     def get(self, id):
-        """Auslesen aller Projekt-Objekte bzgl. eines bestimmten Dozenten-Objekts.
-
-        Das Dozenten-Objekt dessen Projekt wir lesen möchten, wird durch die id in dem URI bestimmt.
+        """Auslesen aller Projekt per User_id
         """
         adm = ProjectAdministration()
         proj = adm.get_user_by_id(id)
@@ -456,9 +454,7 @@ class ProjectRelatedProject_typeOperations(Resource):
     @projectmanager.marshal_with(project)
     #@secured
     def get(self, id):
-        """Auslesen aller Projekt-Objekte bzgl. eines bestimmten Projekttypen-Objekts.
-
-        Das Projekktypen-Objekt dessen Projekt wir lesen möchten, wird durch die id in dem URI bestimmt.
+        """Auslesen aller Projekt per Projekt_Typ_id
         """
         adm = ProjectAdministration()
         proje = adm.get_project_type_by_id(id)
@@ -476,9 +472,7 @@ class ProjectRelatedAssignmentOperations(Resource):
     @projectmanager.marshal_with(project)
     #@secured
     def get(self, id):
-        """Auslesen aller Projekt-Objekte bzgl. eines bestimmten Assignment-Objekts.
-
-        Das Assignment-Objekt dessen Projekt wir lesen möchten, wird durch die id in dem URI bestimmt.
+        """Auslesen aller Projekte per assignement_id
         """
         adm = ProjectAdministration()
         assign = adm.get_assignment_by_id(id)
@@ -499,7 +493,7 @@ class ProjectRelatedParticipationOperations(Resource):
     @projectmanager.marshal_with(participation)
     #@secured
     def get(self, id):
-        """Auslesen aller Teilnahme-Objekte bzgl. eines bestimmten Projekt-Objekts.
+        """Auslesen aller Projekte per Teilnahme_id
         """
         adm = ProjectAdministration()
         # Zunächst benötigen wir den durch id gegebenen Projekt.
