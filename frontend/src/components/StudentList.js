@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, List, ListItem, Button } from '@material-ui/core';
+import { withStyles, List, ListItem } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import ProjectAPI  from '../api/ProjectAPI';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import StudentListEntry from './StudentListEntry';
-
-
 
 /**  
  * Hier wird die Liste aller Studenten (für Dozenten und Admins) angezeigt.
@@ -80,7 +78,7 @@ class StudentList extends Component {
   render() {
     const { classes } = this.props;
     const { students, loadingInProgress, error } = this.state;
-    console.log(this.state);
+
 
     return (
       <div className={classes.root}>
@@ -109,7 +107,7 @@ class StudentList extends Component {
   }
 }
 
-/** Komponentenspezifisches Styeling */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
   root: {
     width: '90%',

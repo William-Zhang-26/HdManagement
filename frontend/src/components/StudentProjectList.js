@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, List, ListItem, Button } from '@material-ui/core';
-//import AddIcon from '@material-ui/icons/Add';
+import { withStyles, List, ListItem } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import ProjectAPI  from '../api/ProjectAPI';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
@@ -9,8 +8,7 @@ import LoadingProgress from './dialogs/LoadingProgress';
 import StudentProjectListEntry from './StudentProjectListEntry';
 
 /**  
- * Hier wird die Liste aus Studentensicht angezeigt. Studenten sehen alle genehmigten Projekte
- * und können sich dafür An- und Abmelden.
+ * Liste aller genehmigten Projkete eines Studentens
  */
 
 class StudentProjectList extends Component {
@@ -34,12 +32,11 @@ class StudentProjectList extends Component {
   }
 
   onExpandedStateChange = project => {
-    // Set expandend project entry to null by default
+    //Expandierenden Projekteintrag standardmäßig auf Null setzen
     let newID = null;
 
-    // If same project entry is clicked, collapse it else expand a new one
+    //Wenn derselbe Projekteintrag angeklickt wird, wird er zugeklappt, andernfalls wird ein neuer Eintrag expandiert
     if (project.getID() !== this.state.expandedProjectID) {
-      // Expand the project entry with projectID
       newID = project.getID();
     }
     this.setState({
@@ -84,8 +81,7 @@ class StudentProjectList extends Component {
       <div className={classes.root}>
         <List className={classes.projectList}>
         { 
-          // Show the list of ProjectListEntry components
-          // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
+        
           projects.map(project => <StudentProjectListEntry key={project.getID()} project={project} 
           show={this.props.show}  onExpandedStateChange={this.onExpandedStateChange}/>)
         }
@@ -103,12 +99,11 @@ class StudentProjectList extends Component {
   }
 }
 
-/** Komponentenspezifisches Styeling */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
   root: {
     width: '90%',
     marginTop: theme.spacing(3),
-    //marginRight: theme.spacing(10),
     marginLeft: theme.spacing(10),
   },
   customerFilter: {

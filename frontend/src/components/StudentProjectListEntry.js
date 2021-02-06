@@ -12,12 +12,6 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 
 
-/** Fehlende Inhalte:
- *  
- * - Aus ProjectTypeBO: Name (Fachspezifisch, Inter-, Transdisziplinär), ECTS und SWS
- * - Aus ModuleBO: EDV-Nummer
- * 
- */
 
 class StudentProjectListEntry extends Component {
 
@@ -37,8 +31,8 @@ class StudentProjectListEntry extends Component {
       };
     }
 
-  /** Handles onChange events of the underlying ExpansionPanel */
-  expansionPanelStateChanged = () => {
+    /** Handlerfunktion die aufgerufen wird, wenn Bewertung abschließen geklickt wurde */
+    expansionPanelStateChanged = () => {
     this.props.onExpandedStateChange(this.props.project);
   }
 
@@ -91,21 +85,16 @@ class StudentProjectListEntry extends Component {
   }
 
 
-  
-  /** Handles the onClick event of the add project button */
+  /** Handlerfunktion zum öffnen des Dialogfensters zur Anmeldung in einem Projekt  */
   addSignInClicked = event => {
-    // Do not toggle the expanded state
     event.stopPropagation();
-    //Show the ProjectForm
     this.setState({
       showStudentProjectSignin: true
     });
-    console.log(this.state); 
   }
 
-  /** Handles the onClose event of the ProjectForm*/
+  /** Handlerfunktion zum Schließen des Dialogfensters  */
   SignInClosed = participation => {
-    // project is not null and therefore created
     if (participation) {
       return (this.setState({
         showStudentProjectSignin: false,
@@ -116,7 +105,6 @@ class StudentProjectListEntry extends Component {
         showStudentProjectSignin: false
       });
     }
-    console.log(this.state); 
   }
 
   
@@ -125,11 +113,9 @@ class StudentProjectListEntry extends Component {
   render() {
     const { classes, expandedState } = this.props;
     const { project, participations, showStudentProjectSignin, studentParticipations, assignment } = this.state;
-    console.log('Entry:');
-    console.log(this.state);
-
+   
     const entries = studentParticipations.map(studentParticipation => studentParticipation.getProjectID())
-    console.log(entries);
+ 
 
     return (
       <div>
@@ -195,7 +181,7 @@ class StudentProjectListEntry extends Component {
 
 
 
-/** Komponentenspezifisches Styeling */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
     root: {
       width: '100%',

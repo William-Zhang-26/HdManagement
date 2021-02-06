@@ -1,21 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Typography, Grid } from '@material-ui/core';
+import { withStyles, Grid } from '@material-ui/core';
 import { List, ListItem, Paper } from '@material-ui/core';
 import indigo from '@material-ui/core/colors/indigo';
 import  ProjectAPI  from '../api/ProjectAPI';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
-
-/** Fehlende Inhalte:
- *  
- * - Aus ProjectTypeBO: Name (Fachspezifisch, Inter-, Transdisziplinär), ECTS und SWS
- * - Aus ModuleBO: EDV-Nummer
- * - Aus SemesterBO: Semester
- * - Aus ParticipationBO: Modul Name, Note
- * 
- */
 
 
 class StudentReportListEntry extends Component {
@@ -59,7 +50,6 @@ class StudentReportListEntry extends Component {
 
     getStudent = () => {
       ProjectAPI.getAPI().getStudentbyId(firebase.auth().currentUser.uid)   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
-      //ProjectAPI.getAPI().getStudentById()
           .then (studentBO => {
               this.setState({ student: studentBO });
           })
@@ -79,9 +69,7 @@ class StudentReportListEntry extends Component {
   render() {
     const { classes, expandedState } = this.props;
     const { participation, project, module, validation, student} = this.state;
-    //const { project, module, validation } = this.state;
 
-    console.log(this.state);
 
     return (
       <div>
@@ -127,7 +115,7 @@ class StudentReportListEntry extends Component {
 
 
 
-/** Komponentenspezifisches Styeling */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
     root: {
       width: '100%',
