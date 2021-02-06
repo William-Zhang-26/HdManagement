@@ -3,7 +3,7 @@ from server.db.Mapper import Mapper
 
 
 class ValidationMapper (Mapper):
-    """Mapper-Klasse, die Bewertungs-Objekte auf eine relationale
+    """Mapper-Klasse, die Validation-Objekte auf eine relationale
     Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung
     gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und
     gelöscht werden können. Das Mapping ist bidirektional. D.h., Objekte können
@@ -64,6 +64,8 @@ class ValidationMapper (Mapper):
         return result
 
     def find_by_grade(self, grade):
+        """Suchen einer Bewertung anhand der Note.
+        """
 
         result = []
         cursor = self._cnx.cursor()
