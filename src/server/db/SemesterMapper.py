@@ -95,6 +95,33 @@ class SemesterMapper (Mapper):
 
         return result
 
+    def find_by_current_semester(self, current_semester):
+        """Suchen eines Semester anhand vom Current Semester."""
+
+        result = []
+        cursor = self._cnx.cursor()
+        command = "SELECT * FROM semester WHERE current_semester like '{}'".format(current_semester)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        if len(tuples) != 0:
+
+            for (id, name, current_semester, create_time) in tuples:
+                semester = Semester()
+                semester.set_id(id)
+                semester.set_name(name)
+                semester.set_current_semester(current_semester)
+                semester.set_create_time(create_time)
+                result.append(semester)
+
+        else:
+            result = None
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+
 
     def insert(self, semester):
         """Einfügen eines Semesters in die Datenbank."""
@@ -176,13 +203,17 @@ if __name__ == "__main__":
        semester = mapper.find_by_key(11)
        semester.set_current_semester(1)
        mapper.update(semester)
-"""
+
 
 if __name__ == "__main__":
    with SemesterMapper() as mapper:
        test = mapper.find_by_key(11)
        mapper.delete(test)
 
+"""
 
-
-
+if __name__ == "__main__":
+   with SemesterMapper() as mapper:
+       p = mapper.find_by_current_semester(0)
+       for i in p:
+           print(i.get_id())
