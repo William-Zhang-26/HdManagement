@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, List, ListItem, Button } from '@material-ui/core';
-//import AddIcon from '@material-ui/icons/Add';
+import { withStyles, List, ListItem } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import  ProjectAPI  from '../api/ProjectAPI';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
@@ -9,10 +8,7 @@ import LoadingProgress from './dialogs/LoadingProgress';
 import StudentReportListEntry from './StudentReportListEntry';
 
 
-/**  
- * Hier wird die Liste aus Studentensicht angezeigt. Studenten sehen alle genehmigten Projekte
- * und können sich dafür An- und Abmelden.
- */
+/**   Hier sieht der Student all seine angemeldeten Projekte und dessen Bewertungen */
 
 class StudentReportList extends Component {
 
@@ -63,15 +59,13 @@ class StudentReportList extends Component {
   render() {
     const { classes } = this.props;
     const { participations, loadingInProgress, error} = this.state;
-    console.log(this.state);
 
     return (
       <div className={classes.root}>
         <List>
             
         { 
-          // Show the list of ProjectListEntry components
-          // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
+          
           participations.map(participation => <StudentReportListEntry key={participation.getID()} participation={participation} 
           show={this.props.show}/>)
         }
@@ -88,12 +82,11 @@ class StudentReportList extends Component {
   }
 }
 
-/** Komponentenspezifisches Styeling */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
   root: {
     width: '90%',
     marginTop: theme.spacing(3),
-    //marginRight: theme.spacing(10),
     marginLeft: theme.spacing(10),
   }
 });
