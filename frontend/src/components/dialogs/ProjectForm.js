@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
-import { MenuItem, FormControl, InputLabel, Select, Typography, Grid} from '@material-ui/core';
+import { MenuItem, FormControl, InputLabel, Select, Typography, Grid, Box} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import Checkbox from '@material-ui/core/Checkbox';
 import ProjectAPI  from '../../api/ProjectAPI';
@@ -48,9 +48,9 @@ class ProjectForm extends Component {
 
       stateID: 1,
 
-      semesterID: 1,
+      semesterID: 0,
 
-      assignmentID: 1,
+      assignmentID: 0,
 
       projectDescription: '',
       projectDescriptionValidationFailed: false,
@@ -71,16 +71,14 @@ class ProjectForm extends Component {
       
       additionalLecturer: '',
 
-      weekly: 0,
+      weekly: null,
       
 
       // Ladebalken und Error
       addingInProgress: false,
       addingError: null
     };
-
-    //this.handleChange = this.handleChange.bind(this);
-    //this.handleSubmit = this.handleSubmit.bind(this);
+    
     // Beim Schließen des Dialogs soll der Anfangszustand wieder hergestellt werden
     this.baseState = this.state;
   }
@@ -165,7 +163,7 @@ class ProjectForm extends Component {
 
   handleChange = (event) => {
     this.setState({
-        value: event.target.value
+        weekly: event.target.value
     });}
 
   handleChange2 = (event) => {
@@ -212,7 +210,7 @@ class ProjectForm extends Component {
 
     return (
       show ?
-        <Dialog open={show} open={this.getLecturer} onClose={this.handleClose} maxWidth='xs'>
+        <Dialog open={show} open={this.getLecturer} onClose={this.handleClose} width='80%'>
           <DialogTitle id='form-dialog-title'>{title}
             <IconButton className={classes.closeButton} onClick={this.handleClose}>
               <CloseIcon />
@@ -228,7 +226,7 @@ class ProjectForm extends Component {
                 helperText={projectNameValidationFailed ? 'Der Projekttitel muss mindestens ein Zeichen besitzen' : ' '} />
 
 
-            <Typography>Projektart</Typography>
+            <Typography variant="h6">Projektart</Typography>
             <FormControl className={classes.formControl}>
                 <InputLabel id="open-select-label">Bitte auswählen</InputLabel>
                 <Select
@@ -241,9 +239,11 @@ class ProjectForm extends Component {
                 </Select>
               </FormControl>
               { projectTypeID === 1 ?
-              <Grid>
-                <Typography> ECTS: 5 </Typography>
-                <Typography>SWS: 3</Typography>
+              <Grid className={classes.font}>
+                <Box p={1}></Box>
+                  <Typography> ECTS: 5 </Typography>
+                  <Typography>SWS: 3</Typography>
+                <Box p={1}></Box>
                   <FormControl className={classes.formControl}>
                       <InputLabel id="open-select-label">Projekt Kategorie</InputLabel>
                       <Select
@@ -259,9 +259,11 @@ class ProjectForm extends Component {
               </Grid>
 
               : projectTypeID === 2 ?
-              <Grid>
-                <Typography> ECTS: 10 </Typography>
-                <Typography>SWS: 5</Typography>
+              <Grid className={classes.font}>
+                <Box p={1}></Box>
+                  <Typography> ECTS: 10 </Typography>
+                  <Typography>SWS: 5</Typography>
+                <Box p={1}></Box>
                   <FormControl className={classes.formControl}>
                       <InputLabel id="open-select-label">Projekt Kategorie</InputLabel>
                       <Select
@@ -279,9 +281,11 @@ class ProjectForm extends Component {
               </Grid> 
               
               : projectTypeID === 3 ?
-              <Grid>
-                <Typography> ECTS: 20 </Typography>
-                <Typography>SWS: 10</Typography>
+              <Grid className={classes.font}>
+                <Box p={1}></Box>
+                  <Typography> ECTS: 20 </Typography>
+                  <Typography>SWS: 10</Typography>
+                <Box p={1}></Box>
                   <FormControl className={classes.formControl}>
                       <InputLabel id="open-select-label">Projekt Kategorie</InputLabel>
                       <Select
@@ -295,6 +299,7 @@ class ProjectForm extends Component {
               
               : null }
 
+            <Box p={2}></Box>
 
             <TextField type='text' required fullWidth margin='normal' id='projectDescription' label='Projektbeschreibung (Inhalt):' value={projectDescription} 
                 onChange={this.textFieldValueChange} error={projectDescriptionValidationFailed} 
@@ -309,8 +314,31 @@ class ProjectForm extends Component {
                 onChange={this.textFieldValueChange} />
 
 
-            <TextField type='text' required fullWidth margin='normal' id='preferredRoom' label='Besonderer Raum notwendig:' value={preferredRoom} 
+            <TextField type='text' required fullWidth margin='normal' id='additionalLecturer' label='Betreuende(r) ProfessorInnen:' value={additionalLecturer} 
                 onChange={this.textFieldValueChange} />
+
+
+            <Box p={2}></Box>
+
+            <Typography variant="h5">Raum- und Ressourcenplanung</Typography>
+
+
+            <FormControl className={classes.formControl}>
+                <InputLabel id="open-select-label">Wöchentlicher Kurs?</InputLabel>
+                <Select
+                  value={weekly}
+                  onChange={this.handleChange}
+                >
+                  <MenuItem value={0}>Ja</MenuItem>
+                  <MenuItem value={1}>Nein</MenuItem>
+                </Select>
+              </FormControl>
+            
+            <Box p={1}></Box>
+
+
+            <TextField type='text' required fullWidth margin='normal' id='preferredRoom' label='Besonderer Raum notwendig:' value={preferredRoom} 
+            onChange={this.textFieldValueChange} />
 
 
             <TextField type='text' required fullWidth margin='normal' id='bDaysPreSchedule' label='Blocktage vor Beginn der Vorlesungszeit:' value={bDaysPreSchedule} 
@@ -329,32 +357,6 @@ class ProjectForm extends Component {
                 onChange={this.textFieldValueChange} />
 
 
-            <TextField type='text' required fullWidth margin='normal' id='additionalLecturer' label='Betreuende(r) ProfessorInnen:' value={additionalLecturer} 
-                onChange={this.textFieldValueChange} />
-
-
-            <TextField type='text' required fullWidth margin='normal' id='weekly' label='Wöchentlich?' value={weekly} 
-                onChange={this.textFieldValueChange} />
-
-
-
-            <Typography>Raum- und Ressourcenplanung</Typography>
-
-          
-            {/*<Typography>Projektkategorie</Typography>
-            <FormControl className={classes.formControl}>
-                <InputLabel id="open-select-label">Bitte auswählen</InputLabel>
-                <Select
-                  value={value}
-                  onChange={this.handleChange}
-                >
-                  <MenuItem value={'Management 338005-338009'}>Management 338005-338009</MenuItem>
-                  <MenuItem value={'IT 338010-338014'}>IT 338010-338014</MenuItem>
-                  <MenuItem value={'Medienproduktion 338015-338019'}>Medienproduktion 338015-338019</MenuItem>
-                  <MenuItem value={'Medien/Kultur 338020-338024'}>Medien/Kultur 338020-338024</MenuItem>
-                </Select>
-              </FormControl>
-            <p>Ausgewählte Projektkategorie: {value} </p>*/}
 
             </form>
 
@@ -391,6 +393,9 @@ const styles = theme => ({
   formControl: {
     margin: theme.spacing(1),
     minWidth: 300,
+  },
+  font: {
+    top: theme.spacing(1),
   },
 });
 

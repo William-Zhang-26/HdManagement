@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
-import { List, ListItem } from '@material-ui/core';
+import { List, ListItem, Paper } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Zoom from '@material-ui/core/Zoom';
 
 
 class StudentListEntry extends Component {
@@ -35,6 +36,7 @@ class StudentListEntry extends Component {
       student ?
 
       <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
+        
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             id={`student${student.getID()}studentpanel-header`}
@@ -48,13 +50,15 @@ class StudentListEntry extends Component {
           </AccordionSummary>
           <AccordionDetails>
             <List>
-            <ListItem>ID: {student.getID()} </ListItem>
-            <ListItem>Matrikelnummer: {student.getMatriculationNumber()} </ListItem>  
-            <ListItem>Studiengang: {student.getCourse()} </ListItem>
-        
-          </List>
-          </AccordionDetails>
+              <Zoom in={true} style={{ transitionDelay: true ? '900ms' : '0ms' }}><ListItem>ID: {student.getID()} </ListItem></Zoom>
+              <Zoom in={true} style={{ transitionDelay: true ? '1400ms' : '0ms' }}><ListItem>Matrikelnummer: {student.getMatriculationNumber()} </ListItem></Zoom> 
+              <Zoom in={true} style={{ transitionDelay: true ? '1900ms' : '0ms' }}><ListItem>Studiengang: {student.getCourse()} </ListItem></Zoom>
+            </List>
+            </AccordionDetails>
+         
         </Accordion>
+
+       
 
         : null 
     );

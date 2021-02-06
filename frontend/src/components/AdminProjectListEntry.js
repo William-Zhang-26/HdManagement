@@ -205,7 +205,7 @@ class AdminProjectListEntry extends Component {
             <ListItem>Projektbeschreibung: {project.getProjectDescription()} </ListItem>
             <ListItem>Betreuuende Dozenten: {project.getAdditionalLecturer()} </ListItem>  
             <ListItem>Externe Partner: {project.getPartners()} </ListItem>
-            <ListItem>Wöchentlicher Kurs: {project.getWeekly()} </ListItem>
+            <ListItem>Wöchentlicher Kurs: {project.getWeekly() === 1 ? 'Ja' : 'Nein'} </ListItem>
             <ListItem>Anzahl der Blocktage vor der Vorlesungszeit: {project.getBDaysPreSchedule()} </ListItem>
             <ListItem>Anzahl der Blocktage in der Prüfungszeit: {project.getBDaysFinale()} </ListItem>            
             <ListItem>Anzahl der Blocktage in der Vorlesungszeit (Samstage): {project.getBDaysSaturdays()} </ListItem>
@@ -254,6 +254,11 @@ const styles = theme => ({
     root: {
       width: '100%',
       color: red[500],
+    },
+    heading: {
+      fontSize: 20,
+      color: indigo[600],
+      fontFamily: '"Segoe UI"',
     },
     replay: {
       //width: '100%',

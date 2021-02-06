@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
-import { Button, List, ListItem, ButtonGroup } from '@material-ui/core';
+import { Button, List, ListItem, ButtonGroup, Box } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import AddIcon from '@material-ui/icons/Add';
 import  ProjectAPI  from '../api/ProjectAPI';
 import StudentButtons from './StudentButtons';
 import StudentProjectSignIn from './dialogs/StudentProjectSignIn';
+import indigo from '@material-ui/core/colors/indigo';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
@@ -28,8 +29,9 @@ class StudentProjectListEntry extends Component {
         project: props.project,
         participations: [],
         showStudentProjectSignin: false,
-        currStudent: null,
+        student: null,
         studentParticipations: [],
+        disabled: true,
 
       };
     }
@@ -43,7 +45,7 @@ class StudentProjectListEntry extends Component {
   getStudent = () => {
     ProjectAPI.getAPI().getStudentbyId(firebase.auth().currentUser.uid)  
         .then (studentBO => {
-          return (this.setState({ currStudent: studentBO }),
+          return (this.setState({ student: studentBO }),
           this.getParticipationForStudent())
         })
   }
@@ -55,7 +57,7 @@ class StudentProjectListEntry extends Component {
   }
 
   getParticipationForStudent = () => {
-    ProjectAPI.getAPI().getParticipationForStudent(this.state.currStudent.getID())
+    ProjectAPI.getAPI().getParticipationForStudent(this.state.student.getID())
         .then (participationBO => {
             this.setState({ studentParticipations: participationBO });
         })
@@ -72,9 +74,10 @@ class StudentProjectListEntry extends Component {
 
   participationDeleted = participant => {
     const newParticipationList = this.state.participations.filter(participationFromState => participationFromState.getID() !== participant.getID());
-    this.setState({
+    return (this.setState({
       participations: newParticipationList,
-    });
+      disabled: true,
+    }), this.getStudent())
   }
 
 
@@ -94,9 +97,10 @@ class StudentProjectListEntry extends Component {
   SignInClosed = participation => {
     // project is not null and therefore created
     if (participation) {
-      this.setState({
-        showStudentProjectSignin: false
-      });
+      return (this.setState({
+        showStudentProjectSignin: false,
+        disabled: false,
+      }), this.getParticipations())
     } else {
       this.setState({
         showStudentProjectSignin: false
@@ -135,16 +139,16 @@ class StudentProjectListEntry extends Component {
           </AccordionSummary>
           <AccordionDetails>
             <List>
-            <ListItem>Kapazität: {project.getCapacity()} </ListItem>
             <ListItem>Projektbeschreibung: {project.getProjectDescription()} </ListItem>
             <ListItem>Betreuuende Dozenten: {project.getAdditionalLecturer()} </ListItem>  
             <ListItem>Externe Partner: {project.getPartners()} </ListItem>
-            <ListItem>Wöchentlicher Kurs: {project.getWeekly()} </ListItem>
+            <Box p={1}></Box>
+            <ListItem className ={classes.font}>Raum- und Ressourenplanung</ListItem>
+            <ListItem>Wöchentlicher Kurs: {project.getWeekly() === 1 ? 'Ja' : 'Nein'} </ListItem>
             <ListItem>Anzahl der Blocktage vor der Vorlesungszeit: {project.getBDaysPreSchedule()} </ListItem>
             <ListItem>Anzahl der Blocktage in der Prüfungszeit: {project.getBDaysFinale()} </ListItem>            
             <ListItem>Anzahl der Blocktage in der Vorlesungszeit (Samstage): {project.getBDaysSaturdays()} </ListItem>
             <ListItem>Raum: {project.getPreferredRoom()} </ListItem> 
-            <ListItem>StateID: {project.getStateID()} </ListItem> 
             <ListItem>
             { 
                 participations.map(participation => <StudentButtons key={participation.getID()} 
@@ -155,16 +159,16 @@ class StudentProjectListEntry extends Component {
               
             </ListItem> 
             <ListItem>
-              {entries.includes(project.getID())?
-
-              null
-              : <Grid item>
-              <ButtonGroup variant='text' size='small'>
+              { !entries.includes(project.getID()) && this.state.disabled ?
+              <Grid item>
+               <ButtonGroup variant='text' size='small'>
                 <Button color='primary' startIcon={<AddIcon />} onClick={this.addSignInClicked}>
                   Anmelden
                 </Button>
-              </ButtonGroup>
-            </Grid> }
+               </ButtonGroup>
+              </Grid>
+              
+              : null }
 
             </ListItem> 
           </List>
@@ -184,6 +188,15 @@ class StudentProjectListEntry extends Component {
 const styles = theme => ({
     root: {
       width: '100%',
+    },
+    heading: {
+      fontSize: 20,
+      color: indigo[600],
+      fontFamily: '"Segoe UI"',
+    },
+    font: {
+      fontSize: 16,
+      color: indigo[400],
     }
   });
   

@@ -12,14 +12,10 @@ import 'firebase/auth';
 import ProjectEvaluatedForm from './dialogs/ProjectEvaluatedForm';
 import ParticipationForm from './dialogs/ParticipationForm';
 import SendIcon from '@material-ui/icons/Send';
-import ReplayIcon from '@material-ui/icons/Replay';
 
 /** Fehlende Inhalte:
  * 
  */
-
-//Condition für alle ergänzen
-//Admin Funktionen ergänzen
 
 class AllProjectListEntryParticipants extends Component {
 
@@ -73,30 +69,29 @@ class AllProjectListEntryParticipants extends Component {
   }
 
 
-     /** Handles the onClick event of the safe evaluation button */
-     evaluatedProjectButtonClicked = event => {
-      // Do not toggle the expanded state
-      event.stopPropagation();
+    /** Handles the onClick event of the safe evaluation button */
+    evaluatedProjectButtonClicked = event => {
+    // Do not toggle the expanded state
+    event.stopPropagation();
+    this.setState({
+      showEvaluatedProject: true
+    });
+  }
+
+  /** Handles the onClose event of the ProjectEvaluationForm */
+  evaluatedProjectFormClosed = (participation) => {
+    if (participation) {
       this.setState({
-        showEvaluatedProject: true
+        participation: participation,
+        showEvaluatedProject: false,
+        disabled: false,
+      });
+    } else {
+      this.setState({
+        showEvaluatedProject: false
       });
     }
-  
-    /** Handles the onClose event of the ProjectEvaluationForm */
-    evaluatedProjectFormClosed = (participation) => {
-      if (participation) {
-        this.setState({
-          participation: participation,
-          showEvaluatedProject: false,
-          disabled: false,
-        });
-      } else {
-        this.setState({
-          showEvaluatedProject: false
-        });
-      }
-    }
-
+  }
 
 
   /** Handles the onClick event of the add project button */
@@ -170,10 +165,9 @@ class AllProjectListEntryParticipants extends Component {
       { project.getStateID() <= 4 ?
             <Grid item>
               <ButtonGroup variant='text' size='small'>
-                <Button color='primary' startIcon={<AddIcon />} onClick={this.addParticipantButtonClicked}>
-                  Teilnehmer hinzufügen
+                <Button color='secondary' startIcon={<AddIcon />} onClick={this.addParticipantButtonClicked}>
+                  Teilnehmer
                 </Button>
-                <Button className={classes.replay} startIcon={<ReplayIcon />} onClick = {this.getParticipations}/>
               </ButtonGroup>
             </Grid>
             : null}

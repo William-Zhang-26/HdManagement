@@ -8,6 +8,7 @@ import LoadingProgress from './dialogs/LoadingProgress';
 import StudentListEntry from './StudentListEntry';
 
 
+
 /**  
  * Hier wird die Liste aller Studenten (für Dozenten und Admins) angezeigt.
  */
@@ -83,14 +84,16 @@ class StudentList extends Component {
 
     return (
       <div className={classes.root}>
+        
         <List className={classes.studentList}>
+        
         { 
-          // Die students werden
           students.map(student => <StudentListEntry key={student.getID()} student={student} 
           show={this.props.show}  
           onExpandedStateChange={this.onExpandedStateChange}
           show={this.props.show}/>)
         }
+        
 
           <ListItem>
             <LoadingProgress show={loadingInProgress} />
@@ -98,6 +101,7 @@ class StudentList extends Component {
           </ListItem>
 
         </List>
+        
         
 
       </div>
