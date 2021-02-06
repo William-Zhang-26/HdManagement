@@ -14,6 +14,7 @@ import LecturerAdminHeader from './components/layout/LecturerAdminHeader';
 import StudentProjectList from './components/StudentProjectList';
 import LecturerProjectList from './components/LecturerProjectList';
 import AdminProjectList from './components/AdminProjectList';
+import StudentList from './components/StudentList';
 import ProjectListParticipants from './components/ProjectListParticipants';
 import AllProjectListParticipants from './components/AllProjectListParticipants';
 import Header from './components/layout/Header';
@@ -173,6 +174,10 @@ class App extends React.Component {
                                 <Route path = '/grade'>
                                     <ProjectListParticipants/>
                                 </Route>
+
+                                <Route path='/students'>
+                                    <StudentList/>
+                                </Route>
     
                                 <Route path='/impressum' component={Impressum} />
                             </Router>
@@ -190,6 +195,10 @@ class App extends React.Component {
     
                                 <Route path = '/grade'>
                                     <AllProjectListParticipants/>
+                                </Route>
+
+                                <Route path='/students'>
+                                    <StudentList/>
                                 </Route>
     
                                 <Route path='/impressum' component={Impressum} />

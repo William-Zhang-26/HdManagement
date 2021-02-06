@@ -167,7 +167,7 @@ class AdminProjectListEntry extends Component {
 
   /** Rendern der Komponente */
   render() {
-    const { classes, expandedState, disabled } = this.props;
+    const { classes, expandedState } = this.props;
     // Use the states project
     const { project, state, showProjectDeleteDialog, showApprovedForm, showRejectedForm, showProjectInEvaluation } = this.state;
 

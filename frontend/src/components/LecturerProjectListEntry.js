@@ -102,37 +102,12 @@ class LecturerProjectListEntry extends Component {
     this.getLecturer();
   }
 
-  /** Handles the onClose event of the ProjectForm 
-  projectFormClosed = (project) => {
-    // customer is not null and therefor changed
-    if (project) {
-      this.setState({
-        project: project,
-        showProjectForm: false
-      });
-    }
-  }*/
-
-  /** Handles the onClose event of the ProjectDeleteDialog 
-  projectFormClosed = (project) => {
-    // if project is not null, delete it
-    if (project) {
-      this.props.onProjectAdded(project);
-    };
-
-    // Don´t show the dialog
-    this.setState({
-      showProjectForm: false
-    });
-  }
-*/ 
-
 
   /** Rendern der Komponente */
   render() {
     const { classes, expandedState } = this.props;
     // Use the states project
-    const { project, state, showProjectForm, user, showProjectInEvaluation } = this.state;
+    const { project, state, user, showProjectInEvaluation } = this.state;
 
     console.log(this.state);
     return (

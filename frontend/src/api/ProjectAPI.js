@@ -34,6 +34,7 @@ export default class ProjectAPI {
     #updateValidationURL = (id) => `${this.#projectServerBaseURL}/participation/${id}`;
 
     //Student related
+    #getStudentsURL = () => `${this.#projectServerBaseURL}/student/`;
     #getStudentByIdURL = (id) => `${this.#projectServerBaseURL}/student/${id}`;
     #getLecturerByIdURL = (google_id) => `${this.#projectServerBaseURL}/user/${google_id}`;
     #deleteStudentURL = (id) => `${this.#projectServerBaseURL}/students/${id}`;
@@ -49,6 +50,7 @@ export default class ProjectAPI {
     //Participation related
     #getParticipationsURL = () => `${this.#projectServerBaseURL}/all_participations/`;
     #getParticipationForProjectURL = (id) => `${this.#projectServerBaseURL}/project/${id}/participation`;
+    #getParticipationForStudentURL = (id) => `${this.#projectServerBaseURL}/student/${id}/participation`;
     #deleteParticipationURL = (id) => `${this.#projectServerBaseURL}/participation/${id}`;
     #addParticipationURL = () => `${this.#projectServerBaseURL}/participation`;
     
@@ -203,6 +205,16 @@ export default class ProjectAPI {
 
 
     //Student related
+
+    getStudents() {
+      return this.#fetchAdvanced(this.#getStudentsURL()).then((responseJSON) => {
+          let studentBOs = StudentBO.fromJSON(responseJSON);
+          return new Promise(function (resolve) {
+              resolve(studentBOs);
+          })
+      })
+    }
+
     getStudentbyId(studentID) { 
         return this.#fetchAdvanced(this.#getStudentByIdURL(studentID)).then((responseJSON) => {
           // We always get an array of StudentBOs.fromJSON, but only need one object
@@ -318,6 +330,19 @@ export default class ProjectAPI {
         })
       })
     }
+
+
+    getParticipationForStudent(studentID) { 
+      return this.#fetchAdvanced(this.#getParticipationForStudentURL(studentID)).then((responseJSON) => {
+        // We always get an array of ParticipationBOs.fromJSON, but only need one object
+        let participationBOs = ParticipationBO.fromJSON(responseJSON);                                      // hier wurde das [0] entfernt
+      
+        return new Promise(function (resolve) {
+          resolve(participationBOs);
+        })
+      })
+    }
+
 
     deleteParticipation(participationID) {
       return this.#fetchAdvanced(this.#deleteParticipationURL(participationID), {
