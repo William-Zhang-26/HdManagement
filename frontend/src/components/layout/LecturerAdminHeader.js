@@ -15,7 +15,7 @@ class Header extends Component {
     };
   }
 
-//Behandelt oneChange
+//Behandelt Navigationsänderungen
   handleTabChange = (e, newIndex) => {
     this.setState({
       tabindex: newIndex

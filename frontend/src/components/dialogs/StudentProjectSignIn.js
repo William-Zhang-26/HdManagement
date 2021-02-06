@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
+import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
 import { MenuItem, FormControl, InputLabel, Select, Typography, Grid } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import ProjectAPI from '../../api/ProjectAPI';
@@ -61,8 +61,8 @@ class StudentProjectSignIn extends Component {
       let newParticipation = new ParticipationBO( this.state.module_id, this.state.project_id, this.state.student_id, 1 ); 
     
       ProjectAPI.getAPI().addParticipation(newParticipation).then(participation => {
-        // Backend-Aufruf erfolgreich
-        // reinit the dialogs state for a new empty project
+      // Backend-Aufruf erfolgreich
+      // Leeren des Zustandes des Dialogs für die neue leere Participation
         this.setState(this.baseState);
         this.props.onClose(participation); // das übergeordnete Objekt mit der Teilnahme aus dem Backend aufrufen
       }).catch(e =>
@@ -87,7 +87,7 @@ class StudentProjectSignIn extends Component {
     this.props.onClose(null);
   }
 
-  /** Handles value changes of the forms textfields and validates them */
+  /**  Handlerfunktion für Wertänderungen und deren Validierung in Formulartextfeldern */
   textFieldValueChange = (event) => {
     const value = event.target.value;
 
@@ -362,7 +362,6 @@ const styles = theme => ({
 StudentProjectSignIn.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
-  //participation: PropTypes.object,
   project: PropTypes.object.isRequired,
   show: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
