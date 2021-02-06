@@ -709,14 +709,14 @@ class StudentOperations(Resource):
         else:
             return '', 500
 
-@projectmanager.route("/student/<int:id>")
+@projectmanager.route("/students/<int:id>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @projectmanager.param('id', 'Die ID des Studenten-Objekts')
 class StudentOperations(Resource):
     @projectmanager.marshal_with(student)
     #@secured
     def get(self, id):
-        """Auslesen eines Studenten aus der Datenbank"""
+        """Auslesen eines Studenten aus der Datenbank per ID"""
         adm = ProjectAdministration()
         student = adm.get_student_by_id(id)
         return student
@@ -766,14 +766,14 @@ class StudentOperationswithGoogle_id(Resource):
     @projectmanager.marshal_with(student)
     #@secured
     def get(self, google_id):
-        """Auslesen eines Studenten aus der Datenbank"""
+        """Auslesen eines Studenten aus der Datenbank mit der Google_id"""
         adm = ProjectAdministration()
         students = adm.get_student_by_google_id(google_id)
         return students
 
-@projectmanager.route("/student/<int:id>")
+@projectmanager.route("/student/<int:user_id>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@projectmanager.param('id', 'Die ID des Studenten-Objekts')
+@projectmanager.param('user_id', 'Die User_ID des Studenten-Objekts')
 class StudentOperationss(Resource):
     @projectmanager.marshal_with(student)
     #@secured
