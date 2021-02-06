@@ -136,7 +136,7 @@ state = api.inherit('State', nbo, {
 #        else:
 #            return '', 500
 
-@projectmanager.route("/assignment")
+@projectmanager.route("/assignment/<int:id>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @projectmanager.param('id', 'Die ID des Zustand-Objekts')
 class AssignmentsOperations(Resource):
