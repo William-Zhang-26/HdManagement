@@ -6,7 +6,7 @@ class Semester(NamedBusinessObject):
     """
     def __init__(self):
         super().__init__()
-        self._current_semester = " "
+        self._current_semester = bool
 
 
     def get_current_semester(self):

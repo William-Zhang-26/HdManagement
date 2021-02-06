@@ -28,7 +28,7 @@ class Project(Automat):
         self._b_days_saturdays = ""
         self._preferred_b_days = ""
         self._additional_lecturer = ""
-        self._weekly = ""
+        self._weekly = bool
 
 
     def get_user_id(self):

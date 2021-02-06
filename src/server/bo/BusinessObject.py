@@ -16,13 +16,13 @@ class BusinessObject(ABC):
         """Auslesen der ID."""
         return self._id
 
-    def set_id(self,value):
+    def set_id(self,new_id):
         """Setzen der ID."""
-        self._id = value
+        self._id = new_id
 
     def get_create_time(self):
         """Auslesen des Erstellungszeitpunkts."""
         return self._create_time
 
-    def set_create_time(self,date):
-        self._create_time = date
+    def set_create_time(self, new_create_time):
+        self._create_time = new_create_time
