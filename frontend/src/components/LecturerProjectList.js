@@ -111,11 +111,10 @@ class LecturerProjectList extends Component {
   }
 
 
-
   /** Rendern der Komponente */
   render() {
     const { classes } = this.props;
-    const { projects, loadingInProgress, error, showProjectForm } = this.state;
+    const { projects, loadingInProgress, error, showProjectForm, project } = this.state;
 
     return (
       <div className={classes.root}>
@@ -136,7 +135,7 @@ class LecturerProjectList extends Component {
           <ListItem>
             <LoadingProgress show={loadingInProgress} />
             <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjects} />
-            <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} />
+            <ProjectForm show={showProjectForm} project={project} onClose={this.projectFormClosed} />
           
           </ListItem>
 

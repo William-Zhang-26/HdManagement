@@ -18,19 +18,19 @@ import indigo from '@material-ui/core/colors/indigo';
 
 class LecturerProjectListEntry extends Component {
 
-    constructor(props) {
-      super(props);
-  
-      // Init the state
-      this.state = {
-        project: props.project,
-        showProjectForm: false,
-        showProjectInEvaluation: false,
-        disabled: true,
-        error: null,
-        assignment: null,
-      };
-    }
+  constructor(props) {
+    super(props);
+
+    // Init the state
+    this.state = {
+      project: props.project,
+      showProjectForm: false,
+      showProjectInEvaluation: false,
+      disabled: true,
+      error: null,
+      assignment: null,
+    };
+  }
 
   /** Handlerfunktion für Veränderungen des Aufklapp-Panels */
   expansionPanelStateChanged = () => {
@@ -66,35 +66,32 @@ class LecturerProjectListEntry extends Component {
 
   getAssignmentForProject = () => {
     ProjectAPI.getAPI().getAssignmentbyId(this.props.project.getAssignmentID())
-        .then (assignmentBO => {
-            this.setState({ assignment: assignmentBO });
-        }).catch(e =>
-          this.setState({ 
-            error: e
-        })
-        )
+      .then (assignmentBO => {
+          this.setState({ assignment: assignmentBO });
+      }).catch(e =>
+        this.setState({ 
+          error: e
+      })
+      )
     }
   
-  
-
 
   getLecturer = () => {
     ProjectAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid)   
-        .then (UserBO => {
-            this.setState({ user: UserBO });
-        })
-
-}
+      .then (UserBO => {
+          this.setState({ user: UserBO });
+      })
+  }
 
   getStatebyID = () => {
     ProjectAPI.getAPI().getStatebyId(this.state.project.getStateID())   
-        .then (projectBO => {
-            this.setState({ state: projectBO });
-        }).catch(e =>
-          this.setState({ 
-            error: e
-        })
-        )
+      .then (projectBO => {
+          this.setState({ state: projectBO });
+      }).catch(e =>
+        this.setState({ 
+          error: e
+      })
+      )
   }
 
 
