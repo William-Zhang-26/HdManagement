@@ -100,10 +100,11 @@ class ParticipantList extends Component {
   validationFormClosed = (participation) => {
     // validation is not null and therefor changed
     if (participation) {
-      this.setState({
+      return(this.setState({
         participation: participation,
         showValidationForm: false,
-      });
+      }),
+      this.getValidationbyId())
     } else {
       this.setState({
         showValidationForm: false
@@ -136,7 +137,6 @@ class ParticipantList extends Component {
                 <Button size='small' className={classes.delete} onClick = {this.deleteParticipationButtonClicked}>
                   Entfernen
                 </Button>
-                <Button className={classes.replay} startIcon={<ReplayIcon />} onClick = {this.getValidationbyId}/>
               </ButtonGroup>
               : null }
                 

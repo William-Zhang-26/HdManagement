@@ -27,34 +27,6 @@ class StudentReportList extends Component {
     };
   }
 
-
-  /*getProjects = () => {
-    ProjectAPI.getAPI().getProjects()
-      .then(projectBOs =>
-        this.setState({              
-          projects: projectBOs,
-          loadingInProgress: false,   
-          error: null
-        })).catch(e =>
-          this.setState({            
-            projects: [],
-            loadingInProgress: false, 
-            error: e
-          })
-        );
-
-    // set loading to true
-    this.setState({
-      loadingInProgress: true,
-      error: null
-    });
-
-
-  componentDidMount() {
-    this.getProjects();
-  }
-  }*/
-
     getParticipations = () => {
     ProjectAPI.getAPI().getParticipations()
       .then(participationBOs =>
@@ -70,7 +42,7 @@ class StudentReportList extends Component {
           })
         );
 
-    // set loading to true
+    // setzen des Ladens auf true
     this.setState({
       loadingInProgress: true,
       error: null
@@ -84,26 +56,6 @@ class StudentReportList extends Component {
   componentDidMount() {
     this.getParticipations(); 
   }
-
-
-
-  /*getParticipationsForStudent = () => {
-    ProjectAPI.getAPI().getParticipationsForStudent(2)   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
-    //ProjectAPI.getAPI().getStudentById()
-        .then (participationBO => {
-            this.setState({ projects: participationBO });
-        }).catch(e =>
-          this.setState({            
-            projects: []
-          })
-        );
-}
-
-
-  //Lifecycle method, which is called when the component gets inserted into the browsers DOM 
-  componentDidMount() {
-    this.getParticipationsForStudent();
-  }*/
 
 
 

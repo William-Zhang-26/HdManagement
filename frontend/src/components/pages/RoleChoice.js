@@ -21,6 +21,7 @@ import ProjectAPI from '../../api/ProjectAPI';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 import AllProjectListParticipants from '../AllProjectListParticipants';
+import StudentList from '../StudentList';
 
 
 class RoleChoice extends Component {
@@ -221,6 +222,10 @@ class RoleChoice extends Component {
                                 <ProjectListParticipants/>
                             </Route>
 
+                            <Route path='/students'>
+                                <StudentList/>
+                            </Route>
+
                             <Route path='/impressum' component={Impressum} />
                         </Router>
                     </>
@@ -236,6 +241,10 @@ class RoleChoice extends Component {
 
                             <Route path = '/grade'>
                                 <AllProjectListParticipants/>
+                            </Route>
+
+                            <Route path='/students'>
+                                <StudentList/>
                             </Route>
 
                             <Route path='/impressum' component={Impressum} />

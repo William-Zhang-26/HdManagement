@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
-import { Button, List, ListItem } from '@material-ui/core';
+import { Button, ListItem, ButtonGroup } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ProjectAPI  from '../api/ProjectAPI';
 import ParticipantList from './ParticipantList';
@@ -10,13 +10,9 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import ProjectEvaluatedForm from './dialogs/ProjectEvaluatedForm';
 import SendIcon from '@material-ui/icons/Send';
+import AddIcon from '@material-ui/icons/Add';
+import ParticipationForm from './dialogs/ParticipationForm';
 
-/** Fehlende Inhalte:
- * 
- */
-
-//Condition für alle ergänzen
-//Admin Funktionen ergänzen
 
 class ProjectListEntryParticipants extends Component {
 
@@ -29,6 +25,7 @@ class ProjectListEntryParticipants extends Component {
         participations: [],
         showEvaluatedProject: false,
         disabled: true,
+        showParticipationForm: false,
       };
     }
 
@@ -69,36 +66,64 @@ class ProjectListEntryParticipants extends Component {
   }
 
 
-     /** Handles the onClick event of the safe evaluation button */
-     evaluatedProjectButtonClicked = event => {
-      // Do not toggle the expanded state
-      event.stopPropagation();
+    /** Handles the onClick event of the safe evaluation button */
+    evaluatedProjectButtonClicked = event => {
+    // Do not toggle the expanded state
+    event.stopPropagation();
+    this.setState({
+      showEvaluatedProject: true
+    });
+  }
+
+  /** Handles the onClose event of the ProjectEvaluationForm */
+  evaluatedProjectFormClosed = (participation) => {
+    if (participation) {
       this.setState({
-        showEvaluatedProject: true
+        participation: participation,
+        showEvaluatedProject: false,
+        disabled: false,
+      });
+    } else {
+      this.setState({
+        showEvaluatedProject: false
       });
     }
-  
-    /** Handles the onClose event of the ProjectEvaluationForm */
-    evaluatedProjectFormClosed = (participation) => {
-      if (participation) {
-        this.setState({
-          participation: participation,
-          showEvaluatedProject: false,
-          disabled: false,
-        });
-      } else {
-        this.setState({
-          showEvaluatedProject: false
-        });
-      }
+  }
+
+
+  /** Handles the onClick event of the add project button */
+  addParticipantButtonClicked = event => {
+    // Do not toggle the expanded state
+    event.stopPropagation();
+    //Show the ProjectForm
+    this.setState({
+      showParticipationForm: true
+    });
+    console.log(this.state); 
+  }
+
+  /** Handles the onClose event of the ProjectForm*/
+  participationFormClosed = participation => {
+    // project is not null and therefore created
+    if (participation) {
+      return(this.setState({
+        participations: [...this.state.participations, participation],
+        showParticipationForm: false
+      }), this.getParticipations())
+    } else {
+      this.setState({
+        showParticipationForm: false
+      });
     }
+    console.log(this.state); 
+  }
 
 
 
   /** Rendern der Komponente */
   render() {
     const { classes, expandedState } = this.props;
-    const { project, participations, user, showEvaluatedProject } = this.state;
+    const { project, participations, user, showEvaluatedProject, showParticipationForm } = this.state;
 
     console.log(this.state);
     return (
@@ -109,7 +134,7 @@ class ProjectListEntryParticipants extends Component {
       <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Grid container spacing={1} justify='flex-start' alignItems='center'>
-                <Typography variant='body1' className={classes.font}>{project.getName()} {/** Angabe des Dozenten (UserBO?)*/}
+                <Typography variant='body1' className={classes.font}>{project.getName()}
                 </Typography>
             </Grid>
           </AccordionSummary>
@@ -134,6 +159,16 @@ class ProjectListEntryParticipants extends Component {
                 </Typography>
               </Grid>
             </Grid>
+            { project.getStateID() <= 4 && this.state.disabled ?
+            <Grid item>
+              <ButtonGroup variant='text' size='small'>
+                <Button color='secondary' startIcon={<AddIcon />} onClick={this.addParticipantButtonClicked}>
+                  Teilnehmer
+                </Button>
+              </ButtonGroup>
+            </Grid>
+            : null }
+
           </AccordionSummary>
           <AccordionDetails>
               <Grid item xs = {10}>
@@ -148,7 +183,7 @@ class ProjectListEntryParticipants extends Component {
                 onParticipationDeleted={this.participationDeleted}/>)
               }
 
-            {this.state.disabled && project.getStateID() === 4 ?
+            { this.state.disabled && project.getStateID() === 4 ?
               <ListItem className={classes.button}>
                 <Button variant='outlined' color='primary' startIcon={<SendIcon />} onClick = {this.evaluatedProjectButtonClicked} >
                   Bewertung abschließen
@@ -162,6 +197,7 @@ class ProjectListEntryParticipants extends Component {
         </Grid>
       : null }
       <ProjectEvaluatedForm show={showEvaluatedProject} project={project} onClose={this.evaluatedProjectFormClosed} />
+      <ParticipationForm show={showParticipationForm} project={project} onClose={this.participationFormClosed} />
       </div>
     );
   }

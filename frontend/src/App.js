@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import { ThemeProvider, CssBaseline } from '@material-ui/core';
-//import { Container } from '@material-ui/core';
 import Theme from './Theme';
 import SignIn from './components/pages/SignIn';
 import LoadingProgress from './components/dialogs/LoadingProgress';
@@ -14,6 +13,7 @@ import LecturerAdminHeader from './components/layout/LecturerAdminHeader';
 import StudentProjectList from './components/StudentProjectList';
 import LecturerProjectList from './components/LecturerProjectList';
 import AdminProjectList from './components/AdminProjectList';
+import StudentList from './components/StudentList';
 import ProjectListParticipants from './components/ProjectListParticipants';
 import AllProjectListParticipants from './components/AllProjectListParticipants';
 import Header from './components/layout/Header';
@@ -102,7 +102,7 @@ class App extends React.Component {
   }
 
 
-
+  /** Lifecycle-Methode, die aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird */
   componentDidMount() {
     firebase.initializeApp(this.#firebaseConfig);
     firebase.auth().languageCode = 'en';
@@ -173,6 +173,10 @@ class App extends React.Component {
                                 <Route path = '/grade'>
                                     <ProjectListParticipants/>
                                 </Route>
+
+                                <Route path='/students'>
+                                    <StudentList/>
+                                </Route>
     
                                 <Route path='/impressum' component={Impressum} />
                             </Router>
@@ -190,6 +194,10 @@ class App extends React.Component {
     
                                 <Route path = '/grade'>
                                     <AllProjectListParticipants/>
+                                </Route>
+
+                                <Route path='/students'>
+                                    <StudentList/>
                                 </Route>
     
                                 <Route path='/impressum' component={Impressum} />

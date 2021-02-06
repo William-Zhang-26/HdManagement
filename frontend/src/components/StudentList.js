@@ -5,17 +5,15 @@ import { withRouter } from 'react-router-dom';
 import ProjectAPI  from '../api/ProjectAPI';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
-import AdminProjectListEntry from './AdminProjectListEntry';
-import ValidationForm from './dialogs/ValidationForm';
-import ProjectDeleteDialog from './dialogs/ProjectDeleteDialog';
-import ProjectForm from './dialogs/ProjectForm';
+import StudentListEntry from './StudentListEntry';
+
+
 
 /**  
- * Hier wird die Liste aus Studentensicht angezeigt. Studenten sehen alle genehmigten Projekte
- * und können sich dafür An- und Abmelden.
+ * Hier wird die Liste aller Studenten (für Dozenten und Admins) angezeigt.
  */
 
-class AdminProjectList extends Component {
+class StudentList extends Component {
 
   constructor(props) {
     super(props);
@@ -28,7 +26,7 @@ class AdminProjectList extends Component {
 
     // Init an empty state
     this.state = {
-        projects: [],
+        students: [],
         error: null,
         loadingInProgress: false,
         expandedProjectID: expandedID,
@@ -49,16 +47,16 @@ class AdminProjectList extends Component {
     });
   }
 
-  getProjects = () => {
-    ProjectAPI.getAPI().getProjects()
-      .then(projectBOs =>
+  getStudents = () => {
+    ProjectAPI.getAPI().getStudents()
+      .then(studentBOs =>
         this.setState({                                                          //Neuen Zustand setzen, wenn ProjectBOs fetched wurde
-          projects: projectBOs,
+          students: studentBOs,
           loadingInProgress: false,                                             //Ladeanzeige deaktivieren 
           error: null
         })).catch(e =>
           this.setState({                                                      // Zustand zurücksetzen nach dem Fehlercatch 
-            projects: [],
+            students: [],
             loadingInProgress: false,                                         //Ladeanzeige deaktivieren 
             error: e
           })
@@ -73,15 +71,7 @@ class AdminProjectList extends Component {
 
   /** Lifecycle-Methode, die aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird */
   componentDidMount() {
-    this.getProjects();
-  }
-
-   
-  projectDeleted = project => {
-    const newProjectList = this.state.projects.filter(projectFromState => projectFromState.getID() !== project.getID());
-    this.setState({
-      projects: newProjectList,
-    });
+    this.getStudents();
   }
 
 
@@ -89,28 +79,29 @@ class AdminProjectList extends Component {
     /** Rendern der Komponente */
   render() {
     const { classes } = this.props;
-    const { projects, expandedProjectID, loadingInProgress, error } = this.state;
+    const { students, loadingInProgress, error } = this.state;
     console.log(this.state);
 
     return (
       <div className={classes.root}>
-        <List className={classes.projectList}>
+        
+        <List className={classes.studentList}>
+        
         { 
-          // Show the list of ProjectListEntry components
-          // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
-          projects.map(project => <AdminProjectListEntry key={project.getID()} project={project} 
+          students.map(student => <StudentListEntry key={student.getID()} student={student} 
           show={this.props.show}  
           onExpandedStateChange={this.onExpandedStateChange}
-          onProjectDeleted={this.projectDeleted} 
           show={this.props.show}/>)
         }
+        
 
           <ListItem>
             <LoadingProgress show={loadingInProgress} />
-            <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjects} />
+            <ContextErrorMessage error={error} contextErrorMsg={`Die Studenten können nicht angezeigt werden.`} onReload={this.getStudents} />
           </ListItem>
 
         </List>
+        
         
 
       </div>
@@ -123,14 +114,13 @@ const styles = theme => ({
   root: {
     width: '90%',
     marginTop: theme.spacing(3),
-    //marginRight: theme.spacing(10),
     marginLeft: theme.spacing(10),
   },
 
 });
 
 /** PropTypes */
-AdminProjectList.propTypes = {
+StudentList.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** @ignore */
@@ -139,4 +129,4 @@ AdminProjectList.propTypes = {
   show: PropTypes.bool.isRequired
 }
 
-export default withRouter(withStyles(styles)(AdminProjectList));
+export default withRouter(withStyles(styles)(StudentList));

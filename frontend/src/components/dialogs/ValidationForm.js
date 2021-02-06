@@ -118,7 +118,7 @@ class ValidationForm extends Component {
 
   /** Auszuführende Anweisung beim Schließen des Dialogs */
   handleClose = () => {
-    // Reset the state
+    // Zurücksetzen des Zustands
     this.setState(this.baseState);
     this.props.onClose(null);
   }

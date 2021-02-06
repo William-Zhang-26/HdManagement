@@ -21,7 +21,7 @@ export default class ProjectAPI {
     //#projectServerBaseURL = '/api/project';
 
 
-    //Project related
+    //Projekt bezogen
     #getProjectsURL = () => `${this.#projectServerBaseURL}/project/`;
     #getProjectbyIdURL = (id) => `${this.#projectServerBaseURL}/project/${id}`;
     #getAttributesForProjectURL = (id) => `${this.#projectServerBaseURL}/projects/${id}/attributes`;
@@ -29,33 +29,35 @@ export default class ProjectAPI {
     #deleteProjectURL = (id) => `${this.#projectServerBaseURL}/project/${id}`;
     #updateProjectURL = (id) => `${this.#projectServerBaseURL}/project/${id}`;
 
-    //Participation related
+    //Teilnahme bezogen
     #addValidationURL = () => `${this.#projectServerBaseURL}/participation`;
     #updateValidationURL = (id) => `${this.#projectServerBaseURL}/participation/${id}`;
 
-    //Student related
+    //Student bezogen
+    #getStudentsURL = () => `${this.#projectServerBaseURL}/student/`;
     #getStudentByIdURL = (id) => `${this.#projectServerBaseURL}/student/${id}`;
     #getLecturerByIdURL = (google_id) => `${this.#projectServerBaseURL}/user/${google_id}`;
     #deleteStudentURL = (id) => `${this.#projectServerBaseURL}/students/${id}`;
     #addStudentsForProjectURL = (id) => `${this.#projectServerBaseURL}/project/${id}/student`;
     #getStudentByGoogleIdURL= (google_id) => `${this.#projectServerBaseURL}/student/${google_id}`;
 
-    //State related
+    //State bezogen
     #getStatebyIdURL = (id) => `${this.#projectServerBaseURL}/state/${id}`;
 
-    //Validation related
+    //Benotung bezogen
     #getValidationbyIdURL = (id) => `${this.#projectServerBaseURL}/validation/${id}`;
 
-    //Participation related
+    //Teilnahme bezogen
     #getParticipationsURL = () => `${this.#projectServerBaseURL}/all_participations/`;
     #getParticipationForProjectURL = (id) => `${this.#projectServerBaseURL}/project/${id}/participation`;
+    #getParticipationForStudentURL = (id) => `${this.#projectServerBaseURL}/student/${id}/participation`;
     #deleteParticipationURL = (id) => `${this.#projectServerBaseURL}/participation/${id}`;
+    #addParticipationURL = () => `${this.#projectServerBaseURL}/participation`;
     
-    //Module related
+    //Module bezogen
     #getModulebyIdURL = (id) => `${this.#projectServerBaseURL}/module/${id}`;
 
-    //User related
-    #addUser = () => `${this.#projectServerBaseURL}/user`;
+    //User bezogen
     #getUserByGoogleIdURL= (google_id) => `${this.#projectServerBaseURL}/user/${google_id}`;
     #updateUserURL = (id) => `${this.#projectServerBaseURL}/user/${id}`;
 
@@ -70,7 +72,7 @@ export default class ProjectAPI {
 
     #fetchAdvanced = (url, init) => fetch(url, init)
         .then(res => {
-            // The Promise returned from fetch() won’t reject on HTTP error status even if the response is an HTTP 404 or 500. 
+            // Das von fetch() zurückgegebene Promise wird bei einem HTTP-Fehlerstatus nicht zurückgewiesen, auch wenn die Antwort ein HTTP 404 oder 500 ist. 
             if (!res.ok) {
                 throw Error(`${res.status} ${res.statusText}`);
             }
@@ -78,11 +80,10 @@ export default class ProjectAPI {
         }
         )
 
-    //Project related
+    //Projekt bezogen
     getProjects() {
         return this.#fetchAdvanced(this.#getProjectsURL()).then((responseJSON) => {
             let projectBOs = ProjectBO.fromJSON(responseJSON);
-            //console.info(projectBOs);
             return new Promise(function (resolve) {
                 resolve(projectBOs);
             })
@@ -92,9 +93,8 @@ export default class ProjectAPI {
 
     getProjectbyId(projectID) {
       return this.#fetchAdvanced(this.#getProjectbyIdURL(projectID)).then((responseJSON) => {
-        // We always get an array of ProjectBOs.fromJSON, but only need one object
+        // Wir erhalten immer ein Array von ProjectBOs.fromJSON, benötigen aber nur ein Objekt
         let responseProjectBO = ProjectBO.fromJSON(responseJSON)[0];
-        // console.info(responsePtojectBO);
         return new Promise(function (resolve) {
           resolve(responseProjectBO);
         })
@@ -105,7 +105,6 @@ export default class ProjectAPI {
     getAttributesForProject(attributeBOs) {
         return this.#fetchAdvanced(this.#getAttributesForProjectURL(attributeBOs))
           .then(responseJSON => {
-            // console.log(responseJSON)
             return new Promise(function (resolve) {
               resolve(responseJSON);
             })
@@ -122,7 +121,7 @@ export default class ProjectAPI {
         },
         body: JSON.stringify(projectBO)
       }).then((responseJSON) => {
-        // We always get an array of ProjectBOs.fromJSON, but only need one object
+        // Wir erhalten immer ein Array von ProjectBOs.fromJSON, benötigen aber nur ein Objekt
         let responseProjectBO = ProjectBO.fromJSON(responseJSON)[0];
         
         return new Promise(function (resolve) {
@@ -159,7 +158,7 @@ export default class ProjectAPI {
       })
     }
 
-    //Participation related
+    //Teilnahme bezogen
 
     addValidation(participationBO) {
     console.log(this.state);
@@ -171,7 +170,7 @@ export default class ProjectAPI {
         },
         body: JSON.stringify(participationBO) 
       }).then((responseJSON) => {
-        // We always get an array of ProjectBOs.fromJSON, but only need one object
+        // Wir erhalten immer ein Array von ProjectBOs.fromJSON, benötigen aber nur ein Objekt
         let responseParticipationBO = ParticipationBO.fromJSON(responseJSON)[0];
 
         return new Promise(function (resolve) {
@@ -191,7 +190,6 @@ export default class ProjectAPI {
       }).then((responseJSON) => {
         // We always get an array of ParticipationBOs.fromJSON
         let responseValidationBO = ParticipationBO.fromJSON(responseJSON)[0];
-        // console.info(accountBOs);
         return new Promise(function (resolve) {
           resolve(responseValidationBO);
         })
@@ -201,11 +199,21 @@ export default class ProjectAPI {
 
 
 
-    //Student related
+    //Student bezogen
+
+    getStudents() {
+      return this.#fetchAdvanced(this.#getStudentsURL()).then((responseJSON) => {
+          let studentBOs = StudentBO.fromJSON(responseJSON);
+          return new Promise(function (resolve) {
+              resolve(studentBOs);
+          })
+      })
+    }
+
     getStudentbyId(studentID) { 
         return this.#fetchAdvanced(this.#getStudentByIdURL(studentID)).then((responseJSON) => {
-          // We always get an array of StudentBOs.fromJSON, but only need one object
-          let responseStudentBO = StudentBO.fromJSON(responseJSON)[0];
+        // Wir erhalten immer ein Array von ProjectBOs.fromJSON, benötigen aber nur ein Objekt
+        let responseStudentBO = StudentBO.fromJSON(responseJSON)[0];
         
           return new Promise(function (resolve) {
             resolve(responseStudentBO);
@@ -215,8 +223,8 @@ export default class ProjectAPI {
 
     getLecturerById(userID) { 
         return this.#fetchAdvanced(this.#getLecturerByIdURL(userID)).then((responseJSON) => {
-          // We always get an array of StudentBOs.fromJSON, but only need one object
-          let responseUserBO = UserBO.fromJSON(responseJSON)[0];
+        // Wir erhalten immer ein Array von ProjectBOs.fromJSON, benötigen aber nur ein Objekt
+        let responseUserBO = UserBO.fromJSON(responseJSON)[0];
         
           return new Promise(function (resolve) {
             resolve(responseUserBO);
@@ -232,7 +240,7 @@ export default class ProjectAPI {
             method: 'POST'
         })
             .then((responseJSON) => {
-                // We always get an array of StudentBO.fromJSON, but only need one object
+        // Wir erhalten immer ein Array von ProjectBOs.fromJSON, benötigen aber nur ein Objekt
                 let studentBO = StudentBO.fromJSON(responseJSON)[0];
             
                 return new Promise(function (resolve) {
@@ -262,9 +270,8 @@ export default class ProjectAPI {
 
     getStudentByGoogleId(google_id) {
       return this.#fetchAdvanced(this.#getStudentByGoogleIdURL(google_id)).then((responseJSON) => {
-        // We always get an array of ProjectBOs.fromJSON, but only need one object
+        // Wir erhalten immer ein Array von ProjectBOs.fromJSON, benötigen aber nur ein Objekt
         let responseStudentBO = StudentBO.fromJSON(responseJSON)[0];
-        // console.info(responsePtojectBO);
         return new Promise(function (resolve) {
           resolve(responseStudentBO);
         })
@@ -272,10 +279,10 @@ export default class ProjectAPI {
     }
 
 
-    //State related
+    //State bezogen
     getStatebyId(stateID) {
       return this.#fetchAdvanced(this.#getStatebyIdURL(stateID)).then((responseJSON) => {
-        // We always get an array of ProjectBOs.fromJSON, but only need one object
+        // Wir erhalten immer ein Array von ProjectBOs.fromJSON, benötigen aber nur ein Objekt
         let responseStateBO = StateBO.fromJSON(responseJSON)[0];
         return new Promise(function (resolve) {
           resolve(responseStateBO);
@@ -284,12 +291,11 @@ export default class ProjectAPI {
     }
 
 
-    //Validation related
+    //Benotung bezogen
     getValidationbyId(validationID) {
       return this.#fetchAdvanced(this.#getValidationbyIdURL(validationID)).then((responseJSON) => {
-        // We always get an array of ProjectBOs.fromJSON, but only need one object
+        // Wir erhalten immer ein Array von ProjectBOs.fromJSON, benötigen aber nur ein Objekt
         let responseValidationBO = ValidationBO.fromJSON(responseJSON)[0];
-        // console.info(responsePtojectBO);
         return new Promise(function (resolve) {
           resolve(responseValidationBO);
         })
@@ -297,7 +303,7 @@ export default class ProjectAPI {
     }
 
 
-    //Participation related
+    //Teilnahme bezogen
     getParticipations() {
       return this.#fetchAdvanced(this.#getParticipationsURL()).then((responseJSON) => {
           let participationBOs = ParticipationBO.fromJSON(responseJSON);
@@ -309,7 +315,7 @@ export default class ProjectAPI {
 
     getParticipationForProject(projectID) { 
       return this.#fetchAdvanced(this.#getParticipationForProjectURL(projectID)).then((responseJSON) => {
-        // We always get an array of ParticipationBOs.fromJSON, but only need one object
+        // Wir erhalten immer ein Array von ProjectBOs.fromJSON
         let participationBOs = ParticipationBO.fromJSON(responseJSON);                                      // hier wurde das [0] entfernt
       
         return new Promise(function (resolve) {
@@ -317,6 +323,19 @@ export default class ProjectAPI {
         })
       })
     }
+
+
+    getParticipationForStudent(studentID) { 
+      return this.#fetchAdvanced(this.#getParticipationForStudentURL(studentID)).then((responseJSON) => {
+        // Wir erhalten immer ein Array von ProjectBOs.fromJSON
+        let participationBOs = ParticipationBO.fromJSON(responseJSON);                                      // hier wurde das [0] entfernt
+      
+        return new Promise(function (resolve) {
+          resolve(participationBOs);
+        })
+      })
+    }
+
 
     deleteParticipation(participationID) {
       return this.#fetchAdvanced(this.#deleteParticipationURL(participationID), {
@@ -329,13 +348,30 @@ export default class ProjectAPI {
       })
     }
 
+    addParticipation(participationBO) {
+      console.log(this.state);
+        return this.#fetchAdvanced(this.#addParticipationURL(), {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json, text/plain',
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify(participationBO) 
+        }).then((responseJSON) => {
+        // Wir erhalten immer ein Array von ProjectBOs.fromJSON, benötigen aber nur ein Objekt
+        let responseParticipationBO = ParticipationBO.fromJSON(responseJSON)[0];
+  
+          return new Promise(function (resolve) {
+            resolve(responseParticipationBO);
+          })
+        })
+      }
     
-    //Module related
+    //Modul bezogen
     getModulebyId(moduleID) {
       return this.#fetchAdvanced(this.#getModulebyIdURL(moduleID)).then((responseJSON) => {
-        // We always get an array of ProjectBOs.fromJSON, but only need one object
+        // Wir erhalten immer ein Array von ProjectBOs.fromJSON, benötigen aber nur ein Objekt
         let responseModuleBO = ModuleBO.fromJSON(responseJSON)[0];
-        // console.info(responsePtojectBO);
         return new Promise(function (resolve) {
           resolve(responseModuleBO);
         })
@@ -344,32 +380,12 @@ export default class ProjectAPI {
 
 
 
-    //User related
-    addUser(userBO) {
-      return this.#fetchAdvanced(this.#addProjectURL(), {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json, text/plain',
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify(userBO)
-      }).then((responseJSON) => {
-        // We always get an array of ProjectBOs.fromJSON, but only need one object
-        let responseUserBO = UserBO.fromJSON(responseJSON)[0];
-        
-        return new Promise(function (resolve) {
-          resolve(responseUserBO);
-        })
-      })
-    }
-
-
+    //User bezogen
     
     getUserByGoogleId(google_id) {
       return this.#fetchAdvanced(this.#getUserByGoogleIdURL(google_id)).then((responseJSON) => {
-        // We always get an array of ProjectBOs.fromJSON, but only need one object
+        // Wir erhalten immer ein Array von ProjectBOs.fromJSON, benötigen aber nur ein Objekt
         let responseUserBO = UserBO.fromJSON(responseJSON)[0];
-        // console.info(responsePtojectBO);
         return new Promise(function (resolve) {
           resolve(responseUserBO);
         })

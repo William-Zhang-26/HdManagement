@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, List, ListItem, Button, Typography, Grid } from '@material-ui/core';
+import { withStyles, Button } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import ProjectAPI  from '../api/ProjectAPI';
 import LoadingProgress from './dialogs/LoadingProgress';
 import indigo from '@material-ui/core/colors/indigo';
 import red from '@material-ui/core/colors/red';
-import ReplayIcon from '@material-ui/icons/Replay';
-import StudentProjectSignIn from './dialogs/StudentProjectSignIn';
 import StudentProjectSignOut from './dialogs/StudentProjectSignOut';
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -72,15 +70,18 @@ class StudentButtons extends Component {
   render() {
     const { classes } = this.props;
     const { loadingInProgress, student, participation, showParticipationDeleteDialog } = this.state;
+    console.log('Button:');
     console.log(this.state);
 
     return (
       <div className={classes.root}>
 
         { student && participation.getStudentID() === student.getID() ?
-          <Button  color='primary' onClick={this.deleteParticipationButtonClicked}>
-            Abmelden
-          </Button>
+
+        <Button color='primary' onClick={this.deleteParticipationButtonClicked}>
+          Abmelden
+        </Button>
+
         : null }
 
                 

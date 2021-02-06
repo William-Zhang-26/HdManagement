@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
-import { Button, List, ListItem, Box } from '@material-ui/core';
+import { Button, List, ListItem, Box, ButtonGroup } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import AddIcon from '@material-ui/icons/Add';
 import ProjectAPI  from '../api/ProjectAPI';
@@ -10,14 +10,9 @@ import indigo from '@material-ui/core/colors/indigo';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import ProjectEvaluatedForm from './dialogs/ProjectEvaluatedForm';
+import ParticipationForm from './dialogs/ParticipationForm';
 import SendIcon from '@material-ui/icons/Send';
 
-/** Fehlende Inhalte:
- * 
- */
-
-//Condition für alle ergänzen
-//Admin Funktionen ergänzen
 
 class AllProjectListEntryParticipants extends Component {
 
@@ -30,6 +25,7 @@ class AllProjectListEntryParticipants extends Component {
         participations: [],
         showEvaluatedProject: false,
         disabled: true,
+        showParticipationForm: false,
       };
     }
 
@@ -47,8 +43,7 @@ class AllProjectListEntryParticipants extends Component {
       }
 
   getLecturer = () => {
-    ProjectAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid)   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
-    //ProjectAPI.getAPI().getStudentById()
+    ProjectAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid)   
         .then (UserBO => {
             this.setState({ user: UserBO });
         })
@@ -70,36 +65,62 @@ class AllProjectListEntryParticipants extends Component {
   }
 
 
-     /** Handles the onClick event of the safe evaluation button */
-     evaluatedProjectButtonClicked = event => {
-      // Do not toggle the expanded state
-      event.stopPropagation();
+    /** Handles the onClick event of the safe evaluation button */
+    evaluatedProjectButtonClicked = event => {
+    event.stopPropagation();
+    this.setState({
+      showEvaluatedProject: true
+    });
+  }
+
+  /** Handles the onClose event of the ProjectEvaluationForm */
+  evaluatedProjectFormClosed = (participation) => {
+    if (participation) {
       this.setState({
-        showEvaluatedProject: true
+        participation: participation,
+        showEvaluatedProject: false,
+        disabled: false,
+      });
+    } else {
+      this.setState({
+        showEvaluatedProject: false
       });
     }
-  
-    /** Handles the onClose event of the ProjectEvaluationForm */
-    evaluatedProjectFormClosed = (participation) => {
-      if (participation) {
-        this.setState({
-          participation: participation,
-          showEvaluatedProject: false,
-          disabled: false,
-        });
-      } else {
-        this.setState({
-          showEvaluatedProject: false
-        });
-      }
+  }
+
+
+  /** Handles the onClick event of the add project button */
+  addParticipantButtonClicked = event => {
+    // Do not toggle the expanded state
+    event.stopPropagation();
+    this.setState({
+      showParticipationForm: true
+    });
+    console.log(this.state); 
+  }
+
+  /** Handles the onClose event of the ProjectForm*/
+  participationFormClosed = participation => {
+    // project is not null and therefore created
+    if (participation) {
+      this.setState({
+        participations: [...this.state.participations, participation],
+        showParticipationForm: false
+      });
+    } else {
+      this.setState({
+        showParticipationForm: false
+      });
     }
+    console.log(this.state); 
+  }
 
 
 
   /** Rendern der Komponente */
   render() {
     const { classes, expandedState } = this.props;
-    const { project, participations, user, showEvaluatedProject } = this.state;
+    const { project, participations, user, showEvaluatedProject, showParticipationForm } = this.state;
 
     console.log(this.state);
     return (
@@ -135,6 +156,15 @@ class AllProjectListEntryParticipants extends Component {
                 </Typography>
               </Grid>
             </Grid>
+      { project.getStateID() <= 4 && this.state.disabled?
+            <Grid item>
+              <ButtonGroup variant='text' size='small'>
+                <Button color='secondary' startIcon={<AddIcon />} onClick={this.addParticipantButtonClicked}>
+                  Teilnehmer
+                </Button>
+              </ButtonGroup>
+            </Grid>
+            : null}
           </AccordionSummary>
           <AccordionDetails>
               <Grid item xs = {10}>
@@ -163,6 +193,7 @@ class AllProjectListEntryParticipants extends Component {
         </Grid>
       : null }
       <ProjectEvaluatedForm show={showEvaluatedProject} project={project} onClose={this.evaluatedProjectFormClosed} />
+      <ParticipationForm show={showParticipationForm} project={project} onClose={this.participationFormClosed} />
       </div>
     );
   }
@@ -184,7 +215,11 @@ const styles = theme => ({
     },
     button: {
       marginTop: theme.spacing(3),
-    }
+    },
+    replay: {
+      //width: '100%',
+      color: indigo[500],
+    },
   });
   
   /** PropTypes */

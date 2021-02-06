@@ -11,8 +11,10 @@ import ProjectForm from './dialogs/ProjectForm';
 
 
 /**  
- * Hier wird die Liste aus Dozentensicht angezeigt. Dozenten sehen die eigenen Projekte (Neue und genehmigte)
+ * Hier wird die Liste aus Dozentensicht angezeigt. Dozenten sehen die eigenen Projekte mit dem Status
  * und können weitere Projekte erstellen.
+ * 
+ * Außerdem können sie eigene Projekte in Bewertung senden.
  */
 
 class LecturerProjectList extends Component {
