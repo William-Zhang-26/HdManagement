@@ -11,8 +11,7 @@ import ProjectDeleteDialog from './dialogs/ProjectDeleteDialog';
 import ProjectForm from './dialogs/ProjectForm';
 
 /**  
- * Hier wird die Liste aus Studentensicht angezeigt. Studenten sehen alle genehmigten Projekte
- * und können sich dafür An- und Abmelden.
+ * Hier wird die Liste aus Adminsicht angezeigt.
  */
 
 class AdminProjectList extends Component {
@@ -96,8 +95,6 @@ class AdminProjectList extends Component {
       <div className={classes.root}>
         <List className={classes.projectList}>
         { 
-          // Show the list of ProjectListEntry components
-          // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
           projects.map(project => <AdminProjectListEntry key={project.getID()} project={project} 
           show={this.props.show}  
           onExpandedStateChange={this.onExpandedStateChange}
@@ -123,7 +120,6 @@ const styles = theme => ({
   root: {
     width: '90%',
     marginTop: theme.spacing(3),
-    //marginRight: theme.spacing(10),
     marginLeft: theme.spacing(10),
   },
 

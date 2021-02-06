@@ -203,7 +203,7 @@ class ProjectListEntryParticipants extends Component {
   }
 }
 
-/** Komponentenspezifisches Styeling */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
     root: {
       width: '100%',

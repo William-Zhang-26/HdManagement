@@ -11,22 +11,6 @@ import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
 
-/**
- * Die ProjectForm erlaubt es Dozenten, ein neues Projekt anzulegen.
- * Nach Anlegend es Projektes erhält das Projekt den automatisch generierten 
- * Anfangszustand neu (Projekt ist ein Automat).
- * 
- * Daraufhin muss der Dozent warten, bis der Admin das Projekt bewertet (genehmigen / ablehnen)
- * 
- * Wenn das Projekt genehmigt wird, wird dem Studenten das neue Projekt in der Studentensicht 
- * angezeigt und er hat die Möglichkeit, sich dafür anzumelden. Wenn sich Studenten anmelden, hat 
- * das Projekt den Zustand "in Bewertung".
- * 
- * Wenn hingegen das Projekt abgelehnt wird, wird das Projekt nicht weiter angezeigt.
- * Das Projekt wird dabei aber nicht gelöscht, sondern besteht weiterhin mit dem Zustand "abgelehnt".
- * Es sind dann keine weiteren Interaktionen mehr mit dem Projekt möglich.
- * 
- */
 
 class ValidationForm extends Component {
 
@@ -101,20 +85,6 @@ class ValidationForm extends Component {
   } 
 
   
-  /** Update List und prop Übergabe von UserParties 
-  updateList = () => {
-    var list = this.state.listBO
-    list.setName(this.state.newName)
-    ShoppingAPI.getAPI().updateList(list)
-        .then(this.handleClose(), this.props.replaceNewList(list))
-
-} */
-
-
-  
-
-
-
 
   /** Auszuführende Anweisung beim Schließen des Dialogs */
   handleClose = () => {
@@ -122,11 +92,6 @@ class ValidationForm extends Component {
     this.setState(this.baseState);
     this.props.onClose(null);
   }
-
-
-  /*handleSubmit(event) {
-    event.preventDefault();
-  }*/
 
   handleChange = (event) => {
     this.setState({
@@ -235,7 +200,6 @@ const styles = theme => ({
 ValidationForm.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
-  //participation: PropTypes.object,
   show: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
 }
