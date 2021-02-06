@@ -2,11 +2,8 @@ from server.bo.NamedBusinessObject import NamedBusinessObject
 
 
 class Project_type(NamedBusinessObject):
-    """Realisierung einer exemplarischen Projektypen.
-    Die Erstellung der verschiedenen Projektypen sowie denen ihren ECTS und SWS
-
-    Aus Gründen der Vereinfachung besitzt der Projektyp in diesem Demonstrator
-    lediglich einen ECTS und einen SWS.
+    """
+    Realisierung des Projekttypes
     """
 
     def __init__(self):

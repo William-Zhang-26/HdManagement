@@ -1,6 +1,9 @@
 from server.bo.NamedBusinessObject import NamedBusinessObject
 
 class State (NamedBusinessObject):
+    """
+    Realisierung der Zustände
+    """
 
     def __init__(self, state="neu"):
         super().__init__()

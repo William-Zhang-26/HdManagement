@@ -1,6 +1,9 @@
 from server.bo.NamedBusinessObject import NamedBusinessObject
 
 class Automat(NamedBusinessObject):
+    """
+    Realisierung der Automaten
+    """
 
     def __init__(self, anfangszustand = "neu"):
         """ Hier wird der Anfangszustand initialisiert"""
