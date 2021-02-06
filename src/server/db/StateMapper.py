@@ -14,11 +14,8 @@ class StateMapper (Mapper):
         super().__init__()
 
     def find_all(self):
-        """Auslesen aller Zustände.
+        """Auslesen aller Zustände."""
 
-        :return Eine Sammlung mit Zustands-Objekten, die sämtliche Zustände
-                repräsentieren.
-        """
         result = []
         cursor = self._cnx.cursor()
         command = "SELECT * FROM state"
@@ -40,13 +37,7 @@ class StateMapper (Mapper):
         return result
 
     def find_by_key(self, id):
-        """Suche eines Zustandes mit vorgegebener ID-Nummer. Da diese eindeutig ist,
-        wird genau ein Objekt zurückgegeben.
-
-        :param id Primärschlüsselattribut (->DB)
-        :return Zustand-Objekt, das dem übergebenen Schlüssel entspricht, None bei
-            nicht vorhandenem DB-Tupel.
-        """
+        """Suche eines Zustandes mit vorgegebener ID-Nummer."""
 
         result = []
         cursor = self._cnx.cursor()
@@ -134,10 +125,6 @@ class StateMapper (Mapper):
         self._cnx.commit()
         cursor.close()
 
-"""Zu Testzwecken können wir diese Datei bei Bedarf auch ausführen, 
-um die grundsätzliche Funktion zu überprüfen.
-
-Anmerkung: Nicht professionell aber hilfreich..."""
 
 """
 if __name__ == "__main__":
