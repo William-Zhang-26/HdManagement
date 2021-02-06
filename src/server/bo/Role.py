@@ -1,6 +1,9 @@
 from server.bo.NamedBusinessObject import NamedBusinessObject
 
 class Role(NamedBusinessObject):
+    """
+    Realisierung der Rollen
+    """
 
     def __init__(self, role=" "):
         super().__init__()
