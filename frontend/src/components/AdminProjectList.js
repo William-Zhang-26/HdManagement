@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, List, ListItem, Button } from '@material-ui/core';
+import { withStyles, List, ListItem } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import ProjectAPI  from '../api/ProjectAPI';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import AdminProjectListEntry from './AdminProjectListEntry';
-import ValidationForm from './dialogs/ValidationForm';
-import ProjectDeleteDialog from './dialogs/ProjectDeleteDialog';
-import ProjectForm from './dialogs/ProjectForm';
+
 
 /**  
  * Hier wird die Liste aus Adminsicht angezeigt.

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { ThemeProvider, CssBaseline } from '@material-ui/core';
 import Theme from './Theme';
 import SignIn from './components/pages/SignIn';

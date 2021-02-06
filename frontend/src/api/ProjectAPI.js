@@ -63,7 +63,7 @@ export default class ProjectAPI {
     #getAssignmentbyIdURL = (id) => `${this.#projectServerBaseURL}/assignment/${id}`
 
     //Semester bezogen
-    #getSemesterbyCurrentSemesterURL = (id) => `${this.#projectServerBaseURL}/semester/${1}`;
+    #getSemesterbyCurrentSemesterURL = (current_semester) => `${this.#projectServerBaseURL}/semesterr/${1}`;
 
 
 
