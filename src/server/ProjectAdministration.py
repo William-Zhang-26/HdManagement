@@ -404,10 +404,10 @@ class ProjectAdministration (object):
         with SemesterMapper() as mapper:
             return mapper.find_by_name(name)
 
-    #def get_semester_by_current_semester(self, current_semester):
-        #"""Das Semester mit der gegebenen Semester Zahl auslesen."""
-        #with SemesterMapper() as mapper:
-            #return mapper.find_by_current_semester(current_semester)
+    def get_semester_by_current_semester(self, current_semester):
+        """Das Semester mit der gegebenen Semester Zahl auslesen."""
+        with SemesterMapper() as mapper:
+            return mapper.find_by_current_semester(current_semester)
 
     def save_semester(self, semester):
         """Den gegebenen Semester speichern."""
