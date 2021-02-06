@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import { ThemeProvider, CssBaseline } from '@material-ui/core';
-//import { Container } from '@material-ui/core';
 import Theme from './Theme';
 import SignIn from './components/pages/SignIn';
 import LoadingProgress from './components/dialogs/LoadingProgress';
@@ -103,7 +102,7 @@ class App extends React.Component {
   }
 
 
-
+  /** Lifecycle-Methode, die aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird */
   componentDidMount() {
     firebase.initializeApp(this.#firebaseConfig);
     firebase.auth().languageCode = 'en';

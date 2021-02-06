@@ -109,21 +109,21 @@ class ProjectForm extends Component {
       this.state.bDaysFinale, this.state.bDaysSaturdays, this.state.preferredBDays, this.state.additionalLecturer, this.state.weekly); 
    
     ProjectAPI.getAPI().addProject(newProject).then(project => {
-      // Backend call sucessfull
+      // Backend-Aufruf erfolgreich
       // reinit the dialogs state for a new empty project
       this.setState(this.baseState);
-      this.props.onClose(project); // call the parent with the customer object from backend
+      this.props.onClose(project); // das übergeordnete Objekt mit dem Project-Objekt aus dem Backend aufrufen
     }).catch(e =>
       this.setState({
-        addingInProgress: false,    // disable loading indicator 
-        addingError: e              // show error message
+        addingInProgress: false,    // Ladeanzeige deaktivieren 
+        addingError: e              // Fehlermeldung anzeigen
       })
     );
 
-    // set loading to true
+    // setzen des Ladens auf true
     this.setState({
-        addingInProgress: true,       // show loading indicator
-        addingError: null             // disable error message
+        addingInProgress: true,       // Ladeanzeige anzeigen
+        addingError: null             // Fehlermeldung deaktivieren
     }
     );
     console.log("erstelltes Projekt:")
@@ -149,9 +149,9 @@ class ProjectForm extends Component {
     });
   } 
 
-  /** Handles the close / cancel button click event*/
+  /** Auszuführende Anweisung beim Schließen des Dialogs */
   handleClose = () => {
-    // Reset the state
+    // Zurücksetzen des Zustands
     this.setState(this.baseState);
     this.getLecturer();
     this.props.onClose(null);
@@ -182,7 +182,7 @@ class ProjectForm extends Component {
 
 
 
-  /** Renders the component */
+  /** Rendern der Komponente */
   render() {
     const { classes, show, project } = this.props;
     const { projectName, projectNameValidationFailed } = this.state;
@@ -377,7 +377,7 @@ class ProjectForm extends Component {
   }
 }
 
-/** Component specific styles */
+/** Komponentenspezifisches Styeling */
 const styles = theme => ({
   root: {
     width: '100%',
@@ -398,15 +398,12 @@ const styles = theme => ({
 ProjectForm.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
-  /** The CustomerBO to be edited */
+
   project: PropTypes.object,
   /** If true, the form is rendered */
   show: PropTypes.bool.isRequired,
   /**  
    * Handler function which is called, when the dialog is closed.
-   * Sends the edited or created CustomerBO as parameter or null, if cancel was pressed.
-   *  
-   * Signature: onClose(CustomerBO customer);
    */
   onClose: PropTypes.func.isRequired,
 }

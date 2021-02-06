@@ -59,33 +59,33 @@ componentDidMount() {
 }
 
 
-/** Adds the Project */
+/** Hinzufügen einer Teilnahme für ein Projekt in dem Dialog-Fenster */
 addParticipation = () => {
     let newParticipation = new ParticipationBO( this.state.module_id, this.state.project_id, this.state.student_id, 1 ); 
    
     ProjectAPI.getAPI().addParticipation(newParticipation).then(participation => {
-      // Backend call sucessfull
+      // Backend-Aufruf erfolgreich
       // reinit the dialogs state for a new empty project
       this.setState(this.baseState);
-      this.props.onClose(participation); // call the parent with the customer object from backend
+      this.props.onClose(participation); // das übergeordnete Objekt mit der Teilnahme aus dem Backend aufrufen
     }).catch(e =>
       this.setState({
-        addingInProgress: false,    // disable loading indicator 
-        addingError: e              // show error message
+        addingInProgress: false,    // Ladeanzeige deaktivieren 
+        addingError: e              // Fehlermeldung anzeigen
       })
     );
 
-    // set loading to true
+    // setzen des Ladens auf true
     this.setState({
-        addingInProgress: true,       // show loading indicator
-        addingError: null             // disable error message
+        addingInProgress: true,       // Ladeanzeige anzeigen
+        addingError: null             // Fehlermeldung deaktivieren
     }
     );
   }
 
-  /** Handles the close / cancel button click event*/
+  /** Auszuführende Anweisung beim Schließen des Dialogs */
   handleClose = () => {
-    // Reset the state
+    // Zurücksetzen des Zustands
     this.setState(this.baseState);
     this.props.onClose(null);
   }
@@ -114,7 +114,7 @@ addParticipation = () => {
 
 
 
-/** Renders the component */
+/** Rendern der Komponente */
 render() {
   const { classes, show, project } = this.props;
   const { module_id, student_id } = this.state;

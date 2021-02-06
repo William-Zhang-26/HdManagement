@@ -150,7 +150,7 @@ updateStateApproved= () => {
   }
 
 
-  /** Renders the component */
+  /** Rendern der Komponente */
   render() {
     const { classes, project, show } = this.props;
     const { updatingError, updatingInProgress } = this.state;
