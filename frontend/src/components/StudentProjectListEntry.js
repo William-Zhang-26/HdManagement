@@ -32,6 +32,7 @@ class StudentProjectListEntry extends Component {
         student: null,
         studentParticipations: [],
         disabled: true,
+        assignment: null,
 
       };
     }
@@ -40,6 +41,14 @@ class StudentProjectListEntry extends Component {
   expansionPanelStateChanged = () => {
     this.props.onExpandedStateChange(this.props.project);
   }
+
+
+  getAssignmentForProject = () => {
+    ProjectAPI.getAPI().getAssignmentbyId(this.props.project.getAssignmentID())
+        .then (assignmentBO => {
+            this.setState({ assignment: assignmentBO });
+        })
+    }
 
 
   getStudent = () => {
@@ -54,6 +63,7 @@ class StudentProjectListEntry extends Component {
   componentDidMount() {
     this.getStudent();
     this.getParticipations();
+    this.getAssignmentForProject();
   }
 
   getParticipationForStudent = () => {
@@ -114,7 +124,7 @@ class StudentProjectListEntry extends Component {
   /** Rendern der Komponente */
   render() {
     const { classes, expandedState } = this.props;
-    const { project, participations, showStudentProjectSignin, studentParticipations } = this.state;
+    const { project, participations, showStudentProjectSignin, studentParticipations, assignment } = this.state;
     console.log('Entry:');
     console.log(this.state);
 
@@ -123,7 +133,7 @@ class StudentProjectListEntry extends Component {
 
     return (
       <div>
-      { project && project.getStateID() === 3 ?
+      { assignment && project && project.getStateID() === 3 ?
       <Grid>
       <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary
@@ -140,7 +150,8 @@ class StudentProjectListEntry extends Component {
           <AccordionDetails>
             <List>
             <ListItem>Projektbeschreibung: {project.getProjectDescription()} </ListItem>
-            <ListItem>Betreuuende Dozenten: {project.getAdditionalLecturer()} </ListItem>  
+            <ListItem>Projektart: {assignment.getName()} </ListItem>
+            <ListItem>Betreuende Dozenten: {project.getAdditionalLecturer()} </ListItem>  
             <ListItem>Externe Partner: {project.getPartners()} </ListItem>
             <Box p={1}></Box>
             <ListItem className ={classes.font}>Raum- und Ressourenplanung</ListItem>

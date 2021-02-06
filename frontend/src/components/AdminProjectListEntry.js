@@ -30,6 +30,7 @@ class AdminProjectListEntry extends Component {
         showRejectedForm: false,
         showProjectInEvaluation: false,
         disabled: true,
+        assignment: null,
         
         //Admin Attribute für Funktionen
       };
@@ -64,6 +65,14 @@ class AdminProjectListEntry extends Component {
     }
     }
 
+    getAssignmentForProject = () => {
+      ProjectAPI.getAPI().getAssignmentbyId(this.props.project.getAssignmentID())
+          .then (assignmentBO => {
+              this.setState({ assignment: assignmentBO });
+          })
+      }
+  
+  
 
 
 // Projekt ablehnen  
@@ -151,6 +160,7 @@ class AdminProjectListEntry extends Component {
   /** Lifecycle-Methode, die aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird */
   componentDidMount() {
     this.getStatebyID();
+    this.getAssignmentForProject();
   }
 
 
@@ -158,12 +168,12 @@ class AdminProjectListEntry extends Component {
   render() {
     const { classes, expandedState } = this.props;
     // Use the states project
-    const { project, state, showProjectDeleteDialog, showApprovedForm, showRejectedForm, showProjectInEvaluation } = this.state;
+    const { project, state, showProjectDeleteDialog, showApprovedForm, showRejectedForm, showProjectInEvaluation, assignment } = this.state;
 
  
     return (
       <div>
-      { state ?
+      { assignment && state ?
 
       <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary
@@ -190,7 +200,8 @@ class AdminProjectListEntry extends Component {
           <AccordionDetails>
             <List>
             <ListItem>Projektbeschreibung: {project.getProjectDescription()} </ListItem>
-            <ListItem>Betreuuende Dozenten: {project.getAdditionalLecturer()} </ListItem>  
+            <ListItem>Projektart: {assignment.getName()} </ListItem>
+            <ListItem>Betreuende Dozenten: {project.getAdditionalLecturer()} </ListItem>  
             <ListItem>Externe Partner: {project.getPartners()} </ListItem>
             <ListItem>Kapazität: {project.getCapacity()} </ListItem>
             <Box p={1}></Box>
