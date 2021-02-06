@@ -6,7 +6,7 @@ import ParticipationBO from './ParticipationBO';
 import ValidationBO from './ValidationBO';
 import ModuleBO from './ModuleBO';
 import UserBO from './UserBO';
-
+import AssignmentBO from './AssignmentBO';
 
 export default class ProjectAPI {
 
@@ -60,6 +60,9 @@ export default class ProjectAPI {
     //User bezogen
     #getUserByGoogleIdURL= (google_id) => `${this.#projectServerBaseURL}/user/${google_id}`;
     #updateUserURL = (id) => `${this.#projectServerBaseURL}/user/${id}`;
+
+    //Assignment bezogen
+    #getAssignmentbyIdURL = (id) => `${this.#projectServerBaseURL}/assignment/${id}`;
 
 
     static getAPI() {
@@ -405,6 +408,19 @@ export default class ProjectAPI {
         let responseUserBO = UserBO.fromJSON(responseJSON)[0];
         return new Promise(function (resolve) {
           resolve(responseUserBO);
+        })
+      })
+    }
+
+
+
+    //Assignment bezogen
+    getAssignmentbyId(assignmentID) {
+      return this.#fetchAdvanced(this.#getAssignmentbyIdURL(assignmentID)).then((responseJSON) => {
+        // Wir erhalten immer ein Array von ProjectBOs.fromJSON, benötigen aber nur ein Objekt
+        let responseAssignmentBO = AssignmentBO.fromJSON(responseJSON)[0];
+        return new Promise(function (resolve) {
+          resolve(responseAssignmentBO);
         })
       })
     }
