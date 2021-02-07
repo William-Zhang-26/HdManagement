@@ -33,7 +33,7 @@ class ProjectApprovalForm extends Component {
 
       if (props.project) {
       //Abruf der Variablen aus dem ProjectBO
-        n= props.project.getName();
+        n = props.project.getName();
         u = props.project.getUserID();
         p = props.project.getProjectTypeID();
         s = props.project.getStateID();
@@ -46,7 +46,7 @@ class ProjectApprovalForm extends Component {
         b = props.project.getBDaysPreSchedule();
         bf = props.project.getBDaysFinale();
         bs = props.project.getBDaysSaturdays();
-        pd = props.project.getPreferredBDays();
+        pb = props.project.getPreferredBDays();
         a = props.project.getAdditionalLecturer();
         w = props.project.getWeekly();
 
@@ -69,7 +69,7 @@ class ProjectApprovalForm extends Component {
         b_days_saturdays: bs,
         preferred_b_days: pb,
         additional_lecturer: a,
-        weekly:w,
+        weekly: w,
 
         project: this.props.project,
 

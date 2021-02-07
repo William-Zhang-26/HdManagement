@@ -74,7 +74,7 @@ class StudentButtons extends Component {
     return (
       <div className={classes.root}>
 
-        { student && participation.getStudentID() === student.getID() ?
+        { student &&  participation.getID().includes(student.getID()) ?
 
         <Button color='primary' onClick={this.deleteParticipationButtonClicked}>
           Abmelden

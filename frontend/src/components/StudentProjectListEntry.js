@@ -146,15 +146,18 @@ class StudentProjectListEntry extends Component {
             <List>
             <ListItem>Projektbeschreibung: {project.getProjectDescription()} </ListItem>
             <ListItem>Projektkategorie: {projecttype.getName()} </ListItem>
-            <ListItem>Projektart: {assignment.getName()} </ListItem>
+            <ListItem>Projektart: {assignment.getID() === '3' ? 'Transdisziplinäres Projekt' : assignment.getName()} </ListItem>
+            { assignment.getID() <= '10' ? <ListItem>Projektart: {assignment.getName()} </ListItem> : null } 
             <ListItem>Betreuende Dozenten: {project.getAdditionalLecturer()} </ListItem>  
             <ListItem>Externe Partner: {project.getPartners()} </ListItem>
+            <ListItem>Kapazität: {project.getCapacity()} </ListItem>
             <Box p={1}></Box>
             <ListItem className ={classes.font}>Raum- und Ressourenplanung</ListItem>
             <ListItem>Wöchentlicher Kurs: {project.getWeekly() === "1" ? 'Ja' : 'Nein'} </ListItem>
-            <ListItem>Anzahl der Blocktage vor der Vorlesungszeit: {project.getBDaysPreSchedule()} </ListItem>
-            <ListItem>Anzahl der Blocktage in der Prüfungszeit: {project.getBDaysFinale()} </ListItem>            
-            <ListItem>Anzahl der Blocktage in der Vorlesungszeit (Samstage): {project.getBDaysSaturdays()} </ListItem>
+            <ListItem>Blocktage vor der Vorlesungszeit: {project.getBDaysPreSchedule()} </ListItem>
+            <ListItem>Blocktage in der Prüfungszeit: {project.getBDaysFinale()} </ListItem>            
+            <ListItem>Blocktage in der Vorlesungszeit (Samstage): {project.getBDaysSaturdays()} </ListItem>
+            <ListItem>Wichtige Termine: {project.getPreferredBDays()} </ListItem>
             <ListItem>Raum: {project.getPreferredRoom()} </ListItem> 
             <ListItem>
             { 
