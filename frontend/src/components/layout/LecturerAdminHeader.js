@@ -30,9 +30,6 @@ class Header extends Component {
       <Paper variant='outlined' >
         <ProfileDropDown user={user} />
         <Box p = {3}/>
-        <Typography variant='h4' component='h1' align='center'>
-          Willkommen
-        </Typography>
         
             <Tabs indicatorColor='primary' textColor='primary' centered value={this.state.tabindex} onChange={this.handleTabChange} >
               <Tab label='Projekte' component={RouterLink} to={`/projects`} />

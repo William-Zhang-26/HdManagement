@@ -45,6 +45,7 @@ export default class ProjectAPI {
     //Student bezogen
     #getStudentsURL = () => `${this.#projectServerBaseURL}/student/`;
     #getStudentByIdURL = (id) => `${this.#projectServerBaseURL}/student/${id}`;
+    #addStudentURL = () => `${this.#projectServerBaseURL}/student`;
 
     //State bezogen
     #getStatebyIdURL = (id) => `${this.#projectServerBaseURL}/state/${id}`;
@@ -264,6 +265,24 @@ export default class ProjectAPI {
           })
         })
       }
+
+    addStudent(studentBO) {
+      return this.#fetchAdvanced(this.#addStudentURL(), {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json, text/plain',
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(studentBO)
+      }).then((responseJSON) => {
+        // Wir erhalten immer ein Array von ProjectBOs.fromJSON, benötigen aber nur ein Objekt
+        let responseStudentBO = StudentBO.fromJSON(responseJSON)[0];
+        
+        return new Promise(function (resolve) {
+          resolve(responseStudentBO);
+        })
+      })
+    }
 
 
     //State bezogen

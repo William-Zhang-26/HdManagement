@@ -3,14 +3,27 @@ import UserBO from './UserBO';
 export default class StudentBO extends UserBO {
 
     //Konstruktorklasse, welche ein Studenten BO erstellt mit den abgebildeten Attributen
-    constructor(aCourse, aMatriculation_number, aMail, aProject_id) {
+    constructor(aName, aUser_id, aCourse, aMatriculation_number, aMail, aGoogle_id) {
         super();
+        this.user_id = aUser_id;
+        this.name = aName;
         this.course = aCourse;
         this.matriculation_number = aMatriculation_number;
         this.mail = aMail;
-        this.project_id = aProject_id;
+        this.google_id = aGoogle_id;
     }
 
+
+    //User ID
+    setUserID(aUser_id) {
+        this.user_id = aUser_id;
+    }
+
+    getUserID() {
+        return this.user_id;
+    }
+    
+    
     //Kurs
     setCourse(aCourse) {
         this.course = aCourse;
@@ -42,12 +55,12 @@ export default class StudentBO extends UserBO {
 
 
     //ProjectID
-    setProjectId(aProject_id) {
-        this.project_id = aProject_id;
+    setGoogleId(aGoogle_id) {
+        this.google_id = aGoogle_id;
     }
 
-    getProjectId() {
-        return this.project_id;
+    getGoogleId() {
+        return this.google_id;
     }
     
 

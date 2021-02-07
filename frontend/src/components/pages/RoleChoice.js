@@ -1,12 +1,10 @@
-import { withStyles, Typography, Grid } from '@material-ui/core';
-import { Button, ButtonGroup, List, ListItem } from '@material-ui/core';
-import { Hidden, Paper } from '@material-ui/core';
+import { withStyles, List, Grid } from '@material-ui/core';
+import { Button, ButtonGroup } from '@material-ui/core';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import StudentHeader from '../layout/StudentHeader';
 import LecturerAdminHeader from '../layout/LecturerAdminHeader';
-import Header from '../layout/Header';
 import StudentProjectList from '../StudentProjectList';
 import LecturerProjectList from '../LecturerProjectList';
 import AdminProjectList from '../AdminProjectList';
@@ -22,6 +20,7 @@ import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 import AllProjectListParticipants from '../AllProjectListParticipants';
 import StudentList from '../StudentList';
+import StudentForm from '../dialogs/StudentForm';
 
 
 class RoleChoice extends Component {
@@ -40,6 +39,8 @@ class RoleChoice extends Component {
             mail: m,
             googleid: g,
 
+            showStudentForm: false,
+
             // Ladebalken und Error
             updatingInProgress: false,
             updatingError: null
@@ -50,31 +51,44 @@ class RoleChoice extends Component {
     }
     
 
-    handleStudentButtonClicked = () => {
-        this.setState ({StudentClicked: true});
-        this.setState ({disabled:false});
-        this.updateStudentRole();
-    
+    /** Handlerfunktion die aufgerufen wird, wenn der Student Button geklickt wurde */
+    handleStudentButtonClicked = event => {
+        event.stopPropagation();
+        //Anzeigen der StudentForm
+        return(this.setState({
+            showStudentForm: true,
+        }))
     }
 
     handleLecturerButtonClicked = () => {
         this.setState ({LecturerClicked: true});
-        this.setState ({disabled:false});
+        this.setState ({disabled: false});
         this.updateLecturerRole();
        
     }
  
     handleAdminButtonClicked = () => {
         this.setState ({AdminClicked: true});
-        this.setState ({disabled:false});
+        this.setState ({disabled: false});
         this.updateAdminRole();
 
     }
 
-    handleDisable = () => {
-        this.setState({ disabled: false });
+    /**Handlerfunktion die aufgerufen wird, wenn das "Projekt erstellen" Fenster geschlossen werden soll*/
+    studentFormClosed = student => {
+        // das Projekt ist nicht Null/ False und wird daher neu erstellt
+        if (student) {
+        return (this.setState({
+            showStudentForm: false,
+            StudentClicked: true,
+            disabled: false,
+        }), this.updateStudentRole())
+        } else {
+        this.setState({
+            showStudentForm: false
+        });
+        }
     }
-
 
     getCurrentUser = () => {
         ProjectAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid)   //Hier die ID des Studentens aufrufen --> this.state.studentId.getId()....vom StudentBO
@@ -147,14 +161,13 @@ class RoleChoice extends Component {
 
     componentDidMount() {
         this.getCurrentUser();
-        //this.updateRole();
       }
 
 
 
     render() {
         const { classes } = this.props;
-        const { StudentClicked, LecturerClicked, AdminClicked, AlwaysTrue, user  } = this.state;
+        const { StudentClicked, LecturerClicked, AdminClicked, AlwaysTrue, user, showStudentForm, student } = this.state;
         const { disabled } = this.props;
         const { updatingInProgress, updatingError } = this.state;
         
@@ -251,9 +264,10 @@ class RoleChoice extends Component {
 
                         </Router>
                     </>
-                    : AlwaysTrue
-                }   
-                        
+                    : AlwaysTrue }   
+        <List>
+            <StudentForm show={showStudentForm} student={student} onClose={this.studentFormClosed} />     
+        </List>         
         </div>
     );
     }
@@ -272,6 +286,8 @@ const styles = theme => ({
 RoleChoice.propTypes = {
     /** @ignore */
     classes: PropTypes.object.isRequired,
+
+    show: PropTypes.bool.isRequired,
   }
   
 

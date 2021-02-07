@@ -174,7 +174,6 @@ class LecturerProjectListEntry extends Component {
             <List>
             <ListItem>Projektbeschreibung: {project.getProjectDescription()} </ListItem>
             <ListItem>Projektkategorie: {projecttype.getName()} </ListItem>
-            <ListItem>Projektart: {assignment.getID() === '3' ? 'Transdisziplinäres Projekt' : assignment.getName()} </ListItem>
             {assignment.getID() <= '10' ? <ListItem>Projektart: {assignment.getName()} </ListItem> : null } 
             <ListItem>Betreuende Dozenten: {project.getAdditionalLecturer()} </ListItem>  
             <ListItem>Externe Partner: {project.getPartners()} </ListItem>
