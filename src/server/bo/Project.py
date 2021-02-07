@@ -7,8 +7,8 @@ class Project(Automat):
     """
 
     s_new = State("neu")
-    s_approved = State("genehmigt")
     s_dismissed = State("abgelehnt")
+    s_approved = State("genehmigt")
     s_inreview = State("in Bewertung")
     s_reviewed = State("Bewertung abgeschlossen")
 
