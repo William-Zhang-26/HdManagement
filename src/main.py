@@ -939,7 +939,7 @@ class UserOperations(Resource):
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class UserAllOperations(Resource):
     @projectmanager.marshal_with(user)
-    #@secured
+    @secured
     def get(self):
         """Auslesen aller User"""
         adm = ProjectAdministration()
