@@ -522,17 +522,6 @@ class ProjectAdministration (object):
     def delete_student(self, student):
         """Studenten aus der DB löschen"""
         with StudentMapper() as mapper:
-            participation = self.get_participation_by_student_id(student)
-            user = self.get_user_by_student(student)
-
-            if not (participation is None):
-                for i in participation:
-                    self.delete_participation(i)
-
-            if not (user is None):
-                for j in user:
-                    self.delete_user(j)
-
             mapper.delete(student)
 
 

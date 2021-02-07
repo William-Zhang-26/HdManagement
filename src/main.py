@@ -119,7 +119,9 @@ user = api.inherit('User', nbo, {
 
 """Student"""
 
-student = api.inherit('Student', user, {
+student = api.inherit('Student', nbo, {
+    'mail': fields.String(attribute='_mail', description='Die E-Mail eines Studenten'),
+    'google_id': fields.String(attribute='_google_id', description='Die Google-ID eines Studenten'),
     'user_id': fields.Integer(attribute='_user_id', description='Die ID der zugehörigen Users'),
     'course': fields.String(attribute='_course', description='Der zugehörige Kurs'),
     'matriculation_number': fields.Integer(attribute='_matriculation_number', description='Die Matrikelnummer des Studenten')
@@ -733,7 +735,7 @@ class SemesterCurrentSemesterOperations(Resource):
 class StudentOperations(Resource):
     @projectmanager.marshal_with(student, code=200)
     @projectmanager.expect(student)
-    @secured
+    #@secured
     def post(self):
         """Student erstellen"""
         adm = ProjectAdministration()
@@ -752,14 +754,14 @@ class StudentOperations(Resource):
 @projectmanager.param('id', 'Die ID des Studenten-Objekts')
 class StudentOperations(Resource):
     @projectmanager.marshal_with(student)
-    @secured
+    #@secured
     def get(self, id):
         """Auslesen eines Studenten aus der Datenbank per ID"""
         adm = ProjectAdministration()
         student = adm.get_student_by_id(id)
         return student
 
-    @secured
+    #@secured
     def delete(self,id):
         """Löschen eines Studenten aus der DB"""
         adm = ProjectAdministration()
@@ -771,7 +773,7 @@ class StudentOperations(Resource):
             return 'Student wurde erfolgreich aus der DB gelöscht', 200
 
     @projectmanager.expect(student)
-    @secured
+    #@secured
     def put(self, id):
         """Student werden aktualisiert"""
         adm = ProjectAdministration()
@@ -820,9 +822,9 @@ class StudentOperationss(Resource):
 
 @projectmanager.route("/student/")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-class StudentAllOperationsss(Resource):
+class StudentAllOperations(Resource):
     @projectmanager.marshal_with(student)
-    @secured
+    #@secured
     def get(self):
         """Auslesen aller Studenten"""
         adm = ProjectAdministration()
@@ -929,6 +931,20 @@ class UserOperations(Resource):
             user.set_id(id)
             adm.save_user(user)
             return "User wurde erfolgreich geändert", 200
+
+
+"""Alle User"""
+
+@projectmanager.route("/user/")
+@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class UserAllOperations(Resource):
+    @projectmanager.marshal_with(user)
+    #@secured
+    def get(self):
+        """Auslesen aller User"""
+        adm = ProjectAdministration()
+        u = adm.get_all_user()
+        return u
 
 
 """User&Google_id"""
