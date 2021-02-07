@@ -735,7 +735,7 @@ class SemesterCurrentSemesterOperations(Resource):
 class StudentOperations(Resource):
     @projectmanager.marshal_with(student, code=200)
     @projectmanager.expect(student)
-    #@secured
+    @secured
     def post(self):
         """Student erstellen"""
         adm = ProjectAdministration()
@@ -749,19 +749,19 @@ class StudentOperations(Resource):
         else:
             return '', 500
 
-@projectmanager.route("/students/<int:id>")
+@projectmanager.route("/student/<int:id>")
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @projectmanager.param('id', 'Die ID des Studenten-Objekts')
 class StudentOperations(Resource):
     @projectmanager.marshal_with(student)
-    #@secured
+    @secured
     def get(self, id):
         """Auslesen eines Studenten aus der Datenbank per ID"""
         adm = ProjectAdministration()
         student = adm.get_student_by_id(id)
         return student
 
-    #@secured
+    @secured
     def delete(self,id):
         """Löschen eines Studenten aus der DB"""
         adm = ProjectAdministration()
@@ -773,7 +773,7 @@ class StudentOperations(Resource):
             return 'Student wurde erfolgreich aus der DB gelöscht', 200
 
     @projectmanager.expect(student)
-    #@secured
+    @secured
     def put(self, id):
         """Student werden aktualisiert"""
         adm = ProjectAdministration()
@@ -805,17 +805,17 @@ class StudentOperationswithGoogle_id(Resource):
 
 """Student&User_id"""
 
-@projectmanager.route("/student/<int:user_id>")
-@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@projectmanager.param('user_id', 'Die User_ID des Studenten-Objekts')
-class StudentOperationss(Resource):
-    @projectmanager.marshal_with(student)
-    @secured
-    def get(self, user_id):
-        """Auslesen eines Studenten aus der Datenbank mit der User_id"""
-        adm = ProjectAdministration()
-        student = adm.get_student_by_user_id(user_id)
-        return student
+#@projectmanager.route("/student/<int:user_id>")
+#@projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+#@projectmanager.param('user_id', 'Die User_ID des Studenten-Objekts')
+#class StudentOperationss(Resource):
+#    @projectmanager.marshal_with(student)
+#    @secured
+#    def get(self, user_id):
+#        """Auslesen eines Studenten aus der Datenbank mit der User_id"""
+#        adm = ProjectAdministration()
+#        student = adm.get_student_by_user_id(user_id)
+#        return student
 
 
 """Alle Studenten"""
@@ -824,7 +824,7 @@ class StudentOperationss(Resource):
 @projectmanager.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class StudentAllOperations(Resource):
     @projectmanager.marshal_with(student)
-    #@secured
+    @secured
     def get(self):
         """Auslesen aller Studenten"""
         adm = ProjectAdministration()
